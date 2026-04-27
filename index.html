@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Easyworks AI Solutions — Same-Day AI for Your Business</title>
-  <meta name="description" content="Easyworks AI Solutions installs a complete AI-powered business system in one day. CRM, automations, AI receptionist, review management — all handled.">
+  <title>Easyworks AI — Same-Day AI for Your Business</title>
+  <meta name="description" content="Easyworks AI installs a complete AI-powered business system in one day. CRM, automations, AI receptionist, review management — all handled.">
+  <meta name="theme-color" content="#ffffff">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -16,344 +17,359 @@
   <nav class="nav" id="nav">
     <div class="nav-inner">
       <a href="#" class="logo">
-        <span class="logo-icon">⚡</span>
-        <span class="logo-text">Easyworks<span class="logo-ai">AI</span></span>
+        <svg class="logo-mark" width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <rect width="32" height="32" rx="8" fill="url(#lg)"/>
+          <path d="M16 7l3 9h-6l3-9zm-2.5 11h5L16 25l-2.5-7z" fill="#fff"/>
+          <defs><linearGradient id="lg" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#2563eb"/><stop offset="1" stop-color="#3b82f6"/></linearGradient></defs>
+        </svg>
+        <span class="logo-wordmark">easyworks</span>
       </a>
       <div class="nav-links" id="navLinks">
-        <a href="#how">How It Works</a>
-        <a href="#features">Features</a>
-        <a href="#packages">Packages</a>
-        <a href="#results">Results</a>
+        <a href="#system">The System</a>
+        <a href="#how">Process</a>
+        <a href="#pricing">Pricing</a>
         <a href="#faq">FAQ</a>
-        <a href="#contact" class="nav-cta">Get Started</a>
+        <a href="#start" class="nav-cta">Start Today</a>
       </div>
-      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
-        <span></span><span></span><span></span>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span>
       </button>
     </div>
   </nav>
 
-  <!-- HERO -->
-  <section class="hero">
+  <!-- HERO — left-aligned, editorial -->
+  <section class="hero" id="hero">
     <div class="hero-bg">
-      <div class="hero-glow hero-glow-1"></div>
-      <div class="hero-glow hero-glow-2"></div>
-      <div class="grid-overlay"></div>
+      <div class="hero-grain"></div>
+      <div class="hero-gradient"></div>
+      <svg class="hero-lines" viewBox="0 0 1440 900" fill="none" preserveAspectRatio="none">
+        <line x1="360" y1="0" x2="360" y2="900" stroke="rgba(0,0,0,0.04)" stroke-width="1"/>
+        <line x1="720" y1="0" x2="720" y2="900" stroke="rgba(0,0,0,0.04)" stroke-width="1"/>
+        <line x1="1080" y1="0" x2="1080" y2="900" stroke="rgba(0,0,0,0.04)" stroke-width="1"/>
+      </svg>
     </div>
-    <div class="hero-content">
-      <div class="hero-badge">Same-Day AI Installation</div>
-      <h1>Your Business.<br><span class="gradient-text">Powered by AI.</span><br>By End of Day.</h1>
-      <p class="hero-sub">We install a complete AI-powered business system — CRM, automations, AI receptionist, review management, and more — in a single day. No tech skills needed.</p>
-      <div class="hero-actions">
-        <a href="#contact" class="btn btn-primary">Book Your Install</a>
-        <a href="#how" class="btn btn-ghost">See How It Works</a>
+    <div class="container hero-layout">
+      <div class="hero-left">
+        <div class="hero-eyebrow" data-r>
+          <span class="eyebrow-line"></span>
+          Same-day setup &mdash; no devs needed
+        </div>
+        <h1 data-r data-d="1">We install AI<br>into your business<br><span class="h1-accent">before you close today.</span></h1>
+        <p class="hero-body" data-r data-d="2">CRM. Automations. AI receptionist. Review engine. Pipeline. All configured for your business and live within hours &mdash; fully managed, month to month.</p>
+        <div class="hero-actions" data-r data-d="3">
+          <a href="#start" class="btn btn-accent">Get started &rarr;</a>
+          <a href="#how" class="btn btn-outline">How it works</a>
+        </div>
       </div>
-      <div class="hero-stats">
-        <div class="stat">
-          <span class="stat-num">1</span>
-          <span class="stat-label">Day Setup</span>
+      <div class="hero-right" data-r data-d="3">
+        <div class="hero-card hc-1">
+          <div class="hc-dot green"></div>
+          <span class="hc-label">AI Receptionist</span>
+          <span class="hc-status">Handling 3 calls&hellip;</span>
         </div>
-        <div class="stat-divider"></div>
-        <div class="stat">
-          <span class="stat-num">24/7</span>
-          <span class="stat-label">AI Working</span>
+        <div class="hero-card hc-2">
+          <div class="hc-dot blue"></div>
+          <span class="hc-label">Follow-Up</span>
+          <span class="hc-status">12 leads contacted</span>
         </div>
-        <div class="stat-divider"></div>
-        <div class="stat">
-          <span class="stat-num">100%</span>
-          <span class="stat-label">Managed</span>
+        <div class="hero-card hc-3">
+          <div class="hc-dot amber"></div>
+          <span class="hc-label">Reviews</span>
+          <span class="hc-status">4 new 5-star today</span>
         </div>
+        <div class="hero-card hc-4">
+          <span class="hc-metric">+40%</span>
+          <span class="hc-metric-label">Booked appointments</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-marquee">
+      <div class="marquee-track">
+        <span>Contractors</span><span>Law Firms</span><span>Medical Clinics</span><span>Real Estate</span><span>Auto Shops</span><span>Salons</span><span>Restaurants</span><span>Fitness Studios</span><span>Landscapers</span><span>Pet Services</span><span>Cleaning Companies</span><span>Photography</span>
+        <span>Contractors</span><span>Law Firms</span><span>Medical Clinics</span><span>Real Estate</span><span>Auto Shops</span><span>Salons</span><span>Restaurants</span><span>Fitness Studios</span><span>Landscapers</span><span>Pet Services</span><span>Cleaning Companies</span><span>Photography</span>
       </div>
     </div>
   </section>
 
-  <!-- PROBLEM -->
-  <section class="section section-dark" id="problem">
+  <!-- PROBLEM — offset stat blocks -->
+  <section class="section" id="problem">
     <div class="container">
-      <div class="section-label">The Problem</div>
-      <h2>You're Losing Customers<br>While You Sleep</h2>
-      <p class="section-sub">Every missed call, slow reply, and forgotten follow-up is revenue walking out the door.</p>
-      <div class="problem-grid">
-        <div class="problem-card">
-          <div class="problem-icon">📞</div>
-          <h3>Missed Calls</h3>
-          <p>62% of calls to small businesses go unanswered. Each one is a lost opportunity.</p>
+      <div class="split-layout">
+        <div class="split-left" data-r>
+          <p class="overline">The reality</p>
+          <h2>Most small businesses are bleeding revenue they can't see.</h2>
         </div>
-        <div class="problem-card">
-          <div class="problem-icon">⏱️</div>
-          <h3>Slow Follow-Up</h3>
-          <p>The average business takes 47 hours to respond to a lead. By then, they've gone to your competitor.</p>
-        </div>
-        <div class="problem-card">
-          <div class="problem-icon">⭐</div>
-          <h3>No Reviews</h3>
-          <p>90% of customers check reviews before buying. If you're not asking, you're invisible.</p>
-        </div>
-        <div class="problem-card">
-          <div class="problem-icon">🔄</div>
-          <h3>Manual Everything</h3>
-          <p>You're stuck doing admin work instead of growing your business. There's a better way.</p>
+        <div class="split-right">
+          <div class="stat-block" data-r>
+            <span class="sb-num">62%</span>
+            <span class="sb-text">of calls to small businesses go <strong>unanswered</strong>. Every ring is a potential client walking away.</span>
+          </div>
+          <div class="stat-block" data-r data-d="1">
+            <span class="sb-num">47h</span>
+            <span class="sb-text">average lead response time. Your competitor answered in <strong>5 minutes</strong>.</span>
+          </div>
+          <div class="stat-block" data-r data-d="2">
+            <span class="sb-num">90%</span>
+            <span class="sb-text">of buyers check reviews first. If you're not asking, you're <strong>invisible</strong>.</span>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- HOW IT WORKS -->
+  <!-- SYSTEM — bento grid -->
+  <section class="section section-alt" id="system">
+    <div class="container">
+      <p class="overline" data-r>The system</p>
+      <h2 data-r data-d="1">Everything your front office needs.<br><span class="h2-dim">Installed in one day.</span></h2>
+      <div class="bento">
+        <div class="bento-card bc-hero" data-r>
+          <div class="bc-icon">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="12" stroke="currentColor" stroke-width="1.5"/><path d="M14 9v5l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <h3>AI Receptionist</h3>
+          <p>Answers every call 24/7. Books appointments, answers FAQs, routes urgent calls — sounds human, works nonstop.</p>
+          <div class="bc-tag">Core</div>
+        </div>
+        <div class="bento-card" data-r data-d="1">
+          <div class="bc-icon">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect x="4" y="6" width="20" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M4 12h20" stroke="currentColor" stroke-width="1.5"/></svg>
+          </div>
+          <h3>Smart CRM</h3>
+          <p>Every lead, client, and conversation — one dashboard. Zero data entry.</p>
+        </div>
+        <div class="bento-card" data-r data-d="2">
+          <div class="bc-icon">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M6 21V10l8-5 8 5v11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 21v-6h6v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>Instant Follow-Up</h3>
+          <p>Text + email within seconds of a new lead. Not hours — seconds.</p>
+        </div>
+        <div class="bento-card" data-r data-d="1">
+          <div class="bc-icon">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect x="5" y="4" width="18" height="20" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M10 10h8M10 14h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <h3>Online Booking</h3>
+          <p>Clients self-book. Auto reminders. No-show recovery built in.</p>
+        </div>
+        <div class="bento-card bc-wide" data-r data-d="2">
+          <div class="bc-icon">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M14 5l2.5 5.5H22l-4.5 3.5 1.5 6L14 17l-5 3 1.5-6L6 10.5h5.5L14 5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>Review Engine</h3>
+          <p>Automated review requests after every job. Build your Google reputation on autopilot while you focus on the work.</p>
+        </div>
+        <div class="bento-card" data-r>
+          <div class="bc-icon">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M6 20l4-4 4 3 4-5 4 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="4" width="20" height="20" rx="2" stroke="currentColor" stroke-width="1.5"/></svg>
+          </div>
+          <h3>Pipeline View</h3>
+          <p>Every deal, every stage. Know your numbers without guessing.</p>
+        </div>
+        <div class="bento-card" data-r data-d="1">
+          <div class="bc-icon">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M7 8h14M7 14h14M7 20h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <h3>Unified Inbox</h3>
+          <p>SMS, email, Instagram, Facebook, Google — one place, any device.</p>
+        </div>
+        <div class="bento-card" data-r data-d="2">
+          <div class="bc-icon">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="10" stroke="currentColor" stroke-width="1.5"/><path d="M10 14l3 3 5-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>Automations</h3>
+          <p>Onboarding, invoicing, check-ins, reactivation — every step runs itself.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW — numbered timeline -->
   <section class="section" id="how">
     <div class="container">
-      <div class="section-label">How It Works</div>
-      <h2>Three Steps. One Day.<br><span class="gradient-text">Completely Handled.</span></h2>
-      <div class="steps">
-        <div class="step">
-          <div class="step-num">01</div>
-          <div class="step-content">
-            <h3>We Learn Your Business</h3>
-            <p>Quick discovery call — we map your services, customers, and workflows. No homework on your end.</p>
-          </div>
+      <div class="split-layout">
+        <div class="split-left sticky-left" data-r>
+          <p class="overline">Process</p>
+          <h2>Three steps.<br>One day.<br><span class="h2-dim">We handle all of it.</span></h2>
+          <a href="#start" class="btn btn-accent mt-32">Book your install &rarr;</a>
         </div>
-        <div class="step-line"></div>
-        <div class="step">
-          <div class="step-num">02</div>
-          <div class="step-content">
-            <h3>We Build Your System</h3>
-            <p>Our team configures your AI receptionist, CRM, automations, review engine, and pipeline — all customized to your business.</p>
+        <div class="split-right">
+          <div class="process-step" data-r>
+            <div class="ps-num">01</div>
+            <div class="ps-body">
+              <h3>Discovery</h3>
+              <p>Quick call. We map your services, how you get clients, and where things fall through the cracks. Takes 15 minutes.</p>
+            </div>
           </div>
-        </div>
-        <div class="step-line"></div>
-        <div class="step">
-          <div class="step-num">03</div>
-          <div class="step-content">
-            <h3>You Go Live</h3>
-            <p>By end of day, your AI is answering calls, booking appointments, following up with leads, and collecting reviews — on autopilot.</p>
+          <div class="process-step" data-r data-d="1">
+            <div class="ps-num">02</div>
+            <div class="ps-body">
+              <h3>Build</h3>
+              <p>Our team configures everything — CRM, AI receptionist, automations, review system, pipeline — all customized to your business. Same day.</p>
+            </div>
+          </div>
+          <div class="process-step" data-r data-d="2">
+            <div class="ps-num">03</div>
+            <div class="ps-body">
+              <h3>Go Live</h3>
+              <p>By close of business, your system is answering calls, booking jobs, following up with leads, and collecting reviews. You focus on the work.</p>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- FEATURES -->
-  <section class="section section-dark" id="features">
+  <!-- RESULTS — big numbers -->
+  <section class="section section-alt" id="results">
     <div class="container">
-      <div class="section-label">What You Get</div>
-      <h2>Easyworks Ignition<br><span class="gradient-text">Your Complete AI Business System</span></h2>
-      <p class="section-sub">Everything installed, configured, and managed — so you can focus on what you do best.</p>
-      <div class="features-grid">
-        <div class="feature-card feature-highlight">
-          <div class="feature-icon">🤖</div>
-          <h3>AI Receptionist</h3>
-          <p>Never miss a call again. Your AI answers 24/7, books appointments, answers questions, and sounds natural — not robotic.</p>
-          <span class="feature-tag">Always On</span>
+      <p class="overline" data-r>What changes</p>
+      <div class="results-row">
+        <div class="result" data-r>
+          <span class="r-num" data-counter="3">0</span><span class="r-suffix">x</span>
+          <span class="r-label">more leads captured</span>
         </div>
-        <div class="feature-card">
-          <div class="feature-icon">📊</div>
-          <h3>Smart CRM</h3>
-          <p>Every lead, client, and conversation in one place. Automatic tagging, pipeline tracking, and zero data entry.</p>
+        <div class="result" data-r data-d="1">
+          <span class="r-prefix">&lt;</span><span class="r-num" data-counter="60">0</span><span class="r-suffix">s</span>
+          <span class="r-label">response to new inquiries</span>
         </div>
-        <div class="feature-card">
-          <div class="feature-icon">⚡</div>
-          <h3>Instant Follow-Up</h3>
-          <p>New lead comes in? Your system texts, emails, and follows up automatically within seconds — not hours.</p>
+        <div class="result" data-r data-d="2">
+          <span class="r-num" data-counter="40">0</span><span class="r-suffix">%</span>
+          <span class="r-label">more booked appointments</span>
         </div>
-        <div class="feature-card">
-          <div class="feature-icon">📅</div>
-          <h3>Online Booking</h3>
-          <p>Clients book directly into your calendar. Automated confirmations, reminders, and no-show recovery.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">⭐</div>
-          <h3>Review Engine</h3>
-          <p>Automatically request Google reviews after every job. Build your reputation while you work.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">💬</div>
-          <h3>Unified Inbox</h3>
-          <p>Text, email, Facebook, Instagram, Google — all messages in one inbox. Reply from anywhere.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">📈</div>
-          <h3>Pipeline Dashboard</h3>
-          <p>See exactly where every deal stands. Know your numbers without spreadsheets or guessing.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">🔁</div>
-          <h3>Workflow Automations</h3>
-          <p>From new lead to happy client — every step automated. Onboarding, invoicing, check-ins, reactivation.</p>
+        <div class="result" data-r data-d="3">
+          <span class="r-num" data-counter="5">0</span><span class="r-suffix">x</span>
+          <span class="r-label">more Google reviews/month</span>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- PACKAGES -->
-  <section class="section" id="packages">
+  <!-- PRICING -->
+  <section class="section" id="pricing">
     <div class="container">
-      <div class="section-label">Packages</div>
-      <h2>Start With Ignition.<br><span class="gradient-text">Add Power As You Grow.</span></h2>
-      <div class="pricing-grid">
-        <div class="price-card price-main">
-          <div class="price-badge">Most Popular</div>
-          <h3>Ignition Core</h3>
-          <p class="price-desc">Your complete AI business system — installed in one day.</p>
-          <div class="price-amount">
-            <span class="price-dollar">$297</span>
-            <span class="price-period">/month</span>
+      <div class="pricing-header" data-r>
+        <p class="overline">Pricing</p>
+        <h2>One system. Clear price.<br><span class="h2-dim">Add more as you grow.</span></h2>
+      </div>
+      <div class="pricing-layout">
+        <div class="price-main" data-r>
+          <div class="pm-label">Ignition Core</div>
+          <div class="pm-price">
+            <span class="pm-dollar">$297</span>
+            <span class="pm-period">/mo</span>
           </div>
-          <div class="price-activation">+ $497 one-time activation</div>
-          <ul class="price-features">
-            <li>AI Receptionist (24/7 call handling)</li>
-            <li>Smart CRM + Pipeline</li>
-            <li>Automated Follow-Up Sequences</li>
-            <li>Online Booking System</li>
-            <li>Unified Inbox (SMS, Email, Social)</li>
-            <li>Review Request Automation</li>
-            <li>Mobile App Access</li>
-            <li>Ongoing Managed Service</li>
-            <li>Same-Day Installation</li>
+          <p class="pm-activation">+ $497 one-time activation &amp; setup</p>
+          <div class="pm-divider"></div>
+          <ul class="pm-list">
+            <li>AI Receptionist — 24/7 call handling</li>
+            <li>Smart CRM + pipeline dashboard</li>
+            <li>Automated lead follow-up sequences</li>
+            <li>Online booking + calendar sync</li>
+            <li>Unified inbox — SMS, email, social</li>
+            <li>Google review automation</li>
+            <li>Mobile app access</li>
+            <li>Ongoing managed service</li>
+            <li>Same-day installation</li>
           </ul>
-          <a href="#contact" class="btn btn-primary btn-full">Get Ignition</a>
+          <a href="#start" class="btn btn-accent btn-full">Get Ignition &rarr;</a>
+          <p class="pm-note">Month-to-month. Cancel anytime.</p>
         </div>
-
-        <div class="addons-panel">
-          <h3>Power Add-Ons</h3>
-          <p class="addons-desc">Stack these onto Ignition as your business grows.</p>
-          <div class="addon">
-            <div class="addon-info">
-              <h4>Reputation Engine</h4>
-              <p>Advanced review campaigns, monitoring, and response management.</p>
+        <div class="addons" data-r data-d="1">
+          <h3>Add-ons</h3>
+          <p class="addons-sub">Stack onto Ignition when you're ready.</p>
+          <div class="addon-row">
+            <div>
+              <strong>Reputation Engine</strong>
+              <span>Advanced review campaigns &amp; monitoring</span>
             </div>
-            <div class="addon-price">$97<span>/mo</span></div>
+            <em>$97/mo</em>
           </div>
-          <div class="addon">
-            <div class="addon-info">
-              <h4>Marketing Engine</h4>
-              <p>Email campaigns, SMS blasts, audience segmentation, and drip sequences.</p>
+          <div class="addon-row">
+            <div>
+              <strong>Marketing Engine</strong>
+              <span>Email/SMS campaigns, segmentation, drip</span>
             </div>
-            <div class="addon-price">$197<span>/mo</span></div>
+            <em>$197/mo</em>
           </div>
-          <div class="addon">
-            <div class="addon-info">
-              <h4>Website & Intake</h4>
-              <p>Professional website with AI chat, intake forms, and lead capture.</p>
+          <div class="addon-row">
+            <div>
+              <strong>Website &amp; Intake</strong>
+              <span>Site + AI chat + lead capture forms</span>
             </div>
-            <div class="addon-price">$97<span>/mo</span></div>
+            <em>$97/mo</em>
           </div>
-          <div class="addon">
-            <div class="addon-info">
-              <h4>Social Presence</h4>
-              <p>Automated social media posting, content calendar, and engagement.</p>
+          <div class="addon-row">
+            <div>
+              <strong>Social Presence</strong>
+              <span>Auto posting, calendar, engagement</span>
             </div>
-            <div class="addon-price">$147<span>/mo</span></div>
+            <em>$147/mo</em>
           </div>
-          <div class="addon">
-            <div class="addon-info">
-              <h4>Payments</h4>
-              <p>Invoicing, payment links, and automated billing built into your CRM.</p>
+          <div class="addon-row">
+            <div>
+              <strong>Payments</strong>
+              <span>Invoicing + payment links in CRM</span>
             </div>
-            <div class="addon-price">$47<span>/mo</span></div>
+            <em>$47/mo</em>
           </div>
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- RESULTS -->
-  <section class="section section-dark" id="results">
-    <div class="container">
-      <div class="section-label">Results</div>
-      <h2>What Happens When<br><span class="gradient-text">AI Runs Your Front Office</span></h2>
-      <div class="results-grid">
-        <div class="result-card">
-          <div class="result-num">3x</div>
-          <p>More leads captured vs. manual follow-up</p>
-        </div>
-        <div class="result-card">
-          <div class="result-num">&lt;60s</div>
-          <p>Average response time to new inquiries</p>
-        </div>
-        <div class="result-card">
-          <div class="result-num">40%</div>
-          <p>Increase in booked appointments</p>
-        </div>
-        <div class="result-card">
-          <div class="result-num">5x</div>
-          <p>More Google reviews collected per month</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- WHO IT'S FOR -->
-  <section class="section" id="who">
-    <div class="container">
-      <div class="section-label">Who It's For</div>
-      <h2>Built for Businesses<br><span class="gradient-text">That Run on Reputation</span></h2>
-      <div class="who-grid">
-        <div class="who-card">🔧 <span>Contractors & Trades</span></div>
-        <div class="who-card">🏠 <span>Real Estate</span></div>
-        <div class="who-card">⚖️ <span>Law Firms</span></div>
-        <div class="who-card">🦷 <span>Dental & Medical</span></div>
-        <div class="who-card">💇 <span>Salons & Spas</span></div>
-        <div class="who-card">🚗 <span>Auto Services</span></div>
-        <div class="who-card">🍽️ <span>Restaurants</span></div>
-        <div class="who-card">🏋️ <span>Fitness & Wellness</span></div>
-        <div class="who-card">📸 <span>Photography</span></div>
-        <div class="who-card">🧹 <span>Cleaning Services</span></div>
-        <div class="who-card">🌿 <span>Landscaping</span></div>
-        <div class="who-card">🐾 <span>Pet Services</span></div>
-      </div>
-      <p class="who-note">If your business books appointments, handles inquiries, or relies on reviews — Easyworks is for you.</p>
     </div>
   </section>
 
   <!-- FAQ -->
-  <section class="section section-dark" id="faq">
-    <div class="container container-narrow">
-      <div class="section-label">FAQ</div>
-      <h2>Common Questions</h2>
+  <section class="section section-alt" id="faq">
+    <div class="container container-mid">
+      <p class="overline" data-r>FAQ</p>
+      <h2 data-r data-d="1">Questions we get asked.</h2>
       <div class="faq-list">
-        <div class="faq-item">
+        <div class="faq-item" data-r>
           <button class="faq-q">Do I need any technical skills?</button>
           <div class="faq-a"><p>None. We handle everything — setup, configuration, training. You get a simple mobile app to see your leads, messages, and calendar. If you can use a phone, you can use Easyworks.</p></div>
         </div>
-        <div class="faq-item">
-          <button class="faq-q">How does same-day installation work?</button>
+        <div class="faq-item" data-r>
+          <button class="faq-q">How does same-day installation actually work?</button>
           <div class="faq-a"><p>After a quick discovery call, our team builds your entire system behind the scenes. By end of business day, your AI receptionist is live, your CRM is loaded, your automations are running, and you're ready to go.</p></div>
         </div>
-        <div class="faq-item">
+        <div class="faq-item" data-r>
           <button class="faq-q">What if I already have a CRM or website?</button>
           <div class="faq-a"><p>No problem. We can integrate with your existing tools or migrate your data over. Most clients find that Easyworks replaces 3-5 separate tools they were paying for individually.</p></div>
         </div>
-        <div class="faq-item">
-          <button class="faq-q">Is there a contract or commitment?</button>
+        <div class="faq-item" data-r>
+          <button class="faq-q">Is there a contract?</button>
           <div class="faq-a"><p>Month-to-month. No long-term contracts. We earn your business every month through results, not lock-in.</p></div>
         </div>
-        <div class="faq-item">
+        <div class="faq-item" data-r>
           <button class="faq-q">What does "managed service" mean?</button>
-          <div class="faq-a"><p>It means we don't just install it and disappear. Our team monitors your system, makes updates, optimizes your workflows, and handles any issues. You focus on your business — we keep the AI running.</p></div>
+          <div class="faq-a"><p>We don't install and disappear. Our team monitors your system, makes updates, optimizes your workflows, and handles any issues. You focus on your business — we keep the AI running.</p></div>
         </div>
-        <div class="faq-item">
-          <button class="faq-q">How is this different from just buying GoHighLevel myself?</button>
+        <div class="faq-item" data-r>
+          <button class="faq-q">How is this different from buying GoHighLevel myself?</button>
           <div class="faq-a"><p>GoHighLevel is a platform — powerful but complex. Easyworks is a done-for-you service. We configure, customize, and manage everything specifically for your business. It's the difference between buying a race car and having a pit crew.</p></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- CTA / CONTACT -->
-  <section class="section section-cta" id="contact">
-    <div class="container container-narrow">
-      <h2>Ready to Put AI<br><span class="gradient-text">to Work for You?</span></h2>
-      <p class="section-sub">Book a free discovery call. We'll map your business, show you exactly what we'll build, and if it's a fit — you're live by end of day.</p>
-      <form class="contact-form" id="contactForm">
-        <div class="form-row">
-          <input type="text" name="name" placeholder="Your Name" required>
-          <input type="text" name="business" placeholder="Business Name" required>
-        </div>
-        <div class="form-row">
+  <!-- CTA + FORM -->
+  <section class="section section-cta" id="start">
+    <div class="container container-mid">
+      <div class="cta-header" data-r>
+        <h2>Let's get your system live.</h2>
+        <p>Fill this out and we'll be in touch within a few hours to schedule your discovery call.</p>
+      </div>
+      <form class="form" id="contactForm" name="intake" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+        <input type="hidden" name="form-name" value="intake">
+        <p style="display:none"><input name="bot-field"></p>
+        <div class="form-grid">
+          <input type="text" name="name" placeholder="Your name" required>
+          <input type="text" name="business" placeholder="Business name" required>
           <input type="email" name="email" placeholder="Email" required>
-          <input type="tel" name="phone" placeholder="Phone Number" required>
+          <input type="tel" name="phone" placeholder="Phone" required>
         </div>
-        <select name="industry">
-          <option value="" disabled selected>What industry are you in?</option>
+        <select name="industry" required>
+          <option value="" disabled selected>Industry</option>
           <option>Contractor / Trades</option>
           <option>Real Estate</option>
           <option>Legal</option>
@@ -365,9 +381,11 @@
           <option>Cleaning / Maintenance</option>
           <option>Other</option>
         </select>
-        <textarea name="message" placeholder="Tell us about your business (optional)" rows="3"></textarea>
-        <button type="submit" class="btn btn-primary btn-full">Book My Discovery Call</button>
-        <p class="form-note">No commitment. No pressure. Just a conversation about what AI can do for your business.</p>
+        <textarea name="message" placeholder="Anything else we should know? (optional)" rows="3"></textarea>
+        <button type="submit" class="btn btn-accent btn-full btn-submit">
+          <span class="btn-label">Send it</span>
+          <span class="btn-load"></span>
+        </button>
       </form>
     </div>
   </section>
@@ -375,31 +393,34 @@
   <!-- FOOTER -->
   <footer class="footer">
     <div class="container">
-      <div class="footer-top">
+      <div class="footer-grid">
         <div class="footer-brand">
           <a href="#" class="logo">
-            <span class="logo-icon">⚡</span>
-            <span class="logo-text">Easyworks<span class="logo-ai">AI</span></span>
+            <svg class="logo-mark" width="28" height="28" viewBox="0 0 32 32" fill="none">
+              <rect width="32" height="32" rx="8" fill="url(#lg2)"/>
+              <path d="M16 7l3 9h-6l3-9zm-2.5 11h5L16 25l-2.5-7z" fill="#fff"/>
+              <defs><linearGradient id="lg2" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#2563eb"/><stop offset="1" stop-color="#3b82f6"/></linearGradient></defs>
+            </svg>
+            <span class="logo-wordmark">easyworks</span>
           </a>
-          <p>Same-day AI business systems for companies that move fast.</p>
+          <p>AI business systems,<br>installed in a day.</p>
         </div>
-        <div class="footer-links">
-          <div class="footer-col">
-            <h4>Product</h4>
-            <a href="#features">Features</a>
-            <a href="#packages">Pricing</a>
-            <a href="#how">How It Works</a>
-          </div>
-          <div class="footer-col">
-            <h4>Company</h4>
-            <a href="#results">Results</a>
-            <a href="#faq">FAQ</a>
-            <a href="#contact">Contact</a>
-          </div>
+        <div class="footer-col">
+          <h4>Product</h4>
+          <a href="#system">The System</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#how">Process</a>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <a href="#faq">FAQ</a>
+          <a href="#start">Contact</a>
+          <a href="mailto:team@easyworksai.com">team@easyworksai.com</a>
         </div>
       </div>
-      <div class="footer-bottom">
-        <p>&copy; 2026 Easyworks AI Solutions. All rights reserved.</p>
+      <div class="footer-bar">
+        <span>&copy; 2026 Easyworks AI Solutions</span>
+        <span class="footer-links"><a href="#">Privacy</a><a href="#">Terms</a></span>
       </div>
     </div>
   </footer>
