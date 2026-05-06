@@ -179,8 +179,9 @@ const ringObs = new IntersectionObserver(entries => {
 
 document.querySelectorAll('.stat-ring').forEach(el => ringObs.observe(el));
 
-// Form
-document.getElementById('contactForm').addEventListener('submit', e => {
+// Form (homepage only)
+const contactForm = document.getElementById('contactForm');
+contactForm && contactForm.addEventListener('submit', e => {
   e.preventDefault();
   const form = e.target;
   const btn = form.querySelector('.btn-submit');
@@ -224,6 +225,17 @@ document.getElementById('contactForm').addEventListener('submit', e => {
     }, 4000);
   });
 });
+
+// Demo gallery — pause other videos when one starts playing
+(function demoGallery(){
+  const videos = document.querySelectorAll('.demo-video');
+  if (!videos.length) return;
+  videos.forEach(v => {
+    v.addEventListener('play', () => {
+      videos.forEach(other => { if (other !== v && !other.paused) other.pause(); });
+    });
+  });
+})();
 
 // Smooth anchor offset
 document.querySelectorAll('a[href^="#"]').forEach(a => {
