@@ -60,6 +60,22 @@ const ro = new IntersectionObserver(entries => {
 
 document.querySelectorAll('[data-r]').forEach(el => ro.observe(el));
 
+// ═════ PRODUCT SUBPAGE — DEMO VIDEO PLAY ═════
+document.querySelectorAll('.psub-video').forEach(wrap => {
+  const overlay = wrap.querySelector('.psub-video-overlay');
+  const playBtn = wrap.querySelector('.psub-video-play');
+  const video = wrap.querySelector('video');
+  if (!playBtn || !video) return;
+  playBtn.addEventListener('click', () => {
+    wrap.classList.add('playing');
+    video.play().catch(() => {
+      // No video file yet — gracefully revert + bring overlay back
+      wrap.classList.remove('playing');
+    });
+  });
+  video.addEventListener('pause', () => wrap.classList.remove('playing'));
+});
+
 // ═════ STACK BUILDER ═════
 (function stackBuilder(){
   const stack = document.getElementById('stack');
