@@ -60,6 +60,55 @@ const ro = new IntersectionObserver(entries => {
 
 document.querySelectorAll('[data-r]').forEach(el => ro.observe(el));
 
+// ═════ STACK BUILDER ═════
+(function stackBuilder(){
+  const stack = document.getElementById('stack');
+  if (!stack) return;
+  const engines = stack.querySelectorAll('.sb-engine');
+  const stdSetup = document.getElementById('sb-std-setup');
+  const stdMo    = document.getElementById('sb-std-mo');
+  const discount = document.getElementById('sb-discount');
+  const totSetup = document.getElementById('sb-total-setup');
+  const totMo    = document.getElementById('sb-total-mo');
+  const customNote = document.getElementById('sb-custom-note');
+  const tierSteps = stack.querySelectorAll('.sb-tier-step');
+
+  const fmt = n => '$' + Math.round(n).toLocaleString();
+
+  function recalc(){
+    let setup = 0, mo = 0, count = 0, custom = false;
+    engines.forEach(eng => {
+      const cb = eng.querySelector('input');
+      if (!cb.checked) return;
+      count++;
+      if (eng.dataset.custom) { custom = true; return; }
+      setup += +eng.dataset.setup;
+      mo    += +eng.dataset.mo;
+    });
+    // Tier discount: 1=0, 2=10%, 3=15%, 4=20%
+    const tiers = { 1: 0, 2: 0.10, 3: 0.15, 4: 0.20 };
+    const pct = tiers[count] || 0;
+    const dSetup = setup * (1 - pct);
+    const dMo    = mo    * (1 - pct);
+
+    stdSetup.textContent = fmt(setup);
+    stdMo.textContent    = fmt(mo);
+    discount.textContent = pct ? `— ${(pct*100).toFixed(0)}% off` : '— pick 2+ to save';
+    totSetup.textContent = fmt(dSetup);
+    totMo.textContent    = fmt(dMo);
+    customNote.hidden = !custom;
+
+    tierSteps.forEach(step => {
+      const min = +step.dataset.min;
+      step.classList.toggle('active', count === min);
+      step.classList.toggle('passed', count > min);
+    });
+  }
+
+  engines.forEach(eng => eng.addEventListener('change', recalc));
+  recalc();
+})();
+
 // Magnetic CTA — subtle pull toward cursor
 document.querySelectorAll('.btn-accent.btn-lg, .bb-pricing .btn').forEach(btn => {
   btn.addEventListener('mousemove', e => {
