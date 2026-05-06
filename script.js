@@ -18,18 +18,59 @@ navLinks.querySelectorAll('a').forEach(a => {
   });
 });
 
-window.addEventListener('scroll', () => {
-  nav.classList.toggle('scrolled', scrollY > 40);
-}, { passive: true });
+// Scroll progress bar
+const progressBar = document.createElement('div');
+progressBar.className = 'scroll-progress';
+document.body.appendChild(progressBar);
 
-// Scroll reveal
+// Hero photo + mesh parallax (data-only, runs every frame the user scrolls)
+const heroPhoto = document.querySelector('.hero-photo');
+const heroMesh = document.querySelector('.hero-mesh');
+
+let scrollTicking = false;
+function onScroll() {
+  if (scrollTicking) return;
+  scrollTicking = true;
+  requestAnimationFrame(() => {
+    const y = window.scrollY;
+    nav.classList.toggle('scrolled', y > 40);
+
+    const docH = document.documentElement.scrollHeight - window.innerHeight;
+    progressBar.style.width = Math.min(100, (y / docH) * 100) + '%';
+
+    if (heroPhoto) {
+      const heroH = window.innerHeight;
+      if (y < heroH) {
+        const p = y / heroH;
+        heroPhoto.style.transform = `scale(${1 + p * 0.1}) translateY(${y * 0.32}px)`;
+        if (heroMesh) heroMesh.style.transform = `translateY(${y * 0.18}px)`;
+      }
+    }
+    scrollTicking = false;
+  });
+}
+window.addEventListener('scroll', onScroll, { passive: true });
+
+// Scroll reveal — premium with stagger by index inside section
 const ro = new IntersectionObserver(entries => {
   entries.forEach(e => {
     if (e.isIntersecting) { e.target.classList.add('vis'); ro.unobserve(e.target); }
   });
-}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+}, { threshold: 0.08, rootMargin: '0px 0px -60px 0px' });
 
 document.querySelectorAll('[data-r]').forEach(el => ro.observe(el));
+
+// Magnetic CTA — subtle pull toward cursor
+document.querySelectorAll('.btn-accent.btn-lg, .bb-pricing .btn').forEach(btn => {
+  btn.addEventListener('mousemove', e => {
+    const r = btn.getBoundingClientRect();
+    const x = e.clientX - r.left - r.width / 2;
+    const y = e.clientY - r.top - r.height / 2;
+    btn.style.transform = `translate(${x * 0.12}px, ${y * 0.18}px)`;
+  });
+  btn.addEventListener('mouseleave', () => { btn.style.transform = ''; });
+});
+
 
 // FAQ
 document.querySelectorAll('.faq-q').forEach(btn => {
