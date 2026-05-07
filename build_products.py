@@ -145,8 +145,8 @@ PRODUCTS = {
         "name": "Voice → Report Pipeline",
         "tagline": "Your dictation, returned as a finished report.",
         "pitch": "Built for professionals who write reports for a living. Notaries, paralegals, agents, adjusters, doctors, dentists, therapists, court reporters. Record your voice. Get back a polished, formatted report — not a transcript.",
-        "price_setup": "Custom",
-        "price_mo": "talk to us",
+        "price_setup": "$997",
+        "price_mo": "$497",
         "demo_caption": "Watch a real estate agent record a property walkthrough and receive a finished listing report in 8 minutes.",
         "features": [
             ("Custom client submission app",

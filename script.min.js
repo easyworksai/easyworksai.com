@@ -148,7 +148,7 @@ document.querySelectorAll('.psub-video').forEach(wrap => {
     discount.textContent = pct ? `— ${(pct*100).toFixed(0)}% off` : '— pick 2+ to save';
     totSetup.textContent = fmt(dSetup);
     totMo.textContent    = fmt(dMo);
-    customNote.hidden = !custom;
+    if (customNote) customNote.hidden = true;
 
     tierSteps.forEach(step => {
       const min = +step.dataset.min;
@@ -171,12 +171,7 @@ document.querySelectorAll('.psub-video').forEach(wrap => {
         if (cb.checked) selected.push(cb.dataset.engine);
       });
       if (!selected.length) return;
-      // If only 'voice' is selected, route to contact form (custom pricing)
-      const paid = selected.filter(s => s !== 'voice');
-      if (paid.length === 0) {
-        document.getElementById('start')?.scrollIntoView({ behavior: 'smooth' });
-        return;
-      }
+      // All 4 engines now have real prices
       const orig = cta.innerHTML;
       cta.innerHTML = 'Loading checkout…';
       cta.style.pointerEvents = 'none';
