@@ -239,16 +239,22 @@ img { display: block; }
 .hero-body { font-size: 1.08rem; color: var(--dim); line-height: 1.7; max-width: 460px; margin-bottom: 32px; }
 .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 32px; }
 
-/* ═══ HERO ENGINES — 4 separate product chips ═══ */
+/* ═══ HERO ENGINES — 4 separate product chips, single line ═══ */
 .hero-engines {
   display: flex;
-  flex-wrap: wrap;
-  gap: 14px;
+  flex-wrap: nowrap;
+  gap: 12px;
   margin-bottom: 36px;
-  padding: 0;
+  padding: 0 4px 4px 0;
   background: none;
   border: none;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  max-width: 100%;
 }
+.hero-engines::-webkit-scrollbar { display: none; }
+.he-name { flex-shrink: 0; }
 .he-dot { display: none; }
 .he-name {
   position: relative;
@@ -258,9 +264,9 @@ img { display: block; }
   text-decoration: none;
   font-family: var(--font);
   font-weight: 600;
-  font-size: 1.02rem;
+  font-size: clamp(0.82rem, 1.2vw, 1rem);
   letter-spacing: -0.005em;
-  padding: 13px 22px 13px 18px;
+  padding: 11px 18px 11px 15px;
   border-radius: 999px;
   background: linear-gradient(135deg, rgba(168,85,247,0.06) 0%, rgba(168,85,247,0) 100%);
   border: 1px solid var(--gborder);
@@ -301,8 +307,9 @@ img { display: block; }
   to { opacity: 1; transform: translateY(0); }
 }
 @media (max-width: 600px) {
-  .hero-engines { gap: 10px; }
-  .he-name { font-size: 0.88rem; padding: 10px 16px 10px 14px; }
+  .hero-engines { gap: 8px; }
+  .he-name { font-size: 0.78rem; padding: 9px 14px 9px 12px; gap: 8px; }
+  .he-name::before { width: 6px; height: 6px; }
 }
 
 /* ═══ HERO KICKER (under H1) ═══ */
