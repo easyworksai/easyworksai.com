@@ -60,6 +60,42 @@ const ro = new IntersectionObserver(entries => {
 
 document.querySelectorAll('[data-r]').forEach(el => ro.observe(el));
 
+// ═════ VIDEO TESTIMONIAL MODAL ═════
+(function vtModal(){
+  const cards = document.querySelectorAll('.vt-card');
+  const modal = document.getElementById('vt-modal');
+  const player = document.getElementById('vt-player');
+  const close = document.getElementById('vt-close');
+  const nameEl = document.getElementById('vt-modal-name');
+  const bizEl = document.getElementById('vt-modal-biz');
+  if (!modal || !player) return;
+
+  function open(card) {
+    const slug = card.dataset.video;
+    nameEl.textContent = card.dataset.name;
+    bizEl.textContent = card.dataset.biz;
+    player.src = `videos/testimonials/${slug}.mp4`;
+    modal.hidden = false;
+    document.body.style.overflow = 'hidden';
+    player.play().catch(() => {
+      // No file yet — show inline message in player area
+      player.removeAttribute('src');
+      player.poster = '';
+    });
+  }
+  function shut() {
+    modal.hidden = true;
+    player.pause();
+    player.removeAttribute('src');
+    player.load();
+    document.body.style.overflow = '';
+  }
+  cards.forEach(c => c.addEventListener('click', () => open(c)));
+  close.addEventListener('click', shut);
+  modal.addEventListener('click', e => { if (e.target === modal) shut(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && !modal.hidden) shut(); });
+})();
+
 // ═════ PRODUCT SUBPAGE — DEMO VIDEO PLAY ═════
 document.querySelectorAll('.psub-video').forEach(wrap => {
   const overlay = wrap.querySelector('.psub-video-overlay');
