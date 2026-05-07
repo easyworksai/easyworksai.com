@@ -1391,6 +1391,161 @@ img { display: block; }
   transform: scale(1.06);
 }
 
+/* ═══ TRUST STRIP ═══ */
+.trust-strip {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: linear-gradient(180deg, rgba(168,85,247,0.04), rgba(168,85,247,0));
+  padding: 24px 0;
+}
+.ts-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  align-items: center;
+}
+.ts-item {
+  display: flex; align-items: center; justify-content: center;
+  gap: 12px;
+  font-family: var(--font);
+  font-size: 0.92rem;
+  color: var(--dim);
+  letter-spacing: -0.005em;
+}
+.ts-item svg { color: var(--accent); flex-shrink: 0; }
+.ts-item strong { color: var(--text); font-weight: 600; }
+@media (max-width: 880px) {
+  .ts-row { grid-template-columns: 1fr 1fr; gap: 14px; }
+  .ts-item { font-size: 0.84rem; justify-content: flex-start; }
+}
+@media (max-width: 480px) {
+  .ts-row { grid-template-columns: 1fr; }
+}
+
+/* ═══ Canadian-owned hero badge ═══ */
+.badge-ca {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 5px 11px 5px 8px;
+  background: linear-gradient(135deg, rgba(213,43,30,0.08), rgba(168,85,247,0.05));
+  border: 1px solid rgba(213,43,30,0.32);
+  border-radius: 999px;
+  color: var(--text);
+  font-family: var(--font);
+  font-weight: 600;
+  font-size: 0.78rem;
+  letter-spacing: -0.01em;
+}
+.ca-flag {
+  display: inline-flex; align-items: center;
+  border-radius: 3px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+}
+
+/* ═══ AESTHETIC POLISH PASS ═══ */
+/* Slightly tighter section vertical rhythm */
+.section { padding: 96px 0; }
+@media (max-width: 768px) { .section { padding: 64px 0; } }
+
+/* Sharper card shadows (more depth, less haze) */
+.product-card,
+.bento-card,
+.tl-card,
+.testimonial,
+.psub-video,
+.feature-card {
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.04) inset,
+    0 0 0 1px var(--border),
+    0 24px 60px -24px rgba(0,0,0,0.55);
+}
+.product-card:hover,
+.bento-card:hover,
+.tl-card:hover {
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.06) inset,
+    0 0 0 1px rgba(232,121,249,0.32),
+    0 32px 80px -24px rgba(168,85,247,0.32);
+}
+
+/* Section header: more breathing room */
+.section-header { margin-bottom: 56px; }
+.section-header.center { text-align: center; max-width: 720px; margin-left: auto; margin-right: auto; }
+.overline {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 14px;
+}
+h2 { line-height: 1.04; letter-spacing: -0.025em; }
+.h2-dim {
+  background: linear-gradient(135deg, var(--inkDim, #a78bfa), var(--accent));
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+}
+.section-sub {
+  margin-top: 18px;
+  font-size: 1.02rem;
+  color: var(--dim);
+  line-height: 1.55;
+  max-width: 600px;
+}
+.section-header.center .section-sub { margin-left: auto; margin-right: auto; }
+
+/* Crisper button states */
+.btn {
+  font-weight: 600;
+  border-radius: 12px;
+  transition: transform 0.2s var(--ease), box-shadow 0.3s var(--ease), background 0.3s var(--ease), border-color 0.3s var(--ease);
+}
+.btn-accent {
+  background: linear-gradient(135deg, #7c3aed, #a855f7 60%, #c084fc);
+  color: #fff;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.18) inset,
+    0 0 0 1px rgba(232,121,249,0.32),
+    0 12px 32px -8px rgba(168,85,247,0.5);
+}
+.btn-accent:hover {
+  background: linear-gradient(135deg, #8b5cf6, #c084fc 60%, #e879f9);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.22) inset,
+    0 0 0 1px rgba(232,121,249,0.5),
+    0 16px 40px -8px rgba(232,121,249,0.55);
+  transform: translateY(-1px);
+}
+.btn-glass {
+  background: rgba(168,85,247,0.06);
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+.btn-glass:hover {
+  background: rgba(168,85,247,0.12);
+  border-color: rgba(232,121,249,0.32);
+  transform: translateY(-1px);
+}
+
+/* Tighter form aesthetics */
+input, select, textarea {
+  background: rgba(168,85,247,0.04);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  font-family: var(--font);
+  font-size: 1rem;
+  color: var(--text);
+  padding: 14px 16px;
+  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+}
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: rgba(232,121,249,0.55);
+  background: rgba(168,85,247,0.08);
+  box-shadow: 0 0 0 3px rgba(232,121,249,0.18);
+}
+
 /* ═══ FOOTER CONTACT ═══ */
 .footer-contact {
   display: flex; flex-direction: column;
