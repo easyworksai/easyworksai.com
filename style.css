@@ -260,13 +260,13 @@ img { display: block; }
   position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   text-decoration: none;
   font-family: var(--font);
   font-weight: 600;
-  font-size: clamp(0.82rem, 1.2vw, 1rem);
+  font-size: clamp(0.74rem, 0.95vw, 0.92rem);
   letter-spacing: -0.005em;
-  padding: 11px 18px 11px 15px;
+  padding: 9px 14px 9px 12px;
   border-radius: 999px;
   background: linear-gradient(135deg, rgba(168,85,247,0.06) 0%, rgba(168,85,247,0) 100%);
   border: 1px solid var(--gborder);
