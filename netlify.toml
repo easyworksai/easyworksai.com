@@ -1,0 +1,13 @@
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+
+# stripe-webhook needs raw body for signature verification
+[functions."stripe-webhook"]
+  external_node_modules = ["stripe"]
+
+[functions."checkout"]
+  external_node_modules = ["stripe"]

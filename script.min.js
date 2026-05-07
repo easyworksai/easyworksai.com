@@ -159,6 +159,49 @@ document.querySelectorAll('.psub-video').forEach(wrap => {
 
   engines.forEach(eng => eng.addEventListener('change', recalc));
   recalc();
+
+  // ─── Lock in your stack → Stripe Checkout
+  const cta = stack.querySelector('.sb-cta');
+  if (cta) {
+    cta.addEventListener('click', async (e) => {
+      e.preventDefault();
+      const selected = [];
+      engines.forEach(eng => {
+        const cb = eng.querySelector('input');
+        if (cb.checked) selected.push(cb.dataset.engine);
+      });
+      if (!selected.length) return;
+      // If only 'voice' is selected, route to contact form (custom pricing)
+      const paid = selected.filter(s => s !== 'voice');
+      if (paid.length === 0) {
+        document.getElementById('start')?.scrollIntoView({ behavior: 'smooth' });
+        return;
+      }
+      const orig = cta.innerHTML;
+      cta.innerHTML = 'Loading checkout…';
+      cta.style.pointerEvents = 'none';
+      try {
+        const r = await fetch('/.netlify/functions/checkout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ engines: selected }),
+        });
+        const data = await r.json();
+        if (data.url) {
+          window.location.href = data.url;
+        } else if (data.redirect) {
+          window.location.href = data.redirect;
+        } else {
+          throw new Error(data.error || 'No checkout URL returned');
+        }
+      } catch (err) {
+        cta.innerHTML = orig;
+        cta.style.pointerEvents = '';
+        console.error(err);
+        alert('Sorry — checkout is temporarily unavailable. Call us at +1 (604) 265-7660 or email team@easyworksai.com and we\'ll get you set up.');
+      }
+    });
+  }
 })();
 
 // Magnetic CTA — subtle pull toward cursor
