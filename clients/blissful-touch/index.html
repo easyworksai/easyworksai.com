@@ -51,14 +51,14 @@
   <div class="intake-head">
     <p class="overline">Easyworks AI · Client Onboarding</p>
     <h1>Welcome aboard,<br><span class="h1-accent">Jamila.</span></h1>
-    <p>This intake takes about 30 to 45 minutes. Every answer changes what we build for Blissful Touch, so don't rush it. If you don't know an answer, write "unknown" — don't guess. You can leave optional fields blank.</p>
+    <p>This intake takes about 12 to 15 minutes. Every answer shapes what we build for Blissful Touch. Don't rush, but don't overthink it either. If you don't know an answer, leave it blank or write "unknown" and move on.</p>
   </div>
 
   <div class="client-banner">
-    <strong>Your bundle:</strong> Content Engine · SEO Engine · AI Suite — <strong>50% off</strong> setup &amp; first 3 months
+    <strong>Your bundle:</strong> Content Engine · SEO Engine · AI Suite · Website Revamp — <strong>50% off</strong> setup &amp; first 3 months
   </div>
 
-  <div class="intake-tip">💡 <strong>Tip:</strong> If you need to pause, leave this tab open. Refreshing or closing the tab will lose your progress, so finish in one sitting if you can.</div>
+  <div class="intake-tip">💡 <strong>Tip:</strong> Try to finish in one sitting. Refreshing the tab will lose your progress. Required fields are marked with *.</div>
 
   <form name="blissful-touch-intake" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/clients/blissful-touch/thanks/">
     <input type="hidden" name="form-name" value="blissful-touch-intake">
@@ -67,8 +67,7 @@
     <!-- SECTION 1 -->
     <div class="intake-section">
       <p class="section-num">SECTION 01</p>
-      <h2>Business Foundation</h2>
-      <p class="section-sub">The basics. Who, what, where.</p>
+      <h2>About you &amp; your business</h2>
 
       <label class="required">Legal business name (as registered)</label>
       <input type="text" name="legal_business_name" required>
@@ -76,97 +75,63 @@
       <label>Operating / brand name (if different)</label>
       <input type="text" name="brand_name">
 
-      <label>Business structure</label>
-      <select name="business_structure">
-        <option value="">Pick one</option>
-        <option>Sole proprietorship</option>
-        <option>Partnership</option>
-        <option>Corporation / Inc.</option>
-        <option>LLC</option>
-        <option>Other</option>
-        <option>Unknown</option>
-      </select>
-
       <div class="intake-row">
         <div>
-          <label class="required">Year founded</label>
-          <input type="text" name="year_founded" required>
+          <label class="required">Owner full name</label>
+          <input type="text" name="owner_name" value="Jamila " required>
         </div>
         <div>
-          <label class="required">Owner full name(s)</label>
-          <input type="text" name="owner_name" value="Jamila " required>
+          <label>Year founded</label>
+          <input type="text" name="year_founded">
         </div>
       </div>
 
       <div class="intake-row">
         <div>
-          <label class="required">Owner email (primary)</label>
+          <label class="required">Owner email</label>
           <input type="email" name="owner_email" required>
         </div>
         <div>
-          <label class="required">Owner mobile (primary)</label>
+          <label class="required">Owner mobile</label>
           <input type="tel" name="owner_phone" required>
         </div>
       </div>
 
-      <label>Best time and method to reach you</label>
-      <input type="text" name="best_contact_method" placeholder="e.g. text after 6pm, email anytime">
+      <label class="required">Primary business address</label>
+      <input type="text" name="primary_address" required>
 
-      <label>Secondary contact (manager, partner, or spouse who can approve things)</label>
-      <input type="text" name="secondary_contact" placeholder="Name + email + phone + relationship">
+      <label class="required">Hours of operation</label>
+      <input type="text" name="hours" placeholder="e.g. Mon-Sat 10am-7pm, Sun closed" required>
     </div>
 
     <!-- SECTION 2 -->
     <div class="intake-section">
       <p class="section-num">SECTION 02</p>
-      <h2>Location &amp; Service Area</h2>
-      <p class="section-sub">Where you're based and how far you reach.</p>
+      <h2>Where &amp; how you serve</h2>
 
-      <label class="required">Primary physical address</label>
-      <input type="text" name="primary_address" required>
-
-      <label>Additional locations (if any)</label>
-      <textarea name="additional_locations" rows="2"></textarea>
-
-      <label>Service radius (km from primary location, or list cities served)</label>
+      <label>Service radius (km from primary, or list cities you serve)</label>
       <input type="text" name="service_radius">
 
       <label>Do you offer mobile / in-home service?</label>
-      <textarea name="mobile_service" rows="2" placeholder="Y/N. If yes, describe."></textarea>
+      <textarea name="mobile_service" rows="2" placeholder="Y/N. If yes, briefly describe."></textarea>
 
-      <label>Hours of operation (per day)</label>
-      <textarea name="hours" rows="2" placeholder="e.g. Mon-Fri 9am-7pm, Sat 10am-5pm, Sun closed"></textarea>
-
-      <label>Holiday or seasonal closures</label>
-      <input type="text" name="holiday_closures">
-
-      <label>Parking situation (matters for local SEO and reviews)</label>
-      <input type="text" name="parking" placeholder="e.g. free street parking, dedicated lot, paid">
+      <label>Any languages other than English you serve in?</label>
+      <input type="text" name="languages">
     </div>
 
     <!-- SECTION 3 -->
     <div class="intake-section">
       <p class="section-num">SECTION 03</p>
-      <h2>Services &amp; Pricing</h2>
-      <p class="section-sub">What you sell and what it costs.</p>
+      <h2>What you sell</h2>
 
-      <label class="required">Full list of services offered (copy from your current menu)</label>
-      <textarea name="full_services" rows="5" required></textarea>
+      <label class="required">Full list of services + price for each</label>
+      <textarea name="full_services" rows="5" placeholder="e.g. Deep Tissue Massage 60min - $120&#10;Hot Stone 90min - $180" required></textarea>
 
-      <label>Top 3 most-booked services</label>
-      <textarea name="top_3_booked" rows="2"></textarea>
-
-      <label>Top 3 highest-margin services</label>
-      <textarea name="top_3_margin" rows="2"></textarea>
-
-      <label>Services you WANT to sell more of (priority)</label>
+      <label>Services you want to sell MORE of (priority)</label>
       <textarea name="services_to_promote" rows="2"></textarea>
 
-      <label>Services you do NOT want promoted (capacity issues, retiring, etc.)</label>
-      <textarea name="services_not_to_promote" rows="2"></textarea>
-
-      <label>Current price list (paste or describe price range)</label>
-      <textarea name="price_list" rows="3"></textarea>
+      <label>Services you do NOT want promoted</label>
+      <textarea name="services_not_to_promote" rows="2" placeholder="capacity issues, retiring, etc."></textarea>
 
       <div class="intake-row">
         <div>
@@ -174,45 +139,31 @@
           <input type="text" name="avg_ticket">
         </div>
         <div>
-          <label>Average client lifetime value</label>
-          <input type="text" name="avg_ltv" placeholder="rough estimate is fine">
+          <label>Repeat-visit cadence</label>
+          <input type="text" name="repeat_cadence" placeholder="e.g. every 4 weeks">
         </div>
       </div>
-
-      <label>Repeat-visit cadence</label>
-      <input type="text" name="repeat_cadence" placeholder="e.g. every 4 weeks">
     </div>
 
     <!-- SECTION 4 -->
     <div class="intake-section">
       <p class="section-num">SECTION 04</p>
-      <h2>Customer Profile</h2>
-      <p class="section-sub">Who buys from you today.</p>
+      <h2>Who you serve</h2>
 
-      <label>Describe your ideal customer (age, gender, income, lifestyle, neighborhood)</label>
+      <label>Describe your ideal customer (age range, lifestyle, neighborhood)</label>
       <textarea name="ideal_customer" rows="3"></textarea>
-
-      <label>Where do most of your current customers come from?</label>
-      <input type="text" name="customer_source" placeholder="e.g. referrals, Google, Instagram, walk-in">
 
       <label>Top 3 reasons customers choose you over competitors</label>
       <textarea name="differentiators" rows="3"></textarea>
 
-      <label>Top 3 objections / hesitations you hear from prospects</label>
-      <textarea name="objections" rows="3"></textarea>
-
-      <label>Customer demographic split (% women / men, age brackets if known)</label>
-      <textarea name="demographics" rows="2"></textarea>
-
-      <label>Any languages other than English you serve in?</label>
-      <input type="text" name="languages">
+      <label>Where do most of your current customers come from?</label>
+      <input type="text" name="customer_source" placeholder="referrals / Google / Instagram / walk-in / other">
     </div>
 
     <!-- SECTION 5 -->
     <div class="intake-section">
       <p class="section-num">SECTION 05</p>
-      <h2>Capacity &amp; Operations</h2>
-      <p class="section-sub">How much business you can absorb without breaking.</p>
+      <h2>Capacity &amp; operations</h2>
 
       <div class="intake-row">
         <div>
@@ -220,157 +171,28 @@
           <input type="number" name="staff_count" min="1" required>
         </div>
         <div>
-          <label class="required">Treatment rooms / chairs / stations</label>
+          <label class="required">Treatment rooms / chairs</label>
           <input type="number" name="rooms" min="1" required>
         </div>
       </div>
 
-      <label>Current weekly booking utilization (% of available slots filled)</label>
-      <input type="text" name="utilization" placeholder="e.g. 75%">
-
       <label class="required">How many NEW clients per month can you absorb without breaking?</label>
       <input type="text" name="new_client_capacity" placeholder="Be honest. We won't oversell you." required>
 
-      <label>How many existing clients do you have on file (rough number)</label>
-      <input type="text" name="existing_clients">
-
-      <label>Booking / scheduling software currently used</label>
+      <label>Booking / scheduling software you currently use</label>
       <input type="text" name="booking_system" placeholder="e.g. Vagaro, MindBody, Square, paper">
-
-      <div class="intake-row">
-        <div>
-          <label>Payment processor</label>
-          <input type="text" name="payment_processor" placeholder="e.g. Square, Stripe">
-        </div>
-        <div>
-          <label>POS system</label>
-          <input type="text" name="pos_system">
-        </div>
-      </div>
-
-      <label>Front desk staff, or owner-operated?</label>
-      <input type="text" name="front_desk">
     </div>
 
     <!-- SECTION 6 -->
     <div class="intake-section">
       <p class="section-num">SECTION 06</p>
-      <h2>Current Marketing Reality</h2>
-      <p class="section-sub">Be honest. The truth helps us help you.</p>
+      <h2>Your online presence &amp; marketing</h2>
 
-      <label>Current monthly marketing spend (all channels combined)</label>
-      <input type="text" name="marketing_spend" placeholder="e.g. $0, $500, $2000">
-
-      <label>Channels you're currently running</label>
-      <textarea name="active_channels" rows="2" placeholder="Google Ads / Meta Ads / SEO / referrals / flyers / nothing"></textarea>
-
-      <label>Who manages your marketing today?</label>
-      <input type="text" name="marketing_manager" placeholder="you / agency / staff / nobody">
-
-      <label>Have you used a marketing agency before? If yes, which, what worked, what didn't?</label>
-      <textarea name="prior_agency" rows="3"></textarea>
-
-      <label>Current website URL</label>
+      <label>Website URL</label>
       <input type="url" name="website" placeholder="https://...">
-
-      <label>Who built the website + do you have admin access?</label>
-      <input type="text" name="website_admin">
-
-      <div class="intake-row">
-        <div>
-          <label>Domain registrar</label>
-          <input type="text" name="domain_registrar" placeholder="GoDaddy, Namecheap, Squarespace, etc.">
-        </div>
-        <div>
-          <label>Email hosting</label>
-          <input type="text" name="email_hosting" placeholder="Google Workspace, Outlook, other">
-        </div>
-      </div>
-    </div>
-
-    <!-- SECTION 7 -->
-    <div class="intake-section">
-      <p class="section-num">SECTION 07</p>
-      <h2>Brand &amp; Content</h2>
-      <p class="section-sub">How you look, how you sound, what we have to work with.</p>
-
-      <label>Do you have a brand style guide / logo files / fonts?</label>
-      <textarea name="brand_assets" rows="2" placeholder="Describe what you have. We'll arrange transfer separately."></textarea>
-
-      <label>Brand colors (hex codes if known, or describe)</label>
-      <input type="text" name="brand_colors">
-
-      <label>3 adjectives that describe your brand voice</label>
-      <input type="text" name="brand_voice" placeholder="e.g. calm, premium, welcoming">
-
-      <label>3 adjectives that do NOT describe your brand</label>
-      <input type="text" name="brand_voice_not">
-
-      <label>Existing photo library (rough counts)</label>
-      <textarea name="photo_inventory" rows="3" placeholder="Space/interior: __  Staff portraits: __  Treatments in progress: __  Before/after: __"></textarea>
-
-      <div class="intake-row">
-        <div>
-          <label>Existing video footage available?</label>
-          <select name="video_available">
-            <option value="">Pick one</option>
-            <option>Yes, lots</option>
-            <option>Yes, a little</option>
-            <option>No</option>
-          </select>
-        </div>
-        <div>
-          <label>Are you comfortable being on camera?</label>
-          <select name="on_camera">
-            <option value="">Pick one</option>
-            <option>Yes, very comfortable</option>
-            <option>Yes, with some coaching</option>
-            <option>Prefer not to be on camera</option>
-          </select>
-        </div>
-      </div>
-
-      <label>Are staff comfortable being filmed / photographed?</label>
-      <select name="staff_on_camera">
-        <option value="">Pick one</option>
-        <option>Yes, all of them</option>
-        <option>Most are</option>
-        <option>Only some</option>
-        <option>None comfortable</option>
-        <option>Need to ask</option>
-      </select>
-
-      <label>Are you and your team open to sending us regular raw content (phone photos and short clips of your space, treatments, products, behind-the-scenes moments)? Mixing real Blissful Touch material with our AI-produced content materially improves results. We will provide a simple monthly capture guide.</label>
-      <select name="raw_content_collab">
-        <option value="">Pick one</option>
-        <option>Yes, happy to participate regularly</option>
-        <option>Yes, occasionally</option>
-        <option>Prefer not to</option>
-      </select>
-    </div>
-
-    <!-- SECTION 8 -->
-    <div class="intake-section">
-      <p class="section-num">SECTION 08</p>
-      <h2>Reviews &amp; Reputation</h2>
-      <p class="section-sub">Critical for SEO and AI Suite. The unvarnished version.</p>
 
       <label>Google Business Profile URL</label>
       <input type="url" name="gbp_url" placeholder="https://g.page/...">
-
-      <label>Total Google reviews count + average star rating</label>
-      <input type="text" name="google_reviews" placeholder="e.g. 87 reviews, 4.8 stars">
-
-      <div class="intake-row">
-        <div>
-          <label>Yelp profile URL</label>
-          <input type="url" name="yelp_url">
-        </div>
-        <div>
-          <label>Facebook page URL</label>
-          <input type="url" name="facebook">
-        </div>
-      </div>
 
       <div class="intake-row">
         <div>
@@ -378,158 +200,101 @@
           <input type="text" name="instagram" placeholder="@blissfultouch">
         </div>
         <div>
-          <label>TikTok handle</label>
-          <input type="text" name="tiktok">
+          <label>Facebook page URL</label>
+          <input type="url" name="facebook">
         </div>
       </div>
 
-      <label>Any negative reviews we should know about? (the story behind them)</label>
-      <textarea name="negative_reviews" rows="3"></textarea>
-
-      <label>Any pending lawsuits, complaints, or regulatory issues?</label>
-      <textarea name="legal_issues" rows="2"></textarea>
-
-      <label>Have you ever had a PR or reputation incident we should know about?</label>
-      <textarea name="pr_incidents" rows="2"></textarea>
+      <label>Current monthly marketing spend (rough)</label>
+      <input type="text" name="marketing_spend" placeholder="e.g. $0, $500, $2000">
     </div>
 
-    <!-- SECTION 9 -->
+    <!-- SECTION 7 -->
     <div class="intake-section">
-      <p class="section-num">SECTION 09</p>
-      <h2>Competitive Landscape</h2>
-      <p class="section-sub">Who you're up against and where the gaps are.</p>
+      <p class="section-num">SECTION 07</p>
+      <h2>Brand, content &amp; reputation</h2>
 
-      <label>Name your top 5 direct competitors (within ~5km)</label>
-      <textarea name="competitors" rows="3"></textarea>
+      <label>3 adjectives that describe your brand voice</label>
+      <input type="text" name="brand_voice" placeholder="e.g. calm, premium, welcoming">
 
-      <label>Who do you LOSE clients to most often + why?</label>
-      <textarea name="losing_to" rows="2"></textarea>
+      <label>Existing photo library — rough counts</label>
+      <textarea name="photo_inventory" rows="3" placeholder="Space/interior: __  Staff: __  Treatments: __  Before-after: __"></textarea>
 
-      <label>What does your top competitor do better than you?</label>
-      <textarea name="competitor_advantage" rows="2"></textarea>
+      <label>Are you comfortable being on camera for content?</label>
+      <select name="on_camera">
+        <option value="">Pick one</option>
+        <option>Yes, very comfortable</option>
+        <option>Yes, with some coaching</option>
+        <option>Prefer not to be on camera</option>
+      </select>
 
-      <label>What do you do better than every competitor?</label>
-      <textarea name="your_advantage" rows="2"></textarea>
+      <label>Are you and your team open to sending us regular raw content (phone photos and short clips of your space, treatments, products, behind-the-scenes moments)? Mixing real material with our AI-produced content materially improves results. We will provide a simple monthly capture guide.</label>
+      <select name="raw_content_collab">
+        <option value="">Pick one</option>
+        <option>Yes, happy to participate regularly</option>
+        <option>Yes, occasionally</option>
+        <option>Prefer not to</option>
+      </select>
 
-      <label>Any past or current partnerships / cross-promos with other local businesses?</label>
-      <textarea name="partnerships" rows="2"></textarea>
+      <label>Any negative reviews or reputation issues we should know about?</label>
+      <textarea name="negative_reviews" rows="2"></textarea>
+
+      <label>Are testimonials and before/after photos allowed under your industry's rules?</label>
+      <select name="testimonials_allowed">
+        <option value="">Pick one</option>
+        <option>Yes</option>
+        <option>Yes, with restrictions</option>
+        <option>No</option>
+        <option>Unsure</option>
+      </select>
     </div>
 
-    <!-- SECTION 10 -->
+    <!-- SECTION 8 -->
     <div class="intake-section">
-      <p class="section-num">SECTION 10</p>
-      <h2>Goals &amp; Success Metrics</h2>
-      <p class="section-sub">What "winning" looks like for you.</p>
+      <p class="section-num">SECTION 08</p>
+      <h2>AI receptionist setup</h2>
 
-      <label class="required">Single most important business goal in the next 90 days</label>
-      <textarea name="goal_90" rows="2" required></textarea>
-
-      <label>Single most important business goal in the next 12 months</label>
-      <textarea name="goal_12mo" rows="2"></textarea>
-
-      <div class="intake-row">
-        <div>
-          <label>Target: new clients per month from our work</label>
-          <input type="text" name="target_new_clients" placeholder="be realistic">
-        </div>
-        <div>
-          <label>Target: monthly revenue lift from our work</label>
-          <input type="text" name="target_revenue_lift">
-        </div>
-      </div>
-
-      <label>What would make this engagement a clear "10/10 success" 6 months in?</label>
-      <textarea name="success_6mo" rows="2"></textarea>
-
-      <label>What would make you say "this is exactly what I was hoping for"?</label>
-      <textarea name="success_signals" rows="2"></textarea>
-    </div>
-
-    <!-- SECTION 11 -->
-    <div class="intake-section">
-      <p class="section-num">SECTION 11</p>
-      <h2>Compliance &amp; Legal</h2>
-      <p class="section-sub">Industry rules so we don't get either of us in trouble.</p>
-
-      <label>Any licenses, certifications, or regulatory bodies governing your industry?</label>
-      <textarea name="licenses" rows="2"></textarea>
-
-      <div class="intake-row">
-        <div>
-          <label>Are testimonials and before/after photos allowed under your industry's rules?</label>
-          <select name="testimonials_allowed">
-            <option value="">Pick one</option>
-            <option>Yes</option>
-            <option>Yes, with restrictions</option>
-            <option>No</option>
-            <option>Unsure</option>
-          </select>
-        </div>
-        <div>
-          <label>Privacy policy + terms of service published on website?</label>
-          <select name="privacy_policy">
-            <option value="">Pick one</option>
-            <option>Yes</option>
-            <option>No</option>
-            <option>Unsure</option>
-          </select>
-        </div>
-      </div>
-
-      <label>How do you collect privacy/PIPEDA consent from customers today?</label>
-      <input type="text" name="pipeda_consent">
-    </div>
-
-    <!-- SECTION 12 -->
-    <div class="intake-section">
-      <p class="section-num">SECTION 12</p>
-      <h2>AI Suite Specifics</h2>
-      <p class="section-sub">So your AI receptionist sounds like Blissful Touch from day one.</p>
-
-      <div class="intake-row">
-        <div>
-          <label>Average inbound calls per day</label>
-          <input type="text" name="calls_per_day">
-        </div>
-        <div>
-          <label>% of calls currently missed / sent to voicemail</label>
-          <input type="text" name="calls_missed_pct" placeholder="rough estimate">
-        </div>
-      </div>
+      <label>Average inbound calls per day (rough)</label>
+      <input type="text" name="calls_per_day">
 
       <label>Most common reasons people call</label>
       <textarea name="call_reasons" rows="2" placeholder="booking, pricing, hours, cancellations..."></textarea>
 
-      <label>Are you OK with an AI receptionist answering calls 24/7?</label>
+      <label>OK with an AI receptionist answering calls 24/7?</label>
       <select name="ai_24_7">
         <option value="">Pick one</option>
         <option>Yes</option>
-        <option>Only after hours</option>
+        <option>After-hours only</option>
         <option>Only when no human is available</option>
         <option>No</option>
       </select>
-
-      <label>After-hours preferences</label>
-      <input type="text" name="after_hours" placeholder="AI handles / forwards to you / leaves voicemail">
-
-      <label>Any phrases / answers / scripts you want the AI to use or avoid?</label>
-      <textarea name="ai_scripts" rows="3"></textarea>
 
       <label>Any topics the AI should NEVER handle and must escalate to a human?</label>
       <textarea name="ai_escalations" rows="2"></textarea>
     </div>
 
-    <!-- SECTION 13 -->
+    <!-- SECTION 9 -->
     <div class="intake-section">
-      <p class="section-num">SECTION 13</p>
-      <h2>Final Confirmations</h2>
-      <p class="section-sub">Last few. You're nearly done.</p>
+      <p class="section-num">SECTION 09</p>
+      <h2>Goals &amp; competition</h2>
 
-      <label>Are you the sole decision-maker for this engagement? If not, who else needs to sign off?</label>
-      <input type="text" name="decision_maker">
+      <label class="required">Single most important business goal in the next 90 days</label>
+      <textarea name="goal_90" rows="2" required></textarea>
 
-      <label>Preferred weekly check-in day + time (we'll do a 20-min standing call for first 60 days)</label>
-      <input type="text" name="weekly_checkin" placeholder="e.g. Tuesdays 2pm PT">
+      <label>Target: new clients per month from our work (be realistic)</label>
+      <input type="text" name="target_new_clients">
+
+      <label>What would make you say "this is exactly what I was hoping for" 6 months in?</label>
+      <textarea name="success_signals" rows="2"></textarea>
+
+      <label>Name your top 5 direct competitors (within ~5km)</label>
+      <textarea name="competitors" rows="3"></textarea>
+    </div>
+
+    <!-- SECTION 10 -->
+    <div class="intake-section">
+      <p class="section-num">SECTION 10</p>
+      <h2>Anything else</h2>
 
       <label>Anything else we should know that we didn't ask?</label>
       <textarea name="anything_else" rows="4"></textarea>
