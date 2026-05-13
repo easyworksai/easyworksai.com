@@ -3895,3 +3895,81 @@ section .onsite-band {
   from { opacity: 0; transform: translateX(-50%) translateY(-8px); }
   to   { opacity: 1; transform: translateX(-50%) translateY(0); }
 }
+
+/* ════════════════════════════════════════════════════════════════════
+   LIVE AVAILABILITY PULSE + FORM TRUST BADGES
+   ════════════════════════════════════════════════════════════════════ */
+
+/* "Live now" pill next to phone */
+.hp-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  background: rgba(34,197,94,0.12);
+  border: 1px solid rgba(34,197,94,0.4);
+  border-radius: 999px;
+  color: #4ade80;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 600;
+  text-shadow: 0 0 8px rgba(74,222,128,0.5);
+  white-space: nowrap;
+}
+.hp-live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 0 0 rgba(34,197,94,0.6), 0 0 8px #22c55e;
+  animation: hp-live-pulse 1.6s ease-out infinite;
+}
+@keyframes hp-live-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(34,197,94,0.7), 0 0 8px #22c55e; }
+  70%  { box-shadow: 0 0 0 10px rgba(34,197,94,0), 0 0 8px #22c55e; }
+  100% { box-shadow: 0 0 0 0 rgba(34,197,94,0), 0 0 8px #22c55e; }
+}
+
+/* Form trust badges row */
+.form-trust {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px dashed rgba(168,85,247,0.2);
+}
+.ft-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: rgba(18,8,38,0.65);
+  border: 1px solid rgba(168,85,247,0.25);
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  color: #c4b5fd;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+.ft-badge:hover {
+  background: rgba(168,85,247,0.14);
+  border-color: rgba(168,85,247,0.45);
+  color: #fff;
+  transform: translateY(-1px);
+}
+.ft-badge svg {
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 600px) {
+  .form-trust { gap: 6px; }
+  .ft-badge { font-size: 0.66rem; padding: 5px 10px; }
+}
+
