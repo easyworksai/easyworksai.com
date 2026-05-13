@@ -462,3 +462,31 @@
   // Bundle quick-picks fire programmatic changes — also save on click
   stack.querySelectorAll('.sb-bundle').forEach(b => b.addEventListener('click', () => setTimeout(snap, 50)));
 })();
+
+/* ─────── Pause heavy animations when offscreen ─────── */
+(function pauseOffscreen() {
+  if (!('IntersectionObserver' in window)) return;
+  // Conveyor — pause the marquee scroll when offscreen
+  const conveyor = document.querySelector('.conveyor-stage');
+  if (conveyor) {
+    const tracks = conveyor.querySelectorAll('.conv-track');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        tracks.forEach(t => t.style.animationPlayState = e.isIntersecting ? 'running' : 'paused');
+      });
+    }, { threshold: 0 });
+    io.observe(conveyor);
+  }
+
+  // Engine flow pulses
+  const flow = document.querySelector('.engine-flow-v2');
+  if (flow) {
+    const pulses = flow.querySelectorAll('.ef-pulse');
+    const io2 = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        pulses.forEach(p => p.style.animationPlayState = e.isIntersecting ? 'running' : 'paused');
+      });
+    }, { threshold: 0 });
+    io2.observe(flow);
+  }
+})();

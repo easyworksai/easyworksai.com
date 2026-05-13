@@ -64,15 +64,16 @@ body.cosmic {
   to   { background-position: 0 64px, 64px 0; }
 }
 
-/* Drifting cosmic blobs */
+/* Drifting cosmic blobs — blur reduced (80px → 50px) for perf */
 .cosmic-blob {
   position: fixed;
   border-radius: 50%;
-  filter: blur(80px);
+  filter: blur(50px);
   opacity: 0.55;
   z-index: 0;
   pointer-events: none;
   mix-blend-mode: screen;
+  will-change: transform;
 }
 .cosmic-blob-1 {
   width: 520px; height: 520px;
@@ -4115,5 +4116,57 @@ section .onsite-band {
 @media (max-width: 600px) {
   .sound-toggle { width: 40px; height: 40px; margin-left: 6px; }
   .sound-toggle svg { width: 18px; height: 18px; }
+}
+
+
+/* ════════════════════════════════════════════════════════════════════
+   PERF PASS — skip offscreen section rendering + reduce blur expense
+   ════════════════════════════════════════════════════════════════════ */
+
+/* content-visibility: auto tells the browser to skip layout/paint for
+   any section currently offscreen. Massive scroll perf win. */
+.section,
+.conveyor-stage,
+.engines-stack,
+.products-grid-5,
+.compare-grid,
+.proof-grid,
+.industries-spotlight,
+.timeline-v2,
+.faq-list,
+.section-conveyor {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 700px;
+}
+
+/* Hero stays rendered always (it's the visual anchor) */
+.hero-v2, .section-onsite, .section-cta { content-visibility: visible; }
+
+/* Cosmic blobs animation paused when reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .cosmic-blob, .cosmic-grid, .hero-stars { animation: none !important; }
+}
+
+/* Reduce nav backdrop-filter blur cost (24px → 8px is 9× cheaper) */
+.nav {
+  backdrop-filter: blur(8px) saturate(1.4) !important;
+  -webkit-backdrop-filter: blur(8px) saturate(1.4) !important;
+}
+.nav.scrolled {
+  backdrop-filter: blur(10px) saturate(1.4) !important;
+  -webkit-backdrop-filter: blur(10px) saturate(1.4) !important;
+}
+
+/* Mascot glow blurs reduced */
+.mascot-glow { filter: blur(40px) !important; }
+.impact-mascot img,
+.calc-mascot-bg img { filter: contrast(1.18) brightness(1.05) saturate(1.1) drop-shadow(0 0 24px rgba(168,85,247,0.4)) !important; }
+
+/* Drop shadow stack on mascot images reduced */
+.mascot-img {
+  filter:
+    contrast(1.22) brightness(1.05) saturate(1.18)
+    drop-shadow(0 0 30px rgba(168,85,247,0.42))
+    drop-shadow(0 0 60px rgba(255,43,209,0.22)) !important;
 }
 
