@@ -3593,3 +3593,73 @@ section .onsite-band {
   color: var(--electric-cyan);
 }
 
+
+/* ════════════════════════════════════════════════════════════════════
+   REVENUE SCALE — extra mascot dopamine placements
+   ════════════════════════════════════════════════════════════════════ */
+
+/* Crowd mascot floating to the right of the impact band */
+.section-impact { position: relative; overflow: visible; }
+.impact-mascot {
+  position: absolute;
+  top: 5%;
+  right: -8%;
+  width: 320px;
+  height: auto;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.95;
+  animation: mascot-float 9s ease-in-out infinite;
+}
+.impact-mascot img {
+  width: 100%;
+  height: auto;
+  mix-blend-mode: screen;
+  -webkit-mask-image: radial-gradient(ellipse 70% 80% at center 50%, #000 0%, rgba(0,0,0,0.85) 70%, transparent 100%);
+          mask-image: radial-gradient(ellipse 70% 80% at center 50%, #000 0%, rgba(0,0,0,0.85) 70%, transparent 100%);
+  -webkit-mask-mode: alpha;
+          mask-mode: alpha;
+  filter:
+    contrast(1.2) brightness(1.05) saturate(1.18)
+    drop-shadow(0 0 40px rgba(168,85,247,0.5))
+    drop-shadow(0 0 80px rgba(255,43,209,0.35));
+}
+
+/* Speed mascot bursting in behind the calculator */
+.section-calc { position: relative; overflow: visible; }
+.calc-mascot-bg {
+  position: absolute;
+  top: 8%;
+  left: -10%;
+  width: 280px;
+  height: auto;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.55;
+  transform: rotate(-8deg);
+  animation: speed-rush 7s ease-in-out infinite;
+}
+.calc-mascot-bg img {
+  width: 100%;
+  height: auto;
+  mix-blend-mode: screen;
+  -webkit-mask-image: radial-gradient(ellipse 70% 80% at center 50%, #000 0%, rgba(0,0,0,0.85) 70%, transparent 100%);
+          mask-image: radial-gradient(ellipse 70% 80% at center 50%, #000 0%, rgba(0,0,0,0.85) 70%, transparent 100%);
+  -webkit-mask-mode: alpha;
+          mask-mode: alpha;
+  filter:
+    contrast(1.18) brightness(1.05) saturate(1.1)
+    drop-shadow(0 0 40px rgba(0,245,255,0.45))
+    drop-shadow(0 0 80px rgba(168,85,247,0.35));
+}
+@keyframes speed-rush {
+  0%, 100% { transform: rotate(-8deg) translateX(0); }
+  50%      { transform: rotate(-10deg) translateX(20px); }
+}
+
+/* Mobile — hide secondary mascots so the layout doesn't break */
+@media (max-width: 900px) {
+  .impact-mascot { display: none; }
+  .calc-mascot-bg { display: none; }
+}
+
