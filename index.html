@@ -21,6 +21,76 @@
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.min.css?v=73d7341d">
   <link rel="stylesheet" href="redesign.css?v=1">
+
+  <!-- Schema: LocalBusiness -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "@id": "https://easyworks.ai/#business",
+    "name": "Easyworks AI Solutions",
+    "alternateName": "Easyworks AI",
+    "description": "Canadian-owned AI company in Surrey, BC. Done-for-you AI systems for local businesses. We come to you, install on-site, and run it for you.",
+    "url": "https://easyworks.ai",
+    "telephone": "+16729668975",
+    "email": "team@easyworksai.com",
+    "image": "https://easyworks.ai/og-image.png",
+    "priceRange": "$497-$2789",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Unit 1116, 13350 Central Avenue",
+      "addressLocality": "Surrey",
+      "addressRegion": "BC",
+      "postalCode": "V3T 0S1",
+      "addressCountry": "CA"
+    },
+    "areaServed": [
+      { "@type": "Place", "name": "Surrey, BC" },
+      { "@type": "Place", "name": "Vancouver, BC" },
+      { "@type": "Place", "name": "Lower Mainland, BC" },
+      { "@type": "Place", "name": "Canada" }
+    ],
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+      "opens": "08:00",
+      "closes": "18:00"
+    },
+    "sameAs": [
+      "https://easyworks.ai"
+    ]
+  }
+  </script>
+
+  <!-- Schema: Services offered -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "itemListElement": [
+      { "@type": "Service", "position": 1, "name": "AI Suite", "description": "Foundation engine. 24/7 AI receptionist, instant lead follow-up, booking, full CRM.", "provider": { "@id": "https://easyworks.ai/#business" }, "offers": { "@type": "Offer", "price": "497", "priceCurrency": "CAD", "priceSpecification": { "@type": "UnitPriceSpecification", "billingDuration": "P1M" } } },
+      { "@type": "Service", "position": 2, "name": "Content Engine", "description": "AI-made content engine. Daily posts, photo + video generation, brand voice training.", "provider": { "@id": "https://easyworks.ai/#business" }, "offers": { "@type": "Offer", "price": "997", "priceCurrency": "CAD" } },
+      { "@type": "Service", "position": 3, "name": "SEO Engine", "description": "Google ranking, GBP optimization, local citations, monthly SEO articles.", "provider": { "@id": "https://easyworks.ai/#business" }, "offers": { "@type": "Offer", "price": "997", "priceCurrency": "CAD" } },
+      { "@type": "Service", "position": 4, "name": "AI Revenue Scale", "description": "Self-driving paid ads. Meta + Google ads managed end-to-end. Auto budget reallocation every 4 hours.", "provider": { "@id": "https://easyworks.ai/#business" }, "offers": { "@type": "Offer", "price": "497", "priceCurrency": "CAD" } },
+      { "@type": "Service", "position": 5, "name": "Voice to Report", "description": "Dictation pipeline. STT + custom submission app. Built for notaries, paralegals, agents, adjusters.", "provider": { "@id": "https://easyworks.ai/#business" }, "offers": { "@type": "Offer", "price": "497", "priceCurrency": "CAD" } }
+    ]
+  }
+  </script>
+
+  <!-- Schema: FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Is there a contract?", "acceptedAnswer": { "@type": "Answer", "text": "No. Month-to-month, cancel anytime. 30-day satisfaction guarantee — not happy, we refund you." } },
+      { "@type": "Question", "name": "How fast do I get up and running?", "acceptedAnswer": { "@type": "Answer", "text": "2-3 business days. We come to you, build it, test it, flip it on." } },
+      { "@type": "Question", "name": "Do I need technical skills?", "acceptedAnswer": { "@type": "Answer", "text": "Zero. We handle everything. You get a simple app to see leads, messages, and your calendar." } },
+      { "@type": "Question", "name": "Can you work with my existing CRM?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Replace, integrate, or run alongside in shadow mode. Your call." } },
+      { "@type": "Question", "name": "Is my data safe?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. PIPEDA-compliant, Canadian-hosted infrastructure. Your client data stays yours — we never sell or share it." } }
+    ]
+  }
+  </script>
 </head>
 <body class="cosmic">
 

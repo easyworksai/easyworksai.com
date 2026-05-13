@@ -326,3 +326,86 @@
   window.addEventListener('scroll', onScroll, { passive: true });
   update();
 })();
+
+/* ─────── Conveyor card click → scroll to form + prefill industry ─────── */
+(function conveyorPrefill() {
+  const cards = document.querySelectorAll('.conv-card');
+  if (!cards.length) return;
+  const form = document.getElementById('contactForm');
+  const messageField = form ? form.querySelector('textarea[name="message"]') : null;
+  const industrySelect = form ? form.querySelector('select[name="industry"]') : null;
+
+  // Map specific industries to form select options
+  const INDUSTRY_MAP = {
+    'Dental Offices':     'Medical / Dental',
+    'Physio / Chiro':     'Medical / Dental',
+    'MedSpa':             'Medical / Dental',
+    'Vet Clinic':         'Medical / Dental',
+    'Nail Salons':        'Salon / Spa',
+    'Salon / Barber':     'Salon / Spa',
+    'Pool & Spa':         'Salon / Spa',
+    'Restaurant':         'Restaurant / Food',
+    'Real Estate':        'Real Estate',
+    'Property Mgmt':      'Real Estate',
+    'Law Firm':           'Legal',
+    'Notaries':           'Legal',
+    'General Contractor': 'Contractor / Trades',
+    'HVAC':               'Contractor / Trades',
+    'Plumbing':           'Contractor / Trades',
+    'Electrical':         'Contractor / Trades',
+    'Roofing':            'Contractor / Trades',
+    'Painting':           'Contractor / Trades',
+    'Landscaping':        'Contractor / Trades',
+    'Cleaning':           'Cleaning / Maintenance',
+    'Towing':             'Auto Services',
+    'Mechanic Shop':      'Auto Services',
+    'Auto Detailing':     'Auto Services',
+    'Dealership':         'Auto Services',
+    'Gym / Fitness':      'Fitness / Wellness',
+  };
+
+  cards.forEach(card => {
+    // Skip duplicate cards (aria-hidden) to avoid double events; still let them respond visually
+    const label = card.querySelector('.cv-label');
+    if (!label) return;
+    const industry = label.textContent.trim();
+    card.style.cursor = 'pointer';
+    card.setAttribute('role', 'button');
+    card.setAttribute('tabindex', '0');
+    card.setAttribute('aria-label', `Tell us about your ${industry} business`);
+
+    function go() {
+      // Prefill message field
+      if (messageField) {
+        if (!messageField.value || messageField.value.indexOf('I run a') !== 0) {
+          messageField.value = `I run a ${industry} business and I'd like to learn how Easyworks can help.`;
+        }
+      }
+      // Set the industry dropdown
+      const mapped = INDUSTRY_MAP[industry] || 'Other';
+      if (industrySelect) {
+        for (const opt of industrySelect.options) {
+          if (opt.value === mapped || opt.textContent.trim() === mapped) {
+            industrySelect.value = opt.value;
+            industrySelect.dispatchEvent(new Event('change'));
+            break;
+          }
+        }
+      }
+      // Scroll to form
+      const target = document.getElementById('start');
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // After scroll, focus the name field so user can type immediately
+        setTimeout(() => {
+          const nameField = form && form.querySelector('input[name="name"]');
+          if (nameField) nameField.focus();
+        }, 700);
+      }
+    }
+    card.addEventListener('click', go);
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); }
+    });
+  });
+})();
