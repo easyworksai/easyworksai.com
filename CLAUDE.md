@@ -4,7 +4,8 @@ This is the marketing site for **Easyworks AI Solutions** (Brad Palmer's primary
 Current state: **Redesign v2 (Cosmic Electric)** is live on the `redesign-v2` Netlify alias, awaiting Brad's approval to promote to production.
 
 ## Quick context
-- **Brand:** Easyworks AI · "Less doing. More done." · Canadian-owned, Surrey BC
+- **Brand:** Easyworks AI · "Less doing. More done." · Built in British Columbia
+- **Service area:** On-site across BC's Lower Mainland + Sea-to-Sky corridor (Whistler → Chilliwack — Whistler · Squamish · Vancouver · Burnaby · Surrey · Langley · Abbotsford · Chilliwack + every city between). Global remote install outside BC. Open to partnerships (agencies, resellers, white-label) — `team@easyworksai.com`.
 - **Tagline philosophy:** Sell results, never lead with "AI". Tone is EASY — tight, confident, minimal noise.
 - **Mascot:** "Easy" — lean athletic faceless superhero (chrome helmet, cyan visor band, deep purple suit with magenta + cyan tron circuits, holographic neon cape). Spider-Verse meets Tron.
 - **No real human faces anywhere** — only the mascot or vector illustrations.

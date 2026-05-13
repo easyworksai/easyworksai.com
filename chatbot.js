@@ -54,8 +54,8 @@
       response: "We specialize in **physio clinics, dental offices, and nail salons / spas** — but we work with 34+ industries:\n\n🦴 Physio / chiropractic\n🦷 Dental & medical\n💅 Nail salons / spas\n🔧 Contractors & trades\n🏠 Real estate\n⚖️ Law firms\n🚗 Auto services\n💪 Fitness / wellness\n🧹 Cleaning services\n📝 Notaries / paralegals\n\nEach setup is customized to your industry — different scripts, workflows, follow-up sequences. What type of business do you run?"
     },
     onsite: {
-      keywords: ['onsite', 'on-site', 'in person', 'come to', 'install', 'location', 'where', 'surrey', 'canada', 'bc', 'local'],
-      response: "We're **Canadian-owned, based in Surrey, BC** — and we install on-site. We come to your shop, sit with you, train your team in person.\n\nLower Mainland gets in-person, no extra charge. We travel for the right project anywhere in Canada. Other AI companies email you a portal. We show up.\n\nWant to book your on-site walkthrough?"
+      keywords: ['onsite', 'on-site', 'in person', 'come to', 'install', 'location', 'where', 'surrey', 'canada', 'bc', 'local', 'whistler', 'vancouver', 'chilliwack', 'abbotsford', 'langley', 'global', 'partnership', 'reseller', 'agency'],
+      response: "**Built in BC, serving worldwide.**\n\n🚙 **On-site install** — Whistler → Chilliwack and every city between. We come to you, install on-site, train your team. No travel charge in the corridor.\n\n🌐 **Global remote** — outside BC? We install + manage remotely with the same standard. On-call support, same response time.\n\n🤝 **Partnerships welcome** — resellers, agencies, white-label arrangements. Email team@easyworksai.com with 'Partnership inquiry'.\n\nWant to book your on-site walkthrough?"
     },
     ai: {
       keywords: ['ai', 'artificial intelligence', 'robot', 'bot', 'automated', 'real person', 'human', 'live agent'],
