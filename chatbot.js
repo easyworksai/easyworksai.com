@@ -93,9 +93,9 @@
 
   function injectStyles() {
     const css = `
-      .ew-chat-widget { --ew-accent: #3b82f6; --ew-cyan: #22d3ee; --ew-bg: #0a0e1a; --ew-surface: #151b2e; --ew-surface2: #1a2138; --ew-border: rgba(255,255,255,0.08); --ew-text: #e8eaf0; --ew-dim: #8b92a8; --ew-font: 'Space Grotesk', -apple-system, sans-serif; --ew-font-body: 'Inter', -apple-system, sans-serif; }
-      .ew-chat-fab { position: fixed; bottom: 24px; right: 24px; z-index: 9999; width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, var(--ew-accent), var(--ew-cyan)); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 24px rgba(59,130,246,0.4), 0 0 0 0 rgba(59,130,246,0.3); transition: all 0.3s cubic-bezier(0.16,1,0.3,1); }
-      .ew-chat-fab:hover { transform: scale(1.08); box-shadow: 0 6px 32px rgba(59,130,246,0.5); }
+      .ew-chat-widget { --ew-accent: #a855f7; --ew-cyan: #22d3ee; --ew-magenta: #ff2bd1; --ew-bg: #05030d; --ew-surface: #120826; --ew-surface2: #1a1330; --ew-border: rgba(168,85,247,0.18); --ew-text: #f5f3ff; --ew-dim: #c4b5fd; --ew-font: 'Space Grotesk', -apple-system, sans-serif; --ew-font-body: 'Inter', -apple-system, sans-serif; }
+      .ew-chat-fab { position: fixed; bottom: 86px; right: 22px; z-index: 998; width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg, #00f5ff 0%, #a855f7 50%, #ff2bd1 100%); border: 1px solid rgba(255,255,255,0.12); cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 28px rgba(168,85,247,0.55), 0 0 24px rgba(255,43,209,0.35), 0 0 0 0 rgba(168,85,247,0.4); transition: all 0.3s cubic-bezier(0.16,1,0.3,1); }
+      .ew-chat-fab:hover { transform: scale(1.08); box-shadow: 0 6px 32px rgba(168,85,247,0.6); }
       .ew-chat-fab.open { transform: scale(0.9) rotate(90deg); opacity: 0; pointer-events: none; }
       .ew-chat-fab svg { width: 28px; height: 28px; fill: #0a0e1a; }
       .ew-chat-fab .ew-fab-pulse { position: absolute; inset: -4px; border-radius: 50%; border: 2px solid var(--ew-accent); animation: ew-pulse 2s ease-out infinite; }
@@ -138,11 +138,11 @@
 
       .ew-quick-replies { display: flex; flex-wrap: wrap; gap: 8px; padding: 4px 0; animation: ew-msg-in 0.3s cubic-bezier(0.16,1,0.3,1); }
       .ew-quick-btn { background: var(--ew-surface); border: 1px solid var(--ew-border); color: var(--ew-text); font-family: var(--ew-font-body); font-size: 0.78rem; padding: 8px 14px; border-radius: 20px; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
-      .ew-quick-btn:hover { border-color: var(--ew-accent); color: var(--ew-accent); background: rgba(59,130,246,0.06); }
+      .ew-quick-btn:hover { border-color: var(--ew-accent); color: var(--ew-accent); background: rgba(168,85,247,0.08); }
 
       .ew-chat-footer { padding: 14px 16px; border-top: 1px solid var(--ew-border); background: var(--ew-surface); flex-shrink: 0; }
       .ew-chat-input-wrap { display: flex; align-items: center; gap: 8px; background: var(--ew-bg); border: 1px solid var(--ew-border); border-radius: 12px; padding: 4px 4px 4px 14px; transition: border-color 0.2s; }
-      .ew-chat-input-wrap:focus-within { border-color: rgba(59,130,246,0.4); }
+      .ew-chat-input-wrap:focus-within { border-color: rgba(168,85,247,0.5); }
       .ew-chat-input { flex: 1; background: none; border: none; outline: none; color: var(--ew-text); font-family: var(--ew-font-body); font-size: 0.85rem; padding: 8px 0; resize: none; }
       .ew-chat-input::placeholder { color: var(--ew-dim); }
       .ew-chat-send { width: 34px; height: 34px; border-radius: 8px; background: var(--ew-accent); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0; }
