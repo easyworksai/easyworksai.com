@@ -299,3 +299,30 @@
     if (e.persisted) loader.classList.remove('active');
   });
 })();
+
+/* ─────── Sticky scroll-CTA: appears after hero, hides at form ─────── */
+(function stickyCTA() {
+  const cta = document.getElementById('sticky-cta');
+  if (!cta) return;
+  const hero = document.querySelector('.hero-v2');
+  const form = document.getElementById('start');
+  if (!hero) return;
+
+  let ticking = false;
+  function update() {
+    const heroBottom = hero.offsetTop + hero.offsetHeight;
+    const formTop = form ? form.offsetTop : Infinity;
+    const y = window.scrollY + window.innerHeight * 0.5;
+    const past = y > heroBottom;
+    const nearForm = y > formTop - 100;
+    cta.classList.toggle('visible', past && !nearForm);
+    ticking = false;
+  }
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(update);
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  update();
+})();
