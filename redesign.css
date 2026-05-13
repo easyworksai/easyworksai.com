@@ -3564,3 +3564,32 @@ section .onsite-band {
   .sb-ribbon { right: -14px; width: 130px; }
 }
 
+
+/* ════════════════════════════════════════════════════════════════════
+   PROCESS TIMELINE V3 — icons + time-estimate badges
+   ════════════════════════════════════════════════════════════════════ */
+
+.tl-card { position: relative; padding: 24px 20px; }
+.tl-icon {
+  font-size: 2.2rem;
+  line-height: 1;
+  margin-bottom: 10px;
+  filter: drop-shadow(0 0 16px rgba(168,85,247,0.4));
+  display: inline-block;
+  transition: transform 0.4s var(--ease);
+}
+.tl-card:hover .tl-icon { transform: scale(1.15) rotate(-5deg); }
+.tl-time {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 4px 10px;
+  background: rgba(34,211,238,0.1);
+  border: 1px solid rgba(34,211,238,0.25);
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--electric-cyan);
+}
+
