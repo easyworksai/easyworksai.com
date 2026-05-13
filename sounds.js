@@ -30,7 +30,7 @@
   // Master volume ceilings (linear gain)
   const VOL = {
     master: 0.55,
-    ambient: 0.08,   // very soft — sparse + airy
+    ambient: 0.45,   // plucks-only — need higher bus gain so individual events come through
     hover: 0.08,
     select: 0.16,
     slider: 0.06,
@@ -62,93 +62,40 @@
     return ctx;
   }
 
-  // ─── Ambient v3: "Music for Airports" approach ───
-  // No sustained tones. Silence is the canvas. Two ingredients only:
-  //   1. Ultra-soft filtered pink noise (texture, no pitch) — sounds like
-  //      the hum of a quiet room or distant cosmic radiation
-  //   2. Sparse pentatonic plucks every 9-22 seconds that emerge from
-  //      silence, ring out for 3-4 seconds, and decay back into silence
-  // No drone, no chord stack, no continuous filter sweep.
+  // ─── Ambient v4: TRUE silence + occasional gentle plucks only ───
+  // No continuous sound of any kind. No noise bed. No drone. Just silence
+  // punctuated by a soft pentatonic pluck every 18-45 seconds.
   function startAmbient() {
     if (!ctx || ambientNodes) return;
 
     const now = ctx.currentTime;
-
-    // 1. Pink-ish noise texture — ~30 sec buffer, looped
-    const noiseSec = 30;
-    const noiseBuf = ctx.createBuffer(1, ctx.sampleRate * noiseSec, ctx.sampleRate);
-    const data = noiseBuf.getChannelData(0);
-    // Simple pink-noise approximation (Paul Kellet method, simplified)
-    let b0 = 0, b1 = 0, b2 = 0;
-    for (let i = 0; i < data.length; i++) {
-      const white = Math.random() * 2 - 1;
-      b0 = 0.99765 * b0 + white * 0.0990460;
-      b1 = 0.96300 * b1 + white * 0.2965164;
-      b2 = 0.57000 * b2 + white * 1.0526913;
-      data[i] = (b0 + b1 + b2 + white * 0.1848) * 0.3;
-    }
-
-    const noiseSrc = ctx.createBufferSource();
-    noiseSrc.buffer = noiseBuf;
-    noiseSrc.loop = true;
-
-    // Heavy lowpass — makes noise feel distant, "shh" not "tss"
-    const noiseFilter = ctx.createBiquadFilter();
-    noiseFilter.type = 'lowpass';
-    noiseFilter.frequency.value = 900;
-    noiseFilter.Q.value = 0.5;
-
-    // Very slow gain wander so the texture isn't perfectly static
-    const noiseGain = ctx.createGain();
-    noiseGain.gain.value = 0.6;
-    const noiseLfo = ctx.createOscillator();
-    noiseLfo.type = 'sine';
-    noiseLfo.frequency.value = 0.05; // 20s cycle
-    const noiseLfoDepth = ctx.createGain();
-    noiseLfoDepth.gain.value = 0.25;
-    noiseLfo.connect(noiseLfoDepth).connect(noiseGain.gain);
-    noiseLfo.start();
-
-    noiseSrc.connect(noiseFilter).connect(noiseGain).connect(ambientGain);
-    noiseSrc.start();
-
-    // Fade in the noise bed
+    // Open ambient gain to full (volume controlled at pluck level instead)
     ambientGain.gain.cancelScheduledValues(now);
-    ambientGain.gain.setValueAtTime(0, now);
-    ambientGain.gain.linearRampToValueAtTime(VOL.ambient, now + 5.0);
+    ambientGain.gain.setValueAtTime(VOL.ambient, now);
 
-    // 2. Schedule sparse plucks — pentatonic scale, no melody
-    // Pentatonic C major: C D E G A (no semitones = always consonant)
     const pluckNotes = [
-      523.25, 587.33, 659.25, 783.99, 880.00,   // C5 D5 E5 G5 A5
-      1046.50, 1174.66, 1318.51, 1567.98, 1760.00, // C6 D6 E6 G6 A6
+      523.25, 587.33, 659.25, 783.99, 880.00,        // C5 D5 E5 G5 A5
+      1046.50, 1174.66, 1318.51, 1567.98, 1760.00,   // C6 D6 E6 G6 A6
     ];
     let pluckTimer = null;
     function schedulePluck() {
-      const wait = 9000 + Math.random() * 13000; // 9–22 seconds
+      // Long silences between events — 18 to 45 seconds
+      const wait = 18000 + Math.random() * 27000;
       pluckTimer = setTimeout(() => {
         if (!ambientNodes) return;
-        // 10% chance to drop a pair of harmonized plucks (octave or fifth) instead of one
-        if (Math.random() < 0.10) {
-          const idx = Math.floor(Math.random() * pluckNotes.length);
-          playPluck(pluckNotes[idx]);
-          // Second pluck slightly delayed
-          setTimeout(() => ambientNodes && playPluck(pluckNotes[Math.min(pluckNotes.length - 1, idx + 3)]), 200);
-        } else {
-          playPluck(pluckNotes[Math.floor(Math.random() * pluckNotes.length)]);
-        }
+        playPluck(pluckNotes[Math.floor(Math.random() * pluckNotes.length)]);
         schedulePluck();
       }, wait);
     }
-    // First pluck after 4-9 seconds (small initial event so user knows ambient is on)
+    // First pluck arrives after 6-12 seconds (gentle introduction)
     pluckTimer = setTimeout(() => {
       if (ambientNodes) {
-        playPluck(pluckNotes[Math.floor(Math.random() * 5)]); // lower register first pluck
+        playPluck(pluckNotes[Math.floor(Math.random() * 5)]);
         schedulePluck();
       }
-    }, 4000 + Math.random() * 5000);
+    }, 6000 + Math.random() * 6000);
 
-    ambientNodes = { noiseSrc, noiseLfo, noiseFilter, pluckTimer };
+    ambientNodes = { pluckTimer };
   }
 
   // Soft pluck — fast attack, slow decay into silence. Sine + tiny harmonic.
@@ -181,7 +128,7 @@
     o2.stop(now + 1.9);
   }
 
-  function stopAmbient(fadeMs = 800) {
+  function stopAmbient(fadeMs = 600) {
     if (!ctx || !ambientNodes) return;
     const now = ctx.currentTime;
     ambientGain.gain.cancelScheduledValues(now);
@@ -190,12 +137,6 @@
     const nodes = ambientNodes;
     ambientNodes = null;
     if (nodes.pluckTimer) clearTimeout(nodes.pluckTimer);
-    setTimeout(() => {
-      try {
-        if (nodes.noiseSrc) nodes.noiseSrc.stop();
-        if (nodes.noiseLfo) nodes.noiseLfo.stop();
-      } catch {}
-    }, fadeMs + 100);
   }
 
   // ─── Earcons: short generative pitched events ───
@@ -386,21 +327,21 @@
   }
 
   // ─── Toggle button UI ───
-  // Inline SVG icons with animated waves — cleaner than emoji
+  // Clean inline SVGs — single clear icon per state, no animated paths
   const ICONS = {
-    ambient: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor"/>
-        <path class="wave wave-1" d="M15.5 8.5a5 5 0 0 1 0 7" opacity="0.85"/>
+    ambient: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor" stroke="none"/>
+        <path d="M15.5 8.5a5 5 0 0 1 0 7"/>
       </svg>`,
-    full: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor"/>
-        <path class="wave wave-1" d="M15.5 8.5a5 5 0 0 1 0 7"/>
-        <path class="wave wave-2" d="M19 5a10 10 0 0 1 0 14" opacity="0.75"/>
+    full: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor" stroke="none"/>
+        <path d="M15.5 8.5a5 5 0 0 1 0 7"/>
+        <path d="M19 5a10 10 0 0 1 0 14"/>
       </svg>`,
-    muted: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor"/>
-        <line x1="22" y1="9" x2="16" y2="15"/>
-        <line x1="16" y1="9" x2="22" y2="15"/>
+    muted: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor" stroke="none"/>
+        <line x1="23" y1="9" x2="17" y2="15"/>
+        <line x1="17" y1="9" x2="23" y2="15"/>
       </svg>`,
   };
 
