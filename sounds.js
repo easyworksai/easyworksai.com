@@ -366,17 +366,34 @@
   }
 
   // ─── Toggle button UI ───
+  // Inline SVG icons with animated waves — cleaner than emoji
+  const ICONS = {
+    ambient: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor"/>
+        <path class="wave wave-1" d="M15.5 8.5a5 5 0 0 1 0 7" opacity="0.85"/>
+      </svg>`,
+    full: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor"/>
+        <path class="wave wave-1" d="M15.5 8.5a5 5 0 0 1 0 7"/>
+        <path class="wave wave-2" d="M19 5a10 10 0 0 1 0 14" opacity="0.75"/>
+      </svg>`,
+    muted: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor"/>
+        <line x1="22" y1="9" x2="16" y2="15"/>
+        <line x1="16" y1="9" x2="22" y2="15"/>
+      </svg>`,
+  };
+
   function updateToggle() {
     const btn = document.getElementById('sound-toggle');
     if (!btn) return;
     btn.dataset.mode = mode;
-    const labels = { ambient: '🔉', full: '🔊', muted: '🔇' };
     const titles = {
-      ambient: 'Cosmic ambient on (click for full sound)',
-      full: 'Full sound on (click to mute)',
-      muted: 'Sound off (click for ambient)',
+      ambient: 'Cosmic ambient on · click for full sound',
+      full: 'Full sound on · click to mute',
+      muted: 'Sound off · click for ambient',
     };
-    btn.textContent = labels[mode];
+    btn.innerHTML = ICONS[mode];
     btn.setAttribute('aria-label', titles[mode]);
     btn.setAttribute('title', titles[mode]);
   }
