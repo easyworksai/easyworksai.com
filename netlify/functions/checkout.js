@@ -8,12 +8,13 @@
 const Stripe = require('stripe');
 
 const ENGINES = {
-  content: { name: 'Content Engine',          setup: 127900, mo: 99700 },  // cents
-  seo:     { name: 'SEO Engine',              setup: 127900, mo: 99700 },
-  ai:      { name: 'AI Suite',                setup:  99700, mo: 49700 },
-  voice:   { name: 'Voice → Report Pipeline', setup:  99700, mo: 49700 },
+  ai:              { name: 'AI Suite',                setup:  99700, mo: 49700 },  // cents
+  content:         { name: 'Content Engine',          setup: 129700, mo: 99700 },
+  seo:             { name: 'SEO Engine',              setup:  99700, mo: 99700 },
+  'revenue-scale': { name: 'AI Revenue Scale',        setup:  99700, mo: 49700 },  // Starter tier; client ad spend ≤ $2k/mo
+  voice:           { name: 'Voice → Report Pipeline', setup:  99700, mo: 49700 },
 };
-const TIER_DISCOUNTS = { 1: 0, 2: 10, 3: 15, 4: 20 };
+const TIER_DISCOUNTS = { 1: 0, 2: 10, 3: 15, 4: 18, 5: 20 };
 
 const cors = {
   'Access-Control-Allow-Origin': '*',

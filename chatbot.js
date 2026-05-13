@@ -15,43 +15,63 @@
   const KNOWLEDGE = {
     pricing: {
       keywords: ['price', 'pricing', 'cost', 'how much', 'afford', 'pay', 'money', 'dollar', 'budget', 'expensive', 'cheap', 'fee', 'subscription', 'monthly'],
-      response: "Our Ignition Core package is **$297/mo** with a one-time **$497 setup fee**. That includes:\n\n• 24/7 AI call answering\n• Instant lead follow-up\n• Automated review collection\n• CRM + pipeline dashboard\n• Online booking + reminders\n• Unified inbox\n• Fully managed service\n\nMonth-to-month — no contracts, cancel anytime. Want me to connect you with our team to get started?"
+      response: "We have **5 engines** — pick what you need, stack 2+ to save up to 20%:\n\n• **AI Suite** — $997 setup + **$497/mo** (foundation — everyone starts here)\n• **Content Engine** — $1,297 setup + **$997/mo**\n• **SEO Engine** — $997 setup + **$997/mo**\n• **AI Revenue Scale** — $997 setup + **from $497/mo** (tiered by ad spend)\n• **Voice → Report** — $997 setup + **$497/mo**\n\nMost-popular bundle is **Full Stack** (AI Suite + Content + SEO + Revenue Scale) at **$3,517 setup + $2,450/mo** — 15% off standalone. Month-to-month, no lock-in. Want me to send you to the stack builder?"
     },
-    features: {
-      keywords: ['feature', 'what do you', 'what does', 'include', 'get', 'offer', 'service', 'what is', 'how does it work', 'do for me'],
-      response: "We handle everything that turns missed opportunities into booked jobs:\n\n📞 **AI Receptionist** — Answers every call 24/7, qualifies leads, books appointments\n⚡ **Instant Follow-Up** — Text + email in seconds when a new lead comes in\n⭐ **Review Engine** — Automatically asks happy clients for Google reviews\n📅 **Smart Booking** — Clients book themselves, auto-reminders cut no-shows\n📱 **One Inbox** — SMS, email, socials — all in one place\n📊 **Pipeline** — See every deal and what's closing this week\n\nWhat industry are you in? I can tell you how this applies to your business specifically."
+    aiSuite: {
+      keywords: ['ai suite', 'crm', 'receptionist', 'answer call', 'follow up', 'booking', 'inbox'],
+      response: "**AI Suite — $997 setup + $497/mo** — the foundation everyone starts with:\n\n• 24/7 AI receptionist (answers + qualifies + books)\n• Instant SMS + email follow-up (under 60 sec)\n• Online booking + auto-reminders\n• Full CRM + mobile app\n• Replace · Integrate · Shadow modes (your choice)\n\nThree deployment modes: replace your CRM entirely, bolt our AI onto your existing one, or run alongside in shadow. Want to book a discovery call?"
+    },
+    contentEngine: {
+      keywords: ['content', 'social', 'post', 'instagram', 'tiktok', 'reels', 'video', 'branding', 'social media'],
+      response: "**Content Engine — $1,297 setup + $997/mo**:\n\n• Daily AI-generated posts (IG, FB, TikTok)\n• Photo + video generation (Higgsfield-powered)\n• Brand voice + visual identity training\n• Auto-posting + scheduling\n• Engagement monitoring + reply suggestions\n\nYour brand presence on autopilot. Pairs with AI Revenue Scale to feed paid ads fresh creative weekly."
+    },
+    seoEngine: {
+      keywords: ['seo', 'google', 'search', 'ranking', 'gbp', 'business profile', 'local search', 'maps'],
+      response: "**SEO Engine — $997 setup + $997/mo**:\n\n• Full SEO audit + technical fixes\n• Google Business Profile claim + optimization\n• Local citations build\n• 2 monthly SEO articles\n• Review request automation\n\nGet found on Google when it matters. Inbound traffic flywheel — pairs great with AI Suite to capture every search-driven lead."
+    },
+    revenueScale: {
+      keywords: ['ad', 'ads', 'paid ads', 'paid', 'meta', 'facebook ads', 'google ads', 'scale', 'revenue scale', 'roi', 'roas', 'ad spend'],
+      response: "**AI Revenue Scale — $997 setup + from $497/mo** (tiered by ad spend):\n\n• Meta + Google ads managed end-to-end\n• Auto budget reallocation every 4 hours by ROI\n• Creative rotation + A/B testing\n• Live cross-channel attribution + plain-English reports\n• You pay ad spend directly to platforms — clean books\n\nTiers: Starter ($497/mo mgmt, up to $2k ad spend) · Growth ($997/mo, $2-5k) · Scale ($1,497/mo, $5-10k).\n\n⚠️ Warning: possibility of too many customers. Requires AI Suite + 1 demand engine. Want the calculator?"
+    },
+    voiceReport: {
+      keywords: ['voice', 'dictation', 'transcription', 'notary', 'paralegal', 'report', 'document', 'whisper', 'transcribe'],
+      response: "**Voice → Report — $997 setup + $497/mo**:\n\n• Custom client submission app\n• 24/7 automated transcription\n• Higher quality than DIY tools\n• Templates for medical, legal, real estate, insurance, court\n• Unlimited submissions, flat rate\n\nDictation in, finished report out. Built for notaries, paralegals, real estate agents, insurance adjusters, doctors, dentists, therapists, court reporters."
+    },
+    bundles: {
+      keywords: ['bundle', 'stack', 'package', 'discount', 'save', 'all', 'everything', 'combo', 'all in one'],
+      response: "Pre-built bundles save 10-20%:\n\n• **Starter** — AI Suite only — $997 + $497/mo · \"Never miss a call\"\n• **Local Growth** — AI Suite + SEO — $1,795 + $1,345/mo · \"Get found, get booked\"\n• **Brand Builder** — AI Suite + Content — $2,065 + $1,345/mo · \"Make noise, capture leads\"\n• **Full Stack** — AI Suite + Content + SEO + Revenue Scale — **$3,517 + $2,450/mo** (most popular, 15% off)\n\nStack 5 engines and save 20%. Want me to walk you through the stack builder?"
     },
     timeline: {
       keywords: ['how long', 'how fast', 'when', 'timeline', 'start', 'setup', 'get going', 'ready', 'launch'],
-      response: "We move fast:\n\n1. **Discovery call** — 15 minutes to learn your business\n2. **Build** — Same day, we configure everything for you\n3. **Go live** — 2-3 business days total\n\nYou don't need any technical skills. We handle 100% of the setup and ongoing management. Want to book that discovery call?"
+      response: "We move fast:\n\n1. **Discovery call** — 15 min to learn your business (on-site if you're local to Surrey, BC)\n2. **Build** — Same day, we configure everything\n3. **Go live** — 2-3 business days total\n\nZero technical skills needed. We handle 100% of setup and ongoing management. Want to book that discovery call?"
     },
     contract: {
       keywords: ['contract', 'lock in', 'cancel', 'commit', 'long term', 'agreement', 'month to month', 'quit', 'leave'],
-      response: "No contracts. Month-to-month only. You can cancel anytime — we earn your business through results, not paperwork.\n\nMost clients stay because the ROI is obvious within the first week, but you're never locked in."
+      response: "No contracts. Month-to-month only. **30-day satisfaction guarantee** — not happy in the first 30 days, we make it right or refund you.\n\nMost clients stay because the ROI is obvious within the first week, but you're never locked in."
     },
     industries: {
-      keywords: ['industry', 'business type', 'contractor', 'plumber', 'hvac', 'lawyer', 'dentist', 'salon', 'restaurant', 'real estate', 'auto', 'cleaning', 'fitness', 'landscap'],
-      response: "We work with 34+ industries including:\n\n🔧 Contractors & trades\n🏠 Real estate\n⚖️ Law firms\n🦷 Dental & medical\n💇 Salons & spas\n🚗 Auto services\n🍽️ Restaurants\n💪 Fitness & wellness\n🧹 Cleaning services\n\nEach setup is customized to your specific industry — different scripts, workflows, and follow-up sequences. What type of business do you run?"
+      keywords: ['industry', 'business type', 'contractor', 'plumber', 'hvac', 'lawyer', 'dentist', 'physio', 'physical therapy', 'nail', 'spa', 'salon', 'restaurant', 'real estate', 'auto', 'cleaning', 'fitness', 'landscap'],
+      response: "We specialize in **physio clinics, dental offices, and nail salons / spas** — but we work with 34+ industries:\n\n🦴 Physio / chiropractic\n🦷 Dental & medical\n💅 Nail salons / spas\n🔧 Contractors & trades\n🏠 Real estate\n⚖️ Law firms\n🚗 Auto services\n💪 Fitness / wellness\n🧹 Cleaning services\n📝 Notaries / paralegals\n\nEach setup is customized to your industry — different scripts, workflows, follow-up sequences. What type of business do you run?"
+    },
+    onsite: {
+      keywords: ['onsite', 'on-site', 'in person', 'come to', 'install', 'location', 'where', 'surrey', 'canada', 'bc', 'local'],
+      response: "We're **Canadian-owned, based in Surrey, BC** — and we install on-site. We come to your shop, sit with you, train your team in person.\n\nLower Mainland gets in-person, no extra charge. We travel for the right project anywhere in Canada. Other AI companies email you a portal. We show up.\n\nWant to book your on-site walkthrough?"
     },
     ai: {
       keywords: ['ai', 'artificial intelligence', 'robot', 'bot', 'automated', 'real person', 'human', 'live agent'],
-      response: "Great question. Our AI receptionist handles calls with natural conversation — it qualifies leads, answers FAQs about your business, and books appointments. Callers typically can't tell it's AI.\n\nBut there's always a human layer: urgent calls get routed to you, and our team manages and optimizes everything behind the scenes. It's not \"set and forget\" — it's a fully managed system.\n\nWant to hear a sample call?"
+      response: "Our AI receptionist handles calls with natural conversation — qualifies leads, answers FAQs, books appointments. Callers typically can't tell it's AI.\n\nBut there's always a human layer: urgent calls route to you, our team manages + optimizes everything behind the scenes. It's not \"set and forget\" — it's a fully managed system.\n\nWant a sample call?"
     },
     results: {
       keywords: ['results', 'roi', 'return', 'work', 'proof', 'case study', 'testimonial', 'guarantee'],
-      response: "Here's what our clients typically see:\n\n• **3x more leads** captured (no more missed calls)\n• **<60 second** response time to new inquiries\n• **40% more bookings** from better follow-up\n• **5x more reviews** within 30 days\n\nOne plumbing company booked 14 new jobs in their first month. A dental clinic went from 3 Google reviews to 47 in 30 days.\n\nWant to see how this would work for your specific business?"
+      response: "What our clients typically see:\n\n• **3x more leads** captured (no missed calls)\n• **<60 sec** response time to new inquiries\n• **40% more bookings** from better follow-up\n• **5x more reviews** within 30 days\n• **2.4× ROAS lift** on Revenue Scale clients within 90 days\n\nOne dental clinic went from 3 Google reviews to 47 in 30 days. **30-day satisfaction guarantee** on every engine.\n\nWant to see how this would work for your specific business?"
     },
     getStarted: {
       keywords: ['get started', 'sign up', 'begin', 'interested', 'ready', 'lets go', 'let\'s go', 'book', 'call', 'schedule', 'talk to someone', 'speak'],
       response: "Let's do it! I just need a few quick details to get you connected with our team:\n\nWhat's your **name** and **business name**?"
     },
-    addons: {
-      keywords: ['addon', 'add-on', 'extra', 'more', 'upgrade', 'scale', 'marketing', 'social', 'reputation', 'website'],
-      response: "We have add-ons you can stack on when ready:\n\n• **Reputation Engine** ($97/mo) — Review campaigns + monitoring\n• **Marketing Engine** ($197/mo) — Email/SMS campaigns + drip sequences\n• **Website & Intake** ($97/mo) — Site + AI chat + lead forms\n• **Social Presence** ($147/mo) — Auto posting + engagement\n• **Payments** ($47/mo) — Invoicing + payment links\n\nAll include setup + ongoing management. Most clients start with Ignition Core and add on after seeing results. Want to start with the core package?"
-    },
     competitor: {
-      keywords: ['competitor', 'compare', 'vs', 'versus', 'alternative', 'difference', 'better', 'other', 'already have'],
-      response: "Most of our clients were paying for 3-5 separate tools (CRM, call service, review tool, scheduling software) and still dropping leads because nothing was connected.\n\nThe difference with Easyworks:\n• **All-in-one** — everything talks to everything\n• **Fully managed** — we run it, not you\n• **AI-powered** — instant response, 24/7\n• **No lock-in** — prove ROI or leave\n\nIt's the difference between buying a race car and having a pit crew. Want us to show you what we'd replace in your current stack?"
+      keywords: ['competitor', 'compare', 'vs', 'versus', 'alternative', 'difference', 'better', 'other', 'already have', 'diy', 'agency'],
+      response: "Three doors most businesses face:\n\n1. **DIY** — \"I'll learn it myself.\" Real cost: your time + 7 disconnected tools.\n2. **Big agency** — $5-15k/mo, reports not results, 12-month contracts, you're client #847.\n3. **Easyworks** — from $497/mo, we come to you, install on-site, month-to-month, 30-day refund.\n\nIt's the difference between buying a race car and having a pit crew. Want us to walk you through what we'd replace in your current stack?"
     }
   };
 
@@ -73,9 +93,9 @@
 
   function injectStyles() {
     const css = `
-      .ew-chat-widget { --ew-accent: #3b82f6; --ew-cyan: #22d3ee; --ew-bg: #0a0e1a; --ew-surface: #151b2e; --ew-surface2: #1a2138; --ew-border: rgba(255,255,255,0.08); --ew-text: #e8eaf0; --ew-dim: #8b92a8; --ew-font: 'Space Grotesk', -apple-system, sans-serif; --ew-font-body: 'Inter', -apple-system, sans-serif; }
-      .ew-chat-fab { position: fixed; bottom: 24px; right: 24px; z-index: 9999; width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, var(--ew-accent), var(--ew-cyan)); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 24px rgba(59,130,246,0.4), 0 0 0 0 rgba(59,130,246,0.3); transition: all 0.3s cubic-bezier(0.16,1,0.3,1); }
-      .ew-chat-fab:hover { transform: scale(1.08); box-shadow: 0 6px 32px rgba(59,130,246,0.5); }
+      .ew-chat-widget { --ew-accent: #a855f7; --ew-cyan: #22d3ee; --ew-magenta: #ff2bd1; --ew-bg: #05030d; --ew-surface: #120826; --ew-surface2: #1a1330; --ew-border: rgba(168,85,247,0.18); --ew-text: #f5f3ff; --ew-dim: #c4b5fd; --ew-font: 'Space Grotesk', -apple-system, sans-serif; --ew-font-body: 'Inter', -apple-system, sans-serif; }
+      .ew-chat-fab { position: fixed; bottom: 86px; right: 22px; z-index: 998; width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg, #00f5ff 0%, #a855f7 50%, #ff2bd1 100%); border: 1px solid rgba(255,255,255,0.12); cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 28px rgba(168,85,247,0.55), 0 0 24px rgba(255,43,209,0.35), 0 0 0 0 rgba(168,85,247,0.4); transition: all 0.3s cubic-bezier(0.16,1,0.3,1); }
+      .ew-chat-fab:hover { transform: scale(1.08); box-shadow: 0 6px 32px rgba(168,85,247,0.6); }
       .ew-chat-fab.open { transform: scale(0.9) rotate(90deg); opacity: 0; pointer-events: none; }
       .ew-chat-fab svg { width: 28px; height: 28px; fill: #0a0e1a; }
       .ew-chat-fab .ew-fab-pulse { position: absolute; inset: -4px; border-radius: 50%; border: 2px solid var(--ew-accent); animation: ew-pulse 2s ease-out infinite; }
@@ -118,11 +138,11 @@
 
       .ew-quick-replies { display: flex; flex-wrap: wrap; gap: 8px; padding: 4px 0; animation: ew-msg-in 0.3s cubic-bezier(0.16,1,0.3,1); }
       .ew-quick-btn { background: var(--ew-surface); border: 1px solid var(--ew-border); color: var(--ew-text); font-family: var(--ew-font-body); font-size: 0.78rem; padding: 8px 14px; border-radius: 20px; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
-      .ew-quick-btn:hover { border-color: var(--ew-accent); color: var(--ew-accent); background: rgba(59,130,246,0.06); }
+      .ew-quick-btn:hover { border-color: var(--ew-accent); color: var(--ew-accent); background: rgba(168,85,247,0.08); }
 
       .ew-chat-footer { padding: 14px 16px; border-top: 1px solid var(--ew-border); background: var(--ew-surface); flex-shrink: 0; }
       .ew-chat-input-wrap { display: flex; align-items: center; gap: 8px; background: var(--ew-bg); border: 1px solid var(--ew-border); border-radius: 12px; padding: 4px 4px 4px 14px; transition: border-color 0.2s; }
-      .ew-chat-input-wrap:focus-within { border-color: rgba(59,130,246,0.4); }
+      .ew-chat-input-wrap:focus-within { border-color: rgba(168,85,247,0.5); }
       .ew-chat-input { flex: 1; background: none; border: none; outline: none; color: var(--ew-text); font-family: var(--ew-font-body); font-size: 0.85rem; padding: 8px 0; resize: none; }
       .ew-chat-input::placeholder { color: var(--ew-dim); }
       .ew-chat-send { width: 34px; height: 34px; border-radius: 8px; background: var(--ew-accent); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0; }

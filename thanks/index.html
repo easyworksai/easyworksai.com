@@ -1,59 +1,216 @@
-<!DOCTYPE html><html lang="en"><head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>You're in — Easyworks AI</title>
-<meta name="theme-color" content="#0e0a1a">
+<meta name="theme-color" content="#05030d">
+<meta name="robots" content="noindex">
 <link rel="icon" type="image/png" href="../favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../style.min.css?v=73d7341d">
+<link rel="stylesheet" href="../redesign.css?v=1">
 <style>
-.thanks-wrap {
-  min-height: 100vh; min-height: 100dvh;
-  display: flex; align-items: center; justify-content: center;
-  padding: 80px 24px; text-align: center;
-  background: radial-gradient(circle at 50% 0%, rgba(168,85,247,0.18), transparent 60%);
-}
-.thanks-card {
-  max-width: 560px;
-}
-.thanks-mark {
-  width: 96px; height: 96px;
-  border-radius: 22px;
-  margin: 0 auto 32px;
-  display: flex; align-items: center; justify-content: center;
-  background: linear-gradient(135deg, #7c3aed, #e879f9);
-  box-shadow: 0 20px 80px rgba(168,85,247,0.5);
-  filter: drop-shadow(0 0 32px rgba(232,121,249,0.5));
-}
-.thanks-card h1 {
-  font-family: var(--font); font-weight: 700;
-  font-size: clamp(2.4rem, 5vw, 3.4rem); line-height: 1.05;
-  letter-spacing: -0.03em; color: var(--text); margin-bottom: 16px;
-}
-.thanks-card .accent {
-  background: linear-gradient(135deg, #c084fc, #e879f9);
-  -webkit-background-clip: text; background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-.thanks-card p {
-  color: var(--dim); font-size: 1.05rem; line-height: 1.65;
-  margin-bottom: 32px;
-}
-.thanks-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .thanks-wrap {
+    min-height: 100vh; min-height: 100dvh;
+    display: flex; align-items: center; justify-content: center;
+    padding: 80px 24px;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+  }
+  .thanks-card { max-width: 600px; position: relative; z-index: 2; }
+  .thanks-mascot {
+    position: relative;
+    width: 320px;
+    height: 320px;
+    margin: 0 auto 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .thanks-mascot-glow {
+    position: absolute;
+    inset: -25%;
+    background:
+      radial-gradient(ellipse 45% 55% at center, rgba(255,43,209,0.4) 0%, transparent 70%),
+      radial-gradient(ellipse 65% 70% at center, rgba(168,85,247,0.4) 0%, transparent 70%),
+      radial-gradient(ellipse 80% 85% at center, rgba(0,245,255,0.2) 0%, transparent 75%);
+    filter: blur(70px);
+    z-index: 0;
+    animation: pulse-glow 4s ease-in-out infinite;
+    mix-blend-mode: screen;
+  }
+  .thanks-mascot-img {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: auto;
+    mix-blend-mode: screen;
+    -webkit-mask-image: radial-gradient(ellipse 75% 85% at center 50%, #000 0%, rgba(0,0,0,0.85) 70%, transparent 100%);
+            mask-image: radial-gradient(ellipse 75% 85% at center 50%, #000 0%, rgba(0,0,0,0.85) 70%, transparent 100%);
+    -webkit-mask-mode: alpha;
+            mask-mode: alpha;
+    filter:
+      contrast(1.18) brightness(1.05) saturate(1.18)
+      drop-shadow(0 0 36px rgba(255,43,209,0.5))
+      drop-shadow(0 0 80px rgba(168,85,247,0.4));
+    animation: thx-mascot-float 5s ease-in-out infinite;
+  }
+  @keyframes thx-mascot-float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50%      { transform: translateY(-12px) rotate(2deg); }
+  }
+  .thanks-card h1 {
+    font-family: var(--font);
+    font-weight: 800;
+    font-size: clamp(2.6rem, 5vw, 3.8rem);
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+    color: #fff;
+    margin-bottom: 18px;
+  }
+  .thanks-card .accent {
+    background: linear-gradient(135deg, #00f5ff 0%, #a855f7 50%, #ff2bd1 100%);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 24px rgba(168,85,247,0.4));
+  }
+  .thanks-card .lede {
+    color: #c4b5fd;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 18px;
+  }
+  .thanks-card .lede strong {
+    color: var(--electric-cyan);
+    text-shadow: 0 0 12px rgba(34,211,238,0.4);
+  }
+  .thanks-meta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px 14px;
+    margin-top: 28px;
+    margin-bottom: 8px;
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    color: #94a3b8;
+  }
+  .thanks-meta a { color: var(--electric-cyan); }
+  .thanks-actions {
+    display: flex; gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 32px;
+  }
+  .thanks-next {
+    margin: 36px auto 0;
+    max-width: 480px;
+    padding: 24px;
+    background: rgba(18,8,38,0.7);
+    border: 1px solid rgba(168,85,247,0.25);
+    border-radius: 18px;
+    text-align: left;
+  }
+  .thanks-next-title {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--electric-cyan);
+    margin-bottom: 14px;
+  }
+  .thanks-next ol {
+    list-style: none;
+    padding: 0; margin: 0;
+    counter-reset: step;
+  }
+  .thanks-next li {
+    position: relative;
+    padding: 10px 0 10px 36px;
+    counter-increment: step;
+    color: #c4b5fd;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+  .thanks-next li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0; top: 8px;
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    background: var(--grad-electric);
+    color: #fff;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 0 12px rgba(168,85,247,0.5);
+  }
+  .thanks-next li:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 11px; top: 32px; bottom: -10px;
+    width: 2px;
+    background: linear-gradient(180deg, rgba(168,85,247,0.4), transparent);
+  }
+  .thanks-next li strong { color: #f5f3ff; }
 </style>
-</head><body>
-<section class="thanks-wrap"><div class="thanks-card">
-  <div class="thanks-mark">
-    <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-      <path d="M14 24l8 8 12-16" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
+</head>
+<body class="cosmic">
+
+<canvas id="cosmic-canvas" aria-hidden="true"></canvas>
+<div class="cosmic-grid" aria-hidden="true"></div>
+<div class="cosmic-blob cosmic-blob-1" aria-hidden="true"></div>
+<div class="cosmic-blob cosmic-blob-2" aria-hidden="true"></div>
+<div class="cosmic-blob cosmic-blob-3" aria-hidden="true"></div>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="../" class="logo">
+      <img src="../img/icon.png" alt="" class="logo-icon-img">
+      <span class="logo-wordmark logo-tracked">EASYWORKS<span class="logo-ai">·AI</span></span>
+    </a>
   </div>
-  <h1>You're in.<br><span class="accent">We'll come see you.</span></h1>
-  <p>Order received. We'll reach out within a few hours to schedule your <strong>on-site install</strong>. Real human, real install, on-site training.</p>
-  <p style="font-size:0.92rem; color:var(--muted)">Need us sooner? Call <a href="tel:+16042657660" style="color:var(--accent);">+1 (604) 265-7660</a> or email <a href="mailto:team@easyworksai.com" style="color:var(--accent);">team@easyworksai.com</a>.</p>
-  <div class="thanks-actions" style="margin-top: 32px;">
-    <a href="/" class="btn btn-glass btn-lg">Back to home</a>
+</nav>
+
+<section class="thanks-wrap">
+  <div class="thanks-card">
+    <div class="thanks-mascot">
+      <div class="thanks-mascot-glow"></div>
+      <img src="../img/easy-thanks.png" alt="" class="thanks-mascot-img">
+    </div>
+
+    <h1>You're in.<br><span class="accent">We'll come see you.</span></h1>
+
+    <p class="lede">Order received. We'll reach out within a few hours to schedule your <strong>on-site install</strong>. Real human. Real install. Real handoff.</p>
+
+    <div class="thanks-next">
+      <p class="thanks-next-title">What happens next</p>
+      <ol>
+        <li><strong>Within 4 hours</strong> — we call you to confirm onboarding details and schedule your on-site visit.</li>
+        <li><strong>Day 1</strong> — we come to you, walk your business, configure your stack.</li>
+        <li><strong>Day 2–3</strong> — system goes live. We test, train your team, hand over the keys.</li>
+        <li><strong>Every week after</strong> — we monitor, optimize, handle issues. You run your business.</li>
+      </ol>
+    </div>
+
+    <div class="thanks-meta">
+      <span>Need us sooner?</span>
+      <a href="tel:+16729668975">+1 (672) 966-8975</a>
+      <span>·</span>
+      <a href="mailto:team@easyworksai.com">team@easyworksai.com</a>
+    </div>
+
+    <div class="thanks-actions">
+      <a href="/" class="btn btn-glass btn-lg">Back to home</a>
+    </div>
   </div>
-</div></section>
-</body></html>
+</section>
+
+<script src="../redesign.js?v=1" defer></script>
+</body>
+</html>
