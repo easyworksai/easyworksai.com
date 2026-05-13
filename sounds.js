@@ -62,102 +62,123 @@
     return ctx;
   }
 
-  // ─── Build the ambient cosmic pad ───
-  // Sparse + airy. High register only (no low rumble). Sine waves only.
-  // Subtle gain-LFO causes the pad to breathe in and out so it's never a constant drone.
-  // Occasional soft bell twinkle every 16-28 seconds for slow narrative motion.
+  // ─── Ambient v3: "Music for Airports" approach ───
+  // No sustained tones. Silence is the canvas. Two ingredients only:
+  //   1. Ultra-soft filtered pink noise (texture, no pitch) — sounds like
+  //      the hum of a quiet room or distant cosmic radiation
+  //   2. Sparse pentatonic plucks every 9-22 seconds that emerge from
+  //      silence, ring out for 3-4 seconds, and decay back into silence
+  // No drone, no chord stack, no continuous filter sweep.
   function startAmbient() {
     if (!ctx || ambientNodes) return;
 
-    // Two sines forming an open perfect-fifth in upper register: C5 + G5
-    const fundamentals = [523.25, 783.99];
-    const oscs = [];
-    const filter = ctx.createBiquadFilter();
-    filter.type = 'lowpass';
-    filter.frequency.value = 3200;
-    filter.Q.value = 0.4;
-
-    fundamentals.forEach((freq) => {
-      const osc = ctx.createOscillator();
-      osc.type = 'sine';
-      osc.frequency.value = freq * (1 + (Math.random() - 0.5) * 0.003); // tiny detune for warmth
-      const g = ctx.createGain();
-      g.gain.value = 0.5;
-      osc.connect(g).connect(filter);
-      osc.start();
-      oscs.push(osc);
-    });
-
-    // Single soft delay tap for gentle air (no feedback loop = no droney wash)
-    const delay = ctx.createDelay(2);
-    delay.delayTime.value = 0.6;
-    const delayGain = ctx.createGain();
-    delayGain.gain.value = 0.25;
-    filter.connect(delay);
-    delay.connect(delayGain);
-
-    // Breathing gain LFO — pad slowly fades in + out so it's never constant
-    const breathLfo = ctx.createOscillator();
-    breathLfo.type = 'sine';
-    breathLfo.frequency.value = 0.04; // ~25 second cycle
-    const breathDepth = ctx.createGain();
-    breathDepth.gain.value = 0.5; // ±50% modulation depth
-    const breathOffset = ctx.createGain();
-    breathOffset.gain.value = 0.5; // center around 0.5 so it goes 0.0 ↔ 1.0
-    const padBus = ctx.createGain();
-    padBus.gain.value = 0;
-    breathLfo.connect(breathDepth).connect(padBus.gain);
-    // Add a static offset so the gain doesn't dip fully to silence
-    const offsetOsc = ctx.createConstantSource ? ctx.createConstantSource() : null;
-    if (offsetOsc) { offsetOsc.offset.value = 0.5; offsetOsc.connect(padBus.gain); offsetOsc.start(); }
-    breathLfo.start();
-
-    filter.connect(padBus);
-    delayGain.connect(padBus);
-    padBus.connect(ambientGain);
-
-    // Fade in
     const now = ctx.currentTime;
+
+    // 1. Pink-ish noise texture — ~30 sec buffer, looped
+    const noiseSec = 30;
+    const noiseBuf = ctx.createBuffer(1, ctx.sampleRate * noiseSec, ctx.sampleRate);
+    const data = noiseBuf.getChannelData(0);
+    // Simple pink-noise approximation (Paul Kellet method, simplified)
+    let b0 = 0, b1 = 0, b2 = 0;
+    for (let i = 0; i < data.length; i++) {
+      const white = Math.random() * 2 - 1;
+      b0 = 0.99765 * b0 + white * 0.0990460;
+      b1 = 0.96300 * b1 + white * 0.2965164;
+      b2 = 0.57000 * b2 + white * 1.0526913;
+      data[i] = (b0 + b1 + b2 + white * 0.1848) * 0.3;
+    }
+
+    const noiseSrc = ctx.createBufferSource();
+    noiseSrc.buffer = noiseBuf;
+    noiseSrc.loop = true;
+
+    // Heavy lowpass — makes noise feel distant, "shh" not "tss"
+    const noiseFilter = ctx.createBiquadFilter();
+    noiseFilter.type = 'lowpass';
+    noiseFilter.frequency.value = 900;
+    noiseFilter.Q.value = 0.5;
+
+    // Very slow gain wander so the texture isn't perfectly static
+    const noiseGain = ctx.createGain();
+    noiseGain.gain.value = 0.6;
+    const noiseLfo = ctx.createOscillator();
+    noiseLfo.type = 'sine';
+    noiseLfo.frequency.value = 0.05; // 20s cycle
+    const noiseLfoDepth = ctx.createGain();
+    noiseLfoDepth.gain.value = 0.25;
+    noiseLfo.connect(noiseLfoDepth).connect(noiseGain.gain);
+    noiseLfo.start();
+
+    noiseSrc.connect(noiseFilter).connect(noiseGain).connect(ambientGain);
+    noiseSrc.start();
+
+    // Fade in the noise bed
     ambientGain.gain.cancelScheduledValues(now);
     ambientGain.gain.setValueAtTime(0, now);
-    ambientGain.gain.linearRampToValueAtTime(VOL.ambient, now + 4.0);
+    ambientGain.gain.linearRampToValueAtTime(VOL.ambient, now + 5.0);
 
-    // Schedule occasional soft twinkles for narrative motion
-    const twinkleNotes = [1046.50, 1318.51, 1567.98, 2093.00]; // C6 E6 G6 C7
-    let twinkleTimer = null;
-    function scheduleTwinkle() {
-      const delay = 16000 + Math.random() * 12000; // 16–28 seconds
-      twinkleTimer = setTimeout(() => {
-        if (!ambientNodes) return; // stopped
-        playTwinkle(twinkleNotes[Math.floor(Math.random() * twinkleNotes.length)]);
-        scheduleTwinkle();
-      }, delay);
+    // 2. Schedule sparse plucks — pentatonic scale, no melody
+    // Pentatonic C major: C D E G A (no semitones = always consonant)
+    const pluckNotes = [
+      523.25, 587.33, 659.25, 783.99, 880.00,   // C5 D5 E5 G5 A5
+      1046.50, 1174.66, 1318.51, 1567.98, 1760.00, // C6 D6 E6 G6 A6
+    ];
+    let pluckTimer = null;
+    function schedulePluck() {
+      const wait = 9000 + Math.random() * 13000; // 9–22 seconds
+      pluckTimer = setTimeout(() => {
+        if (!ambientNodes) return;
+        // 10% chance to drop a pair of harmonized plucks (octave or fifth) instead of one
+        if (Math.random() < 0.10) {
+          const idx = Math.floor(Math.random() * pluckNotes.length);
+          playPluck(pluckNotes[idx]);
+          // Second pluck slightly delayed
+          setTimeout(() => ambientNodes && playPluck(pluckNotes[Math.min(pluckNotes.length - 1, idx + 3)]), 200);
+        } else {
+          playPluck(pluckNotes[Math.floor(Math.random() * pluckNotes.length)]);
+        }
+        schedulePluck();
+      }, wait);
     }
-    // First twinkle after 8 seconds
-    twinkleTimer = setTimeout(() => {
+    // First pluck after 4-9 seconds (small initial event so user knows ambient is on)
+    pluckTimer = setTimeout(() => {
       if (ambientNodes) {
-        playTwinkle(twinkleNotes[Math.floor(Math.random() * twinkleNotes.length)]);
-        scheduleTwinkle();
+        playPluck(pluckNotes[Math.floor(Math.random() * 5)]); // lower register first pluck
+        schedulePluck();
       }
-    }, 8000);
+    }, 4000 + Math.random() * 5000);
 
-    ambientNodes = { oscs, breathLfo, offsetOsc, filter, delay, twinkleTimer };
+    ambientNodes = { noiseSrc, noiseLfo, noiseFilter, pluckTimer };
   }
 
-  // Soft bell-like twinkle for ambient narrative motion
-  function playTwinkle(freq) {
+  // Soft pluck — fast attack, slow decay into silence. Sine + tiny harmonic.
+  function playPluck(freq) {
     if (!ctx || !ambientGain) return;
+    const now = ctx.currentTime;
+
+    // Fundamental
     const o = ctx.createOscillator();
     o.type = 'sine';
     o.frequency.value = freq;
     const g = ctx.createGain();
-    const now = ctx.currentTime;
     g.gain.setValueAtTime(0, now);
-    g.gain.linearRampToValueAtTime(0.045, now + 0.4);
-    g.gain.exponentialRampToValueAtTime(0.0001, now + 2.5);
+    g.gain.linearRampToValueAtTime(0.07, now + 0.02);     // quick attack
+    g.gain.exponentialRampToValueAtTime(0.0001, now + 3.5); // long decay
     o.connect(g).connect(ambientGain);
     o.start();
-    o.stop(now + 2.6);
+    o.stop(now + 3.6);
+
+    // 5th harmonic shimmer (subtle bell character)
+    const o2 = ctx.createOscillator();
+    o2.type = 'sine';
+    o2.frequency.value = freq * 2;
+    const g2 = ctx.createGain();
+    g2.gain.setValueAtTime(0, now);
+    g2.gain.linearRampToValueAtTime(0.018, now + 0.02);
+    g2.gain.exponentialRampToValueAtTime(0.0001, now + 1.8);
+    o2.connect(g2).connect(ambientGain);
+    o2.start();
+    o2.stop(now + 1.9);
   }
 
   function stopAmbient(fadeMs = 800) {
@@ -168,12 +189,11 @@
     ambientGain.gain.linearRampToValueAtTime(0, now + fadeMs / 1000);
     const nodes = ambientNodes;
     ambientNodes = null;
-    if (nodes.twinkleTimer) clearTimeout(nodes.twinkleTimer);
+    if (nodes.pluckTimer) clearTimeout(nodes.pluckTimer);
     setTimeout(() => {
       try {
-        nodes.oscs.forEach(o => o.stop());
-        if (nodes.breathLfo) nodes.breathLfo.stop();
-        if (nodes.offsetOsc) nodes.offsetOsc.stop();
+        if (nodes.noiseSrc) nodes.noiseSrc.stop();
+        if (nodes.noiseLfo) nodes.noiseLfo.stop();
       } catch {}
     }, fadeMs + 100);
   }
