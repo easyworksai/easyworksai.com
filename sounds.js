@@ -30,7 +30,7 @@
   // Master volume ceilings (linear gain)
   const VOL = {
     master: 0.55,
-    ambient: 0.18,
+    ambient: 0.08,   // very soft — sparse + airy
     hover: 0.08,
     select: 0.16,
     slider: 0.06,
@@ -63,64 +63,101 @@
   }
 
   // ─── Build the ambient cosmic pad ───
+  // Sparse + airy. High register only (no low rumble). Sine waves only.
+  // Subtle gain-LFO causes the pad to breathe in and out so it's never a constant drone.
+  // Occasional soft bell twinkle every 16-28 seconds for slow narrative motion.
   function startAmbient() {
     if (!ctx || ambientNodes) return;
 
-    // Three detuned oscillators forming a sustained chord (Cm9 cosmic feel)
-    // Root D2 (~73Hz), F2 (~87Hz), A2 (~110Hz), C3 (~130Hz) — open sus voicing
-    const fundamentals = [73.42, 87.31, 110.0, 130.81, 164.81];
+    // Two sines forming an open perfect-fifth in upper register: C5 + G5
+    const fundamentals = [523.25, 783.99];
     const oscs = [];
     const filter = ctx.createBiquadFilter();
     filter.type = 'lowpass';
-    filter.frequency.value = 600;
-    filter.Q.value = 0.8;
+    filter.frequency.value = 3200;
+    filter.Q.value = 0.4;
 
-    // Slow LFO modulates filter cutoff (breathing effect)
-    const lfo = ctx.createOscillator();
-    lfo.type = 'sine';
-    lfo.frequency.value = 0.06; // ~17s period
-    const lfoGain = ctx.createGain();
-    lfoGain.gain.value = 220;
-    lfo.connect(lfoGain).connect(filter.frequency);
-    lfo.start();
-
-    fundamentals.forEach((freq, i) => {
+    fundamentals.forEach((freq) => {
       const osc = ctx.createOscillator();
-      osc.type = i === 0 ? 'sawtooth' : (i === 4 ? 'triangle' : 'sine');
-      osc.frequency.value = freq * (1 + (Math.random() - 0.5) * 0.004); // slight detune
+      osc.type = 'sine';
+      osc.frequency.value = freq * (1 + (Math.random() - 0.5) * 0.003); // tiny detune for warmth
       const g = ctx.createGain();
-      g.gain.value = i === 0 ? 0.18 : (i === 4 ? 0.04 : 0.10);
+      g.gain.value = 0.5;
       osc.connect(g).connect(filter);
       osc.start();
       oscs.push(osc);
     });
 
-    // Soft reverb-ish: two-tap delay with feedback for ambient wash
-    const delayA = ctx.createDelay(2);
-    delayA.delayTime.value = 0.27;
-    const fbA = ctx.createGain();
-    fbA.gain.value = 0.42;
-    const delayB = ctx.createDelay(2);
-    delayB.delayTime.value = 0.41;
-    const fbB = ctx.createGain();
-    fbB.gain.value = 0.32;
+    // Single soft delay tap for gentle air (no feedback loop = no droney wash)
+    const delay = ctx.createDelay(2);
+    delay.delayTime.value = 0.6;
+    const delayGain = ctx.createGain();
+    delayGain.gain.value = 0.25;
+    filter.connect(delay);
+    delay.connect(delayGain);
 
-    filter.connect(delayA);
-    delayA.connect(fbA).connect(delayA);
-    delayA.connect(delayB);
-    delayB.connect(fbB).connect(delayB);
+    // Breathing gain LFO — pad slowly fades in + out so it's never constant
+    const breathLfo = ctx.createOscillator();
+    breathLfo.type = 'sine';
+    breathLfo.frequency.value = 0.04; // ~25 second cycle
+    const breathDepth = ctx.createGain();
+    breathDepth.gain.value = 0.5; // ±50% modulation depth
+    const breathOffset = ctx.createGain();
+    breathOffset.gain.value = 0.5; // center around 0.5 so it goes 0.0 ↔ 1.0
+    const padBus = ctx.createGain();
+    padBus.gain.value = 0;
+    breathLfo.connect(breathDepth).connect(padBus.gain);
+    // Add a static offset so the gain doesn't dip fully to silence
+    const offsetOsc = ctx.createConstantSource ? ctx.createConstantSource() : null;
+    if (offsetOsc) { offsetOsc.offset.value = 0.5; offsetOsc.connect(padBus.gain); offsetOsc.start(); }
+    breathLfo.start();
 
-    // Dry + wet to ambient bus
-    filter.connect(ambientGain);
-    delayB.connect(ambientGain);
+    filter.connect(padBus);
+    delayGain.connect(padBus);
+    padBus.connect(ambientGain);
 
     // Fade in
     const now = ctx.currentTime;
     ambientGain.gain.cancelScheduledValues(now);
     ambientGain.gain.setValueAtTime(0, now);
-    ambientGain.gain.linearRampToValueAtTime(VOL.ambient, now + 3.0);
+    ambientGain.gain.linearRampToValueAtTime(VOL.ambient, now + 4.0);
 
-    ambientNodes = { oscs, lfo, filter, delayA, delayB };
+    // Schedule occasional soft twinkles for narrative motion
+    const twinkleNotes = [1046.50, 1318.51, 1567.98, 2093.00]; // C6 E6 G6 C7
+    let twinkleTimer = null;
+    function scheduleTwinkle() {
+      const delay = 16000 + Math.random() * 12000; // 16–28 seconds
+      twinkleTimer = setTimeout(() => {
+        if (!ambientNodes) return; // stopped
+        playTwinkle(twinkleNotes[Math.floor(Math.random() * twinkleNotes.length)]);
+        scheduleTwinkle();
+      }, delay);
+    }
+    // First twinkle after 8 seconds
+    twinkleTimer = setTimeout(() => {
+      if (ambientNodes) {
+        playTwinkle(twinkleNotes[Math.floor(Math.random() * twinkleNotes.length)]);
+        scheduleTwinkle();
+      }
+    }, 8000);
+
+    ambientNodes = { oscs, breathLfo, offsetOsc, filter, delay, twinkleTimer };
+  }
+
+  // Soft bell-like twinkle for ambient narrative motion
+  function playTwinkle(freq) {
+    if (!ctx || !ambientGain) return;
+    const o = ctx.createOscillator();
+    o.type = 'sine';
+    o.frequency.value = freq;
+    const g = ctx.createGain();
+    const now = ctx.currentTime;
+    g.gain.setValueAtTime(0, now);
+    g.gain.linearRampToValueAtTime(0.045, now + 0.4);
+    g.gain.exponentialRampToValueAtTime(0.0001, now + 2.5);
+    o.connect(g).connect(ambientGain);
+    o.start();
+    o.stop(now + 2.6);
   }
 
   function stopAmbient(fadeMs = 800) {
@@ -131,8 +168,13 @@
     ambientGain.gain.linearRampToValueAtTime(0, now + fadeMs / 1000);
     const nodes = ambientNodes;
     ambientNodes = null;
+    if (nodes.twinkleTimer) clearTimeout(nodes.twinkleTimer);
     setTimeout(() => {
-      try { nodes.oscs.forEach(o => o.stop()); nodes.lfo.stop(); } catch {}
+      try {
+        nodes.oscs.forEach(o => o.stop());
+        if (nodes.breathLfo) nodes.breathLfo.stop();
+        if (nodes.offsetOsc) nodes.offsetOsc.stop();
+      } catch {}
     }, fadeMs + 100);
   }
 
