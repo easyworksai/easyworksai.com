@@ -409,3 +409,39 @@
     });
   });
 })();
+
+/* ─────── Save my stack: persist user selection to localStorage ─────── */
+(function stackPersist() {
+  const KEY = 'easyworks_stack_v1';
+  const stack = document.getElementById('stack');
+  if (!stack || !window.localStorage) return;
+  const engines = stack.querySelectorAll('.sb-engine input');
+  if (!engines.length) return;
+
+  // Restore previous selection on load
+  try {
+    const saved = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (saved && Array.isArray(saved) && saved.length) {
+      engines.forEach(cb => { cb.checked = saved.includes(cb.dataset.engine); });
+      // Fire a change to recalc totals (stackBuilderV2 listens for change)
+      engines[0].dispatchEvent(new Event('change'));
+      // Small visual hint
+      const hint = document.createElement('div');
+      hint.className = 'sb-restore-hint';
+      hint.innerHTML = '↻ Stack restored from your last visit';
+      stack.prepend(hint);
+      setTimeout(() => hint.classList.add('fade'), 4500);
+      setTimeout(() => hint.remove(), 5400);
+    }
+  } catch { /* corrupted localStorage entry — ignore */ }
+
+  // Save on any change
+  function snap() {
+    const picked = [];
+    engines.forEach(cb => { if (cb.checked) picked.push(cb.dataset.engine); });
+    try { localStorage.setItem(KEY, JSON.stringify(picked)); } catch {}
+  }
+  engines.forEach(cb => cb.addEventListener('change', snap));
+  // Bundle quick-picks fire programmatic changes — also save on click
+  stack.querySelectorAll('.sb-bundle').forEach(b => b.addEventListener('click', () => setTimeout(snap, 50)));
+})();
