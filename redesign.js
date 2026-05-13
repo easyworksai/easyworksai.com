@@ -43,8 +43,25 @@
       }
     }
 
+    // Pause render when hero offscreen or tab hidden (saves CPU)
+    let visible = true;
+    const heroEl = document.querySelector('.hero-v2');
+    if (heroEl && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        visible = entries[0].isIntersecting;
+      }, { threshold: 0 });
+      io.observe(heroEl);
+    }
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) visible = false;
+    });
+
     let lastTime = 0;
     function frame(t) {
+      if (!visible) {
+        if (!reducedMotion) requestAnimationFrame(frame);
+        return;
+      }
       const dt = Math.min(50, t - lastTime);
       lastTime = t;
       ctx.clearRect(0, 0, w, h);

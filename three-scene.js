@@ -155,9 +155,26 @@
     }
     window.addEventListener('resize', onResize);
 
+    // Pause render loop when hero is offscreen (saves GPU/CPU on long scrolls)
+    let heroVisible = true;
+    const heroEl2 = document.querySelector('.hero-v2') || container.parentElement;
+    if (heroEl2 && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        heroVisible = entries[0].isIntersecting;
+      }, { threshold: 0 });
+      io.observe(heroEl2);
+    }
+    // Pause when page hidden (different tab/minimized)
+    let pageVisible = !document.hidden;
+    document.addEventListener('visibilitychange', () => { pageVisible = !document.hidden; });
+
     // Animation loop
     const clock = new THREE.Clock();
     function animate() {
+      if (!heroVisible || !pageVisible) {
+        if (!reducedMotion) requestAnimationFrame(animate);
+        return;
+      }
       const t = clock.getElapsedTime();
       const dt = clock.getDelta();
 

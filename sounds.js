@@ -79,26 +79,27 @@
     ];
     let pluckTimer = null;
     function schedulePluck() {
-      // Long silences between events — 18 to 45 seconds
-      const wait = 18000 + Math.random() * 27000;
+      // Comfortable spacing — 12 to 28 seconds between events
+      const wait = 12000 + Math.random() * 16000;
       pluckTimer = setTimeout(() => {
         if (!ambientNodes) return;
         playPluck(pluckNotes[Math.floor(Math.random() * pluckNotes.length)]);
         schedulePluck();
       }, wait);
     }
-    // First pluck arrives after 6-12 seconds (gentle introduction)
+    // FIRST pluck arrives early (2-4s) so user knows ambient is alive
     pluckTimer = setTimeout(() => {
       if (ambientNodes) {
         playPluck(pluckNotes[Math.floor(Math.random() * 5)]);
         schedulePluck();
       }
-    }, 6000 + Math.random() * 6000);
+    }, 2000 + Math.random() * 2000);
 
     ambientNodes = { pluckTimer };
   }
 
-  // Soft pluck — fast attack, slow decay into silence. Sine + tiny harmonic.
+  // Soft pluck — audible but gentle. Bumped from -35dBFS to ~ -18dBFS so it
+  // actually comes through on speakers without forcing user to crank volume.
   function playPluck(freq) {
     if (!ctx || !ambientGain) return;
     const now = ctx.currentTime;
@@ -109,19 +110,19 @@
     o.frequency.value = freq;
     const g = ctx.createGain();
     g.gain.setValueAtTime(0, now);
-    g.gain.linearRampToValueAtTime(0.07, now + 0.02);     // quick attack
+    g.gain.linearRampToValueAtTime(0.28, now + 0.02);     // quick attack — audible
     g.gain.exponentialRampToValueAtTime(0.0001, now + 3.5); // long decay
     o.connect(g).connect(ambientGain);
     o.start();
     o.stop(now + 3.6);
 
-    // 5th harmonic shimmer (subtle bell character)
+    // 2× harmonic shimmer (bell character)
     const o2 = ctx.createOscillator();
     o2.type = 'sine';
     o2.frequency.value = freq * 2;
     const g2 = ctx.createGain();
     g2.gain.setValueAtTime(0, now);
-    g2.gain.linearRampToValueAtTime(0.018, now + 0.02);
+    g2.gain.linearRampToValueAtTime(0.08, now + 0.02);
     g2.gain.exponentialRampToValueAtTime(0.0001, now + 1.8);
     o2.connect(g2).connect(ambientGain);
     o2.start();
