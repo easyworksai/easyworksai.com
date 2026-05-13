@@ -22,22 +22,46 @@
     z-index: 2;
   }
   .thanks-card { max-width: 600px; position: relative; z-index: 2; }
-  .thanks-mark {
-    width: 110px; height: 110px;
-    border-radius: 28px;
-    margin: 0 auto 32px;
-    display: flex; align-items: center; justify-content: center;
-    background: linear-gradient(135deg, #22d3ee 0%, #a855f7 50%, #ff2bd1 100%);
-    box-shadow:
-      0 20px 80px rgba(168,85,247,0.5),
-      0 0 60px rgba(255,43,209,0.4),
-      0 0 0 1px rgba(255,255,255,0.1);
-    filter: drop-shadow(0 0 32px rgba(232,121,249,0.5));
-    animation: thx-pulse 3s ease-in-out infinite;
+  .thanks-mascot {
+    position: relative;
+    width: 320px;
+    height: 320px;
+    margin: 0 auto 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
-  @keyframes thx-pulse {
-    0%, 100% { transform: scale(1) rotate(0deg); }
-    50%      { transform: scale(1.08) rotate(-3deg); }
+  .thanks-mascot-glow {
+    position: absolute;
+    inset: -25%;
+    background:
+      radial-gradient(ellipse 45% 55% at center, rgba(255,43,209,0.4) 0%, transparent 70%),
+      radial-gradient(ellipse 65% 70% at center, rgba(168,85,247,0.4) 0%, transparent 70%),
+      radial-gradient(ellipse 80% 85% at center, rgba(0,245,255,0.2) 0%, transparent 75%);
+    filter: blur(70px);
+    z-index: 0;
+    animation: pulse-glow 4s ease-in-out infinite;
+    mix-blend-mode: screen;
+  }
+  .thanks-mascot-img {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: auto;
+    mix-blend-mode: screen;
+    -webkit-mask-image: radial-gradient(ellipse 75% 85% at center 50%, #000 0%, rgba(0,0,0,0.85) 70%, transparent 100%);
+            mask-image: radial-gradient(ellipse 75% 85% at center 50%, #000 0%, rgba(0,0,0,0.85) 70%, transparent 100%);
+    -webkit-mask-mode: alpha;
+            mask-mode: alpha;
+    filter:
+      contrast(1.18) brightness(1.05) saturate(1.18)
+      drop-shadow(0 0 36px rgba(255,43,209,0.5))
+      drop-shadow(0 0 80px rgba(168,85,247,0.4));
+    animation: thx-mascot-float 5s ease-in-out infinite;
+  }
+  @keyframes thx-mascot-float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50%      { transform: translateY(-12px) rotate(2deg); }
   }
   .thanks-card h1 {
     font-family: var(--font);
@@ -155,10 +179,9 @@
 
 <section class="thanks-wrap">
   <div class="thanks-card">
-    <div class="thanks-mark">
-      <svg width="56" height="56" viewBox="0 0 48 48" fill="none">
-        <path d="M14 24l8 8 12-16" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
+    <div class="thanks-mascot">
+      <div class="thanks-mascot-glow"></div>
+      <img src="../img/easy-thanks.png" alt="" class="thanks-mascot-img">
     </div>
 
     <h1>You're in.<br><span class="accent">We'll come see you.</span></h1>
