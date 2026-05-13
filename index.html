@@ -24,6 +24,17 @@
 </head>
 <body class="cosmic">
 
+<!-- Cosmic page transition loader -->
+<div id="page-loader" aria-hidden="true">
+  <div class="pl-stage">
+    <div class="pl-ring"></div>
+    <div class="pl-ring pl-ring-2"></div>
+    <div class="pl-ring pl-ring-3"></div>
+    <div class="pl-orb"></div>
+    <span class="pl-label">Loading</span>
+  </div>
+</div>
+
 <!-- Cosmic motion canvas (fixed bg) -->
 <canvas id="cosmic-canvas" aria-hidden="true"></canvas>
 <div class="cosmic-grid" aria-hidden="true"></div>
@@ -54,6 +65,7 @@
 <!-- Hero -->
 <section class="hero hero-v2" id="hero">
   <div class="hero-stars" aria-hidden="true"></div>
+  <div id="three-scene" class="three-scene" aria-hidden="true"></div>
   <div class="container hero-layout">
     <div class="hero-copy">
       <div class="hero-brand" data-r>
@@ -114,6 +126,25 @@
 
 <!-- 5 Engines -->
 <section class="section section-products" id="products">
+  <!-- Floating 3D geometry decorations -->
+  <div class="geo-shape geo-cube" style="top:8%; left:5%;" aria-hidden="true">
+    <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M50 10 L85 28 L85 72 L50 90 L15 72 L15 28 Z"/>
+      <path d="M50 10 L50 50 M50 50 L15 28 M50 50 L85 28"/>
+    </svg>
+  </div>
+  <div class="geo-shape geo-pyramid" style="top:14%; right:6%;" aria-hidden="true">
+    <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M50 8 L92 78 L8 78 Z"/>
+      <path d="M50 8 L50 78 M8 78 L92 78"/>
+    </svg>
+  </div>
+  <div class="geo-shape geo-crystal" style="bottom:18%; right:3%;" aria-hidden="true">
+    <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M50 5 L80 35 L70 80 L30 80 L20 35 Z"/>
+      <path d="M50 5 L50 80 M20 35 L80 35"/>
+    </svg>
+  </div>
   <div class="container">
     <div class="section-header center" data-r>
       <p class="overline">The 5 Engines</p>
@@ -133,103 +164,137 @@
       <span class="ef-node ef-result">More $$$</span>
     </div>
 
-    <div class="products-grid products-grid-5">
+    <div class="engines-stack">
 
-      <!-- AI Suite -->
-      <article class="product-card engine-card engine-ai" data-r>
-        <div class="ec-mascot"><img src="img/easy-ai-suite.png" alt="" loading="lazy" onerror="this.src='img/easy-hero.png'"></div>
-        <div class="ec-head">
-          <span class="ec-badge ec-badge-foundation">Foundation</span>
-          <span class="ec-price">$997 setup<br>$497<span class="pp-mo">/mo</span></span>
+      <!-- Tier 1: Foundation -->
+      <article class="engine-hero engine-hero-foundation engine-ai" data-r>
+        <div class="eh-mascot">
+          <div class="mascot-glow mascot-glow-cyan"></div>
+          <img src="img/easy-ai-suite.png" alt="" loading="lazy" onerror="this.src='img/easy-hero.png'">
         </div>
-        <h3>AI Suite</h3>
-        <p class="ec-pitch">Never miss a call. Never lose a lead. The operating system every other engine plugs into.</p>
-        <ul class="ec-list">
-          <li>24/7 AI receptionist (calls + books)</li>
-          <li>Instant SMS + email follow-up</li>
-          <li>Online booking + reminders</li>
-          <li>Full CRM + mobile app</li>
-          <li>Replace · Integrate · Shadow modes</li>
-        </ul>
-        <a href="ai-suite/" class="btn btn-glass btn-full">Learn more <span>→</span></a>
+        <div class="eh-content">
+          <div class="eh-head">
+            <span class="ec-badge ec-badge-foundation">Foundation · Everyone starts here</span>
+            <span class="ec-price">$997 setup · $497<span class="pp-mo">/mo</span></span>
+          </div>
+          <h3>AI Suite</h3>
+          <p class="eh-pitch">Never miss a call. Never lose a lead. The operating system every other engine plugs into.</p>
+          <ul class="ec-list eh-list">
+            <li>24/7 AI receptionist (calls + books)</li>
+            <li>Instant SMS + email follow-up</li>
+            <li>Online booking + reminders</li>
+            <li>Full CRM + mobile app</li>
+            <li>Replace · Integrate · Shadow modes</li>
+          </ul>
+          <a href="ai-suite/" class="btn btn-glass">Learn more <span>→</span></a>
+        </div>
       </article>
 
-      <!-- Content Engine -->
-      <article class="product-card engine-card engine-content" data-r data-d="1">
-        <div class="ec-mascot"><img src="img/easy-content.png" alt="" loading="lazy" onerror="this.src='img/easy-hero.png'"></div>
-        <div class="ec-head">
-          <span class="ec-badge ec-badge-demand">Demand</span>
-          <span class="ec-price">$1,297 setup<br>$997<span class="pp-mo">/mo</span></span>
+      <!-- Section divider: Demand engines -->
+      <div class="engines-divider" data-r>
+        <span class="ed-line"></span>
+        <span class="ed-label">Add demand engines</span>
+        <span class="ed-line"></span>
+      </div>
+
+      <!-- Tier 2: Demand engines (paired) -->
+      <div class="engines-row engines-row-2">
+        <article class="product-card engine-card engine-content" data-r>
+          <div class="ec-mascot"><img src="img/easy-content.png" alt="" loading="lazy" onerror="this.src='img/easy-hero.png'"></div>
+          <div class="ec-head">
+            <span class="ec-badge ec-badge-demand">Demand</span>
+            <span class="ec-price">$1,297 setup<br>$997<span class="pp-mo">/mo</span></span>
+          </div>
+          <h3>Content Engine</h3>
+          <p class="ec-pitch">AI-made content that stops the scroll. Posts, reels, photos, videos — your brand on autopilot.</p>
+          <ul class="ec-list">
+            <li>Daily AI posts (IG, FB, TikTok)</li>
+            <li>Photo + video gen (Higgsfield)</li>
+            <li>Brand voice + visual identity</li>
+            <li>Auto-posting + scheduling</li>
+            <li>Engagement monitoring</li>
+          </ul>
+          <a href="content-engine/" class="btn btn-glass btn-full">Learn more <span>→</span></a>
+        </article>
+
+        <article class="product-card engine-card engine-seo" data-r data-d="1">
+          <div class="ec-mascot"><img src="img/easy-seo.png" alt="" loading="lazy" onerror="this.src='img/easy-hero.png'"></div>
+          <div class="ec-head">
+            <span class="ec-badge ec-badge-demand">Demand</span>
+            <span class="ec-price">$997 setup<br>$997<span class="pp-mo">/mo</span></span>
+          </div>
+          <h3>SEO Engine</h3>
+          <p class="ec-pitch">Found on Google when it matters. Ranking, GBP, local search — managed end-to-end.</p>
+          <ul class="ec-list">
+            <li>Full SEO audit + technical fixes</li>
+            <li>GBP claim + optimization</li>
+            <li>Local citations build</li>
+            <li>2 monthly SEO articles</li>
+            <li>Review request automation</li>
+          </ul>
+          <a href="seo-engine/" class="btn btn-glass btn-full">Learn more <span>→</span></a>
+        </article>
+      </div>
+
+      <!-- Section divider: Scale -->
+      <div class="engines-divider engines-divider-scale" data-r>
+        <span class="ed-line"></span>
+        <span class="ed-label ed-label-scale">⚡ Amplify with scale tier</span>
+        <span class="ed-line"></span>
+      </div>
+
+      <!-- Tier 3: Scale (featured wide hero) -->
+      <article class="engine-hero engine-hero-scale engine-scale" data-r>
+        <div class="eh-mascot">
+          <div class="mascot-glow"></div>
+          <img src="img/easy-scale.png" alt="" loading="lazy" onerror="this.src='img/easy-hero.png'">
         </div>
-        <h3>Content Engine</h3>
-        <p class="ec-pitch">AI-made content that stops the scroll. Posts, reels, photos, videos — your brand on autopilot.</p>
-        <ul class="ec-list">
-          <li>Daily AI posts (IG, FB, TikTok)</li>
-          <li>Photo + video gen (Higgsfield)</li>
-          <li>Brand voice + visual identity</li>
-          <li>Auto-posting + scheduling</li>
-          <li>Engagement monitoring</li>
-        </ul>
-        <a href="content-engine/" class="btn btn-glass btn-full">Learn more <span>→</span></a>
+        <div class="eh-content">
+          <div class="eh-head">
+            <span class="ec-badge ec-badge-scale">⚡ Scale tier · The unfair advantage</span>
+            <span class="ec-price">$997 setup · from $497<span class="pp-mo">/mo</span></span>
+          </div>
+          <h3>AI Revenue Scale</h3>
+          <p class="eh-pitch">Self-driving paid ads. Pours gas on what's working, kills what isn't, automatically. The premium engine.</p>
+          <ul class="ec-list eh-list">
+            <li>Meta + Google ads managed end-to-end</li>
+            <li>Auto budget reallocation every 4 hours by ROI</li>
+            <li>Creative rotation + A/B testing</li>
+            <li>Live cross-channel attribution + plain-English reports</li>
+            <li>You pay ad spend direct to platforms — clean books</li>
+          </ul>
+          <p class="ec-footnote eh-footnote">⚠️ Warning: possibility of too many customers.</p>
+          <a href="ai-revenue-scale/" class="btn btn-accent btn-glow">See how it works <span>→</span></a>
+        </div>
       </article>
 
-      <!-- SEO Engine -->
-      <article class="product-card engine-card engine-seo" data-r data-d="2">
-        <div class="ec-mascot"><img src="img/easy-seo.png" alt="" loading="lazy" onerror="this.src='img/easy-hero.png'"></div>
-        <div class="ec-head">
-          <span class="ec-badge ec-badge-demand">Demand</span>
-          <span class="ec-price">$997 setup<br>$997<span class="pp-mo">/mo</span></span>
-        </div>
-        <h3>SEO Engine</h3>
-        <p class="ec-pitch">Found on Google when it matters. Ranking, GBP, local search — managed end-to-end.</p>
-        <ul class="ec-list">
-          <li>Full SEO audit + technical fixes</li>
-          <li>GBP claim + optimization</li>
-          <li>Local citations build</li>
-          <li>2 monthly SEO articles</li>
-          <li>Review request automation</li>
-        </ul>
-        <a href="seo-engine/" class="btn btn-glass btn-full">Learn more <span>→</span></a>
-      </article>
+      <!-- Section divider: Specialty -->
+      <div class="engines-divider" data-r>
+        <span class="ed-line"></span>
+        <span class="ed-label">Specialty · own lane</span>
+        <span class="ed-line"></span>
+      </div>
 
-      <!-- AI Revenue Scale -->
-      <article class="product-card engine-card engine-scale product-featured" data-r data-d="3">
-        <div class="ec-mascot"><img src="img/easy-scale.png" alt="" loading="lazy" onerror="this.src='img/easy-hero.png'"></div>
-        <div class="ec-head">
-          <span class="ec-badge ec-badge-scale">⚡ Scale</span>
-          <span class="ec-price">$997 setup<br>from $497<span class="pp-mo">/mo</span></span>
-        </div>
-        <h3>AI Revenue Scale</h3>
-        <p class="ec-pitch">Self-driving paid ads. Pours gas on what's working, kills what isn't, automatically.</p>
-        <ul class="ec-list">
-          <li>Meta + Google ads managed end-to-end</li>
-          <li>Auto budget reallocation by ROI</li>
-          <li>Creative rotation + A/B testing</li>
-          <li>Live attribution + reporting</li>
-          <li>You pay ad spend direct to platforms</li>
-        </ul>
-        <p class="ec-footnote">⚠️ Warning: possibility of too many customers.</p>
-        <a href="ai-revenue-scale/" class="btn btn-glass btn-full">Learn more <span>→</span></a>
-      </article>
-
-      <!-- Voice → Report -->
-      <article class="product-card engine-card engine-voice" data-r data-d="4">
-        <div class="ec-mascot"><img src="img/easy-voice.png" alt="" loading="lazy" onerror="this.src='img/easy-hero.png'"></div>
-        <div class="ec-head">
-          <span class="ec-badge ec-badge-specialty">Specialty</span>
-          <span class="ec-price">$997 setup<br>$497<span class="pp-mo">/mo</span></span>
-        </div>
-        <h3>Voice → Report</h3>
-        <p class="ec-pitch">Dictation, returned as a finished report. For notaries, paralegals, agents, adjusters, doctors.</p>
-        <ul class="ec-list">
-          <li>Custom client submission app</li>
-          <li>24/7 automated transcription</li>
-          <li>Higher quality than DIY tools</li>
-          <li>Medical, legal, real estate templates</li>
-          <li>Unlimited submissions, flat rate</li>
-        </ul>
-        <a href="voice-report/" class="btn btn-glass btn-full">Learn more <span>→</span></a>
-      </article>
+      <!-- Tier 4: Specialty (centered single) -->
+      <div class="engines-row engines-row-1">
+        <article class="product-card engine-card engine-voice" data-r>
+          <div class="ec-mascot"><img src="img/easy-voice.png" alt="" loading="lazy" onerror="this.src='img/easy-hero.png'"></div>
+          <div class="ec-head">
+            <span class="ec-badge ec-badge-specialty">Specialty</span>
+            <span class="ec-price">$997 setup<br>$497<span class="pp-mo">/mo</span></span>
+          </div>
+          <h3>Voice → Report</h3>
+          <p class="ec-pitch">Dictation, returned as a finished report. For notaries, paralegals, agents, adjusters, doctors.</p>
+          <ul class="ec-list">
+            <li>Custom client submission app</li>
+            <li>24/7 automated transcription</li>
+            <li>Higher quality than DIY tools</li>
+            <li>Medical, legal, real estate templates</li>
+            <li>Unlimited submissions, flat rate</li>
+          </ul>
+          <a href="voice-report/" class="btn btn-glass btn-full">Learn more <span>→</span></a>
+        </article>
+      </div>
 
     </div>
 
@@ -259,6 +324,14 @@
           <span class="bdl-price">$2,065 + $1,345/mo</span>
         </button>
         <button class="sb-bundle sb-bundle-best" data-bundle="full-stack">
+          <div class="sb-ribbon" aria-hidden="true">
+            <div class="sb-ribbon-track">
+              <div class="sb-ribbon-text">
+                <span>⚡ Most popular ⚡</span>
+                <span>⚡ Most popular ⚡</span>
+              </div>
+            </div>
+          </div>
           <span class="bdl-tag">Most popular</span>
           <span class="bdl-name">Full Stack</span>
           <span class="bdl-list">AI Suite + Content + SEO + Revenue Scale</span>
@@ -342,8 +415,175 @@
   </div>
 </section>
 
+<!-- Industries spotlight -->
+<section class="section section-industries" id="industries">
+  <div class="container">
+    <div class="section-header center" data-r>
+      <p class="overline">Built for</p>
+      <h2>Local businesses<br><span class="h2-dim">that need every lead.</span></h2>
+      <p class="section-sub">We specialize in three primary niches. We also work with 34+ other industries.</p>
+    </div>
+
+    <div class="industries-spotlight" data-r data-d="1">
+      <article class="ind-card ind-physio">
+        <div class="ind-icon-wrap">
+          <svg class="ind-icon" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 12c0 6 4 10 10 10s10-4 10-10"/>
+            <path d="M22 12v4M42 12v4"/>
+            <path d="M32 22v14"/>
+            <circle cx="32" cy="42" r="6"/>
+            <path d="M26 48l-4 8M38 48l4 8"/>
+          </svg>
+        </div>
+        <h3>Physio &amp; Chiropractic</h3>
+        <p class="ind-pitch">Bookings on autopilot. Missed-call recovery. Reactivation campaigns for inactive patients.</p>
+        <ul class="ind-list">
+          <li>24/7 booking + reminders cut no-shows 40%</li>
+          <li>Lapsed-patient outreach automated</li>
+          <li>Google reviews from happy patients</li>
+        </ul>
+        <span class="ind-stat"><strong>3×</strong> more new patients in 60 days</span>
+      </article>
+
+      <article class="ind-card ind-dental ind-featured">
+        <span class="ind-badge">Most-served niche</span>
+        <div class="ind-icon-wrap">
+          <svg class="ind-icon" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 16c-4 0-8 3-8 8 0 4 1 9 3 16 1 4 4 12 7 12 3 0 4-6 5-10 1-3 2-4 5-4s4 1 5 4c1 4 2 10 5 10 3 0 6-8 7-12 2-7 3-12 3-16 0-5-4-8-8-8-4 0-7 2-12 2s-8-2-12-2z"/>
+            <path d="M28 22c2-1 6-1 8 0"/>
+          </svg>
+        </div>
+        <h3>Dental Offices</h3>
+        <p class="ind-pitch">Every new-patient call answered, every cleaning rebooked, every review collected. Hygiene-recall on autopilot.</p>
+        <ul class="ind-list">
+          <li>AI receptionist trained on insurance &amp; FAQs</li>
+          <li>Hygiene + recall reminders + rebooking</li>
+          <li>Reputation engine: 47 reviews in 30 days</li>
+        </ul>
+        <span class="ind-stat"><strong>$8k+/mo</strong> new revenue from recovered no-shows</span>
+      </article>
+
+      <article class="ind-card ind-spa">
+        <div class="ind-icon-wrap">
+          <svg class="ind-icon" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 40c0-8 6-14 16-14s16 6 16 14"/>
+            <path d="M16 40h32"/>
+            <path d="M22 40v8M32 40v8M42 40v8"/>
+            <circle cx="20" cy="20" r="2" fill="currentColor"/>
+            <circle cx="32" cy="14" r="2" fill="currentColor"/>
+            <circle cx="44" cy="20" r="2" fill="currentColor"/>
+            <path d="M20 22v4M32 16v4M44 22v4"/>
+          </svg>
+        </div>
+        <h3>Nail Salons &amp; Spas</h3>
+        <p class="ind-pitch">Instagram-first content engine + Google ranking + DMs handled. Phone never stops ringing.</p>
+        <ul class="ind-list">
+          <li>Daily content posts: nail art, before/after</li>
+          <li>Instagram DM → booked appointment</li>
+          <li>"Touch up" rebook automation</li>
+        </ul>
+        <span class="ind-stat"><strong>2,400+</strong> new IG followers per month</span>
+      </article>
+    </div>
+
+    <div class="industries-others" data-r data-d="2">
+      <span class="io-label">Also serving</span>
+      <span class="io-chip">Contractors</span>
+      <span class="io-chip">Real Estate</span>
+      <span class="io-chip">Law Firms</span>
+      <span class="io-chip">Auto Services</span>
+      <span class="io-chip">Restaurants</span>
+      <span class="io-chip">Fitness / Wellness</span>
+      <span class="io-chip">Cleaning Services</span>
+      <span class="io-chip">Notaries</span>
+      <span class="io-chip">Paralegals</span>
+      <span class="io-chip">Pet Services</span>
+      <span class="io-chip">Accounting</span>
+      <span class="io-chip io-chip-more">+ 23 more</span>
+    </div>
+  </div>
+</section>
+
+<!-- Comparison band -->
+<section class="section section-compare" id="compare">
+  <div class="container">
+    <div class="section-header center" data-r>
+      <p class="overline">vs. the alternatives</p>
+      <h2>Why Easyworks.<br><span class="h2-dim">Three doors. One actually opens.</span></h2>
+    </div>
+    <div class="compare-grid" data-r data-d="1">
+
+      <!-- DIY -->
+      <article class="compare-col compare-diy">
+        <div class="cmp-head">
+          <span class="cmp-tag">Door 1</span>
+          <h3>DIY</h3>
+          <p class="cmp-sub">"I'll just learn it myself."</p>
+        </div>
+        <ul class="cmp-list">
+          <li class="cmp-bad">Spend nights + weekends learning tools</li>
+          <li class="cmp-bad">7+ subscriptions, none talking to each other</li>
+          <li class="cmp-bad">Setup takes weeks · most never finish</li>
+          <li class="cmp-bad">You're the engineer AND the operator</li>
+          <li class="cmp-bad">When it breaks, it stays broken</li>
+        </ul>
+        <div class="cmp-cost"><span>Real cost</span><strong>Your time</strong></div>
+      </article>
+
+      <!-- Big Agency -->
+      <article class="compare-col compare-agency">
+        <div class="cmp-head">
+          <span class="cmp-tag">Door 2</span>
+          <h3>Big Agency</h3>
+          <p class="cmp-sub">"They emailed me a portal."</p>
+        </div>
+        <ul class="cmp-list">
+          <li class="cmp-bad">$5k–$15k/mo for a junior account manager</li>
+          <li class="cmp-bad">Reports, never results</li>
+          <li class="cmp-bad">12-month contracts you can't escape</li>
+          <li class="cmp-bad">You're client #847, not a priority</li>
+          <li class="cmp-bad">"Schedule a Zoom" for everything</li>
+        </ul>
+        <div class="cmp-cost"><span>Real cost</span><strong>$60k+/yr</strong></div>
+      </article>
+
+      <!-- Easyworks -->
+      <article class="compare-col compare-us">
+        <span class="cmp-best">The right door</span>
+        <div class="cmp-head">
+          <span class="cmp-tag cmp-tag-us">Door 3</span>
+          <h3>Easyworks AI</h3>
+          <p class="cmp-sub">"They came to my shop."</p>
+        </div>
+        <ul class="cmp-list">
+          <li class="cmp-good">On-site install · we come to you</li>
+          <li class="cmp-good">5 engines · one system · zero subscriptions to manage</li>
+          <li class="cmp-good">Live in 2-3 days</li>
+          <li class="cmp-good">Month-to-month · 30-day refund</li>
+          <li class="cmp-good">Real human · real phone · no portal</li>
+        </ul>
+        <div class="cmp-cost"><span>From</span><strong>$497/mo</strong></div>
+        <a href="#start" class="btn btn-accent btn-glow cmp-cta">Walk through door 3 <span>→</span></a>
+      </article>
+
+    </div>
+  </div>
+</section>
+
 <!-- Onsite -->
 <section class="section section-alt section-onsite" id="onsite">
+  <div class="geo-shape geo-cube" style="top:10%; right:8%; width:60px; height:60px;" aria-hidden="true">
+    <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M50 10 L85 28 L85 72 L50 90 L15 72 L15 28 Z"/>
+      <path d="M50 10 L50 50 M50 50 L15 28 M50 50 L85 28"/>
+    </svg>
+  </div>
+  <div class="geo-shape geo-crystal" style="bottom:8%; left:4%; width:70px; height:70px;" aria-hidden="true">
+    <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M50 5 L80 35 L70 80 L30 80 L20 35 Z"/>
+      <path d="M50 5 L50 80 M20 35 L80 35"/>
+    </svg>
+  </div>
   <div class="container">
     <div class="onsite-band onsite-band-v2">
       <div class="onsite-mascot" data-r>
@@ -376,6 +616,12 @@
 
 <!-- Process -->
 <section class="section section-process" id="how">
+  <div class="geo-shape geo-pyramid" style="top:5%; left:8%; width:70px; height:70px;" aria-hidden="true">
+    <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M50 8 L92 78 L8 78 Z"/>
+      <path d="M50 8 L50 78 M8 78 L92 78"/>
+    </svg>
+  </div>
   <div class="container">
     <div class="section-header center" data-r>
       <p class="overline">Process</p>
@@ -517,8 +763,10 @@
   </div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js" defer></script>
 <script src="script.min.js?v=73d7341d" defer></script>
 <script src="redesign.js?v=1" defer></script>
+<script src="three-scene.js?v=1" defer></script>
 <script src="chatbot.js" defer></script>
 </body>
 </html>

@@ -252,3 +252,50 @@
   })();
 
 })();
+
+/* ─────── Cosmic page-transition loader ─────── */
+(function pageLoader() {
+  const loader = document.getElementById('page-loader');
+  if (!loader) return;
+
+  // On initial page load: briefly show then fade out for entrance polish
+  // (only if URL has #__loaded or referrer was same-origin)
+  if (document.referrer && new URL(document.referrer).host === location.host) {
+    loader.classList.add('active');
+    requestAnimationFrame(() => {
+      setTimeout(() => loader.classList.remove('active'), 350);
+    });
+  }
+
+  // Trigger loader on internal navigation
+  function isInternalNav(a) {
+    if (!a || !a.href) return false;
+    try {
+      const url = new URL(a.href);
+      if (url.host !== location.host) return false;             // external
+      if (a.target && a.target !== '_self') return false;       // new tab
+      if (a.hasAttribute('download')) return false;
+      // Anchor on same page — don't trigger
+      if (url.pathname === location.pathname && url.hash) return false;
+      // Same exact URL — don't trigger
+      if (url.pathname === location.pathname && !url.hash) return false;
+      // mailto / tel
+      if (a.protocol === 'mailto:' || a.protocol === 'tel:') return false;
+      return true;
+    } catch { return false; }
+  }
+
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('a');
+    if (!a || !isInternalNav(a)) return;
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return; // modifier — let browser handle
+    e.preventDefault();
+    loader.classList.add('active');
+    setTimeout(() => { window.location.href = a.href; }, 380);
+  });
+
+  // Handle bfcache restoration (Safari back button)
+  window.addEventListener('pageshow', (e) => {
+    if (e.persisted) loader.classList.remove('active');
+  });
+})();
