@@ -2507,7 +2507,7 @@ body.cosmic {
 
 .ind-badge {
   position: absolute;
-  top: -14px;
+  top: 16px;
   left: 50%;
   transform: translateX(-50%);
   padding: 5px 14px;
@@ -2521,7 +2521,10 @@ body.cosmic {
   box-shadow: 0 0 16px rgba(255,43,209,0.5), 0 0 0 1px rgba(255,255,255,0.1);
   white-space: nowrap;
   z-index: 3;
+  animation: badge-float 3.4s ease-in-out infinite;
 }
+/* Featured card gets extra top padding so badge has room inside */
+.ind-card.ind-featured { padding-top: 56px; }
 
 .ind-icon-wrap {
   width: 72px;
@@ -4410,5 +4413,76 @@ section { max-width: 100vw; }
 @media (min-width: 1600px) {
   .hero-v2 .hero-layout { max-width: 1280px; margin: 0 auto; }
   .section-header h2 { max-width: 900px; margin-left: auto; margin-right: auto; }
+}
+
+
+/* ════════════════════════════════════════════════════════════════════
+   FLOATING / BOB ANIMATIONS — primary CTAs + all featured badges
+   ════════════════════════════════════════════════════════════════════ */
+
+@keyframes badge-float {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%      { transform: translateX(-50%) translateY(-4px); }
+}
+@keyframes badge-float-right {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50%      { transform: translateY(-3px) rotate(-1deg); }
+}
+@keyframes btn-bob {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-3px); }
+}
+
+/* All centered floating badges get the gentle bob */
+.pc-badge,
+.cmp-best,
+.rs-tier-best,
+.sb-bundle .bdl-tag {
+  animation: badge-float 3.4s ease-in-out infinite;
+}
+
+/* Stagger animation delays so they don't sync */
+.pc-badge        { animation-delay: -0.5s; }
+.cmp-best        { animation-delay: -1.2s; }
+.rs-tier-best    { animation-delay: -1.8s; }
+.sb-bundle .bdl-tag { animation-delay: -2.4s; }
+
+/* Primary CTAs float gently when at rest. Pauses on hover. */
+.btn-accent.btn-glow,
+.btn-accent.btn-lg {
+  animation: btn-bob 4.2s ease-in-out infinite;
+  animation-delay: -1s;
+}
+.btn-accent.btn-glow:hover,
+.btn-accent.btn-lg:hover {
+  animation-play-state: paused;
+}
+.hero-cta .btn-accent { animation-delay: 0s; }
+.sb-cta { animation-delay: -2s; }
+.btn-submit { animation-delay: -3s; }
+
+/* Sticky CTA doesn't need extra bob — it already has the pulse dot */
+.sticky-cta { animation: none !important; }
+
+/* Sound toggle glow halos already have their own animation — don't double up */
+
+/* Reduced motion respects */
+@media (prefers-reduced-motion: reduce) {
+  .pc-badge, .cmp-best, .rs-tier-best, .sb-bundle .bdl-tag,
+  .btn-accent.btn-glow, .btn-accent.btn-lg, .ind-badge {
+    animation: none !important;
+  }
+}
+
+/* Phone — reduce floating amplitude */
+@media (max-width: 600px) {
+  @keyframes badge-float {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50%      { transform: translateX(-50%) translateY(-2px); }
+  }
+  @keyframes btn-bob {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-2px); }
+  }
 }
 
