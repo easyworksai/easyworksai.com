@@ -4123,24 +4123,38 @@ section .onsite-band {
    PERF PASS — skip offscreen section rendering + reduce blur expense
    ════════════════════════════════════════════════════════════════════ */
 
-/* content-visibility: auto tells the browser to skip layout/paint for
-   any section currently offscreen. Massive scroll perf win. */
-.section,
-.conveyor-stage,
-.engines-stack,
-.products-grid-5,
-.compare-grid,
-.proof-grid,
-.industries-spotlight,
-.timeline-v2,
+/* content-visibility: auto skips layout/paint for offscreen elements.
+   IMPORTANT: implies 'contain: paint' which clips children that extend
+   outside the element's box. Only safe on containers WITHOUT floating
+   badges/ribbons that overhang their parent. */
 .faq-list,
+.timeline-v2,
 .section-conveyor {
   content-visibility: auto;
-  contain-intrinsic-size: 1px 700px;
+  contain-intrinsic-size: 1px 600px;
 }
 
-/* Hero stays rendered always (it's the visual anchor) */
+/* Hero + main sections stay rendered always */
 .hero-v2, .section-onsite, .section-cta { content-visibility: visible; }
+
+/* Force-restore visibility on every grid that contains a floating badge
+   so their badges/ribbons (proof "Highest ROI", industry "Most-served
+   niche", compare "The right door", revenue tier "Most common", Full
+   Stack ribbon, etc.) are not clipped */
+.proof-grid,
+.compare-grid,
+.industries-spotlight,
+.products-grid-5,
+.engines-stack,
+.rs-tiers,
+.sb-bundles,
+.section-proof,
+.section-compare,
+.section-industries,
+.section-products {
+  content-visibility: visible !important;
+  contain: none !important;
+}
 
 /* Cosmic blobs animation paused when reduced motion */
 @media (prefers-reduced-motion: reduce) {
