@@ -4170,3 +4170,231 @@ section .onsite-band {
     drop-shadow(0 0 60px rgba(255,43,209,0.22)) !important;
 }
 
+
+/* ════════════════════════════════════════════════════════════════════
+   OPTIMIZATION ROUND 2 — defensive overflow + tighter mobile + desktop polish
+   ════════════════════════════════════════════════════════════════════ */
+
+/* Universal box-sizing safety net (most already inherited from style.min.css) */
+*, *::before, *::after { box-sizing: border-box; }
+img, video, iframe, svg { max-width: 100%; height: auto; }
+
+/* Section + container — make sure they never overflow horizontally */
+section { max-width: 100vw; }
+.container, .container-mid { width: 100%; }
+
+/* ─── Tablet (≤900px) — tighten container padding so content gets more room ─── */
+@media (max-width: 900px) {
+  .container, .container-mid { padding: 0 20px; }
+
+  /* Hero — slightly more compact */
+  .hero-v2 { padding: 100px 0 56px; }
+  .hero-v2 h1 { font-size: clamp(2.2rem, 8vw, 3.4rem); }
+  .hero-phone { font-size: 0.78rem; gap: 6px; }
+
+  /* Service tiers (BC corridor / global / partnerships) — single column on tablet */
+  .service-tiers { grid-template-columns: 1fr; gap: 8px; }
+
+  /* Engine flow — wrap nicer */
+  .engine-flow-v2 { gap: 8px; }
+  .ef-connector { width: 22px; }
+
+  /* Trust strip wraps cleanly */
+  .ts-row { gap: 16px; flex-wrap: wrap; justify-content: center; }
+  .ts-item { font-size: 0.82rem; }
+
+  /* Conveyor edge fade narrower so cards stay visible */
+  .conveyor-fade { width: 12%; }
+
+  /* Sub-page hero meta — keep horizontal on tablet */
+  .psub-meta { gap: 16px; padding: 14px 18px; }
+  .psub-price-num { font-size: 1.5rem; }
+}
+
+/* ─── Phone (≤600px) — aggressive simplification ─── */
+@media (max-width: 600px) {
+  /* Container padding even tighter */
+  .container, .container-mid { padding: 0 16px; }
+
+  /* Hero typography */
+  .hero-v2 { padding: 90px 0 44px; min-height: auto; }
+  .hero-v2 h1 { font-size: clamp(2.4rem, 11vw, 3rem); line-height: 1.0; letter-spacing: -0.04em; }
+  .hero-v2 .hero-brand { margin-bottom: 18px; }
+  .hero-v2 .hero-brand img { width: 48px; height: 48px; }
+  .brand-tracked { font-size: 1.5rem; }
+  .hero-kicker { font-size: 1rem; }
+  .hero-sub { font-size: 0.95rem; margin: 4px 0 20px; }
+  .hero-mascot { min-height: 280px; }
+  .mascot-img { max-width: 280px; }
+
+  /* Hero phone — wrap on mobile properly */
+  .hero-phone {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    margin-top: 14px;
+  }
+  .hp-live { font-size: 0.62rem; padding: 2px 8px; }
+  .hp-detail { font-size: 0.74rem; }
+  .hp-dot { display: none; }
+
+  /* Trust strip stacks ts-items 2-per-row */
+  .ts-row { gap: 10px 14px; }
+  .ts-item { font-size: 0.76rem; }
+  .ts-item svg { width: 16px; height: 14px; }
+
+  /* Section headers tighter */
+  .section-header h2 { font-size: clamp(1.7rem, 7.5vw, 2.4rem); }
+  .section-header { margin-bottom: 24px; }
+
+  /* Engine hero cards collapse + cleaner — already done but tighten gap */
+  .engine-hero { padding: 20px 18px; gap: 16px; }
+  .eh-mascot { min-height: 200px; }
+  .eh-mascot img { max-width: 200px; }
+  .engine-hero h3 { font-size: 1.3rem; }
+  .eh-pitch { font-size: 0.9rem; line-height: 1.5; }
+  .eh-list { gap: 2px 0; font-size: 0.85rem; }
+  .eh-head { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .eh-head .ec-price { text-align: left; font-size: 0.9rem; }
+
+  /* Standard engine cards */
+  .engine-card { padding: 22px 18px; border-radius: 18px; }
+  .engine-card h3 { font-size: 1.4rem; }
+  .ec-pitch { font-size: 0.9rem; }
+  .ec-list { font-size: 0.86rem; }
+  .ec-mascot { height: 160px; margin: -8px -8px 10px; }
+  .ec-mascot::after { width: 44px; height: 44px; background-size: 26px 26px; bottom: 8px; right: 8px; }
+
+  /* Stack builder tighter, ribbon smaller + adjusted */
+  .stack-builder-v2 { padding: 22px 16px; border-radius: 18px; margin-top: 32px; }
+  .sb-head h3 { font-size: 1.4rem; }
+  .sb-bundle { padding: 14px 12px; }
+  .sb-bundle .bdl-name { font-size: 0.92rem; }
+  .sb-bundle .bdl-list { font-size: 0.72rem; }
+  .sb-bundle .bdl-price { font-size: 0.78rem; }
+  .sb-engine { padding: 12px 14px; flex-wrap: wrap; }
+  .sb-name { font-size: 0.92rem; }
+  .sb-cost { font-size: 0.78rem; flex-basis: 100%; }
+  .sb-ribbon { right: -10px; top: -12px; width: 110px; height: 24px; }
+  .sb-ribbon-text { font-size: 0.6rem; }
+  .sb-row { font-size: 0.85rem; }
+  .sb-row-total { font-size: 1rem; }
+  .sb-total-num { font-size: 1.1rem; }
+
+  /* Industries spotlight tighter */
+  .ind-card { padding: 22px 18px; }
+  .ind-badge { font-size: 0.6rem; padding: 4px 10px; top: -10px; }
+  .ind-stat strong { font-size: 1.2rem; }
+
+  /* Conveyor — slightly smaller cards */
+  .conv-card { padding: 9px 14px 9px 11px; font-size: 0.78rem; }
+  .cv-emoji { font-size: 1.05rem; }
+
+  /* Comparison band */
+  .compare-col { padding: 22px 18px; }
+  .compare-col h3 { font-size: 1.4rem; }
+  .compare-us { transform: none !important; }
+  .compare-us:hover { transform: translateY(-4px); }
+  .cmp-best { font-size: 0.6rem; padding: 4px 10px; }
+
+  /* Proof / testimonials */
+  .proof-card { padding: 22px 18px; }
+  .pc-quote { font-size: 0.95rem; }
+  .pc-quote::before { font-size: 2.4rem; top: -4px; left: -4px; }
+  .proof-card-featured { transform: none; }
+  .proof-card-featured:hover { transform: translateY(-4px); }
+  .pc-badge { font-size: 0.6rem; padding: 4px 10px; }
+
+  /* Onsite section tighter */
+  .onsite-band-v2 { gap: 24px; padding: 16px 0; }
+  .onsite-mascot { min-height: 240px; }
+  .onsite-mascot img { max-width: 260px; }
+  .onsite-body { font-size: 0.95rem; line-height: 1.5; margin: 14px 0 20px; }
+
+  /* Form trust badges wrap cleanly */
+  .form-trust { gap: 6px; padding-top: 18px; margin-top: 18px; }
+  .ft-badge { font-size: 0.64rem; padding: 4px 9px; }
+  .ft-badge svg { width: 14px; height: 11px; }
+
+  /* Sticky CTA — ensure it doesn't cover form */
+  .sticky-cta { padding: 9px 14px 9px 11px; font-size: 0.82rem; }
+  .sticky-cta .sc-text { font-size: 0.82rem; }
+
+  /* Sound toggle tightened */
+  .sound-toggle { width: 38px; height: 38px; margin-left: 4px; }
+  .sound-toggle svg { width: 17px; height: 17px; }
+
+  /* Sub-page hero */
+  .psub-hero { padding: 96px 0 48px; }
+  .psub-hero-grid { gap: 24px; }
+  .psub-hero-icon { min-height: 220px; }
+  .psub-hero-icon img { max-width: 200px; border-radius: 22px; }
+  .psub-hero h1 { font-size: clamp(2.2rem, 9vw, 3rem); }
+  .psub-tagline { font-size: 1.05rem; }
+  .psub-pitch { font-size: 0.95rem; }
+  .psub-meta { padding: 12px 16px; gap: 12px; }
+  .psub-price-num { font-size: 1.4rem; }
+  .psub-cta-row .btn { flex: 1; min-width: 0; }
+
+  /* Sub-page rs-features tighter */
+  .rs-features { gap: 14px; margin-top: 28px; }
+  .rs-feat { padding: 22px 18px; }
+  .rs-feat h3 { font-size: 1.15rem; }
+  .rs-feat p { font-size: 0.9rem; }
+
+  /* Process timeline */
+  .tl-card { padding: 20px 16px; }
+  .tl-card h3 { font-size: 1rem; }
+  .tl-card p { font-size: 0.85rem; }
+  .tl-icon { font-size: 1.8rem; }
+  .tl-time { font-size: 0.62rem; padding: 3px 8px; }
+
+  /* FAQ */
+  .faq-q { padding: 14px 16px; font-size: 0.92rem; }
+
+  /* CTA / form */
+  .section-cta { padding: 44px 0 70px; }
+  .cta-header h2 { font-size: clamp(1.8rem, 8vw, 2.6rem); }
+  .form-grid { grid-template-columns: 1fr; }
+  .form input, .form select, .form textarea { padding: 12px 14px; font-size: 0.95rem; }
+
+  /* Footer single column tighter */
+  .footer { padding: 48px 0 24px; }
+  .footer-grid { gap: 28px; }
+  .footer-bar { flex-direction: column; gap: 12px; text-align: center; font-size: 0.78rem; }
+
+  /* Revenue Scale page calculator stacks */
+  .calc-panel { padding: 22px 18px; }
+  .calc-value { font-size: clamp(2.2rem, 9vw, 3.2rem); }
+
+  /* Page loader stage smaller on phone */
+  .pl-stage { width: 200px; height: 200px; }
+  .pl-orb { width: 64px; height: 64px; }
+
+  /* Engine flow stays in scroll-x container so it never overflows */
+  .engine-flow-v2 {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    padding: 8px 0;
+    margin-left: -16px;
+    margin-right: -16px;
+    padding-left: 16px;
+    padding-right: 16px;
+    scrollbar-width: none;
+  }
+  .engine-flow-v2::-webkit-scrollbar { display: none; }
+  .engine-flow-v2 .ef-node { flex-shrink: 0; }
+}
+
+/* ─── Wide desktop polish (≥1200px) ─── */
+@media (min-width: 1200px) {
+  .container { max-width: 1180px; }
+}
+
+/* ─── Ultra-wide (≥1600px) — don't let content stretch awkwardly ─── */
+@media (min-width: 1600px) {
+  .hero-v2 .hero-layout { max-width: 1280px; margin: 0 auto; }
+  .section-header h2 { max-width: 900px; margin-left: auto; margin-right: auto; }
+}
+
