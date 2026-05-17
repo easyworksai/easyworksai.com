@@ -1,5 +1,6 @@
 // POST /.netlify/functions/checkout
-// Body: { engines: ["content","seo","ai"] }  (subset of three paid engines)
+// Body (engines):  { engines: ["content","seo","ai"] }   (subset of five engines)
+// Body (scribe):   { scribe: { tier: "solo"|"small"|"large", seats: 4 } }
 // Returns: { url: "https://checkout.stripe.com/..." }
 //
 // Pricing source of truth — keep in sync with build_products.py and the homepage.
@@ -16,6 +17,14 @@ const ENGINES = {
 };
 const TIER_DISCOUNTS = { 1: 0, 2: 10, 3: 15, 4: 18, 5: 20 };
 
+// Easyworks Scribe — seat-based, separate from the 5 engines.
+// mo = cents per seat per month. Solo includes a 30-day free trial.
+const SCRIBE_TIERS = {
+  solo:  { name: 'Easyworks Scribe — Solo',         mo: 14900, minSeats: 1,  maxSeats: 2,   trialDays: 30 },
+  small: { name: 'Easyworks Scribe — Clinic (3-9)', mo:  9900, minSeats: 3,  maxSeats: 9,   trialDays: 14 },
+  large: { name: 'Easyworks Scribe — Clinic (10+)', mo:  7900, minSeats: 10, maxSeats: 200, trialDays: 14 },
+};
+
 const cors = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'Content-Type',
@@ -30,9 +39,48 @@ exports.handler = async (event) => {
 
   let body;
   try { body = JSON.parse(event.body || '{}'); } catch { body = {}; }
+  const origin = event.headers.origin || 'https://easyworks.ai';
+
+  // ---- Easyworks Scribe checkout (seat-based, trial-first) ----
+  if (body.scribe && body.scribe.tier) {
+    const tier = SCRIBE_TIERS[body.scribe.tier];
+    if (!tier) {
+      return { statusCode: 400, headers: cors, body: JSON.stringify({ error: 'Unknown Scribe tier.' }) };
+    }
+    let seats = parseInt(body.scribe.seats, 10);
+    if (!Number.isFinite(seats)) seats = tier.minSeats;
+    seats = Math.min(tier.maxSeats, Math.max(tier.minSeats, seats));
+
+    const scribeSession = await stripe.checkout.sessions.create({
+      mode: 'subscription',
+      line_items: [{
+        price_data: {
+          currency: 'cad',
+          unit_amount: tier.mo,
+          recurring: { interval: 'month' },
+          product_data: { name: `${tier.name} — per seat / month` },
+        },
+        quantity: seats,
+      }],
+      billing_address_collection: 'required',
+      payment_method_types: ['card'],
+      subscription_data: { trial_period_days: tier.trialDays },
+      allow_promotion_codes: true,
+      success_url: `${origin}/thanks/?session={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${origin}/scribe/`,
+      metadata: {
+        product: 'easyworks-scribe',
+        scribe_tier: body.scribe.tier,
+        seats: String(seats),
+        trial_days: String(tier.trialDays),
+      },
+    });
+    return { statusCode: 200, headers: { ...cors, 'Content-Type': 'application/json' }, body: JSON.stringify({ url: scribeSession.url }) };
+  }
+
   const engines = (body.engines || []).filter(k => ENGINES[k]);
   if (engines.length === 0) {
-    return { statusCode: 400, headers: cors, body: JSON.stringify({ error: 'No engines selected.' }) };
+    return { statusCode: 400, headers: cors, body: JSON.stringify({ error: 'No engines or Scribe tier selected.' }) };
   }
 
   // Build line items: setup (one-time) + monthly (recurring) for each engine
@@ -69,7 +117,6 @@ exports.handler = async (event) => {
     discounts = [{ coupon: coupon.id }];
   }
 
-  const origin = event.headers.origin || 'https://easyworks.ai';
   const sessionParams = {
     mode: 'subscription',
     line_items,

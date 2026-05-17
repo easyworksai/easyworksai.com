@@ -4486,3 +4486,94 @@ section { max-width: 100vw; }
   }
 }
 
+
+/* ════════════════════════════════════════════════════════════════════
+   HORIZONTAL OVERFLOW GUARD — kill mobile left/right scroll
+   ════════════════════════════════════════════════════════════════════ */
+
+/* overflow-x: clip (not hidden) — clips horizontal bleed WITHOUT breaking
+   position: sticky on the nav or creating a scroll container */
+html {
+  overflow-x: clip;
+  max-width: 100%;
+}
+body {
+  overflow-x: clip;
+  max-width: 100vw;
+  position: relative;
+}
+
+/* Fixed cosmic decorations must never push the scroll width.
+   They're decorative + pointer-events:none so clamping is safe. */
+.cosmic-grid {
+  width: 100vw !important;
+  max-width: 100vw;
+  left: 0 !important;
+  transform: perspective(800px) rotateX(60deg) !important;
+  transform-origin: center bottom;
+}
+#cosmic-canvas { max-width: 100vw; }
+.cosmic-blob {
+  max-width: 100vw;
+}
+
+/* Mascot orbit rings at 120% width were poking past the hero on narrow
+   screens — keep the hero-mascot column from ever causing scroll */
+.hero-mascot { max-width: 100%; overflow: visible; }
+.mascot-orbit { max-width: 130%; }
+
+/* Any absolutely-positioned decoration clamps to viewport */
+.geo-shape, .impact-mascot, .calc-mascot-bg {
+  max-width: 90vw;
+}
+
+/* Conveyor: the marquee tracks are intentionally wide but MUST stay
+   clipped by the lane. Reassert it defensively. */
+.conv-lane { max-width: 100vw; overflow-x: clip; }
+.conveyor-stage { max-width: 100vw; overflow-x: clip; }
+
+/* Wide grids fall back to single column earlier so cards never clip */
+@media (max-width: 600px) {
+  .hero-layout,
+  .engine-hero,
+  .engines-row-2,
+  .compare-grid,
+  .proof-grid,
+  .industries-spotlight,
+  .products-grid-5,
+  .rs-tiers,
+  .rs-features,
+  .service-tiers,
+  .sb-bundles,
+  .sb-engines,
+  .impact-grid,
+  .footer-grid {
+    grid-template-columns: 1fr !important;
+  }
+  /* Anything that was a flex row wraps */
+  .ts-row, .form-trust, .industries-others, .hero-cta, .psub-cta-row {
+    flex-wrap: wrap;
+  }
+  /* Section padding tighter so 100vw - padding still fits content */
+  .section { padding-left: 0; padding-right: 0; }
+  .container, .container-mid { padding: 0 16px; }
+  /* Kill the 3D perspective tilt on conveyor (was widening lanes) */
+  .conv-lane-1, .conv-lane-2, .conv-lane-3 { transform: none !important; }
+  /* Hero wide cards: mascot + content stack, never side-by-side */
+  .engine-hero { grid-template-columns: 1fr !important; text-align: center; }
+  .eh-mascot { max-width: 100%; }
+  .eh-mascot img { max-width: 220px; margin: 0 auto; }
+  /* Stat/feature numbers don't overflow */
+  .impact-num, .cmp-cost strong, .rs-tier-fee strong { font-size: clamp(2rem, 9vw, 2.6rem); word-break: break-word; }
+}
+
+/* SVG safety: only constrain genuinely large decorative SVGs, NOT UI icons.
+   (The earlier blanket `svg { max-width:100%; height:auto }` could squish
+   fixed-size nav/button icons — scope it out.) */
+.nav svg, .btn svg, .sound-toggle svg, .ef-icon svg,
+.ts-item svg, .footer svg, .sticky-cta svg, .pc-avatar svg {
+  max-width: none;
+  height: auto;
+  width: auto;
+}
+
