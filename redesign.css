@@ -3983,9 +3983,9 @@ section .onsite-band {
    ════════════════════════════════════════════════════════════════════ */
 
 .service-tiers {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   margin: 24px 0 28px;
 }
 .st-tier {
