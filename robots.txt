@@ -2,5 +2,6 @@ User-agent: *
 Allow: /
 Disallow: /thanks/
 Disallow: /clients/
+Disallow: /team/
 
 Sitemap: https://easyworks.ai/sitemap.xml

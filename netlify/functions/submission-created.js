@@ -74,7 +74,7 @@ async function ghlAddNote(contactId, d) {
     '',
     `Business : ${d.business || '—'}`,
     `Industry : ${d.industry || '—'}`,
-    d.selected_stack ? `Interested in : ${d.selected_stack}` : null,
+    (d.stack || d.selected_stack) ? `Interested in : ${d.stack || d.selected_stack}` : null,
     '',
     `Message  : ${d.message || '(none)'}`,
   ].filter(Boolean);
@@ -143,7 +143,7 @@ exports.handler = async (event) => {
         `<b>Email:</b> ${esc(data.email || '?')}`,
         `<b>Phone:</b> ${esc(data.phone || '?')}`,
         `<b>Industry:</b> ${esc(data.industry || '?')}`,
-        data.selected_stack ? `<b>Interested in:</b> ${esc(data.selected_stack)}` : null,
+        (data.stack || data.selected_stack) ? `<b>Interested in:</b> ${esc(data.stack || data.selected_stack)}` : null,
         data.message ? `\n<b>Message:</b> ${esc(data.message)}` : null,
         ghlSummary,
       ].filter(Boolean).join('\n');

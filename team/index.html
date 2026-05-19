@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Easyworks — Sales Payment Links</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="../favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#05030d;--card:#120826;--line:rgba(168,85,247,.25);--cyan:#22d3ee;--mag:#ff2bd1;--pur:#a855f7;--txt:#f5f3ff;--dim:#c4b5fd;--mut:#7c6ba8}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:radial-gradient(ellipse at 50% 0,rgba(168,85,247,.16),transparent 55%),var(--bg);color:var(--txt);font-family:'Inter',sans-serif;min-height:100vh;padding:40px 20px}
+  .wrap{max-width:620px;margin:0 auto}
+  h1{font-family:'Space Grotesk',sans-serif;font-size:1.6rem;font-weight:800;letter-spacing:-.02em;margin-bottom:4px}
+  .sub{color:var(--mut);font-size:.85rem;font-family:'JetBrains Mono',monospace;letter-spacing:.05em;margin-bottom:28px}
+  .panel{background:linear-gradient(180deg,rgba(26,19,48,.9),rgba(10,5,23,.95));border:1px solid var(--line);border-radius:18px;padding:26px;margin-bottom:18px}
+  label{display:block;font-size:.78rem;font-family:'JetBrains Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:10px}
+  input[type=text],input[type=password]{width:100%;padding:13px 15px;background:rgba(18,8,38,.7);border:1px solid var(--line);border-radius:11px;color:var(--txt);font-size:.95rem;font-family:inherit}
+  input:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 3px rgba(34,211,238,.16)}
+  .eng{display:flex;align-items:center;gap:12px;padding:13px 15px;background:rgba(18,8,38,.6);border:1px solid var(--line);border-radius:11px;margin-bottom:8px;cursor:pointer;transition:.15s}
+  .eng:hover{border-color:rgba(168,85,247,.5)}
+  .eng.on{background:rgba(34,211,238,.1);border-color:rgba(34,211,238,.5)}
+  .eng input{width:20px;height:20px;accent-color:var(--cyan);cursor:pointer}
+  .eng .nm{flex:1;font-weight:600;font-size:.95rem}
+  .eng .pr{font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--mut)}
+  .tot{display:flex;justify-content:space-between;padding:16px 0;border-top:1px solid var(--line);margin-top:12px;font-family:'JetBrains Mono',monospace}
+  .tot .big{font-size:1.25rem;font-weight:700;background:linear-gradient(135deg,#22d3ee,#a855f7,#ff2bd1);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .disc{color:var(--mag);font-size:.85rem;font-family:'JetBrains Mono',monospace;text-align:right;margin-top:-6px}
+  button.go{width:100%;padding:15px;background:linear-gradient(135deg,#22d3ee,#a855f7,#ff2bd1);color:#fff;border:none;border-radius:11px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1rem;cursor:pointer;margin-top:14px;transition:.2s}
+  button.go:hover{filter:brightness(1.08);transform:translateY(-1px)}
+  button.go:disabled{opacity:.5;cursor:not-allowed;transform:none}
+  .result{margin-top:16px;display:none}
+  .result.show{display:block}
+  .linkbox{display:flex;gap:8px;margin-top:8px}
+  .linkbox input{flex:1;font-family:'JetBrains Mono',monospace;font-size:.82rem}
+  .copy{padding:0 18px;background:rgba(34,211,238,.16);border:1px solid var(--cyan);border-radius:11px;color:var(--cyan);font-weight:600;cursor:pointer;white-space:nowrap}
+  .copy:hover{background:rgba(34,211,238,.28)}
+  .err{color:#ff6b9d;font-size:.85rem;margin-top:10px;font-family:'JetBrains Mono',monospace}
+  .hint{color:var(--mut);font-size:.78rem;margin-top:8px;line-height:1.5}
+  .lock{text-align:center;padding:40px 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>⚡ Sales Payment Links</h1>
+  <div class="sub">Internal · Easyworks AI · do not share this page</div>
+
+  <div class="panel" id="gate">
+    <label>Team access code</label>
+    <input type="password" id="secret" placeholder="Enter access code" autocomplete="off">
+    <button class="go" id="unlock">Unlock</button>
+    <div class="err" id="gateErr"></div>
+  </div>
+
+  <div id="tool" style="display:none">
+    <div class="panel">
+      <label>Client reference (for your records)</label>
+      <input type="text" id="clientRef" placeholder="e.g. Joe's Plumbing — Surrey">
+      <div class="hint">Shows in Stripe metadata so you can match the payment to the deal.</div>
+    </div>
+
+    <div class="panel">
+      <label>Engines</label>
+      <div id="engines"></div>
+      <div class="disc" id="disc"></div>
+      <div class="tot"><span>Total</span><span class="big" id="tot">$0 setup · $0/mo</span></div>
+      <button class="go" id="gen">Generate payment link</button>
+      <div class="err" id="genErr"></div>
+      <div class="result" id="res">
+        <label>Persistent payment link (never expires)</label>
+        <div class="linkbox">
+          <input type="text" id="link" readonly>
+          <button class="copy" id="copy">Copy</button>
+        </div>
+        <div class="hint">Send this to the client after the consultation. They can pay anytime. Payment auto-redirects them to the thank-you page and fires the Stripe webhook into GHL.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var ENG=[
+    {k:'ai',n:'AI Suite',s:997,m:497},
+    {k:'content',n:'Content Engine',s:1297,m:997},
+    {k:'seo',n:'SEO Engine',s:997,m:997},
+    {k:'revenue-scale',n:'AI Revenue Scale (Starter)',s:997,m:497},
+    {k:'voice',n:'Voice → Report',s:997,m:497}
+  ];
+  var TIER={1:0,2:10,3:15,4:18,5:20};
+  var SECRET=localStorage.getItem('ew_team_secret')||'';
+  var gate=document.getElementById('gate'),tool=document.getElementById('tool');
+
+  function showTool(){gate.style.display='none';tool.style.display='block';render();}
+  if(SECRET) showTool();
+
+  document.getElementById('unlock').onclick=function(){
+    var v=document.getElementById('secret').value.trim();
+    if(!v){document.getElementById('gateErr').textContent='Enter the code.';return;}
+    SECRET=v;localStorage.setItem('ew_team_secret',v);showTool();
+  };
+  document.getElementById('secret').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('unlock').click();});
+
+  var sel={};
+  function render(){
+    var box=document.getElementById('engines');box.innerHTML='';
+    ENG.forEach(function(e){
+      var d=document.createElement('div');d.className='eng'+(sel[e.k]?' on':'');
+      d.innerHTML='<input type=checkbox '+(sel[e.k]?'checked':'')+'><span class=nm>'+e.n+'</span><span class=pr>$'+e.s.toLocaleString()+' · $'+e.m.toLocaleString()+'/mo</span>';
+      d.onclick=function(ev){if(ev.target.tagName!=='INPUT'){var c=d.querySelector('input');c.checked=!c.checked;}sel[e.k]=d.querySelector('input').checked;render();calc();};
+      box.appendChild(d);
+    });
+    calc();
+  }
+  function calc(){
+    var s=0,m=0,n=0;ENG.forEach(function(e){if(sel[e.k]){s+=e.s;m+=e.m;n++;}});
+    var p=TIER[n]||0;var ds=Math.round(s*(1-p/100)),dm=Math.round(m*(1-p/100));
+    document.getElementById('tot').textContent='$'+ds.toLocaleString()+' setup · $'+dm.toLocaleString()+'/mo';
+    document.getElementById('disc').textContent=p?('— '+p+'% stack discount applied'):'';
+  }
+  document.getElementById('gen').onclick=async function(){
+    var picked=ENG.filter(function(e){return sel[e.k];}).map(function(e){return e.k;});
+    var ge=document.getElementById('genErr');ge.textContent='';
+    if(!picked.length){ge.textContent='Select at least one engine.';return;}
+    var btn=this;btn.disabled=true;btn.textContent='Generating…';
+    try{
+      var r=await fetch('/.netlify/functions/checkout',{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({paymentLink:true,secret:SECRET,engines:picked,clientRef:document.getElementById('clientRef').value})});
+      var d=await r.json();
+      if(r.status===401){ge.textContent='Access code rejected. Re-enter it.';localStorage.removeItem('ew_team_secret');setTimeout(function(){location.reload();},1500);return;}
+      if(!d.url) throw new Error(d.error||'No link returned');
+      document.getElementById('link').value=d.url;
+      document.getElementById('res').classList.add('show');
+    }catch(err){ge.textContent='Error: '+err.message;}
+    btn.disabled=false;btn.textContent='Generate payment link';
+  };
+  document.getElementById('copy').onclick=function(){
+    var i=document.getElementById('link');i.select();
+    navigator.clipboard.writeText(i.value);this.textContent='Copied ✓';var t=this;setTimeout(function(){t.textContent='Copy';},1600);
+  };
+})();
+</script>
+</body>
+</html>

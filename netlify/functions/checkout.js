@@ -117,6 +117,51 @@ exports.handler = async (event) => {
     discounts = [{ coupon: coupon.id }];
   }
 
+  // ---- Sales-team mode: persistent Payment Link (no 24h expiry) ----
+  // Requires a shared secret so it can't be triggered from the public site.
+  if (body.paymentLink) {
+    if (!process.env.TEAM_LINK_SECRET || body.secret !== process.env.TEAM_LINK_SECRET) {
+      return { statusCode: 401, headers: cors, body: JSON.stringify({ error: 'Unauthorized.' }) };
+    }
+    // Payment Links need real Price objects (no inline price_data)
+    const pl_line_items = [];
+    for (const k of engines) {
+      const e = ENGINES[k];
+      const setupPrice = await stripe.prices.create({
+        currency: 'cad',
+        unit_amount: e.setup,
+        product_data: { name: `${e.name} — Setup (one-time)` },
+      });
+      const moPrice = await stripe.prices.create({
+        currency: 'cad',
+        unit_amount: e.mo,
+        recurring: { interval: 'month' },
+        product_data: { name: `${e.name} — Monthly` },
+      });
+      pl_line_items.push({ price: setupPrice.id, quantity: 1 });
+      pl_line_items.push({ price: moPrice.id, quantity: 1 });
+    }
+    const plParams = {
+      line_items: pl_line_items,
+      billing_address_collection: 'required',
+      allow_promotion_codes: !discounts,
+      after_completion: {
+        type: 'redirect',
+        redirect: { url: `${origin}/thanks/` },
+      },
+      metadata: {
+        engines: engines.join(','),
+        stack_count: String(engines.length),
+        stack_discount_pct: String(pct),
+        source: 'sales-team',
+        client_ref: (body.clientRef || '').slice(0, 80),
+      },
+    };
+    if (discounts) plParams.discounts = discounts;
+    const link = await stripe.paymentLinks.create(plParams);
+    return { statusCode: 200, headers: { ...cors, 'Content-Type': 'application/json' }, body: JSON.stringify({ url: link.url, persistent: true }) };
+  }
+
   const sessionParams = {
     mode: 'subscription',
     line_items,

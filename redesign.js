@@ -195,12 +195,19 @@
       });
     });
 
-    // Override the legacy CTA click — checkout still hits the same Netlify function
-    // but ensure 'revenue-scale' is sent through if selected
+    // CTA now books a consultation (no public Stripe checkout — payment links
+    // are sent privately by the sales team after the consult). Carries the
+    // selected stack into the intake form so GHL captures buying intent.
+    const ENGINE_LABELS = {
+      'ai': 'AI Suite',
+      'content': 'Content Engine',
+      'seo': 'SEO Engine',
+      'revenue-scale': 'AI Revenue Scale',
+      'voice': 'Voice → Report',
+    };
     const cta = stack.querySelector('.sb-cta');
     if (cta) {
-      cta.addEventListener('click', async (e) => {
-        if (cta.dataset.busy === '1') return;
+      cta.addEventListener('click', (e) => {
         e.preventDefault();
         e.stopImmediatePropagation();
         const selected = [];
@@ -208,28 +215,43 @@
           const cb = eng.querySelector('input');
           if (cb.checked) selected.push(cb.dataset.engine);
         });
-        if (!selected.length) return;
-        const orig = cta.innerHTML;
-        cta.dataset.busy = '1';
-        cta.innerHTML = 'Loading checkout…';
-        cta.style.pointerEvents = 'none';
-        try {
-          const r = await fetch('/.netlify/functions/checkout', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ engines: selected }),
-          });
-          const data = await r.json();
-          if (data.url)       window.location.href = data.url;
-          else if (data.redirect) window.location.href = data.redirect;
-          else throw new Error(data.error || 'Checkout error');
-        } catch (err) {
-          alert('Checkout error. Please contact team@easyworksai.com.');
-          cta.innerHTML = orig;
-          cta.style.pointerEvents = '';
-          cta.dataset.busy = '';
+
+        const form = document.getElementById('contactForm');
+        if (form) {
+          const labels = selected.map(s => ENGINE_LABELS[s] || s);
+          const setupEl = document.getElementById('sb-total-setup');
+          const moEl    = document.getElementById('sb-total-mo');
+          const stackStr = labels.length
+            ? labels.join(' + ') + (setupEl && moEl ? ` (${setupEl.textContent} setup · ${moEl.textContent}/mo)` : '')
+            : '';
+
+          // Hidden field so GHL knows exactly what they configured
+          let hidden = form.querySelector('input[name="stack"]');
+          if (!hidden) {
+            hidden = document.createElement('input');
+            hidden.type = 'hidden';
+            hidden.name = 'stack';
+            form.appendChild(hidden);
+          }
+          hidden.value = stackStr;
+
+          // Pre-fill the message so the rep sees intent immediately
+          const msg = form.querySelector('textarea[name="message"]');
+          if (msg && stackStr) {
+            msg.value = `I'd like a consultation about: ${stackStr}.`;
+          }
+          // Nudge industry to a sensible default if still empty
         }
-      }, true); // capture phase so we beat legacy
+
+        const target = document.getElementById('start');
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          setTimeout(() => {
+            const nameField = form && form.querySelector('input[name="name"]');
+            if (nameField) nameField.focus();
+          }, 650);
+        }
+      }, true); // capture phase so we beat legacy Stripe handler
     }
 
     recalc();
