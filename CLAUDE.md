@@ -7,9 +7,9 @@ Current state: **Redesign v2 (Cosmic Electric)** is live on the `redesign-v2` Ne
 - **Brand:** Easyworks AI · "Less doing. More done." · Built in British Columbia
 - **Service area:** On-site across BC's Lower Mainland + Sea-to-Sky corridor (Whistler → Chilliwack — Whistler · Squamish · Vancouver · Burnaby · Surrey · Langley · Abbotsford · Chilliwack + every city between). Global remote install outside BC. Open to partnerships (agencies, resellers, white-label) — `team@easyworksai.com`.
 - **Tagline philosophy:** Sell results, never lead with "AI". Tone is EASY — tight, confident, minimal noise.
-- **Mascot:** "Easy" — lean athletic faceless superhero (chrome helmet, cyan visor band, deep purple suit with magenta + cyan tron circuits, holographic neon cape). Spider-Verse meets Tron.
-- **No real human faces anywhere** — only the mascot or vector illustrations.
-- **Color palette:** Electric purple (#a855f7) · cyan (#22d3ee) · magenta (#ff2bd1) on deep space black (#05030d).
+- **Mascot (v3):** "Easy" — serious faceless special-ops AI agent. Matte chrome helmet, single cyan visor bar, gunmetal-charcoal tactical suit, restrained blue/cyan circuits. Male + female variants. Use sparingly; rotate with branded `.eng-glyph` SVGs.
+- **No real human faces anywhere** — only the mascot or vector glyphs.
+- **Color palette (v3 — SEE "Brand v3" at bottom, this supersedes all earlier purple/cosmic notes):** navy `#070b16` base · electric-blue `#3b82f6` · cyan `#22d3ee`; GOLD `#e8b25a` = money/revenue ONLY. NO purple/magenta/rainbow. Gradients blue→cyan only. The legacy `:root` token names (`--electric-magenta` etc.) are remapped to v3 values — never reintroduce raw `#a855f7`/`#ff2bd1`/`#00f5ff`.
 
 ## Deploy commands
 
@@ -170,3 +170,6 @@ done
 - **Mascot use:** Use existing pose if it fits. Only generate new poses when truly needed (each gen costs Higgsfield credits).
 - **Image weight:** All mascots resized to 1100px wide and live in `img/` — DO NOT add 2048px originals.
 - **No human faces** — the mascot is faceless (chrome visor band) intentionally.
+
+## Brand v3 (2026-05-19)
+SERIOUS palette: navy #070b16 + blue #3b82f6 + cyan #22d3ee; GOLD #e8b25a = money/revenue ONLY. No purple/magenta/rainbow; gradients blue→cyan. Tokens in redesign.css :root (old names remapped — don't reintroduce raw #a855f7/#ff2bd1/#00f5ff). Mascot = serious tactical (img/easy-hero.png male, easy-hero-female.png). Branded animated glyphs (.eng-glyph) replace repeated mascots. Pricing: lead $/mo, '+ $X one-time setup' secondary. Full guide: ~/easyworks/brand/BRAND.md. v3 live on preview alias only.
