@@ -26,10 +26,10 @@
     container.appendChild(renderer.domElement);
 
     // Lighting — three-point toon-ish setup
-    const ambient = new THREE.AmbientLight(0x4a2f88, 0.4);
+    const ambient = new THREE.AmbientLight(0x1c2740, 0.4);
     scene.add(ambient);
 
-    const keyLight = new THREE.DirectionalLight(0xff2bd1, 1.2);
+    const keyLight = new THREE.DirectionalLight(0x3b82f6, 1.2);
     keyLight.position.set(5, 6, 4);
     scene.add(keyLight);
 
@@ -37,7 +37,7 @@
     rimLight.position.set(-4, -2, 3);
     scene.add(rimLight);
 
-    const fill = new THREE.PointLight(0xa855f7, 1.5, 20);
+    const fill = new THREE.PointLight(0x2563eb, 1.5, 20);
     fill.position.set(0, 0, 5);
     scene.add(fill);
 
@@ -50,7 +50,7 @@
         emissive: color,
         emissiveIntensity: 0.18,
         shininess: 80,
-        specular: 0xa78bfa,
+        specular: 0x7dd3fc,
         transparent: true,
         opacity: 0.55,
         flatShading: true,
@@ -84,11 +84,11 @@
     const dodecaGeom = new THREE.DodecahedronGeometry(0.9, 0);
 
     // Fewer crystals, pushed further back, smaller — atmospheric depth not competing focal points
-    addObject(icoGeom,   0xa855f7, -7.5,  3.5, -8,  0.4, { x: 0.004, y: 0.006, z: 0.002 });
-    addObject(octGeom,   0xff2bd1,  7.0,  3.5, -9,  0.45, { x: -0.005, y: 0.008, z: 0.003 });
+    addObject(icoGeom,   0x3b82f6, -7.5,  3.5, -8,  0.4, { x: 0.004, y: 0.006, z: 0.002 });
+    addObject(octGeom,   0xe8b25a,  7.0,  3.5, -9,  0.45, { x: -0.005, y: 0.008, z: 0.003 });
     addObject(dodecaGeom,0x22d3ee, -6.5, -2.5, -10, 0.35, { x: 0.005, y: 0.004, z: 0.004 });
-    addObject(tetraGeom, 0xf0abfc,  6.5, -3.0, -10, 0.4, { x: -0.006, y: 0.005, z: 0.003 });
-    addObject(cubeGeom,  0x00f5ff, -2.0,  5.0, -12, 0.3, { x: 0.003, y: -0.007, z: 0.004 });
+    addObject(tetraGeom, 0x7dd3fc,  6.5, -3.0, -10, 0.4, { x: -0.006, y: 0.005, z: 0.003 });
+    addObject(cubeGeom,  0x38bdf8, -2.0,  5.0, -12, 0.3, { x: 0.003, y: -0.007, z: 0.004 });
 
     // Particle field (lots of small dots for depth)
     const particleGeom = new THREE.BufferGeometry();
@@ -97,10 +97,11 @@
     const colors = new Float32Array(particleCount * 3);
     const palette = [
       [0.13, 0.83, 0.93], // cyan
-      [0.94, 0.67, 0.99], // magenta-light
-      [0.66, 0.33, 0.97], // purple
-      [1.0,  0.17, 0.82], // hot pink
-      [1.0, 1.0, 1.0],   // white
+      [0.49, 0.83, 0.99], // ice blue
+      [0.23, 0.51, 0.96], // electric blue
+      [0.91, 0.70, 0.35], // gold (sparse premium accent)
+      [1.0,  1.0,  1.0 ], // white
+      [1.0,  1.0,  1.0 ], // white (weighted brighter)
     ];
     for (let i = 0; i < particleCount; i++) {
       positions[i*3]   = (Math.random() - 0.5) * 28;

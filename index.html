@@ -21,14 +21,14 @@
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://easyworks.ai">
-  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="icon" type="image/png" href="favicon.svg">
   <link rel="apple-touch-icon" href="icon-192.png">
   <link rel="preload" as="image" href="img/easy-hero.png" fetchpriority="high">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.min.css?v=73d7341d">
-  <link rel="stylesheet" href="redesign.css?v=11">
+  <link rel="stylesheet" href="redesign.css?v=13">
 
   <!-- Schema: LocalBusiness -->
   <script type="application/ld+json">
@@ -153,7 +153,7 @@
 <nav class="nav" id="nav">
   <div class="nav-inner">
     <a href="#" class="logo">
-      <img src="img/icon.png" alt="" class="logo-icon-img">
+      <img src="img/icon.svg" alt="" class="logo-icon-img">
       <span class="logo-wordmark logo-tracked">EASYWORKS<span class="logo-ai">·AI</span></span>
     </a>
     <div class="nav-links" id="navLinks">
@@ -177,7 +177,7 @@
   <div class="container hero-layout">
     <div class="hero-copy">
       <div class="hero-brand" data-r>
-        <img src="img/icon.png" alt="" class="hero-icon-img">
+        <img src="img/icon.svg" alt="" class="hero-icon-img">
         <span class="brand-name brand-tracked">EASYWORKS<span class="brand-ai">·AI</span></span>
       </div>
       <h1 data-r data-d="1">Less doing.<br><span class="h1-accent h1-glow">More done.</span></h1>
@@ -287,12 +287,22 @@
       <article class="engine-hero engine-hero-foundation engine-ai" data-r>
         <div class="eh-mascot">
           <div class="mascot-glow mascot-glow-cyan"></div>
-          <img src="img/easy-ai-suite.png" alt="" loading="lazy" onerror="this.src='img/easy-hero.png'">
+          <div class="eng-glyph" aria-hidden="true"><svg viewBox="0 0 200 200" class="gl-glow">
+            <circle class="gl-stroke gl-dim gl-ring" cx="100" cy="100" r="70"/>
+            <circle class="gl-stroke gl-dim gl-ring r2" cx="100" cy="100" r="70"/>
+            <circle class="gl-stroke gl-dim gl-ring r3" cx="100" cy="100" r="70"/>
+            <g class="gl-rise">
+              <rect class="gl-stroke" x="74" y="58" width="52" height="84" rx="9"/>
+              <line class="gl-stroke gl-stroke-2" x1="88" y1="74" x2="112" y2="74"/>
+              <circle class="gl-fill-gold" cx="100" cy="124" r="4.5"/>
+              <path class="gl-stroke" d="M86 96h28M86 108h20"/>
+            </g>
+          </svg></div>
         </div>
         <div class="eh-content">
           <div class="eh-head">
             <span class="ec-badge ec-badge-foundation">Foundation · Everyone starts here</span>
-            <span class="ec-price">$997 setup · $497<span class="pp-mo">/mo</span></span>
+            <span class="ec-price"><span class="pr-mo">$497<em>/mo</em></span><span class="pr-setup">+ $997 one-time setup</span></span>
           </div>
           <h3>AI Suite</h3>
           <p class="eh-pitch">Never miss a call. Never lose a lead. The operating system every other engine plugs into.</p>
@@ -310,10 +320,15 @@
       <!-- Tier 2: Demand engines (paired) -->
       <div class="engines-row engines-row-2">
         <article class="product-card engine-card engine-content" data-r>
-          <div class="ec-mascot"><img src="img/easy-content.png" alt="" loading="lazy" onerror="this.src='img/easy-hero.png'"></div>
+          <div class="ec-mascot"><div class="eng-glyph" aria-hidden="true"><svg viewBox="0 0 200 200" class="gl-glow">
+            <rect class="gl-stroke gl-dim" x="52" y="62" width="96" height="76" rx="8"/>
+            <g class="gl-pub"><rect class="gl-stroke" x="64" y="50" width="72" height="22" rx="5"/><line class="gl-stroke gl-stroke-2" x1="74" y1="61" x2="120" y2="61"/></g>
+            <g class="gl-pub p2"><rect class="gl-stroke" x="64" y="84" width="72" height="22" rx="5"/><line class="gl-stroke gl-stroke-2" x1="74" y1="95" x2="110" y2="95"/></g>
+            <g class="gl-pub p3"><rect class="gl-stroke" x="64" y="118" width="72" height="22" rx="5"/><line class="gl-stroke gl-stroke-2" x1="74" y1="129" x2="124" y2="129"/></g>
+          </svg></div></div>
           <div class="ec-head">
             <span class="ec-badge ec-badge-demand">Demand</span>
-            <span class="ec-price">$1,297 setup<br>$997<span class="pp-mo">/mo</span></span>
+            <span class="ec-price"><span class="pr-mo">$997<em>/mo</em></span><span class="pr-setup">+ $1,297 one-time setup</span></span>
           </div>
           <h3>Content Engine</h3>
           <p class="ec-pitch">AI-made content that stops the scroll. Posts, reels, photos, videos — your brand on autopilot.</p>
@@ -328,10 +343,17 @@
         </article>
 
         <article class="product-card engine-card engine-seo" data-r data-d="1">
-          <div class="ec-mascot"><img src="img/easy-seo.png" alt="" loading="lazy" onerror="this.src='img/easy-hero.png'"></div>
+          <div class="ec-mascot"><div class="eng-glyph" aria-hidden="true"><svg viewBox="0 0 200 200" class="gl-glow">
+            <rect class="gl-bar gl-stroke" x="58" y="96" width="16" height="48" rx="3"/>
+            <rect class="gl-bar b2 gl-stroke" x="86" y="80" width="16" height="64" rx="3"/>
+            <rect class="gl-bar b3 gl-stroke" x="114" y="62" width="16" height="82" rx="3"/>
+            <rect class="gl-bar b4 gl-stroke gl-stroke-2" x="142" y="44" width="16" height="100" rx="3"/>
+            <circle class="gl-stroke gl-stroke-2" cx="70" cy="62" r="16"/>
+            <line class="gl-stroke gl-stroke-2" x1="82" y1="74" x2="96" y2="88"/>
+          </svg></div></div>
           <div class="ec-head">
             <span class="ec-badge ec-badge-demand">Demand</span>
-            <span class="ec-price">$997 setup<br>$997<span class="pp-mo">/mo</span></span>
+            <span class="ec-price"><span class="pr-mo">$997<em>/mo</em></span><span class="pr-setup">+ $997 one-time setup</span></span>
           </div>
           <h3>SEO Engine</h3>
           <p class="ec-pitch">Show up on Google when customers search for you. Your ranking, your map pin, your reviews — handled.</p>
@@ -350,12 +372,20 @@
       <article class="engine-hero engine-hero-scale engine-scale" data-r>
         <div class="eh-mascot">
           <div class="mascot-glow"></div>
-          <img src="img/easy-scale.png" alt="" loading="lazy" onerror="this.src='img/easy-hero.png'">
+          <div class="eng-glyph" aria-hidden="true"><svg viewBox="0 0 220 200" class="gl-glow-gold">
+            <polyline class="gl-stroke gl-dim" points="34,150 34,40"/>
+            <polyline class="gl-stroke gl-dim" points="34,150 196,150"/>
+            <polyline class="gl-gold gl-draw" points="44,138 84,118 112,128 150,82 192,46"/>
+            <path class="gl-gold" d="M178 46h14v14" />
+            <circle class="gl-fill-gold gl-coin"  cx="150" cy="40" r="9"/>
+            <circle class="gl-fill-gold gl-coin c2" cx="172" cy="40" r="9"/>
+            <circle class="gl-fill-gold gl-coin c3" cx="128" cy="40" r="9"/>
+          </svg></div>
         </div>
         <div class="eh-content">
           <div class="eh-head">
             <span class="ec-badge ec-badge-scale">⚡ Scale tier · The unfair advantage</span>
-            <span class="ec-price">$997 setup · from $497<span class="pp-mo">/mo</span></span>
+            <span class="ec-price"><span class="pr-mo">from $497<em>/mo</em></span><span class="pr-setup">+ $997 one-time setup</span></span>
           </div>
           <h3>AI Revenue Scale</h3>
           <p class="eh-pitch">Self-driving paid ads. Pours gas on what's working, kills what isn't, automatically. The premium engine.</p>
@@ -374,10 +404,16 @@
       <!-- Tier 4: Specialty (centered single) -->
       <div class="engines-row engines-row-1">
         <article class="product-card engine-card engine-voice" data-r>
-          <div class="ec-mascot"><img src="img/easy-voice.png" alt="" loading="lazy" onerror="this.src='img/easy-hero.png'"></div>
+          <div class="ec-mascot"><div class="eng-glyph" aria-hidden="true"><svg viewBox="0 0 200 200" class="gl-glow">
+            <g class="gl-wave"><path class="gl-stroke" d="M40 100 Q52 70 64 100 T88 100 T112 100 T136 100"/></g>
+            <path class="gl-stroke gl-stroke-2" d="M140 78l18-12v68l-18-12"/>
+            <rect class="gl-stroke" x="120" y="120" width="56" height="44" rx="6"/>
+            <path class="gl-stroke gl-stroke-2" d="M130 134h36M130 146h26"/>
+            <circle class="gl-fill-gold" cx="166" cy="150" r="3.5"/>
+          </svg></div></div>
           <div class="ec-head">
             <span class="ec-badge ec-badge-specialty">Specialty</span>
-            <span class="ec-price">$997 setup<br>$497<span class="pp-mo">/mo</span></span>
+            <span class="ec-price"><span class="pr-mo">$497<em>/mo</em></span><span class="pr-setup">+ $997 one-time setup</span></span>
           </div>
           <h3>Voice → Report</h3>
           <p class="ec-pitch">Dictation, returned as a finished report. For notaries, paralegals, agents, adjusters, and BC clinicians.</p>
@@ -410,17 +446,17 @@
         <button class="sb-bundle" data-bundle="starter">
           <span class="bdl-name">Starter</span>
           <span class="bdl-list">AI Suite</span>
-          <span class="bdl-price">$997 + $497/mo</span>
+          <span class="bdl-price">$497/mo<small> + $997 setup</small></span>
         </button>
         <button class="sb-bundle" data-bundle="local-growth">
           <span class="bdl-name">Local Growth</span>
           <span class="bdl-list">AI Suite + SEO</span>
-          <span class="bdl-price">$1,795 + $1,345/mo</span>
+          <span class="bdl-price">$1,345/mo<small> + $1,795 setup</small></span>
         </button>
         <button class="sb-bundle" data-bundle="brand-builder">
           <span class="bdl-name">Brand Builder</span>
           <span class="bdl-list">AI Suite + Content</span>
-          <span class="bdl-price">$2,065 + $1,345/mo</span>
+          <span class="bdl-price">$1,345/mo<small> + $2,065 setup</small></span>
         </button>
         <button class="sb-bundle sb-bundle-best" data-bundle="full-stack">
           <div class="sb-ribbon" aria-hidden="true">
@@ -434,7 +470,7 @@
           <span class="bdl-tag">Most popular</span>
           <span class="bdl-name">Full Stack</span>
           <span class="bdl-list">AI Suite + Content + SEO + Revenue Scale</span>
-          <span class="bdl-price">$3,517 + $2,450/mo</span>
+          <span class="bdl-price">$2,450/mo<small> + $3,517 setup</small></span>
         </button>
       </div>
 
@@ -443,31 +479,31 @@
           <input type="checkbox" checked data-engine="ai">
           <span class="sb-check"></span>
           <span class="sb-name">AI Suite <span class="sb-tag">Foundation</span></span>
-          <span class="sb-cost">$997 setup · $497/mo</span>
+          <span class="sb-cost">$497/mo + $997 setup</span>
         </label>
         <label class="sb-engine" data-setup="1297" data-mo="997">
           <input type="checkbox" data-engine="content">
           <span class="sb-check"></span>
           <span class="sb-name">Content Engine</span>
-          <span class="sb-cost">$1,297 setup · $997/mo</span>
+          <span class="sb-cost">$997/mo + $1,297 setup</span>
         </label>
         <label class="sb-engine" data-setup="997" data-mo="997">
           <input type="checkbox" data-engine="seo">
           <span class="sb-check"></span>
           <span class="sb-name">SEO Engine</span>
-          <span class="sb-cost">$997 setup · $997/mo</span>
+          <span class="sb-cost">$997/mo + $997 setup</span>
         </label>
         <label class="sb-engine" data-setup="997" data-mo="497">
           <input type="checkbox" data-engine="revenue-scale">
           <span class="sb-check"></span>
           <span class="sb-name">AI Revenue Scale <span class="sb-tag sb-tag-scale">⚡</span></span>
-          <span class="sb-cost">$997 setup · from $497/mo</span>
+          <span class="sb-cost">from $497/mo + $997 setup</span>
         </label>
         <label class="sb-engine" data-setup="997" data-mo="497">
           <input type="checkbox" data-engine="voice">
           <span class="sb-check"></span>
           <span class="sb-name">Voice → Report</span>
-          <span class="sb-cost">$997 setup · $497/mo</span>
+          <span class="sb-cost">$497/mo + $997 setup</span>
         </label>
       </div>
 
@@ -484,7 +520,7 @@
         <div class="sb-totals">
           <div class="sb-row sb-row-strike">
             <span>Standard</span>
-            <span><span id="sb-std-setup">$997</span> setup · <span id="sb-std-mo">$497</span>/mo</span>
+            <span><span id="sb-std-mo">$497</span>/mo <span class="pr-setup">+ <span id="sb-std-setup">$997</span> one-time setup</span></span>
           </div>
           <div class="sb-row sb-row-discount">
             <span>Stack discount</span>
@@ -492,7 +528,7 @@
           </div>
           <div class="sb-row sb-row-total">
             <span>Your total</span>
-            <span><span id="sb-total-setup" class="sb-total-num">$997</span> setup · <span id="sb-total-mo" class="sb-total-num">$497</span>/mo</span>
+            <span><span id="sb-total-mo" class="sb-total-num">$497</span>/mo <span class="pr-setup">+ <span id="sb-total-setup" class="sb-total-num">$997</span> one-time setup</span></span>
           </div>
         </div>
         <div class="guarantee-crest" data-r>
@@ -833,7 +869,7 @@
     <div class="onsite-band onsite-band-v2">
       <div class="onsite-mascot" data-r>
         <div class="mascot-glow mascot-glow-cyan"></div>
-        <img src="img/easy-onsite.png" alt="" loading="lazy" onerror="this.src='img/easy-hero.png'">
+        <img src="img/easy-hero-female.png" alt="" loading="lazy" class="mascot-img mascot-float">
       </div>
       <div class="onsite-copy" data-r data-d="1">
         <p class="overline">🇨🇦 Built in British Columbia</p>
@@ -934,7 +970,7 @@
   <div class="container container-mid">
     <div class="cta-header" data-r>
       <div class="cta-brand">
-        <img src="img/icon.png" alt="" class="hero-icon-img" style="width:56px;height:56px">
+        <img src="img/icon.svg" alt="" class="hero-icon-img" style="width:56px;height:56px">
         <span class="brand-name brand-tracked" style="font-size:1.4rem">EASYWORKS<span class="brand-ai">·AI</span></span>
       </div>
       <h2>Book your free consultation.</h2>
@@ -983,7 +1019,7 @@
     <div class="footer-grid">
       <div class="footer-brand">
         <a href="#" class="logo">
-          <img src="img/icon.png" alt="" class="logo-icon-img">
+          <img src="img/icon.svg" alt="" class="logo-icon-img">
           <span class="logo-wordmark logo-tracked">EASYWORKS<span class="logo-ai">·AI</span></span>
         </a>
         <p>Less doing.<br>More done.</p>
@@ -1026,8 +1062,8 @@
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js" defer></script>
 <script src="script.min.js?v=73d7341d" defer></script>
-<script src="redesign.js?v=4" defer></script>
-<script src="three-scene.js?v=2" defer></script>
+<script src="redesign.js?v=6" defer></script>
+<script src="three-scene.js?v=3" defer></script>
 <script src="sounds.js?v=4" defer></script>
 <script src="chatbot.js" defer></script>
 </body>

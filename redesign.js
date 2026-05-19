@@ -36,7 +36,7 @@
           z: 0.4 + Math.random() * 0.6,
           r: 0.4 + Math.random() * (layer === 0 ? 0.9 : layer === 1 ? 1.6 : 2.4),
           s: (0.04 + Math.random() * 0.18) * (layer + 1),
-          hue: layer === 0 ? null : (Math.random() < 0.5 ? 290 : 320),
+          hue: layer === 0 ? null : (Math.random() < 0.7 ? 205 : 222),
           twinkle: Math.random() * Math.PI * 2,
           tspeed: 0.01 + Math.random() * 0.03
         });
@@ -72,7 +72,7 @@
         const alpha = (0.35 + 0.65 * (0.5 + 0.5 * Math.sin(s.twinkle))) * s.z;
         ctx.beginPath();
         ctx.fillStyle = s.hue
-          ? `hsla(${s.hue}, 90%, 72%, ${alpha})`
+          ? `hsla(${s.hue}, 65%, 75%, ${alpha * 0.85})`
           : `rgba(255,255,255,${alpha})`;
         ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
         ctx.fill();
