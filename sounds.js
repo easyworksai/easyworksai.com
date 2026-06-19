@@ -62,40 +62,91 @@
     return ctx;
   }
 
-  // ─── Ambient v4: TRUE silence + occasional gentle plucks only ───
-  // No continuous sound of any kind. No noise bed. No drone. Just silence
-  // punctuated by a soft pentatonic pluck every 18-45 seconds.
+  // ─── Ambient v5: minimal sci-fi meditation bed + sparse plucks ───
+  // A continuous, low, slowly-breathing pad (root + fifth + octave) with a
+  // faint high airy shimmer, sitting UNDER occasional pentatonic plucks.
+  // Deliberately minimal: no rhythm, very low level, gentle filter drift.
   function startAmbient() {
     if (!ctx || ambientNodes) return;
 
     const now = ctx.currentTime;
-    // Open ambient gain to full (volume controlled at pluck level instead)
     ambientGain.gain.cancelScheduledValues(now);
-    ambientGain.gain.setValueAtTime(VOL.ambient, now);
+    ambientGain.gain.setValueAtTime(0.0001, now);
+    ambientGain.gain.linearRampToValueAtTime(VOL.ambient, now + 6); // slow 6s fade-in
 
+    // Shared gentle lowpass for the whole pad
+    const padFilter = ctx.createBiquadFilter();
+    padFilter.type = 'lowpass';
+    padFilter.frequency.value = 520;
+    padFilter.Q.value = 0.6;
+    const padGain = ctx.createGain();
+    padGain.gain.value = 0.16;             // pad sits well under plucks
+    padFilter.connect(padGain).connect(ambientGain);
+
+    // Slow filter "breathing" — ~40s cycle, meditative
+    const fLfo = ctx.createOscillator();
+    fLfo.type = 'sine';
+    fLfo.frequency.value = 0.025;
+    const fLfoAmt = ctx.createGain();
+    fLfoAmt.gain.value = 240;              // 520 ±240 Hz
+    fLfo.connect(fLfoAmt).connect(padFilter.frequency);
+    fLfo.start();
+
+    // Low drone: root A1, fifth E2, octave A2 — slightly detuned for warmth
+    const drone = [55.0, 82.41, 110.0].map((f, i) => {
+      const o = ctx.createOscillator();
+      o.type = i === 0 ? 'triangle' : 'sine';
+      o.frequency.value = f * (1 + (Math.random() - 0.5) * 0.004);
+      const g = ctx.createGain();
+      g.gain.value = i === 0 ? 0.5 : (i === 1 ? 0.36 : 0.26);
+      o.connect(g).connect(padFilter);
+      o.start();
+      return o;
+    });
+
+    // Faint high "sci-fi" shimmer (E5) with slow amplitude swell
+    const shimmer = ctx.createOscillator();
+    shimmer.type = 'sine';
+    shimmer.frequency.value = 659.25;
+    const shGain = ctx.createGain();
+    shGain.gain.value = 0.0001;
+    shimmer.connect(shGain).connect(ambientGain);
+    const sLfo = ctx.createOscillator();
+    sLfo.type = 'sine';
+    sLfo.frequency.value = 0.06;           // ~16s swell
+    const sLfoAmt = ctx.createGain();
+    sLfoAmt.gain.value = 0.018;            // very faint
+    const sLfoOffset = ctx.createConstantSource();
+    sLfoOffset.offset.value = 0.02;
+    sLfo.connect(sLfoAmt).connect(shGain.gain);
+    sLfoOffset.connect(shGain.gain);
+    shimmer.start(); sLfo.start(); sLfoOffset.start();
+
+    // Sparse pentatonic plucks on top of the bed
     const pluckNotes = [
       523.25, 587.33, 659.25, 783.99, 880.00,        // C5 D5 E5 G5 A5
       1046.50, 1174.66, 1318.51, 1567.98, 1760.00,   // C6 D6 E6 G6 A6
     ];
     let pluckTimer = null;
     function schedulePluck() {
-      // Comfortable spacing — 12 to 28 seconds between events
-      const wait = 12000 + Math.random() * 16000;
+      const wait = 14000 + Math.random() * 18000;    // 14–32s
       pluckTimer = setTimeout(() => {
         if (!ambientNodes) return;
         playPluck(pluckNotes[Math.floor(Math.random() * pluckNotes.length)]);
         schedulePluck();
       }, wait);
     }
-    // FIRST pluck arrives early (2-4s) so user knows ambient is alive
     pluckTimer = setTimeout(() => {
       if (ambientNodes) {
         playPluck(pluckNotes[Math.floor(Math.random() * 5)]);
         schedulePluck();
       }
-    }, 2000 + Math.random() * 2000);
+    }, 4000 + Math.random() * 3000);
 
-    ambientNodes = { pluckTimer };
+    ambientNodes = {
+      pluckTimer,
+      oscs: [...drone, shimmer, fLfo, sLfo, sLfoOffset],
+    };
   }
 
   // Soft pluck — audible but gentle. Bumped from -35dBFS to ~ -18dBFS so it
@@ -138,6 +189,12 @@
     const nodes = ambientNodes;
     ambientNodes = null;
     if (nodes.pluckTimer) clearTimeout(nodes.pluckTimer);
+    // Stop the continuous pad/LFO nodes shortly after the fade completes
+    if (nodes.oscs) {
+      setTimeout(() => {
+        nodes.oscs.forEach((o) => { try { o.stop(); } catch (e) {} });
+      }, fadeMs + 80);
+    }
   }
 
   // ─── Earcons: short generative pitched events ───

@@ -1,19 +1,21 @@
 // POST /.netlify/functions/checkout
-// Body (engines):  { engines: ["content","seo","ai"] }   (subset of five engines)
+// Body (engines):  { engines: ["starter","content","ai"] }   (subset of engines)
 // Body (scribe):   { scribe: { tier: "solo"|"small"|"large", seats: 4 } }
 // Returns: { url: "https://checkout.stripe.com/..." }
 //
 // Pricing source of truth — keep in sync with build_products.py and the homepage.
 // Setup is one-time, monthly is recurring. Discounts via Stripe coupons created on the fly.
+// 2026-06: SEO Engine retired as standalone. Small Business Starter is new flagship.
 
 const Stripe = require('stripe');
 
+// 2026-06: ALL setup fees zeroed out. Scaring close rates. Starter stays 6-mo commit; upgrades stay month-to-month.
 const ENGINES = {
-  ai:              { name: 'AI Suite',                setup:  99700, mo: 49700 },  // cents
-  content:         { name: 'Content Engine',          setup: 129700, mo: 99700 },
-  seo:             { name: 'SEO Engine',              setup:  99700, mo: 99700 },
-  'revenue-scale': { name: 'AI Revenue Scale',        setup:  99700, mo: 49700 },  // Starter tier; client ad spend ≤ $2k/mo
-  voice:           { name: 'Voice → Report Pipeline', setup:  99700, mo: 49700 },
+  starter:         { name: 'Small Business Starter',  setup: 0, mo: 59900 },  // cents · 6-mo commit
+  ai:              { name: 'AI Suite',                setup: 0, mo: 49700 },
+  content:         { name: 'Content Engine',          setup: 0, mo: 99700 },
+  'revenue-scale': { name: 'AI Revenue Scale',        setup: 0, mo: 49700 },  // Starter tier; client ad spend ≤ $2k/mo
+  voice:           { name: 'Voice → Report Pipeline', setup: 0, mo: 49700 },
 };
 const TIER_DISCOUNTS = { 1: 0, 2: 10, 3: 15, 4: 18, 5: 20 };
 

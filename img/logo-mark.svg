@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Easyworks AI">
+  <defs>
+    <linearGradient id="ewBlue" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#3b82f6"/>
+      <stop offset="1" stop-color="#2563eb"/>
+    </linearGradient>
+    <linearGradient id="ewCyan" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#22d3ee"/>
+      <stop offset="1" stop-color="#38bdf8"/>
+    </linearGradient>
+    <filter id="ewGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="1.4" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Top bar (engine 1) -->
+  <rect x="10" y="14" width="34" height="7" rx="3.5" fill="url(#ewBlue)"/>
+
+  <!-- Middle bar (the active engine, longer, cyan, with arrow head extending right) -->
+  <g filter="url(#ewGlow)">
+    <rect x="10" y="28.5" width="38" height="7" rx="3.5" fill="url(#ewCyan)"/>
+    <!-- Forward arrow tip merged on the right end -->
+    <path d="M48 28.5 L56 32 L48 35.5 Z" fill="#22d3ee"/>
+  </g>
+
+  <!-- Bottom bar (engine 3, shortest) -->
+  <rect x="10" y="43" width="28" height="7" rx="3.5" fill="url(#ewBlue)"/>
+</svg>

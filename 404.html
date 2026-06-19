@@ -15,12 +15,12 @@
 <meta name="description" content="That page drifted into the void.">
 <meta name="theme-color" content="#05030d">
 <meta name="robots" content="noindex">
-<link rel="icon" type="image/png" href="/favicon.svg">
+<link rel="icon" type="image/png" href="/favicon.svg?v=2">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/style.min.css?v=v3blue">
-<link rel="stylesheet" href="/redesign.css?v=14">
+<link rel="stylesheet" href="/style.min.css?v=v3blue6">
+<link rel="stylesheet" href="/redesign.css?v=26">
 <style>
   /* Page-specific 404 styles */
   .e404 {
@@ -40,16 +40,16 @@
     font-weight: 800;
     line-height: 0.85;
     letter-spacing: -0.06em;
-    background: linear-gradient(135deg, #22d3ee 0%, #a855f7 50%, #ff2bd1 100%);
+    background: linear-gradient(135deg, #3b82f6 0%, #22d3ee 50%, #38bdf8 100%);
     -webkit-background-clip: text; background-clip: text;
     -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 0 40px rgba(168,85,247,0.5));
+    filter: drop-shadow(0 0 40px rgba(59,130,246,0.5));
     animation: e404-pulse 4s ease-in-out infinite;
     margin-bottom: 8px;
   }
   @keyframes e404-pulse {
-    0%, 100% { filter: drop-shadow(0 0 40px rgba(168,85,247,0.5)); }
-    50%      { filter: drop-shadow(0 0 80px rgba(255,43,209,0.7)); }
+    0%, 100% { filter: drop-shadow(0 0 40px rgba(59,130,246,0.5)); }
+    50%      { filter: drop-shadow(0 0 80px rgba(34,211,238,0.7)); }
   }
   .e404-glitch {
     position: relative;
@@ -109,7 +109,7 @@
     -webkit-text-fill-color: transparent;
   }
   .e404-sub {
-    color: #c4b5fd;
+    color: #aab8d6;
     max-width: 520px;
     margin: 0 auto 32px;
     line-height: 1.6;
@@ -138,7 +138,7 @@
     position: absolute;
     inset: -25%;
     background:
-      radial-gradient(ellipse 45% 55% at center, rgba(168,85,247,0.4) 0%, transparent 70%),
+      radial-gradient(ellipse 45% 55% at center, rgba(59,130,246,0.4) 0%, transparent 70%),
       radial-gradient(ellipse 70% 75% at center, rgba(34,211,238,0.25) 0%, transparent 75%);
     filter: blur(60px);
     z-index: 0;
@@ -157,7 +157,7 @@
             mask-mode: alpha;
     filter:
       contrast(1.18) brightness(1.05) saturate(1.15)
-      drop-shadow(0 0 40px rgba(168,85,247,0.5))
+      drop-shadow(0 0 40px rgba(59,130,246,0.5))
       drop-shadow(0 0 80px rgba(34,211,238,0.3));
     animation: e404-float 6s ease-in-out infinite;
   }
@@ -178,9 +178,9 @@
   .e404-link {
     padding: 14px 16px;
     background: rgba(18,8,38,0.6);
-    border: 1px solid rgba(168,85,247,0.22);
+    border: 1px solid rgba(59,130,246,0.22);
     border-radius: 12px;
-    color: #c4b5fd;
+    color: #aab8d6;
     font-size: 0.9rem;
     transition: all 0.2s var(--ease);
     text-align: left;
@@ -189,8 +189,8 @@
     gap: 10px;
   }
   .e404-link:hover {
-    background: rgba(168,85,247,0.14);
-    border-color: rgba(168,85,247,0.5);
+    background: rgba(59,130,246,0.14);
+    border-color: rgba(59,130,246,0.5);
     color: #fff;
     transform: translateY(-2px);
   }
@@ -207,7 +207,7 @@
     font-size: 0.75rem;
     letter-spacing: 0.15em;
     text-transform: uppercase;
-    color: #6d5e9a;
+    color: #8a99b8;
   }
 </style>
 </head>
@@ -224,7 +224,7 @@
 <nav class="nav">
   <div class="nav-inner">
     <a href="/" class="logo">
-      <img src="/img/icon.svg" alt="" class="logo-icon-img">
+      <img src="/img/icon.svg?v=2" alt="" class="logo-icon-img">
       <span class="logo-wordmark logo-tracked">EASYWORKS<span class="logo-ai">·AI</span></span>
     </a>
     <div class="nav-links">
@@ -261,11 +261,11 @@
     <a href="/#start" class="e404-link">Book a consultation <span class="e404-link-arrow">→</span></a>
   </div>
 
-  <p class="e404-footer">🇨🇦 Surrey, BC · team@easyworksai.com · +1 (672) 966-8975</p>
+  <p class="e404-footer">🇨🇦 Surrey, BC · team@easyworksai.com · +1 (604) 265-7660</p>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js" defer></script>
 <script src="/script.min.js?v=73d7341d" defer></script>
-<script src="/redesign.js?v=6" defer></script>
+<script src="/redesign.js?v=7" defer></script>
 </body>
 </html>

@@ -153,10 +153,10 @@
       // Update bundle highlight if selection matches a known bundle
       const sortedSel = [...selectedSlugs].sort().join(',');
       const BUNDLE_MAP = {
-        'starter':       ['ai'],
-        'local-growth':  ['ai','seo'],
-        'brand-builder': ['ai','content'],
-        'full-stack':    ['ai','content','revenue-scale','seo'],
+        'starter':       ['starter'],
+        'growth':        ['starter','ai'],
+        'brand-builder': ['starter','content'],
+        'full-stack':    ['starter','ai','content','revenue-scale'],
       };
       bundles.forEach(b => {
         const want = (BUNDLE_MAP[b.dataset.bundle] || []).sort().join(',');
@@ -173,10 +173,10 @@
 
     // Wire bundle quick-picks
     const BUNDLES = {
-      'starter':       new Set(['ai']),
-      'local-growth':  new Set(['ai','seo']),
-      'brand-builder': new Set(['ai','content']),
-      'full-stack':    new Set(['ai','content','seo','revenue-scale']),
+      'starter':       new Set(['starter']),
+      'growth':        new Set(['starter','ai']),
+      'brand-builder': new Set(['starter','content']),
+      'full-stack':    new Set(['starter','ai','content','revenue-scale']),
     };
     bundles.forEach(btn => {
       btn.addEventListener('click', (e) => {
@@ -511,4 +511,25 @@
     }, { threshold: 0 });
     io2.observe(flow);
   }
+})();
+
+/* ─────── Consultation date input — clamp to tomorrow … +30 days ─────── */
+(function clampPreferredDate() {
+  const input = document.getElementById('preferred_date');
+  if (!input) return;
+  const fmt = (d) => d.toISOString().slice(0, 10);
+  const today = new Date();
+  // Pacific time approx: shift to start of day local
+  today.setHours(0, 0, 0, 0);
+  const tomorrow = new Date(today.getTime() + 86400000);
+  const cap = new Date(today.getTime() + 30 * 86400000);
+  input.min = fmt(tomorrow);
+  input.max = fmt(cap);
+  // Default to 2 business days out so users see a friendly suggestion
+  let suggest = new Date(today.getTime() + 2 * 86400000);
+  // Skip weekends to land on Mon if needed
+  while (suggest.getDay() === 0 || suggest.getDay() === 6) {
+    suggest = new Date(suggest.getTime() + 86400000);
+  }
+  if (!input.value) input.value = fmt(suggest);
 })();

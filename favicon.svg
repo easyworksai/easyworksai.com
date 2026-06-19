@@ -1,21 +1,26 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Easyworks AI">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#0c1222"/>
+    <linearGradient id="ewiBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0c1424"/>
       <stop offset="1" stop-color="#070b16"/>
     </linearGradient>
-    <linearGradient id="acc" x1="0" y1="0" x2="1" y2="0">
+    <linearGradient id="ewiBorder" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3b82f6" stop-opacity="0.6"/>
+      <stop offset="1" stop-color="#22d3ee" stop-opacity="0.55"/>
+    </linearGradient>
+    <linearGradient id="ewiBlue" x1="0" y1="0" x2="1" y2="0">
       <stop offset="0" stop-color="#3b82f6"/>
-      <stop offset="1" stop-color="#22d3ee"/>
+      <stop offset="1" stop-color="#2563eb"/>
+    </linearGradient>
+    <linearGradient id="ewiCyan" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#22d3ee"/>
+      <stop offset="1" stop-color="#38bdf8"/>
     </linearGradient>
   </defs>
-  <rect width="64" height="64" rx="14" fill="url(#bg)"/>
-  <rect x="1.5" y="1.5" width="61" height="61" rx="13" fill="none" stroke="#22d3ee" stroke-opacity="0.28"/>
-  <g font-family="'Space Grotesk', system-ui, sans-serif" font-weight="700" font-size="32" letter-spacing="1" fill="#f5f7ff">
-    <text x="11" y="42">E</text>
-  </g>
-  <circle cx="38" cy="38" r="3.6" fill="url(#acc)"/>
-  <g font-family="'Space Grotesk', system-ui, sans-serif" font-weight="700" font-size="32" fill="#f5f7ff">
-    <text x="42" y="42">A</text>
-  </g>
+  <rect width="64" height="64" rx="14" fill="url(#ewiBg)"/>
+  <rect x="1" y="1" width="62" height="62" rx="13" fill="none" stroke="url(#ewiBorder)" stroke-width="1.2"/>
+  <rect x="14" y="17" width="30" height="6" rx="3" fill="url(#ewiBlue)"/>
+  <rect x="14" y="29" width="34" height="6" rx="3" fill="url(#ewiCyan)"/>
+  <path d="M48 29 L55 32 L48 35 Z" fill="#22d3ee"/>
+  <rect x="14" y="41" width="24" height="6" rx="3" fill="url(#ewiBlue)"/>
 </svg>

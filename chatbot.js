@@ -93,7 +93,7 @@
 
   function injectStyles() {
     const css = `
-      .ew-chat-widget { --ew-accent: #3b82f6; --ew-cyan: #22d3ee; --ew-magenta: #22d3ee; --ew-bg: #05030d; --ew-surface: #120826; --ew-surface2: #1a1330; --ew-border: rgba(59,130,246,0.18); --ew-text: #f5f3ff; --ew-dim: #c4b5fd; --ew-font: 'Space Grotesk', -apple-system, sans-serif; --ew-font-body: 'Inter', -apple-system, sans-serif; }
+      .ew-chat-widget { --ew-accent: #3b82f6; --ew-cyan: #22d3ee; --ew-magenta: #22d3ee; --ew-bg: #070b16; --ew-surface: #0c1424; --ew-surface2: #0f182c; --ew-border: rgba(59,130,246,0.18); --ew-text: #eef2fb; --ew-dim: #aab8d6; --ew-font: 'Space Grotesk', -apple-system, sans-serif; --ew-font-body: 'Inter', -apple-system, sans-serif; }
       .ew-chat-fab { position: fixed; bottom: 86px; right: 22px; z-index: 998; width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg, #38bdf8 0%, #3b82f6 50%, #22d3ee 100%); border: 1px solid rgba(255,255,255,0.12); cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 28px rgba(59,130,246,0.55), 0 0 24px rgba(34,211,238,0.35), 0 0 0 0 rgba(59,130,246,0.4); transition: all 0.3s cubic-bezier(0.16,1,0.3,1); }
       .ew-chat-fab:hover { transform: scale(1.08); box-shadow: 0 6px 32px rgba(59,130,246,0.6); }
       .ew-chat-fab.open { transform: scale(0.9) rotate(90deg); opacity: 0; pointer-events: none; }

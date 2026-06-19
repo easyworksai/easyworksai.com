@@ -63,18 +63,21 @@ Logged in as `team@easyworksai.com`, site ID `3ba07fa5-82d5-4f17-8f6f-cdc9a91d41
 └── _redirects              # www → apex redirects (404.html served automatically)
 ```
 
-## Pricing (encoded in checkout.js + product cards)
+## Pricing (encoded in checkout.js + product cards) — 2026-06 RESTRUCTURE + setup fees zeroed
 
 | Engine | Setup | Monthly | Notes |
 |--------|-------|---------|-------|
-| AI Suite | $997 | $497 | Foundation — everyone starts here |
-| Content Engine | $1,297 | $997 | Demand engine |
-| SEO Engine | $997 | $997 | Demand engine |
-| AI Revenue Scale | $997 | $497 / $997 / $1,497 | Scale (tiered by client ad spend) |
-| Voice → Report | $997 | $497 | Specialty / verticals |
+| **Small Business Starter** | $0 | **$599** | **FLAGSHIP** — 6-month commit. Website + GBP + CRM + basic AI + basic SEO + branding kit. Optional + $498/mo Content add-on. |
+| AI Suite | $0 | $497 | Upgrade — full AI receptionist (Starter's basic is light). Month-to-month. |
+| Content Engine | $0 | $997 | Demand engine. Month-to-month. |
+| AI Revenue Scale | $0 | $497 / $997 / $1,497 | Scale (tiered by client ad spend). Month-to-month. |
+| Voice → Report | $0 | $497 | Specialty (off-grid, separate page). Month-to-month. |
+
+**SEO Engine RETIRED as standalone (2026-06)** — basic SEO is now in Starter. /seo-engine/ page still live for SEO value (needs banner pointing to Starter).
+**Setup fees zeroed across the board 2026-06-02** — were scaring close rates. Starter keeps 6-mo commit to cover website build cost.
 
 **Stack discounts:** 2 engines = 10% · 3 = 15% · 4 = 18% · 5 = 20%
-**Full Stack bundle (AI Suite + Content + SEO + Revenue Scale):** $3,517 + $2,450/mo
+**Full Stack bundle (Starter + AI Suite + Content + Revenue Scale):** $2,124/mo · no setup
 
 ## Mascot pose prompt template (for re-generation)
 
