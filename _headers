@@ -1,0 +1,3 @@
+
+/gbp/*
+  Access-Control-Allow-Origin: *
