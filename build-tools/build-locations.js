@@ -57,8 +57,8 @@ const footer = () => `<footer class="footer"><div class="container"><div class="
 
 const cityPage = (c) => {
   const url = `https://easyworks.ai/locations/${c.slug}/`;
-  const title = `AI Agency in ${c.city}, ${c.region} — On-Site AI for Local Business | Easyworks AI`;
-  const description = `Done-for-you AI systems for ${c.city} businesses. AI receptionist, CRM, local SEO, Google Business Profile, website. On-site install in ${c.city}. From $599/mo.`;
+  const title = `AI Services and AI Consulting in ${c.city}, ${c.region} | Easyworks AI`;
+  const description = `AI services for ${c.city} businesses, installed on-site. AI receptionist, CRM, local SEO, Google Business Profile and website, from $599/mo with no setup fee. AI consulting from a BC team.`;
   const og = `AI for ${c.city} Businesses — Easyworks AI`;
 
   const schemas = `
