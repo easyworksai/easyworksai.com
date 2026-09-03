@@ -3,5 +3,6 @@ Allow: /
 Disallow: /thanks/
 Disallow: /clients/
 Disallow: /team/
+Disallow: /gbp/
 
 Sitemap: https://easyworks.ai/sitemap.xml
