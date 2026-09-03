@@ -1,145 +1,1702 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Easyworks — Sales Payment Links</title>
-<meta name="robots" content="noindex, nofollow">
-<link rel="icon" type="image/png" href="../favicon.png?v=2">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>The Floor — Easyworks Sales Team</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2214%22%20fill%3D%22%23070b16%22/%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%233b82f6%22/%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%2322d3ee%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Ctext%20x%3D%2232%22%20y%3D%2247%22%20font-family%3D%22Helvetica%2CArial%2Csans-serif%22%20font-size%3D%2244%22%20font-weight%3D%22bold%22%20text-anchor%3D%22middle%22%20fill%3D%22url%28%23g%29%22%3EF%3C/text%3E%3C/svg%3E" type="image/svg+xml">
+<link rel="manifest" href="/team/manifest.json">
+<meta name="theme-color" content="#070b16">
+<link rel="apple-touch-icon" href="/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <style>
-  :root{--bg:#05030d;--card:#120826;--line:rgba(59,130,246,.25);--cyan:#22d3ee;--mag:#22d3ee;--pur:#3b82f6;--txt:#eef2fb;--dim:#aab8d6;--mut:#7c6ba8}
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{background:radial-gradient(ellipse at 50% 0,rgba(59,130,246,.16),transparent 55%),var(--bg);color:var(--txt);font-family:'Inter',sans-serif;min-height:100vh;padding:40px 20px}
-  .wrap{max-width:620px;margin:0 auto}
-  h1{font-family:'Space Grotesk',sans-serif;font-size:1.6rem;font-weight:800;letter-spacing:-.02em;margin-bottom:4px}
-  .sub{color:var(--mut);font-size:.85rem;font-family:'JetBrains Mono',monospace;letter-spacing:.05em;margin-bottom:28px}
-  .panel{background:linear-gradient(180deg,rgba(26,19,48,.9),rgba(10,5,23,.95));border:1px solid var(--line);border-radius:18px;padding:26px;margin-bottom:18px}
-  label{display:block;font-size:.78rem;font-family:'JetBrains Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:10px}
-  input[type=text],input[type=password]{width:100%;padding:13px 15px;background:rgba(18,8,38,.7);border:1px solid var(--line);border-radius:11px;color:var(--txt);font-size:.95rem;font-family:inherit}
-  input:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 3px rgba(34,211,238,.16)}
-  .eng{display:flex;align-items:center;gap:12px;padding:13px 15px;background:rgba(18,8,38,.6);border:1px solid var(--line);border-radius:11px;margin-bottom:8px;cursor:pointer;transition:.15s}
-  .eng:hover{border-color:rgba(59,130,246,.5)}
-  .eng.on{background:rgba(34,211,238,.1);border-color:rgba(34,211,238,.5)}
-  .eng input{width:20px;height:20px;accent-color:var(--cyan);cursor:pointer}
-  .eng .nm{flex:1;font-weight:600;font-size:.95rem}
-  .eng .pr{font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--mut)}
-  .tot{display:flex;justify-content:space-between;padding:16px 0;border-top:1px solid var(--line);margin-top:12px;font-family:'JetBrains Mono',monospace}
-  .tot .big{font-size:1.25rem;font-weight:700;background:linear-gradient(135deg,#22d3ee,#3b82f6,#22d3ee);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-  .disc{color:var(--mag);font-size:.85rem;font-family:'JetBrains Mono',monospace;text-align:right;margin-top:-6px}
-  button.go{width:100%;padding:15px;background:linear-gradient(135deg,#22d3ee,#3b82f6,#22d3ee);color:#fff;border:none;border-radius:11px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1rem;cursor:pointer;margin-top:14px;transition:.2s}
-  button.go:hover{filter:brightness(1.08);transform:translateY(-1px)}
-  button.go:disabled{opacity:.5;cursor:not-allowed;transform:none}
-  .result{margin-top:16px;display:none}
-  .result.show{display:block}
-  .linkbox{display:flex;gap:8px;margin-top:8px}
-  .linkbox input{flex:1;font-family:'JetBrains Mono',monospace;font-size:.82rem}
-  .copy{padding:0 18px;background:rgba(34,211,238,.16);border:1px solid var(--cyan);border-radius:11px;color:var(--cyan);font-weight:600;cursor:pointer;white-space:nowrap}
-  .copy:hover{background:rgba(34,211,238,.28)}
-  .err{color:#ff6b9d;font-size:.85rem;margin-top:10px;font-family:'JetBrains Mono',monospace}
-  .hint{color:var(--mut);font-size:.78rem;margin-top:8px;line-height:1.5}
-  .lock{text-align:center;padding:40px 0}
+:root{
+  --navy:#070b16; --panel:#0d1424; --panel2:#111a30; --line:#1c2740;
+  --blue:#3b82f6; --cyan:#22d3ee; --gold:#e8b25a; --ink:#e8edf7; --dim:#8fa3c8;
+  --green:#34d399; --lock:#39466488; --lockink:#42506e;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--navy);color:var(--ink);font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh}
+.wrap{max-width:920px;margin:0 auto;padding:24px 18px 80px}
+header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.logo{font-weight:800;letter-spacing:.06em;font-size:15px;color:#fff;text-decoration:none}
+.logo span{color:var(--cyan)}
+.who{font-size:13px;color:var(--dim)}
+.who b{color:var(--ink)}
+.who a{color:var(--cyan);text-decoration:none;margin-left:10px;cursor:pointer}
+.hide{display:none!important}
+button{font-family:inherit}
+
+/* mascot login */
+.login .mascot{width:230px;margin:0 auto 6px;display:block;mix-blend-mode:screen;
+  -webkit-mask-image:radial-gradient(ellipse 75% 85% at center 50%,#000 0%,rgba(0,0,0,.85) 70%,transparent 100%);
+  mask-image:radial-gradient(ellipse 75% 85% at center 50%,#000 0%,rgba(0,0,0,.85) 70%,transparent 100%);
+  filter:contrast(1.18) brightness(1.04) saturate(1.12) drop-shadow(0 0 50px rgba(59,130,246,.35)) drop-shadow(0 0 110px rgba(34,211,238,.2))}
+
+/* rank insignia */
+.insig{width:56px;height:56px;flex:none}
+.hero .toprow .rankwrap{display:flex;align-items:center;gap:14px}
+
+/* streak strip */
+.strip{display:flex;gap:18px;align-items:center;font-size:13px;color:var(--dim);margin-top:10px;flex-wrap:wrap}
+.strip b{color:var(--ink)}
+.strip .flame{color:var(--gold);font-weight:800}
+
+/* the wire */
+.wire{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:6px 0;max-height:250px;overflow-y:auto}
+.wev{display:flex;gap:12px;align-items:flex-start;padding:9px 16px;font-size:13.5px;border-bottom:1px solid #10192e}
+.wev:last-child{border-bottom:0}
+.wev .ic{flex:none;width:26px;height:26px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;background:#0a101f}
+.wev.audit .ic{background:#241a09}
+.wev .tx{color:var(--ink)}
+.wev.audit .tx{color:var(--gold);font-weight:700}
+.wev .tm{margin-left:auto;flex:none;font-size:11px;color:var(--lock);padding-top:3px}
+.wempty{padding:16px;text-align:center;color:var(--dim);font-size:13px}
+
+/* board toggle */
+.btoggle{display:inline-flex;gap:4px;background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:3px;margin-left:10px;vertical-align:middle}
+.btoggle button{border:0;background:transparent;color:var(--dim);font-size:11.5px;font-weight:700;padding:5px 10px;border-radius:7px;cursor:pointer}
+.btoggle button.on{background:linear-gradient(90deg,var(--blue),var(--cyan));color:#fff}
+.stk{color:var(--gold);font-size:12px;font-weight:700}
+
+/* rank-up overlay */
+.rankup{position:fixed;inset:0;background:rgba(4,7,14,.92);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:50;opacity:0;pointer-events:none;transition:opacity .4s}
+.rankup.show{opacity:1;pointer-events:auto}
+.rankup canvas{position:absolute;inset:0;width:100%;height:100%}
+.rankup .insig{width:120px;height:120px;position:relative;animation:pop .6s cubic-bezier(.2,1.6,.4,1)}
+.rankup .rl{position:relative;font-size:14px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin-top:18px}
+.rankup .rn{position:relative;font-size:44px;font-weight:800;background:linear-gradient(90deg,var(--blue),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+.rankup .close{position:relative;margin-top:26px;padding:12px 28px;border:0;border-radius:99px;font-weight:700;cursor:pointer;color:#fff;background:linear-gradient(90deg,var(--blue),var(--cyan))}
+@keyframes pop{0%{transform:scale(.3);opacity:0}100%{transform:scale(1);opacity:1}}
+
+/* login */
+.login{max-width:380px;margin:10vh auto 0;text-align:center}
+.login h1{font-size:26px;margin-bottom:8px}
+.login p{color:var(--dim);margin-bottom:24px}
+.login input{width:100%;background:var(--panel);border:1px solid var(--line);border-radius:10px;color:var(--ink);padding:14px;font-size:17px;text-align:center;letter-spacing:.08em;text-transform:uppercase}
+.login input:focus{outline:none;border-color:var(--blue)}
+.login button{width:100%;margin-top:12px;padding:14px;border:0;border-radius:10px;cursor:pointer;font-size:16px;font-weight:700;color:#fff;background:linear-gradient(90deg,var(--blue),var(--cyan))}
+.err{color:#f87171;font-size:13px;margin-top:10px;min-height:18px}
+
+/* tabs */
+nav.tabs{display:flex;gap:6px;margin-bottom:20px;border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:5px;overflow-x:auto}
+nav.tabs button{flex:1;min-width:96px;padding:10px 8px;border:0;border-radius:9px;background:transparent;color:var(--dim);font-size:13.5px;font-weight:700;cursor:pointer;white-space:nowrap}
+nav.tabs button.on{background:linear-gradient(90deg,var(--blue),var(--cyan));color:#fff}
+
+/* incentive banner */
+.inc{display:flex;gap:14px;align-items:center;background:linear-gradient(90deg,#1a1408,#241a09);border:1px solid #3d2f12;border-radius:14px;padding:14px 18px;margin-bottom:16px}
+.inc .flame{font-size:22px}
+.inc b{color:var(--gold)}
+.inc .d{font-size:13px;color:#cbb27f}
+.inc .u{margin-left:auto;font-size:12px;color:#8f7b4f;white-space:nowrap}
+
+/* hero */
+.hero{background:linear-gradient(135deg,var(--panel) 0%,var(--panel2) 100%);border:1px solid var(--line);border-radius:16px;padding:22px 24px;margin-bottom:16px}
+.hero .toprow{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:6px}
+.rank{font-size:30px;font-weight:800;background:linear-gradient(90deg,var(--blue),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+.xp{font-size:14px;color:var(--dim)}
+.xp b{color:var(--ink);font-size:18px}
+.bar{height:10px;background:#0a101f;border-radius:99px;margin:14px 0 6px;overflow:hidden}
+.bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--blue),var(--cyan));transition:width .8s ease}
+.nextup{font-size:12.5px;color:var(--dim)}
+
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.tile{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 8px;text-align:center}
+.tile .n{font-size:30px;font-weight:800}
+.tile .l{font-size:11.5px;color:var(--dim);text-transform:uppercase;letter-spacing:.05em;margin-top:2px}
+.tile .x{font-size:11px;color:var(--cyan);margin-top:4px}
+
+h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--dim);margin:24px 0 12px}
+.badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:12px}
+.badge{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px;text-align:center;position:relative;transition:transform .15s}
+.badge.on{border-color:#2a4a86}
+.badge.on:hover{transform:translateY(-2px)}
+.badge .ico{width:44px;height:44px;margin:0 auto 8px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;background:#0a101f;color:#2a3552}
+.badge.on .ico{background:linear-gradient(135deg,var(--blue),var(--cyan));color:#fff;box-shadow:0 4px 18px rgba(34,211,238,.25)}
+.badge .bn{font-size:13px;font-weight:700;color:var(--lockink)}
+.badge.on .bn{color:var(--ink)}
+.badge .bd{font-size:11.5px;color:var(--lock);margin-top:2px}
+.badge.on .bd{color:var(--dim)}
+.badge .lockt{position:absolute;top:8px;right:10px;font-size:10.5px;color:var(--lock)}
+
+.board{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.board table{width:100%;border-collapse:collapse;font-size:14px}
+.board th{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);text-align:left;padding:12px 14px;border-bottom:1px solid var(--line)}
+.board td{padding:12px 14px;border-bottom:1px solid #131d34}
+.board tr:last-child td{border-bottom:0}
+.board tr.me td{background:#101a31}
+.pos{font-weight:800;width:36px}
+.pos.g{color:var(--gold)} .pos.s{color:#c7d2e8} .pos.b{color:#b0876a}
+.rk{color:var(--cyan);font-size:12.5px}
+.xpcell{font-weight:700}
+
+/* playbook stepper */
+.step{background:var(--panel);border:1px solid var(--line);border-radius:14px;margin-bottom:12px;overflow:hidden}
+.step .head{display:flex;align-items:center;gap:14px;padding:16px 18px;cursor:pointer}
+.step .num{width:34px;height:34px;flex:none;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:800;background:linear-gradient(135deg,var(--blue),var(--cyan));color:#fff}
+.step .t{font-weight:700;font-size:15.5px}
+.step .s{font-size:12.5px;color:var(--dim)}
+.step .chev{margin-left:auto;color:var(--dim);transition:transform .2s}
+.step.open .chev{transform:rotate(90deg)}
+.step .bodyc{display:none;padding:0 18px 18px 66px;color:var(--dim);font-size:14px}
+.step.open .bodyc{display:block}
+.step .bodyc p{margin-bottom:10px}
+.step .bodyc b{color:var(--ink)}
+.say{background:#0a101f;border-left:3px solid var(--cyan);border-radius:0 10px 10px 0;padding:12px 14px;font-style:italic;color:var(--ink);margin:10px 0;font-size:13.5px}
+
+/* training */
+.mod{background:var(--panel);border:1px solid var(--line);border-radius:14px;margin-bottom:12px;overflow:hidden}
+.mod .head{display:flex;align-items:center;gap:14px;padding:16px 18px;cursor:pointer}
+.mod .dot{width:34px;height:34px;flex:none;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;background:#0a101f;color:var(--lockink);border:1px solid var(--line)}
+.mod.done .dot{background:var(--green);color:#04250f;border-color:var(--green)}
+.mod .t{font-weight:700}
+.mod .s{font-size:12.5px;color:var(--dim)}
+.mod .chev{margin-left:auto;color:var(--dim);transition:transform .2s}
+.mod.open .chev{transform:rotate(90deg)}
+.mod .bodyc{display:none;padding:2px 20px 18px;color:var(--dim);font-size:14px}
+.mod.open .bodyc{display:block}
+.mod .bodyc h3{color:var(--blue);font-size:13px;text-transform:uppercase;letter-spacing:.07em;margin:16px 0 6px}
+.mod .bodyc p{margin-bottom:9px}
+.mod .bodyc b{color:var(--ink)}
+.mod .bodyc ul{margin:0 0 10px 18px}
+.mod .bodyc li{margin-bottom:5px}
+.done-btn{margin-top:14px;padding:11px 20px;border:0;border-radius:9px;cursor:pointer;font-weight:700;font-size:14px;color:#fff;background:linear-gradient(90deg,var(--blue),var(--cyan))}
+.done-btn[disabled]{background:#152038;color:var(--green);cursor:default}
+.keypt{background:#241a09;border-left:3px solid var(--gold);border-radius:0 9px 9px 0;padding:11px 14px;font-size:13.5px;color:#e8d0a0;margin:14px 0;line-height:1.5}
+.drill{background:#08191f;border-left:3px solid var(--cyan);border-radius:0 9px 9px 0;padding:11px 14px;font-size:13.5px;color:#a9dbe8;margin:14px 0;line-height:1.5}
+.drill b,.keypt b{color:var(--ink)}
+.quiz{margin-top:20px;background:#0a101f;border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.quiz>h3{color:var(--cyan)!important;margin-top:0!important;text-transform:uppercase!important;font-size:12px!important;letter-spacing:.08em!important}
+.qz-intro{font-size:13px;color:var(--dim);margin-bottom:14px}
+.qz-q{padding:11px 12px;border-radius:9px;margin-bottom:9px;border:1px solid var(--line);background:#0c1424}
+.qz-q.qz-right{background:#0d1c12;border-color:#1c5334}
+.qz-q.qz-wrong{background:#1a0f0f;border-color:#5c2020}
+.qz-prompt{font-weight:700;color:var(--ink);margin-bottom:9px;font-size:13.5px}
+.qz-opt{display:flex;gap:10px;align-items:flex-start;padding:6px 2px;font-size:13.5px;color:var(--dim);cursor:pointer}
+.qz-opt input{margin-top:3px;flex:none;accent-color:var(--blue)}
+.qz-check{margin-top:12px;padding:11px 22px;border:0;border-radius:9px;cursor:pointer;font-weight:700;font-size:14px;color:#fff;background:linear-gradient(90deg,var(--blue),var(--cyan))}
+.qz-check[disabled]{background:#152038;color:var(--green);cursor:default}
+.qz-result{margin-top:11px;font-size:13px;min-height:18px}
+.qz-result.pass{color:var(--green);font-weight:700}
+.qz-result.warn{color:var(--gold)}
+/* role-play drills */
+.drill-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;margin-bottom:12px;overflow:hidden}
+.drill-card .dhead{display:flex;align-items:center;gap:14px;padding:16px 18px;cursor:pointer}
+.drill-card .dicon{width:34px;height:34px;flex:none;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;background:#0a101f}
+.drill-card.aced .dicon{background:var(--green)}
+.drill-card .dt{font-weight:700}
+.drill-card .ds{font-size:12.5px;color:var(--dim)}
+.drill-card .dbadge{margin-left:auto;font-size:11.5px;font-weight:700;color:var(--gold)}
+.drill-card .dbody{display:none;padding:0 18px 18px}
+.drill-card.open .dbody{display:block}
+.sim{background:#0a101f;border:1px solid var(--line);border-radius:12px;padding:16px}
+.sim-line{display:flex;gap:10px;margin-bottom:14px}
+.sim-line .av{width:30px;height:30px;flex:none;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800}
+.sim-line.them .av{background:#241a30;color:#c9a0e8}
+.sim-line.you .av{background:linear-gradient(135deg,var(--blue),var(--cyan));color:#fff}
+.sim-bubble{background:#111a2e;border:1px solid var(--line);border-radius:0 12px 12px 12px;padding:10px 13px;font-size:14px;color:var(--ink);max-width:88%}
+.sim-line.you .sim-bubble{background:#0e2036;border-radius:12px 0 12px 12px}
+.sim-q{font-size:12px;text-transform:uppercase;letter-spacing:.07em;color:var(--dim);margin:6px 0 10px}
+.sim-opt{display:block;width:100%;text-align:left;background:#111a2e;border:1px solid var(--line);border-radius:10px;color:var(--ink);padding:12px 14px;margin-bottom:8px;cursor:pointer;font-size:13.5px;font-family:inherit;transition:border-color .15s}
+.sim-opt:hover{border-color:var(--blue)}
+.sim-opt:disabled{cursor:default;opacity:.85}
+.sim-opt.good{border-color:#1c5334;background:#0d1c12}
+.sim-opt.ok{border-color:#3d2f12;background:#1a1408}
+.sim-opt.bad{border-color:#5c2020;background:#160d12}
+.sim-fb{font-size:13px;border-radius:9px;padding:11px 13px;margin:4px 0 12px;line-height:1.5}
+.sim-fb.good{background:#0d1c12;border:1px solid #1c5334;color:#9ee7b8}
+.sim-fb.ok{background:#1a1408;border:1px solid #3d2f12;color:#e8d0a0}
+.sim-fb.bad{background:#160d12;border:1px solid #5c2020;color:#f0a8a8}
+.sim-fb b{color:#fff}
+.sim-next{padding:10px 20px;border:0;border-radius:9px;cursor:pointer;font-weight:700;font-size:13.5px;color:#fff;background:linear-gradient(90deg,var(--blue),var(--cyan))}
+.sim-score{text-align:center;padding:18px}
+.sim-score .big{font-size:34px;font-weight:800;background:linear-gradient(90deg,var(--blue),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sim-score .verdict{font-weight:700;margin:6px 0 4px}
+.sim-score .sub{font-size:13px;color:var(--dim);margin-bottom:14px}
+.sim-score button{padding:10px 22px;border:0;border-radius:9px;cursor:pointer;font-weight:700;color:#fff;background:var(--blue)}
+.tprog{font-size:13px;color:var(--dim);margin-bottom:14px}
+.tprog b{color:var(--cyan)}
+
+/* toolkit */
+.tools{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tool{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px}
+.tool .t{font-weight:700;margin-bottom:4px}
+.tool .v{font-size:12.5px;color:var(--dim);word-break:break-all;margin-bottom:10px}
+.tool button{padding:8px 14px;border:0;border-radius:8px;cursor:pointer;font-weight:700;font-size:12.5px;color:#fff;background:var(--blue)}
+.tool button.copied{background:var(--green);color:#04250f}
+.tool.wide{grid-column:1/-1}
+
+/* leads */
+.lfilters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.lfilters select{background:var(--panel);border:1px solid var(--line);border-radius:8px;color:var(--ink);padding:8px 10px;font-size:13px}
+.lfilters label{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--dim);cursor:pointer}
+.lead{display:flex;align-items:center;gap:12px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:8px;flex-wrap:wrap}
+.lead .ln{font-weight:700}
+.lead .lm{font-size:12.5px;color:var(--dim)}
+.lead .hotb{font-size:10.5px;font-weight:800;letter-spacing:.05em;color:#0a0a05;background:var(--gold);border-radius:5px;padding:2px 7px}
+.lead .right{margin-left:auto;display:flex;gap:8px;align-items:center}
+.lead a.call{color:var(--cyan);text-decoration:none;font-weight:700;font-size:13.5px}
+.lead button.claim{padding:8px 14px;border:0;border-radius:8px;cursor:pointer;font-weight:700;font-size:12.5px;color:#fff;background:var(--blue)}
+.lead select{background:#0a101f;border:1px solid var(--line);border-radius:8px;color:var(--ink);padding:7px 8px;font-size:12.5px}
+.lead .rel{background:transparent;border:0;color:var(--lock);cursor:pointer;font-size:12px}
+.lead .closer{width:100%;display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;padding-top:10px;border-top:1px solid #131d34}
+.lead .bbtn{padding:8px 14px;border:0;border-radius:8px;cursor:pointer;font-weight:700;font-size:12px;color:#04250f}
+.lead .bbtn.build{background:var(--gold)}
+.lead .bbtn.ret{background:var(--green)}
+.lcount{font-size:12.5px;color:var(--dim);margin-bottom:12px}
+.lempty{color:var(--dim);font-size:14px;padding:20px;text-align:center;background:var(--panel);border:1px dashed var(--line);border-radius:12px}
+
+/* admin */
+.admin{margin-top:26px;border-top:1px dashed var(--line);padding-top:16px}
+.admin .row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.admin input{background:var(--panel);border:1px solid var(--line);border-radius:8px;color:var(--ink);padding:9px 12px;font-size:14px;flex:1;min-width:160px}
+.admin button{padding:9px 16px;border:0;border-radius:8px;cursor:pointer;font-weight:700;color:#fff;background:var(--blue)}
+.admin .out{font-size:13px;color:var(--cyan);margin-top:4px;min-height:18px}
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(80px);background:linear-gradient(90deg,var(--blue),var(--cyan));color:#fff;font-weight:700;padding:13px 22px;border-radius:99px;box-shadow:0 8px 30px rgba(34,211,238,.35);transition:transform .4s;z-index:9}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.foot{margin-top:34px;text-align:center;color:var(--lock);font-size:12px}
+@media (max-width:640px){
+  .tiles{grid-template-columns:repeat(2,1fr)} .tools{grid-template-columns:1fr} .step .bodyc{padding-left:18px}
+  nav.tabs{gap:3px;padding:4px}
+  nav.tabs button{min-width:0;flex:1;font-size:11.5px;padding:9px 2px;letter-spacing:0}
+  .board th:nth-child(3),.board td:nth-child(3){display:none}
+  .board th,.board td{padding:10px 9px;font-size:13px}
+  .lead .right{width:100%;justify-content:flex-end}
+  .insig{width:44px;height:44px} .rank{font-size:24px}
+  .rankup .rn{font-size:34px}
+  .sheet .doctext{max-height:40vh}
+}
+
+/* tech onboarding */
+.onboard{max-width:560px;margin:4vh auto 0;padding:0 6px}
+.ob-steps{display:flex;align-items:center;justify-content:center;margin-bottom:24px}
+.ob-dot{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;background:#0a101f;border:1px solid var(--line);color:var(--dim);flex:none}
+.ob-dot.on{background:linear-gradient(135deg,var(--blue),var(--cyan));color:#fff;border:0}
+.ob-dot.done{background:var(--green);color:#04250f;border:0}
+.ob-line{height:2px;width:32px;background:var(--line)}
+.ob-card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:26px 24px}
+.ob-card h1{font-size:23px;margin-bottom:8px}
+.ob-card .lead{color:var(--dim);font-size:14.5px;line-height:1.6;margin-bottom:20px}
+.ob-f{margin-bottom:13px}
+.ob-f label{display:block;font-size:12.5px;color:var(--dim);margin-bottom:5px}
+.ob-f input,.ob-f select{width:100%;background:#0a101f;border:1px solid var(--line);border-radius:9px;color:var(--ink);padding:11px 13px;font-size:15px;font-family:inherit}
+.ob-f input:focus,.ob-f select:focus{outline:none;border-color:var(--blue)}
+.ob-row{display:flex;gap:10px}
+.ob-row .ob-f{flex:1}
+.ob-btn{width:100%;margin-top:8px;padding:13px;border:0;border-radius:10px;cursor:pointer;font-weight:700;font-size:15px;color:#fff;background:linear-gradient(90deg,var(--blue),var(--cyan))}
+.ob-btn[disabled]{opacity:.5;cursor:default}
+.ob-back{background:transparent;border:0;color:var(--dim);cursor:pointer;font-size:13px;margin-top:10px;width:100%}
+.ob-err{color:#f87171;font-size:12.5px;margin-top:8px;min-height:16px}
+.ob-doc{display:flex;align-items:center;gap:12px;background:#0a101f;border:1px solid var(--line);border-radius:11px;padding:13px 15px;margin-bottom:10px}
+.ob-doc .di{width:30px;height:30px;flex:none;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;background:#111a2e;color:var(--dim)}
+.ob-doc.signed .di{background:var(--green);color:#04250f}
+.ob-doc .dn{font-weight:700;font-size:13.5px}
+.ob-doc .dsub{font-size:11.5px;color:var(--dim)}
+.ob-doc button{margin-left:auto;flex:none;padding:8px 15px;border:0;border-radius:8px;cursor:pointer;font-weight:700;font-size:12.5px;color:#fff;background:linear-gradient(90deg,var(--blue),var(--cyan))}
+.ob-doc.signed button{background:#152038;color:var(--green);cursor:default}
+.ob-tour{text-align:center;padding:6px 0}
+.ob-tour .tico{font-size:46px;margin-bottom:14px}
+.ob-tour h2{font-size:20px;margin-bottom:8px}
+.ob-tour p{color:var(--dim);font-size:14.5px;line-height:1.6;max-width:420px;margin:0 auto 20px}
+.ob-tdots{display:flex;gap:7px;justify-content:center;margin-bottom:18px}
+.ob-tdots span{width:8px;height:8px;border-radius:50%;background:var(--line)}
+.ob-tdots span.on{background:var(--cyan)}
+
+/* compliance gate */
+.gate{max-width:640px;margin:2vh auto 0}
+.gate h1{font-size:23px;margin-bottom:6px}
+.gate .sub{color:var(--dim);margin-bottom:20px;font-size:14px}
+.gdoc{display:flex;align-items:center;gap:14px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:15px 18px;margin-bottom:12px}
+.gdoc .gi{width:34px;height:34px;flex:none;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;background:#0a101f;color:var(--lockink);border:1px solid var(--line)}
+.gdoc.done .gi{background:var(--green);color:#04250f;border-color:var(--green)}
+.gdoc .gt{font-weight:700}
+.gdoc .gs{font-size:12.5px;color:var(--dim)}
+.gdoc .gbtn{margin-left:auto;padding:9px 16px;border:0;border-radius:9px;cursor:pointer;font-weight:700;font-size:13px;color:#fff;background:linear-gradient(90deg,var(--blue),var(--cyan))}
+.gdoc.done .gbtn{background:#152038;color:var(--green);cursor:default}
+.gdone{background:linear-gradient(135deg,#0d1c12,#0c2a17);border:1px solid #1c5334;border-radius:14px;padding:16px;text-align:center;color:var(--green);font-weight:700;margin-top:6px}
+
+/* sign modal */
+.modal{position:fixed;inset:0;background:rgba(4,7,14,.86);display:none;align-items:flex-start;justify-content:center;z-index:60;overflow-y:auto;padding:24px 14px}
+.modal.show{display:flex}
+.sheet{background:var(--panel);border:1px solid var(--line);border-radius:16px;max-width:680px;width:100%;overflow:hidden}
+.sheet .shead{padding:16px 22px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px}
+.sheet .shead .st{font-weight:800;font-size:16px}
+.sheet .shead .sx{margin-left:auto;background:transparent;border:0;color:var(--dim);font-size:24px;cursor:pointer;line-height:1}
+.doctext{padding:16px 22px;max-height:48vh;overflow-y:auto;font-size:13.5px}
+.doctext h4{color:var(--blue);font-size:13px;margin:14px 0 5px}
+.doctext p{margin-bottom:9px;color:var(--dim)}
+.doctext b{color:var(--ink)}
+.doctext .draftnote{background:#241a09;border:1px solid #3d2f12;color:var(--gold);border-radius:8px;padding:8px 10px;font-size:12px;margin-bottom:12px}
+.signbox{padding:16px 22px 20px;border-top:1px solid var(--line)}
+.ack{display:flex;gap:10px;align-items:flex-start;margin-bottom:11px;font-size:13px;color:var(--ink);cursor:pointer}
+.ack input{margin-top:3px;flex:none;width:16px;height:16px}
+.signrow{margin-top:14px}
+.signrow label{display:block;font-size:12px;color:var(--dim);margin-bottom:6px}
+.signrow input{width:100%;background:#0a101f;border:1px solid var(--line);border-radius:9px;color:var(--ink);padding:12px;font-size:15px}
+.signrow input:focus{outline:none;border-color:var(--blue)}
+.signbtn{width:100%;margin-top:14px;padding:13px;border:0;border-radius:10px;cursor:pointer;font-weight:700;font-size:15px;color:#fff;background:linear-gradient(90deg,var(--blue),var(--cyan))}
+.signbtn[disabled]{opacity:.45;cursor:default}
+.signerr{color:#f87171;font-size:12.5px;margin-top:8px;min-height:16px}
+.signmeta{font-size:11px;color:var(--lock);margin-top:10px;text-align:center}
+
+/* team tab */
+.trow{display:flex;align-items:center;gap:12px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:8px;flex-wrap:wrap}
+.trow .tn{font-weight:700}
+.trow .tm{font-size:12px;color:var(--dim)}
+.trow .cbadge{margin-left:auto;font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:6px}
+.trow .cbadge.ok{color:#04250f;background:var(--green)}
+.trow .cbadge.no{color:#241a09;background:var(--gold)}
+.trow .rel{background:transparent;border:0;color:var(--lock);cursor:pointer;font-size:12px}
+.cfgbar{display:flex;align-items:center;gap:10px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin-bottom:14px;font-size:13.5px}
+.cfgbar .pill{margin-left:auto;padding:7px 14px;border:0;border-radius:8px;cursor:pointer;font-weight:700;font-size:12.5px;color:#fff}
+.cfgbar .pill.on{background:var(--green);color:#04250f}
+.cfgbar .pill.off{background:#3a2410;color:var(--gold)}
+
+/* work tab (tech tasks) */
+.workhead{background:linear-gradient(135deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:16px;padding:18px 20px;margin-bottom:18px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.workhead .whi{flex:1;min-width:200px}
+.workhead .wht{font-size:19px;font-weight:800;color:#fff;margin-bottom:3px}
+.workhead .whs{font-size:13px;color:var(--dim)}
+.workhead .whstats{display:flex;gap:10px;flex-wrap:wrap}
+.workhead .whstat{background:#0a101f;border:1px solid var(--line);border-radius:11px;padding:9px 14px;text-align:center;min-width:74px}
+.workhead .whstat .n{font-size:20px;font-weight:800}
+.workhead .whstat .l{font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--dim)}
+.workhead .whstat.rev .n{color:var(--cyan)} .workhead .whstat.blk .n{color:#f87171}
+.task .qcwait{font-size:12px;color:var(--muted,#8b95a7);padding:6px 0;font-style:italic}
+.workhead .whbtns{display:flex;gap:8px;flex-wrap:wrap}
+.workhead .whbtns button{padding:8px 13px;border:1px solid var(--line);border-radius:9px;cursor:pointer;font-weight:700;font-size:12.5px;color:var(--ink);background:#0a101f}
+.workhead .whbtns button:hover{border-color:var(--blue)}
+.tdet{background:#0a101f;border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin:6px 0 10px;font-size:12.5px;color:var(--dim);line-height:1.6}
+.tdet b{color:var(--ink)}
+.tdet .ok{color:var(--green);font-weight:700} .tdet .no{color:var(--gold);font-weight:700}
+.wgroup{margin-bottom:22px}
+.wgroup h2 .cnt{color:var(--cyan)}
+.task{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:13px 15px;margin-bottom:9px}
+.task.p1{border-left:3px solid #f87171}
+.task.blocked{border-color:#5c2020;background:#160d12}
+.task .trow1{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.task .tt{font-weight:700}
+.task .pchip{font-size:10px;font-weight:800;letter-spacing:.05em;padding:2px 7px;border-radius:5px;background:#0a101f;color:var(--dim)}
+.task .pchip.p1{background:#3a1515;color:#f87171}
+.task .pchip.p2{background:#241a09;color:var(--gold)}
+.task .tmeta{font-size:12px;color:var(--dim);margin-top:3px}
+.task .tmeta b{color:var(--ink)}
+.task .tdetail{font-size:13px;color:var(--dim);margin-top:8px;white-space:pre-wrap}
+.task .tnotes{margin-top:8px;border-top:1px solid #131d34;padding-top:8px}
+.task .tnote{font-size:12px;color:var(--dim);margin-bottom:4px}
+.task .tnote b{color:var(--cyan)}
+.task .tacts{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px;align-items:center}
+.task .tacts button{padding:7px 12px;border:0;border-radius:8px;cursor:pointer;font-weight:700;font-size:12px;color:#fff;background:var(--blue)}
+.task .tacts button.ghost{background:#0a101f;color:var(--dim);border:1px solid var(--line)}
+.task .tacts button.warn{background:#3a1515;color:#f87171}
+.task .tacts button.ok{background:var(--green);color:#04250f}
+.task .tacts select{background:#0a101f;border:1px solid var(--line);border-radius:8px;color:var(--ink);padding:6px 8px;font-size:12px}
+.task .tacts input{background:#0a101f;border:1px solid var(--line);border-radius:8px;color:var(--ink);padding:7px 9px;font-size:12px;flex:1;min-width:130px}
+.wform{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:20px}
+.wform .row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.wform input,.wform select,.wform textarea{background:#0a101f;border:1px solid var(--line);border-radius:8px;color:var(--ink);padding:9px 12px;font-size:13.5px;font-family:inherit}
+.wform input{flex:1;min-width:140px}
+.wform textarea{width:100%;min-height:60px;resize:vertical}
+.wform button{padding:10px 18px;border:0;border-radius:8px;cursor:pointer;font-weight:700;color:#fff;background:linear-gradient(90deg,var(--blue),var(--cyan))}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <h1>⚡ Sales Payment Links</h1>
-  <div class="sub">Internal · Easyworks AI · do not share this page</div>
+  <header>
+    <a class="logo" href="/">EASY<span>WORKS</span></a>
+    <div class="who hide" id="who"><b id="whoName"></b><a id="whoWork" class="hide" href="/team/work/">work board</a><a id="whoProfile" class="hide">profile</a><a id="whoTour" class="hide">tour</a><a id="logout">log out</a></div>
+  </header>
 
-  <div class="panel" id="gate">
-    <label>Team access code</label>
-    <input type="password" id="secret" placeholder="Enter access code" autocomplete="off">
-    <button class="go" id="unlock">Unlock</button>
-    <div class="err" id="gateErr"></div>
+  <div class="login" id="login">
+    <img class="mascot" src="/img/easy-hero.png" alt="">
+    <h1>The Floor</h1>
+    <p>Easyworks sales team. Enter your access code.</p>
+    <input id="code" placeholder="EW-XXXX-0000" autocomplete="off" autofocus>
+    <button id="go">Let me in</button>
+    <div class="err" id="err"></div>
   </div>
 
-  <div id="tool" style="display:none">
-    <div class="panel">
-      <label>Client reference (for your records)</label>
-      <input type="text" id="clientRef" placeholder="e.g. Joe's Plumbing — Surrey">
-      <div class="hint">Shows in Stripe metadata so you can match the payment to the deal.</div>
-    </div>
+  <div id="app" class="hide">
+    <nav class="tabs">
+      <button data-tab="dash" class="on">The Floor</button>
+      <button data-tab="leads">Leads</button>
+      <button data-tab="playbook">Playbook</button>
+      <button data-tab="training">Training</button>
+      <button data-tab="toolkit">Toolkit</button>
+      <button data-tab="scope" id="scopeTabBtn">Scope</button>
+      <button data-tab="team" id="teamTabBtn" class="hide">Team</button>
+      <button data-tab="ops" id="opsTabBtn" class="hide">Ops</button>
+    </nav>
 
-    <div class="panel">
-      <label>Engines</label>
-      <div id="engines"></div>
-      <div class="disc" id="disc"></div>
-      <div class="tot"><span>Total</span><span class="big" id="tot">$0 setup · $0/mo</span></div>
-      <button class="go" id="gen">Generate payment link</button>
-      <div class="err" id="genErr"></div>
-      <div class="result" id="res">
-        <label>Persistent payment link (never expires)</label>
-        <div class="linkbox">
-          <input type="text" id="link" readonly>
-          <button class="copy" id="copy">Copy</button>
+    <!-- DASHBOARD -->
+    <section id="tab-dash">
+      <div class="inc hide" id="inc">
+        <div class="flame">&#128293;</div>
+        <div><b id="incTitle"></b><div class="d" id="incDetail"></div></div>
+        <div class="u" id="incUntil"></div>
+      </div>
+      <div class="hero">
+        <div class="toprow">
+          <div class="rankwrap"><span class="insig" id="insig"></span><div class="rank" id="rank">—</div></div>
+          <div class="xp"><b id="xp">0</b> XP</div>
         </div>
-        <div class="hint">Send this to the client after the consultation. They can pay anytime. Payment auto-redirects them to the thank-you page and fires the Stripe webhook into GHL.</div>
+        <div class="bar"><i id="bar" style="width:0%"></i></div>
+        <div class="nextup" id="nextup"></div>
+        <div class="strip">
+          <span>Today: <b id="stToday">0</b> calls</span>
+          <span class="flame" id="stStreak"></span>
+          <span>Calls logged: <b id="stCalls">0</b> <span style="color:var(--cyan)">+5 XP each</span></span>
+        </div>
+      </div>
+      <h2>The wire <span style="text-transform:none;letter-spacing:0">&#183; live team activity</span></h2>
+      <div class="wire" id="wire"></div>
+      <div class="tiles">
+        <div class="tile"><div class="n" id="nAudits">0</div><div class="l">Audits sold</div><div class="x">+100 XP, counts at client onboarding</div></div>
+        <div class="tile"><div class="n" id="nBuilds">0</div><div class="l">Builds closed</div><div class="x">+500 XP</div></div>
+        <div class="tile"><div class="n" id="nRet">0</div><div class="l">On retainer</div><div class="x">+250 XP</div></div>
+        <div class="tile"><div class="n" id="nTrain">0/7</div><div class="l">Training</div><div class="x">+50 XP each</div></div>
+      </div>
+      <h2>Achievements</h2>
+      <div class="badges" id="badges"></div>
+      <h2>Leaderboard
+        <span class="btoggle"><button id="bWeek" class="on">This week</button><button id="bAll">All time</button></span>
+      </h2>
+      <div class="board"><table>
+        <thead><tr><th></th><th>Rep</th><th>Rank</th><th>Audits</th><th>Calls</th><th>XP</th></tr></thead>
+        <tbody id="board"></tbody>
+      </table></div>
+      <div class="admin hide" id="admin">
+        <h2>Head of sales controls</h2>
+        <div class="row"><input id="newName" placeholder="New rep full name"><button id="addRep">Generate code</button></div>
+        <div class="row"><input id="incT" placeholder="Incentive title (e.g. Most audits this month wins $500)"><input id="incD" placeholder="Detail" style="min-width:120px"><input id="incU" placeholder="Ends (e.g. Sep 30)" style="max-width:130px"><button id="setInc">Set</button></div>
+        <div class="out" id="adminOut"></div>
+        <div id="rosterList" style="margin-top:10px"></div>
+      </div>
+    </section>
+
+    <!-- LEADS -->
+    <section id="tab-leads" class="hide">
+      <h2>My leads</h2>
+      <div id="myLeads"></div>
+      <h2>Lead pool <span style="text-transform:none;letter-spacing:0">&#183; claim it, call it, log it</span></h2>
+      <div class="lfilters">
+        <select id="fCity"><option value="">All cities</option></select>
+        <select id="fNiche"><option value="">All niches</option></select>
+        <label><input type="checkbox" id="fHot"> No website only (hot)</label>
+      </div>
+      <div class="lcount" id="lCount"></div>
+      <div id="poolLeads"></div>
+    </section>
+
+    <!-- PLAYBOOK -->
+    <section id="tab-playbook" class="hide">
+      <h2>The deal, start to finish</h2>
+      <div id="steps"></div>
+    </section>
+
+    <!-- TRAINING -->
+    <section id="tab-training" class="hide">
+      <h2>Training</h2>
+      <div class="tprog">Complete all seven modules to earn <b>Certified</b>. Each pays <b>+50 XP</b>, and you must pass its quiz. One time each.</div>
+      <div id="mods"></div>
+      <h2 style="margin-top:30px">Role-play drills <span style="text-transform:none;letter-spacing:0;color:var(--dim)">&#183; practice the real conversations</span></h2>
+      <div class="tprog">Live scenarios. The prospect talks, you pick your move, you get coached on the spot. Replay until you can do it in your sleep. <b id="drillScore">0/4 aced</b>.</div>
+      <div id="drills"></div>
+    </section>
+
+    <!-- TOOLKIT -->
+    <section id="tab-toolkit" class="hide">
+      <h2>Your tools. Tap to copy.</h2>
+      <div class="tools" id="tools"></div>
+    </section>
+
+    <!-- SCOPE (value engine) -->
+    <section id="tab-scope" class="hide">
+      <style>
+      #tab-scope .sc-intro{color:var(--dim);font-size:14px;margin-bottom:16px}
+      #tab-scope .sc-cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+      #tab-scope .sc-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px}
+      #tab-scope .sc-card h3{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 12px}
+      #tab-scope .sc-field{margin-bottom:12px}
+      #tab-scope .sc-field label{display:block;font-size:12.5px;color:var(--dim);margin-bottom:5px}
+      #tab-scope .sc-field input{width:100%;background:#0a101f;border:1px solid var(--line);border-radius:9px;color:var(--ink);padding:10px 12px;font-size:15px}
+      #tab-scope .sc-field input:focus{outline:none;border-color:var(--blue)}
+      #tab-scope .sc-area{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid #10192e}
+      #tab-scope .sc-area:last-child{border-bottom:0}
+      #tab-scope .sc-area .an{flex:1;font-size:13.5px}
+      #tab-scope .sc-seg{display:inline-flex;background:#0a101f;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+      #tab-scope .sc-seg button{border:0;background:transparent;color:var(--dim);font-size:11.5px;font-weight:700;padding:6px 10px;cursor:pointer}
+      #tab-scope .sc-seg button.on[data-v="ok"]{background:#14351f;color:var(--green)}
+      #tab-scope .sc-seg button.on[data-v="weak"]{background:#3a2a0c;color:var(--gold)}
+      #tab-scope .sc-seg button.on[data-v="gap"]{background:#3a1515;color:#f87171}
+      #tab-scope .sc-out{position:sticky;top:14px}
+      #tab-scope .sc-leak{background:linear-gradient(135deg,#1a0f0f,#241315);border:1px solid #4a2020;border-radius:14px;padding:20px;margin-bottom:14px}
+      #tab-scope .sc-leak .lbig{font-size:34px;font-weight:800;color:#f87171}
+      #tab-scope .sc-leak .lsub{font-size:13px;color:#c99}
+      #tab-scope .sc-leak .lyr{font-size:13px;color:#e8b0b0;margin-top:6px}
+      #tab-scope .sc-lines{margin-top:12px;border-top:1px solid #3a1a1a;padding-top:10px}
+      #tab-scope .sc-line{display:flex;justify-content:space-between;font-size:12.5px;color:#d9b3b3;padding:3px 0}
+      #tab-scope .sc-rec{background:linear-gradient(135deg,#0d1c12,#0c2417);border:1px solid #1c5334;border-radius:14px;padding:20px}
+      #tab-scope .sc-rec .rrow{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px}
+      #tab-scope .sc-rec .rlbl{font-size:12.5px;color:var(--dim);text-transform:uppercase;letter-spacing:.06em}
+      #tab-scope .sc-rec .rnum{font-size:26px;font-weight:800;color:var(--gold)}
+      #tab-scope .sc-rec .rnum small{font-size:14px;color:#b99}
+      #tab-scope .sc-rec .rband{font-size:12px;color:var(--green);font-weight:700}
+      #tab-scope .sc-rec .rnote{font-size:12px;color:var(--dim);border-top:1px solid #143b24;padding-top:10px;margin-top:4px}
+      #tab-scope .sc-copy{width:100%;margin-top:12px;padding:12px;border:0;border-radius:10px;cursor:pointer;font-weight:700;font-size:14px;color:#fff;background:linear-gradient(90deg,var(--blue),var(--cyan))}
+      #tab-scope .sc-copy.copied{background:var(--green);color:#04250f}
+      @media (max-width:760px){#tab-scope .sc-cols{grid-template-columns:1fr}#tab-scope .sc-out{position:static}}
+      </style>
+      <h2>Scope a deal from the audit</h2>
+      <p class="sc-intro">Enter what the audit found. This shows the client what their gaps are costing, and gives you the recommended build and monthly. Nothing is saved or sent, it is your scoping worksheet. Brad prices the final build.</p>
+      <div class="sc-cols">
+        <div>
+          <div class="sc-card">
+            <h3>The business</h3>
+            <div class="sc-field"><label>Business name</label><input id="scName" placeholder="e.g. Bright Smile Dental"></div>
+            <div class="sc-field"><label>Average customer value ($) &mdash; what one new customer is worth</label><input id="scValue" type="number" inputmode="numeric" placeholder="300" value="300"></div>
+            <div class="sc-field"><label>New leads a month (calls, forms, DMs)</label><input id="scLeads" type="number" inputmode="numeric" placeholder="80" value="80"></div>
+            <div class="sc-field"><label>Roughly what % of leads become customers</label><input id="scClose" type="number" inputmode="numeric" placeholder="30" value="30"></div>
+          </div>
+          <div class="sc-card" style="margin-top:14px">
+            <h3>Audit findings &mdash; mark each area</h3>
+            <div id="scAreas"></div>
+          </div>
+        </div>
+        <div class="sc-out">
+          <div class="sc-leak">
+            <div class="lsub">Leaking every month, right now</div>
+            <div class="lbig" id="scLeak">$0</div>
+            <div class="lyr" id="scLeakYr"></div>
+            <div class="sc-lines" id="scLines"></div>
+          </div>
+          <div class="sc-rec">
+            <div class="rrow"><span class="rlbl">Recommended build</span><span class="rnum" id="scBuild">$0</span></div>
+            <div class="rband" id="scBand" style="margin-top:-6px;margin-bottom:12px"></div>
+            <div class="rrow"><span class="rlbl">Then, to run it</span><span class="rnum" id="scRetainer">$0<small>/mo</small></span></div>
+            <div class="rband" id="scTier" style="margin-top:-6px;margin-bottom:12px"></div>
+            <div class="rnote">The $500 audit credits toward the build. Never quote the build before the audit is paid. Brad confirms every build price, and joins any build over $5K.</div>
+            <button class="sc-copy" id="scCopy">Copy the client summary</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TEAM (lead/head/admin) -->
+    <section id="tab-team" class="hide">
+      <div class="cfgbar hide" id="cfgbar">
+        <span>Compliance gate <span id="cfgState" style="color:var(--dim)"></span></span>
+        <button class="pill" id="cfgToggle"></button>
+      </div>
+      <h2 id="teamHdr">Your team</h2>
+      <div class="tprog">Recruit a rep and they get their own access code. They must sign the onboarding documents before they can work leads.</div>
+      <div class="admin" style="border:0;padding:0;margin:0 0 16px">
+        <div class="row"><input id="tNewName" placeholder="New team member full name"><select id="tNewRole" class="hide" style="background:var(--panel);border:1px solid var(--line);border-radius:8px;color:var(--ink);padding:9px 12px;font-size:14px"><option value="rep">Sales rep</option><option value="tech">Tech contractor</option></select><button id="tAddRep">Add</button></div>
+        <div class="out" id="tAddOut"></div>
+      </div>
+      <div id="teamList"></div>
+    </section>
+
+    <!-- OPS (admin/head only) -->
+    <section id="tab-ops" class="hide">
+      <h2>Data health</h2>
+      <div class="tprog" id="opsHealth">Loading...</div>
+      <h2>Team oversight</h2>
+      <div class="board" style="overflow-x:auto"><table style="min-width:640px">
+        <thead><tr><th>Rep</th><th>Training</th><th>Calls (today)</th><th>Open</th><th>Meetings</th><th>Audits</th><th>Stale</th><th>Last active</th></tr></thead>
+        <tbody id="opsReps"></tbody>
+      </table></div>
+      <h2>All claimed leads <button id="opsCsv" style="margin-left:10px;padding:5px 12px;border:0;border-radius:7px;font-size:11.5px;font-weight:700;cursor:pointer;color:#fff;background:var(--blue)">Download CSV</button></h2>
+      <div class="board" style="overflow-x:auto"><table style="min-width:640px">
+        <thead><tr><th>Lead</th><th>City</th><th>Rep</th><th>Status</th><th>Claimed</th><th>Updated</th></tr></thead>
+        <tbody id="opsClaims"></tbody>
+      </table></div>
+    </section>
+
+    <div class="foot">Stats update from real closed deals. Let's eat.</div>
+  </div>
+
+  <!-- TECH ONBOARDING -->
+  <div id="onboard" class="onboard hide"></div>
+
+  <!-- MY PROFILE (tech) -->
+  <div class="modal" id="profModal">
+    <div class="sheet" style="max-width:520px">
+      <div class="shead"><span class="st">My profile</span><button class="sx" id="profClose">&times;</button></div>
+      <div style="padding:16px 22px 20px">
+        <div class="ob-f"><label>Email</label><input id="pfEmail" type="email"></div>
+        <div class="ob-f"><label>Best contact (WhatsApp or phone)</label><input id="pfContact"></div>
+        <div class="ob-row"><div class="ob-f"><label>City / country</label><input id="pfCountry"></div><div class="ob-f"><label>Time zone</label><input id="pfTz"></div></div>
+        <div class="ob-f"><label>Main skill</label><select id="pfSkill"></select></div>
+        <div class="ob-row"><div class="ob-f"><label>Pay method</label><select id="pfPayType"></select></div><div class="ob-f"><label>Pay detail</label><input id="pfPayDetail"></div></div>
+        <button class="ob-btn" id="pfSave">Save changes</button><div class="ob-err" id="pfErr"></div>
       </div>
     </div>
   </div>
+
+  <!-- COMPLIANCE GATE -->
+  <div id="gate" class="gate hide">
+    <h1>One more step before you start</h1>
+    <p class="sub">Every Easyworks team member reviews and signs these onboarding documents before working the floor. It takes two minutes.</p>
+    <div id="gateDocs"></div>
+  </div>
+</div>
+
+<!-- SIGN MODAL -->
+<div class="modal" id="signModal">
+  <div class="sheet">
+    <div class="shead"><span class="st" id="signTitle"></span><button class="sx" id="signClose">&times;</button></div>
+    <div class="doctext" id="signBody"></div>
+    <div class="signbox">
+      <div id="signAcks"></div>
+      <div class="signrow">
+        <label>Type your full legal name to sign</label>
+        <input id="signName" placeholder="Full legal name" autocomplete="off">
+      </div>
+      <button class="signbtn" id="signGo" disabled>Sign &amp; agree</button>
+      <div class="signerr" id="signErr"></div>
+      <div class="signmeta">Your name, the date and time, and your device are recorded as your electronic signature.</div>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<div class="rankup" id="rankup">
+  <canvas id="confetti"></canvas>
+  <span class="insig" id="ruInsig"></span>
+  <div class="rl">Rank up</div>
+  <div class="rn" id="ruName"></div>
+  <button class="close" onclick="document.getElementById('rankup').classList.remove('show')">Back to work</button>
 </div>
 
 <script>
-(function(){
-  var ENG=[
-    {k:'ai',n:'AI Suite',s:997,m:497},
-    {k:'content',n:'Content Engine',s:1297,m:997},
-    {k:'seo',n:'SEO Engine',s:997,m:997},
-    {k:'revenue-scale',n:'AI Revenue Scale (Starter)',s:997,m:497},
-    {k:'voice',n:'Voice → Report',s:997,m:497}
-  ];
-  var TIER={1:0,2:10,3:15,4:18,5:20};
-  var SECRET=localStorage.getItem('ew_team_secret')||'';
-  var gate=document.getElementById('gate'),tool=document.getElementById('tool');
+const $ = (id) => document.getElementById(id);
+const API = '/.netlify/functions';
+const AUDIT_LINK = 'https://link.fastpaydirect.com/payment-link/6a83b9ce73c7ff66b05e8b73';
+const START_LINK = 'https://easyworks.ai/start';
+const PHONE = '+1 604-265-7660';
 
-  function showTool(){gate.style.display='none';tool.style.display='block';render();}
-  if(SECRET) showTool();
+/* ---------- content ---------- */
+const STEPS = [
+ { t:'1 · Find them', s:'Anyone running a local business', h:`
+   <p>Your network, walk-ins, DMs, referrals, and the <b>Leads tab</b> in this app (900+ pulled and waiting for you). Best fits: clinics, dentists, salons and spas, barbers, contractors, realtors, detailers, restaurants. If they have customers and a phone number, they're a prospect.</p>
+   <p><b>The hottest lead of all:</b> a business with <b>no website</b> or a dead Google listing. They're already bleeding and they feel it. The Leads tab flags these in gold as "NO WEBSITE."</p>
+   <div class="keypt">Don't overthink the list. A dialed number beats a perfect spreadsheet every time.</div>` },
+ { t:'2 · Open', s:'One question starts every deal', h:`
+   <div class="say">"When someone calls your business and you're busy, what happens?"</div>
+   <p>Almost every owner winces, because the honest answer is "voicemail" or "nothing." That wince is your opening. Let it breathe for a beat, then:</p>
+   <div class="say">"That's exactly what we fix. We do a full teardown of your whole setup, website, phones, follow-up, everything, and show you exactly where money's leaking."</div>
+   <p><b>Do not pitch a website. Do not pitch AI.</b> On the first call you're selling one thing only: the audit.</p>` },
+ { t:'3 · Close the audit', s:'Your ONLY job on a new prospect', h:`
+   <p>Not the build. Not the retainer. The <b>$500 audit</b>. A $500 yes is small and easy, and it's credited toward the build within 30 days, so it's free if they proceed. Every big deal starts with this small yes.</p>
+   <p>They say yes → send the payment link <b>on the spot, on their phone, while you're still talking.</b> Never "I'll email it later." Paid → send the onboarding link and stay with them while they fill it. Five minutes.</p>
+   <div class="keypt">On-the-spot completion closes near 100%. "I'll do it tonight" closes near 50%. Speed is the whole game.</div>` },
+ { t:'4 · The audit happens', s:'7 days, the team handles it', h:`
+   <p>The clock starts when payment <b>and</b> the onboarding form are both in. The team tears down their website, Google, phones, follow-up and systems and writes the report. You build nothing.</p>
+   <p>Your one job this week: <b>book the 20-minute review call.</b> Lock the day and time before you hang up from the sale. A scheduled review closes builds; an open-ended "we'll be in touch" doesn't.</p>` },
+ { t:'5 · Review call closes the build', s:'The report does the selling', h:`
+   <p>Walk them through the findings. The report shows exactly where they're losing money, so you're not selling, you're confirming what they already saw. You handle the yes. Brad joins any build over $5K.</p>
+   <p>Never quote a build before the audit is done:</p>
+   <div class="say">"Builds run two to ten depending on what the audit finds. That's the whole point of doing it first."</div>
+   <p>Use the <b>Scope tab</b> to show them the leak number and the value behind the build.</p>` },
+ { t:'6 · Handoff and get paid', s:'The retainer is your monthly commission', h:`
+   <p>Client pays the build, the team builds, you check in at go-live. After the included first month they roll onto the monthly plan, and that's your <b>recurring commission</b> running every month.</p>
+   <p>Stay the relationship person. The rep who checks in is the rep who keeps the renewal. Log the build and retainer on the lead card the moment they close, so it hits the CRM and your numbers automatically.</p>
+   <div class="keypt">One client on retainer pays you every single month. Audits open the door. Retainers build the wealth.</div>` },
+];
 
-  document.getElementById('unlock').onclick=function(){
-    var v=document.getElementById('secret').value.trim();
-    if(!v){document.getElementById('gateErr').textContent='Enter the code.';return;}
-    SECRET=v;localStorage.setItem('ew_team_secret',v);showTool();
-  };
-  document.getElementById('secret').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('unlock').click();});
+const MODULES = [
+ { id:'kit', t:'The Program', s:'What we sell and how it’s priced', h:`
+   <h3>One thing: the Easyworks Program</h3>
+   <p><b>Audit, Build, Run.</b> We audit everything a business has (website, CRM, phones, follow-up, AI if any), build what the audit says they need, then run it on a monthly retainer. You're not selling websites off a menu. You're selling the program.</p>
+   <p>Why the program beats a price list: the second you name a price for "a website," you're a commodity being shopped against three other guys. The audit makes you the expert who finds the problem <i>before</i> anyone talks money. Different game entirely.</p>
+   <h3>Step 1 · The Audit, $500</h3>
+   <p>Every client starts here, no exceptions. Full teardown, written report in 7 days. <b>Credited toward the build within 30 days</b>, so it's effectively free if they proceed. That $500 yes is your only target on a cold prospect.</p>
+   <h3>Step 2 · The Build, $2,000 to $10,000</h3>
+   <p>Scoped by the audit, not by a menu. Light $2K to $3.5K (fix and connect), Standard $4K to $6.5K (site, receptionist, CRM, follow-up), Full $7K to $10K (everything plus content and campaigns). Brad prices every build. You never quote before the audit.</p>
+   <h3>Step 3 · Run, $500 to $2,000/mo</h3>
+   <p>The retainer. Essential $500, Growth $1,000, Partner $2,000. First month included in every build. This is the actual product, and it pays you monthly for as long as they stay.</p>
+   <div class="keypt">The audit is the door. The build is the project. The retainer is the wealth. Sell the door and the rest follows.</div>
+   <h3>Piecework = fallback only</h3>
+   <p>Offered only <i>after</i> they flat-out decline the audit. Website $1,500 · receptionist $1,500 + $250/mo · GBP + reviews $750 · CRM + follow-up $1,500 · content from $750/mo. If you're quoting piecework on a fresh lead, you skipped the program.</p>
+   <h3>Rules of the road</h3>
+   <ul><li>Program first, always</li><li>No build quotes before the audit</li><li>Deals count only through the official payment link, no e-transfer or cash</li><li>Customer-facing = ${PHONE} and easyworks.ai only</li><li>Scope or discounts past 10%: Cash first, then Brad</li></ul>`,
+   quiz:[
+    {q:'What is the only thing you are selling on a cold first call?', opts:['The $500 audit','A website','The monthly retainer'], correct:0},
+    {q:'Can you quote a build price before the audit is done?', opts:['Never','Yes, if they ask directly','Only if it is under $5K'], correct:0},
+    {q:'The $500 audit fee is...', opts:['Credited toward the build, so it is free if they proceed','A separate fee they lose no matter what','Refundable any time on request'], correct:0},
+    {q:'A deal only counts when...', opts:['It is paid through the official payment link','The client verbally agrees','You send Cash a text about it'], correct:0}
+  ] },
+ { id:'prospect', t:'Find & Reach', s:'Prospecting, gatekeepers, the opener', h:`
+   <h3>Where the leads are</h3>
+   <p>Three sources, in order of ease: <b>1) the Leads tab</b> here (claim, call, log, all in one place), <b>2) your own network and referrals</b>, <b>3) walk-ins and DMs</b> to local businesses you already notice. You never have an excuse to not be dialing.</p>
+   <h3>Read the lead before you dial</h3>
+   <ul><li><b>No website / dead Google listing</b> = hottest. They know they look behind and it stings.</li><li>Old, ugly, or broken site = warm. Someone tried once and gave up.</li><li>Slick site but you called and got voicemail = warm. They spent on looks, not on catching leads.</li></ul>
+   <h3>Getting past the gatekeeper</h3>
+   <p>The person who answers is not the enemy, they're the gate. Be warm, brief, and confident:</p>
+   <div class="say">"Hey, who's the best person to talk to about how the business handles missed calls and new customer enquiries? ...Is he around for two minutes?"</div>
+   <p>Never pitch the gatekeeper the whole program. Get a name and a callback time. If blocked, ask when the owner's usually in and call then.</p>
+   <h3>The first 30 seconds</h3>
+   <p>Your goal on a cold call is not to close. It's to <b>earn the next 30 seconds.</b> Lead with the pain question, not your name and company résumé:</p>
+   <div class="say">"Quick one, when you or your team are slammed and the phone rings, what usually happens to that call?"</div>
+   <p>Then shut up and let them answer. Their answer is the whole sale.</p>
+   <div class="drill"><b>Drill:</b> say the opener out loud five times right now until it sounds like a real human, not a script. The words matter less than the tone. Curious, not salesy.</div>`,
+   quiz:[
+    {q:'Which is the HOTTEST lead?', opts:['A business with no website or a dead Google listing','A business with a big marketing budget','A business that already has an agency'], correct:0},
+    {q:'When the gatekeeper answers, you should...', opts:['Be friendly and brief, and ask for the owner by role','Demand to speak to the owner immediately','Pitch the whole program to the gatekeeper'], correct:0},
+    {q:'The goal of the first 30 seconds of a cold call is to...', opts:['Earn the next 30 seconds','Close the audit right away','Book the build'], correct:0},
+    {q:'The opener works because it...', opts:['Makes them feel the pain of missed calls','Lists all our features','Leads with the word AI'], correct:0}
+  ] },
+ { id:'terminology', t:'Talk the Talk', s:'Terminology, owner-speak', h:`
+   <h3>The rule</h3>
+   <p>Translate tech into money. If you can't answer, say <b>"good question, I'll get you the exact answer today"</b> and ask Cash or Brad. Guessing wrong costs deals. "I'll find out" never does.</p>
+   <h3>The machine</h3>
+   <ul>
+   <li><b>CRM:</b> "one screen where you see every lead, every message, every booking. Nothing falls through the cracks."</li>
+   <li><b>Missed call text back:</b> they miss a call, the caller instantly gets a text. Keeps them from dialing the next business on Google. Easiest thing to sell.</li>
+   <li><b>AI receptionist:</b> answers 24/7, qualifies, books. Never say "chatbot" or "robot." "You'll hear it yourself on the demo."</li>
+   <li><b>Follow-up automation:</b> automatic texts/emails chasing every lead. Under 5 minutes response wins the customer.</li>
+   <li><b>Reactivation:</b> messaging their past customer list. Dormant money, easiest revenue in the building.</li>
+   <li><b>Review engine:</b> asks every happy customer for a Google review at the right moment.</li>
+   </ul>
+   <h3>Getting found</h3>
+   <ul>
+   <li><b>Google Business Profile:</b> the map box with hours, photos, reviews. First impression before the website.</li>
+   <li><b>Local SEO:</b> showing up for "physio near me." Never promise #1. "We climb you toward the top and show the movement monthly."</li>
+   <li><b>Organic vs paid:</b> organic is free trust (SEO), paid is ads that stop when you stop paying.</li>
+   </ul>
+   <h3>Money words</h3>
+   <ul><li><b>Average customer value:</b> ask it early. "If a customer's worth $300 and you miss three calls a week..."</li>
+   <li><b>Speed to lead:</b> minutes win deals, hours lose them.</li>
+   <li><b>No-shows:</b> reminder texts cut them hard. Found money.</li></ul>
+   <h3>The platform question</h3>
+   <p>If asked: it's GoHighLevel, their phone app says Lead Connector. Sell what it does, never the platform.</p>
+   <h3>Say this stuff right</h3>
+   <ul><li>Results, not AI. "You'll see exactly what it is in the audit."</li><li>We never ask for passwords, access is proper invites only</li><li>Never promise rankings, dates or features</li><li>Their data is theirs. We run the system.</li></ul>`,
+   quiz:[
+    {q:'A customer asks "so it\'s a chatbot?" You say...', opts:['"You\'ll hear it yourself on the demo, it answers and books"','"Yes, it\'s a chatbot"','"It\'s advanced AI technology"'], correct:0},
+    {q:'You don\'t know the answer to a technical question. Best move?', opts:['"Good question, I\'ll get you the exact answer today"','Guess confidently and move on','Change the subject'], correct:0},
+    {q:'"Missed call text back" means...', opts:['A caller who got missed instantly gets a text','We text them once a week','We call them back later'], correct:0},
+    {q:'Do we ever promise a client the #1 spot on Google?', opts:['Never — we show the movement monthly','Yes, always','Only for dentists'], correct:0}
+  ] },
+ { id:'discovery', t:'The Discovery', s:'Questions that uncover the pain', h:`
+   <h3>Why discovery wins the deal</h3>
+   <p>People don't buy because you talked. They buy because they said the problem out loud to themselves. Your job is to ask the questions that make them hear their own leak. <b>Listen more than you talk.</b> If you're doing most of the talking, you're losing.</p>
+   <h3>The five questions</h3>
+   <ul>
+   <li><b>"Walk me through what happens when a new customer calls."</b> Find the gap live.</li>
+   <li><b>"What's a new customer actually worth to you?"</b> This is average customer value, and it powers every close.</li>
+   <li><b>"How many calls or enquiries do you figure you miss in a busy week?"</b> Let them guess, it's always more than they admit.</li>
+   <li><b>"When a lead comes in, how fast does someone get back to them?"</b> Sets up speed to lead.</li>
+   <li><b>"If you could fix one thing about how you get customers, what would it be?"</b> They hand you the sale.</li>
+   </ul>
+   <h3>The money math</h3>
+   <p>Take their numbers and do it out loud: <i>"So a customer's worth $300, and you're missing maybe three calls a week. That's $900 a week, call it $3,600 a month, walking out the door. The audit's $500."</i> <b>Their</b> numbers, not yours. That's what closes.</p>
+   <div class="drill"><b>Drill:</b> practice the money math with a customer worth $500 who misses 4 calls a week. Say the full sentence out loud. (Answer: ~$2,000/week, ~$8,000/month.)</div>
+   <div class="keypt">The Scope tab does this math for you and shows the yearly number. Use it live on the review call.</div>`,
+   quiz:[
+    {q:'"Average customer value" tells you...', opts:['What one customer is worth, so you can do the missed-call math','Their total monthly revenue','Their advertising budget'], correct:0},
+    {q:'On a discovery call, the ideal balance is...', opts:['Them talking more than you','You talking more than them','Exactly fifty-fifty'], correct:0},
+    {q:'"Speed to lead" means...', opts:['Minutes win deals, hours lose them','Replying within a day is fine','It doesn\'t really matter'], correct:0},
+    {q:'The strongest close is built on...', opts:['Their numbers, not yours','Your most polished pitch','A discount'], correct:0}
+  ] },
+ { id:'demo', t:'The Demo Call', s:'15 minutes, one goal', h:`
+   <h3>What this call is</h3>
+   <p>One goal: <b>close the $500 audit</b>. The live receptionist demo does the convincing, you steer.</p>
+   <h3>Prep (5 minutes)</h3>
+   <ul><li>Know their business, their customer value, their phone pain</li><li>Google them for 2 minutes, one real observation beats ten slides</li><li>Have both links ready to paste</li><li>Bigger fish or complex build? Flag Cash a day ahead so Brad joins</li></ul>
+   <h3>Minute by minute</h3>
+   <p><b>0-2 Reconnect.</b> "Last time you told me [their pain]. Still the case?" Their words are your ammunition.</p>
+   <p><b>2-4 Frame.</b> "I'm going to have you call a business line and just be a customer. Then I'll show you what happened behind the scenes. Fair?"</p>
+   <p><b>4-9 The live demo.</b> They call <b>${PHONE}</b> on speaker. Stay silent while they talk to it. When they hang up: "that call just got answered, qualified, and booked. Nobody was there." Bonus: "that's not a demo rig, that's our actual business line. We run it on ourselves."</p>
+   <p><b>9-12 Make it theirs.</b> Do the missed-call math out loud with THEIR numbers. Their math closes deals, yours doesn't.</p>
+   <p><b>12-15 Close the audit.</b></p>
+   <div class="say">"We don't guess at what you need. We do a full audit first: your website, your Google, your phones, your follow-up, everything. It's $500, takes a week, and you get a written report showing exactly where money's leaking. If you move forward with a build, the $500 comes off the price. I can send you the link right now."</div>
+   <p>Then <b>stop talking</b>. The silence is the close.</p>
+   <h3>If the demo breaks</h3>
+   <p>"The demo line's acting up, which is exactly why we monitor these systems for clients." Pivot to saved screenshots on your phone. Close the same way.</p>
+   <h3>After, every time</h3>
+   <ul><li>Paid: confirm the onboarding form is submitted on the call</li><li>Not paid: book the follow-up before hanging up, send a one-line recap text same day</li><li>Either way: one line to Cash on how it went</li></ul>`,
+   quiz:[
+    {q:'The one goal of the demo call is to...', opts:['Close the $500 audit','Sell the full build','Show every single feature'], correct:0},
+    {q:'During the live receptionist demo, you should...', opts:['Stay silent while they talk to it','Narrate over the top of it','Take the call yourself'], correct:0},
+    {q:'Right after you deliver the audit pitch, you...', opts:['Stop talking — the silence is the close','Keep stacking on more reasons','Immediately offer a discount'], correct:0},
+    {q:'If the demo line breaks mid-call, you...', opts:['"This is exactly why clients pay us to monitor it" and pivot to screenshots','Apologize and end the call','Reschedule for another day'], correct:0}
+  ] },
+ { id:'closing', t:'The Close', s:'Ask, shut up, get paid on the spot', h:`
+   <h3>The close is a moment, not a monologue</h3>
+   <p>You've done the work: opener, discovery, demo. The close is one clean ask and then <b>silence</b>. The first person to talk after the ask loses. Get comfortable with the quiet, it feels like forever and it's three seconds.</p>
+   <div class="say">"I can send you the audit link right now and we'll get started. Want me to fire it over?"</div>
+   <p>Then nothing. Let them answer.</p>
+   <h3>Get the payment on the spot</h3>
+   <p>The instant they say yes, the link goes to their phone <b>while you're still on the call.</b> You stay on the line while they tap through. "I'll do it later" is where deals die. On-the-spot pays near 100 percent, "tonight" pays about half.</p>
+   <h3>Handling the stalls</h3>
+   <ul>
+   <li><b>"Let me think about it."</b> "Totally fair, and honestly the audit <i>is</i> the thinking. It's the thing that tells you whether this is even worth doing. That's the whole point."</li>
+   <li><b>"Can you do it cheaper?"</b> "It's already priced to come off your build, so it's effectively free if we work together. I can't go lower, but I can make sure it's worth every dollar."</li>
+   <li><b>"Send me some info first."</b> "Happy to, but the info that actually matters is your audit, it's about your business, not a brochure. Let's just start there."</li>
+   </ul>
+   <h3>Non-negotiables</h3>
+   <ul><li>Official payment link only. No cash, no e-transfer, no splitting the $500. If $500 is too tight, they're not a fit yet.</li><li>Confirm the onboarding form is submitted before you hang up.</li><li>The second they close, log it on the lead card: mark audit-sold, then Build closed / On retainer when those land. That updates the CRM and your commission automatically.</li></ul>
+   <div class="keypt">Urgency comes from certainty, not pressure. You're not begging for a sale, you're offering to stop their bleeding. Sit in the silence and let them say yes.</div>`,
+   quiz:[
+    {q:'"I need to think about it" — your best response is...', opts:['"The audit IS the thinking, that\'s what it\'s for"','"Okay, call me when you\'re ready"','Immediately offer 20% off'], correct:0},
+    {q:'When do you send the payment link?', opts:['On the spot, on their phone, while still on the call','After you email a written proposal','The next morning'], correct:0},
+    {q:'A prospect wants to split the $500 into payments. You...', opts:['Decline — if it\'s that tight they\'re not a fit yet','Agree to any arrangement','Only allow it for referrals'], correct:0},
+    {q:'The moment right after your closing ask, you should...', opts:['Stay silent and let them answer','Keep talking to fill the gap','Ask a second question'], correct:0}
+  ] },
+ { id:'faq', t:'Objections & FAQ', s:'Fast answers that hold up', h:`
+   <h3>Objections, fast answers</h3>
+   <ul>
+   <li><b>"$500 just to look at my stuff?"</b> It comes off your build, so it's free if we work together. Worst case you paid $500 to know exactly where you're losing money.</li>
+   <li><b>"Just give me a website price."</b> A website that doesn't answer your phone is a brochure. The audit tells us what'll actually make you money.</li>
+   <li><b>"I already have a guy / a system."</b> Perfect, then the audit's easy. Most people find out their leads are leaking.</li>
+   <li><b>"I need to think about it."</b> The audit IS the thinking. That's what it's for.</li>
+   <li><b>"I know a guy who does sites for $300."</b> So do we. We're selling answered calls and booked appointments, not a brochure.</li>
+   </ul>
+   <h3>What clients ask</h3>
+   <ul>
+   <li><b>"Am I locked in?"</b> Audit is one-time, build is a fixed quote, monthly plan is set together at handoff. Don't invent terms.</li>
+   <li><b>"Do I own my stuff?"</b> Yes. Their list, their content, their accounts. We run the system, the data is theirs. Full confidence on this one.</li>
+   <li><b>"Who answers, a robot?"</b> "You heard it yourself. It answers, books, and hands anything complicated to a human."</li>
+   </ul>
+   <h3>House rules</h3>
+   <ul>
+   <li>Payment through the official link only. No e-transfer, no cash. Unlogged deals don't count.</li>
+   <li>Never promise refunds on the spot: "let me take that to the team today."</li>
+   <li>Don't split the $500. If money's that tight, they're not a fit yet.</li>
+   <li>First rep to log a paid audit owns the client. Disputes go to Cash, never in front of a client.</li>
+   </ul>
+   <h3>When to pull in who</h3>
+   <ul><li><b>Cash:</b> disputes, discounts past 10%, pricing pressure, your agreement</li>
+   <li><b>Brad:</b> technical scoping, builds over $5K, refunds, international, custom dev</li>
+   <li><b>Nobody:</b> the pitch, the demo, the audit close, the follow-up. That's yours.</li></ul>`,
+   quiz:[
+    {q:'"$500 just to look at my stuff?" — your answer:', opts:['"It comes off your build, so it\'s free if we work together"','"Yes, and it\'s non-refundable"','"Fine, I\'ll just do it for free"'], correct:0},
+    {q:'"Do I own my stuff?"', opts:['Yes — their list, content and accounts are theirs','No, we own everything','Only the website is theirs'], correct:0},
+    {q:'A client demands a refund on the spot. You...', opts:['"Let me take that to the team today"','Refund them immediately','Refuse flatly and argue'], correct:0},
+    {q:'Who owns a disputed client?', opts:['First rep to log a paid audit; disputes go to Cash','Whoever argues hardest','Always the newest rep'], correct:0}
+  ] },
+];
 
-  var sel={};
-  function render(){
-    var box=document.getElementById('engines');box.innerHTML='';
-    ENG.forEach(function(e){
-      var d=document.createElement('div');d.className='eng'+(sel[e.k]?' on':'');
-      d.innerHTML='<input type=checkbox '+(sel[e.k]?'checked':'')+'><span class=nm>'+e.n+'</span><span class=pr>$'+e.s.toLocaleString()+' · $'+e.m.toLocaleString()+'/mo</span>';
-      d.onclick=function(ev){if(ev.target.tagName!=='INPUT'){var c=d.querySelector('input');c.checked=!c.checked;}sel[e.k]=d.querySelector('input').checked;render();calc();};
-      box.appendChild(d);
-    });
-    calc();
+/* ---------- role-play drills (branching call simulator) ---------- */
+// score per option: 2 = best line, 1 = works but weaker, 0 = costs you the deal.
+const DRILLS = [
+ { id:'coldcall', t:'The cold call', s:'From "hello" to the audit ask', turns:[
+   { line:'"Hello, Riverside Dental, this is Sam."', opts:[
+     { t:'"Hi Sam, quick one: when you or the team are slammed and the phone rings, what usually happens to that call?"', score:2, fb:'<b>That’s it.</b> You led with their pain, not a pitch, and made them curious. Sam answers and now you’re in a conversation.' },
+     { t:'"Hi, I’m calling from Easyworks, we build AI systems for dental clinics, do you have a couple minutes?"', score:0, fb:'Feature-first opener plus "do you have a minute" invites the brush-off. You handed them an easy no. Lead with their problem instead.' },
+     { t:'"Is the owner or office manager around?"', score:1, fb:'Not fatal, but you skipped your shot. If Sam is the decision-maker you just talked past them. If you must ask, warm it up first.' },
+   ]},
+   { line:'"Uh... honestly it just goes to voicemail most of the time. We’re pretty busy."', opts:[
+     { t:'"Right, and most people don’t leave one, they just call the next clinic. What’s a new patient actually worth to you over a year?"', score:2, fb:'<b>Perfect.</b> You named the real cost and pivoted straight to customer value, the number that powers your whole close.' },
+     { t:'"We can fix that with our AI receptionist, it answers 24/7 and books appointments automatically."', score:0, fb:'You jumped to the solution and the product. Too early. You haven’t made the pain hurt yet, so the pitch bounces off.' },
+     { t:'"Yeah, a lot of businesses have that problem."', score:1, fb:'True but flat. You agreed and then stalled. Keep them in their own pain and move toward the money.' },
+   ]},
+   { line:'"A patient? Probably a couple grand over time. Why?"', opts:[
+     { t:'"So even a few missed calls a week is real money walking out. That’s exactly what our audit finds, want me to show you where it’s leaking?"', score:2, fb:'<b>Clean.</b> Their number, their math, then the audit as the answer. That’s the whole play.' },
+     { t:'"Because our build packages start at a really competitive price."', score:0, fb:'You turned a great moment into a price conversation and made yourself a commodity. Never quote before the audit.' },
+     { t:'"Just wondering. So do you want to hear about what we do?"', score:1, fb:'You had the momentum and let it go soft. Tie the value straight to the audit ask.' },
+   ]},
+   { line:'"Okay, what’s this audit thing?"', opts:[
+     { t:'"$500, one week, a full teardown of your phones, website, Google and follow-up with a written report of exactly where you’re losing patients. It comes off your build if we work together. I can send the link right now."', score:2, fb:'<b>Textbook close.</b> Clear, low-risk, credited, and you asked for the sale on the spot. Now stop talking.' },
+     { t:'"It’s a free consultation where we look at your setup."', score:0, fb:'You called the $500 audit "free." Now the paid ask later feels like a bait and switch. Own the price, it’s the whole model.' },
+     { t:'"It’s basically a review of your marketing, I can email you some details."', score:1, fb:'Vague, and "email you details" kills momentum. Be specific and ask for the yes while they’re warm.' },
+   ]},
+ ]},
+ { id:'price', t:'The price pushback', s:'"Just give me a number"', turns:[
+   { line:'"Look, I don’t need all that. Just tell me what a website costs."', opts:[
+     { t:'"A website that doesn’t answer your phone is just a brochure. The audit tells us what’ll actually make you money, that’s why we start there."', score:2, fb:'<b>Reframe nailed.</b> You didn’t take the bait or get defensive. You moved them from "price of a thing" to "value of the outcome."' },
+     { t:'"Websites run about two to four thousand depending on what you want."', score:0, fb:'You quoted a build with no audit and made yourself shoppable against three cheaper guys. This is the trap.' },
+     { t:'"We don’t really do just websites."', score:1, fb:'A little blunt and it can read as unhelpful. Redirect to value instead of just saying no.' },
+   ]},
+   { line:'"I get it, but I’ve got a guy who’ll do a site for $800."', opts:[
+     { t:'"So do we, honestly. But we’re not selling a site, we’re selling answered calls and booked jobs. The $800 site is exactly what the audit usually finds isn’t working."', score:2, fb:'<b>Great.</b> You agreed, then separated yourself on outcome. You’re not competing on the thing, you’re competing on the result.' },
+     { t:'"Ours is way higher quality than an $800 site."', score:1, fb:'"Higher quality" is what every vendor says. It’s a features argument you can’t win on a call. Sell the result.' },
+     { t:'"$800 is way too cheap, you get what you pay for."', score:0, fb:'You just insulted his judgment and his guy. Now he’s defending the $800 site instead of listening to you.' },
+   ]},
+   { line:'"Alright... so what’s the least I can spend to just see if you’re legit?"', opts:[
+     { t:'"That’s the audit. $500, comes off the build, and you get a written report either way. Worst case you paid $500 to know exactly where you’re losing money. Want the link?"', score:2, fb:'<b>Closed.</b> He literally asked for the small first step and you handed him the audit. Send the link now.' },
+     { t:'"Well the audit is $500 but the build is where the real value is."', score:1, fb:'You buried the ask under a bigger number and lost the momentum he just gave you. Take the small yes.' },
+     { t:'"Let me put together a proposal and send it over."', score:0, fb:'He was ready. A proposal-by-email turns a warm on-the-spot yes into a cold maybe. Ask for the audit right here.' },
+   ]},
+ ]},
+ { id:'stall', t:'The stall', s:'"Let me think about it"', turns:[
+   { line:'"This all sounds good. Let me think about it and get back to you."', opts:[
+     { t:'"Totally fair, and honestly the audit IS the thinking, it’s the thing that tells you whether this is even worth doing. That’s the whole point of it."', score:2, fb:'<b>Perfect.</b> You reframed the stall itself into the reason to act. You didn’t push, you removed the risk of deciding.' },
+     { t:'"Okay, no problem, I’ll follow up in a few days."', score:0, fb:'"Think about it" almost always means no. You accepted it and walked away from a warm lead with nothing.' },
+     { t:'"What is there to think about? It’s only $500."', score:1, fb:'Slightly pushy and a little dismissive of their caution. The reframe lands better than pressure.' },
+   ]},
+   { line:'"I hear you, but I’d still like to sleep on it. Can you send me some info?"', opts:[
+     { t:'"Happy to, but the info that actually matters is your audit, it’s about your business, not a brochure about ours. Let’s just start there, and if it’s not worth it you’ll know in a week."', score:2, fb:'<b>Strong.</b> You honored the request but redirected to action, and de-risked it with a clear out. That’s how you rescue a stall.' },
+     { t:'"Sure, what’s your email? I’ll send our brochure and packages."', score:0, fb:'"Send info" is where deals go to die. Now you’re a PDF in an inbox they’ll never open. Redirect to the audit.' },
+     { t:'"There’s not really any info to send, it’s pretty simple."', score:1, fb:'Comes off dismissive. Acknowledge the ask, then steer to the thing that moves it forward.' },
+   ]},
+   { line:'"Fine, you make a good point. How do we start?"', opts:[
+     { t:'"I’ll send the audit link to your phone right now, takes two minutes, and I’ll stay on while you do it so you’re not stuck."', score:2, fb:'<b>Closed and locked.</b> On the spot, on their phone, you stay on the line. That’s the difference between a 100% close and a 50% "tonight."' },
+     { t:'"Great, I’ll email you the payment link this afternoon."', score:0, fb:'You had the yes and cooled it off. By afternoon the urgency is gone. Send it now, while you’re still talking.' },
+     { t:'"Awesome, I’ll get the paperwork going and be in touch."', score:1, fb:'Vague next step. "Be in touch" leaks momentum. Give them the exact action right now.' },
+   ]},
+ ]},
+ { id:'demo', t:'The demo close', s:'Walk the review call to the yes', turns:[
+   { line:'(You’re on the review call.) "Okay, I looked at that report you sent. It’s a lot."', opts:[
+     { t:'"It is, and that’s the point, every one of those gaps is money. Let’s walk the top three, and I’ll show you what fixing them looks like."', score:2, fb:'<b>Good.</b> You validated the reaction and took control of the agenda. The report does the selling, you steer.' },
+     { t:'"Yeah, so do you want to move forward with the full build?"', score:0, fb:'Way too fast. You jumped to the biggest ask before walking the value. Let the findings do the work first.' },
+     { t:'"Don’t worry, most of it’s not that bad."', score:1, fb:'You just talked yourself out of the problem you’re there to solve. Don’t minimize the pain, monetize it.' },
+   ]},
+   { line:'"Okay yeah, the missed calls thing is real. We definitely lose people there. What would it take to fix all this?"', opts:[
+     { t:'"Based on what the audit found, this is a standard build. I’ll walk you through the exact scope and the number, and the $500 you already paid comes right off it."', score:2, fb:'<b>Clean.</b> You tied the price to the audit’s findings, not a menu, and reminded them the audit credits. Now show the number in the Scope tab.' },
+     { t:'"Builds range from two to ten thousand, so somewhere in there."', score:1, fb:'A range with no anchor to their audit leaves them guessing and bracing for the top. Tie it to what you actually found.' },
+     { t:'"Let me check with my team and get back to you on pricing."', score:0, fb:'You’re on the closing call with no number. Momentum gone. Know your scope, or use the Scope tab live.' },
+   ]},
+   { line:'"That’s more than I expected, but... the missed calls alone probably cost me that much. How do we do this?"', opts:[
+     { t:'"Exactly, it pays for itself. I’ll send the build invoice now and we get started this week, first month of the system’s included so you see it working right away."', score:2, fb:'<b>Closed.</b> You mirrored his own ROI logic, moved to payment immediately, and gave him a reason to act now. That’s the whole job.' },
+     { t:'"Take your time, let me know whenever you’re ready."', score:0, fb:'He just talked himself into it and you cooled it right back down. When they signal yes, you move, don’t stall.' },
+     { t:'"Great, I’ll put together a formal proposal for you to review."', score:1, fb:'He’s ready NOW. A formal proposal adds a delay and a decision point you don’t need. Send the invoice and start.' },
+   ]},
+ ]},
+];
+
+const TOOLS = [
+ { t:'Audit payment link ($500)', v: AUDIT_LINK, c: AUDIT_LINK },
+ { t:'Client onboarding link', v: START_LINK, c: START_LINK },
+ { t:'Business line (customer-facing)', v: PHONE, c: PHONE },
+ { t:'The opener', v:'"When someone calls your business and you’re busy, what happens?"', c:'When someone calls your business and you’re busy, what happens?' },
+ { t:'The audit pitch', v:'Full teardown + where money’s leaking, $500 off the build...', c:"We do a full teardown of your whole setup, website, phones, follow-up, everything, and show you exactly where money's leaking. It's $500 and it comes off the build if you work with us." },
+ { t:'Follow-up text (didn’t close)', v:'Good talking. [Pain] is fixable. Audit link whenever...', c:"Good talking today. What you told me about is fixable. Here's the audit link whenever you're ready: " + AUDIT_LINK },
+];
+
+/* ---------- app ---------- */
+const RANK_ORDER=['Rookie','Grinder','Closer','Rainmaker','Apex'];
+function insigniaSVG(rank,size){
+  const i=RANK_ORDER.indexOf(rank);
+  const g='url(#ig)';
+  let inner='';
+  if(i>=4){ // Apex star
+    inner='<path d="M32 8l7 15 16 2-12 11 3 16-14-8-14 8 3-16L9 25l16-2z" fill="'+g+'"/>';
+  } else {
+    for(let c=0;c<=i;c++){ const y=44-c*9;
+      inner+='<path d="M16 '+y+'l16-9 16 9-16 9z" fill="'+(c===i?g:'#1c2740')+'" stroke="#2a4a86" stroke-width="1"/>'; }
   }
-  function calc(){
-    var s=0,m=0,n=0;ENG.forEach(function(e){if(sel[e.k]){s+=e.s;m+=e.m;n++;}});
-    var p=TIER[n]||0;var ds=Math.round(s*(1-p/100)),dm=Math.round(m*(1-p/100));
-    document.getElementById('tot').textContent='$'+ds.toLocaleString()+' setup · $'+dm.toLocaleString()+'/mo';
-    document.getElementById('disc').textContent=p?('— '+p+'% stack discount applied'):'';
+  return '<svg viewBox="0 0 64 64" width="'+size+'" height="'+size+'"><defs><linearGradient id="ig" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3b82f6"/><stop offset="1" stop-color="#22d3ee"/></linearGradient></defs><path d="M32 2l24 8v20c0 16-10 26-24 32C18 56 8 46 8 30V10z" fill="#0a101f" stroke="#2a4a86" stroke-width="1.5"/>'+inner+'</svg>';
+}
+function countUp(el,to){
+  const from=parseInt((el.textContent||'0').replace(/[^\d]/g,''))||0;
+  if(from===to){ el.textContent=to.toLocaleString(); return; }
+  const t0=performance.now(),dur=900;
+  const step=(t)=>{ const p=Math.min(1,(t-t0)/dur), e=1-Math.pow(1-p,3);
+    el.textContent=Math.round(from+(to-from)*e).toLocaleString();
+    if(p<1) requestAnimationFrame(step); };
+  requestAnimationFrame(step);
+}
+function confettiBurst(){
+  const cv=document.getElementById('confetti'),cx=cv.getContext('2d');
+  cv.width=cv.offsetWidth; cv.height=cv.offsetHeight;
+  const cols=['#3b82f6','#22d3ee','#e8b25a','#e8edf7'];
+  const ps=Array.from({length:140},()=>({x:cv.width/2,y:cv.height/2,a:Math.random()*Math.PI*2,v:4+Math.random()*9,g:.12+Math.random()*.1,s:3+Math.random()*5,c:cols[Math.random()*cols.length|0],r:Math.random()*Math.PI,vy:0,life:90+Math.random()*60}));
+  ps.forEach(pp=>{pp.vx=Math.cos(pp.a)*pp.v;pp.vy=Math.sin(pp.a)*pp.v-4;});
+  let f=0;
+  (function tick(){ f++; cx.clearRect(0,0,cv.width,cv.height);
+    ps.forEach(pp=>{ pp.x+=pp.vx; pp.vy+=pp.g; pp.y+=pp.vy; pp.r+=.1;
+      cx.save(); cx.translate(pp.x,pp.y); cx.rotate(pp.r); cx.fillStyle=pp.c; cx.globalAlpha=Math.max(0,1-f/pp.life);
+      cx.fillRect(-pp.s/2,-pp.s/2,pp.s,pp.s); cx.restore(); });
+    if(f<150) requestAnimationFrame(tick); })();
+}
+function relTime(ts){ const m=Math.round((Date.now()-ts)/60000);
+  if(m<1) return 'now'; if(m<60) return m+'m'; const h=Math.round(m/60);
+  if(h<24) return h+'h'; return Math.round(h/24)+'d'; }
+const EV_ICONS={audit:'\u{1F4B0}',meeting:'\u{1F4C5}',claim:'\u{1F3AF}',training:'\u{1F393}',incentive:'\u{1F525}',join:'\u{1F44A}'};
+let BOARD_MODE='week', BOARD_DATA=null, MY_SLUG=null, ME_ROLE=null, SIGN_DOC=null;
+function renderBoard(){
+  const medals=['g','s','b'];
+  const list=[...BOARD_DATA].sort((a,b)=> BOARD_MODE==='week' ? (b.wxp-a.wxp||b.xp-a.xp) : (b.xp-a.xp||b.audits-a.audits));
+  document.getElementById('board').innerHTML = list.map((r,i)=>`
+    <tr class="${r.slug===MY_SLUG?'me':''}"><td class="pos ${medals[i]||''}">${i+1}</td>
+    <td>${r.name} ${r.streak>=2?'<span class=stk>'+r.streak+'\u{1F525}</span>':''}</td><td class="rk">${r.rank}</td><td>${r.audits}</td><td>${r.calls||0}</td>
+    <td class="xpcell">${(BOARD_MODE==='week'?(r.wxp||0):r.xp).toLocaleString()}</td></tr>`).join('');
+}
+async function api(path, opts){ const r = await fetch(API+path,{credentials:'same-origin',...opts}); return {ok:r.ok, data: await r.json().catch(()=>({}))}; }
+function toast(m){ const t=$('toast'); t.textContent=m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3400); }
+
+function renderStatic(progress){
+  $('steps').innerHTML = STEPS.map((s,i)=>`
+    <div class="step"><div class="head" onclick="this.parentNode.classList.toggle('open')">
+      <div class="num">${i+1}</div><div><div class="t">${s.t}</div><div class="s">${s.s}</div></div><div class="chev">&#9656;</div>
+    </div><div class="bodyc">${s.h}</div></div>`).join('');
+
+  $('mods').innerHTML = MODULES.map((m,i)=>{
+    const done = progress.includes(m.id);
+    const hasQuiz = m.quiz && m.quiz.length;
+    const quizHtml = hasQuiz ? `<div class="quiz">
+        <h3>Knowledge check</h3>
+        <p class="qz-intro">${done?'You passed this one. Review the answers any time.':'Get all '+m.quiz.length+' right to complete the module and earn +50 XP.'}</p>
+        ${m.quiz.map((q,qi)=>`<div class="qz-q" data-qi="${qi}">
+          <p class="qz-prompt">${qi+1}. ${q.q}</p>
+          ${q.opts.map((o,oi)=>`<label class="qz-opt"><input type="radio" name="${m.id}-${qi}" value="${oi}" ${done?'disabled':''}><span>${o}</span></label>`).join('')}
+        </div>`).join('')}
+        <button class="qz-check" data-mod="${m.id}" ${done?'disabled':''}>${done?'Completed &#10003;':'Check my answers'}</button>
+        <div class="qz-result" id="qzr-${m.id}"></div>
+      </div>` : `<button class="done-btn" data-mod="${m.id}" ${done?'disabled':''}>${done?'Completed &#10003;':'Mark complete · +50 XP'}</button>`;
+    return `<div class="mod ${done?'done':''}" id="mod-${m.id}"><div class="head" onclick="this.parentNode.classList.toggle('open')">
+      <div class="dot">${done?'&#10003;':i+1}</div><div><div class="t">${m.t}</div><div class="s">${m.s}</div></div><div class="chev">&#9656;</div>
+    </div><div class="bodyc">${m.h}${quizHtml}</div></div>`;
+  }).join('');
+  document.querySelectorAll('.done-btn').forEach(b=>{
+    b.onclick = async ()=>{
+      const r = await api('/team-progress',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({module:b.dataset.mod})});
+      if(r.ok){ b.disabled=true; b.innerHTML='Completed &#10003;'; const mod=$('mod-'+b.dataset.mod); mod.classList.add('done'); mod.querySelector('.dot').innerHTML='&#10003;'; toast('+50 XP. Nice work.'); loadDash(); }
+    };
+  });
+  document.querySelectorAll('.qz-check').forEach(b=>{
+    b.onclick = async ()=>{
+      if(b.disabled) return;
+      const mid=b.dataset.mod, mod=MODULES.find(x=>x.id===mid), box=b.closest('.quiz');
+      let answered=true, correct=0; const wrong=[];
+      mod.quiz.forEach((q,qi)=>{
+        const sel=box.querySelector(`input[name="${mid}-${qi}"]:checked`);
+        const qEl=box.querySelector(`.qz-q[data-qi="${qi}"]`);
+        qEl.classList.remove('qz-wrong','qz-right');
+        if(!sel){ answered=false; return; }
+        if(+sel.value===q.correct){ correct++; qEl.classList.add('qz-right'); }
+        else { qEl.classList.add('qz-wrong'); wrong.push(qi+1); }
+      });
+      const res=$('qzr-'+mid);
+      if(!answered){ res.className='qz-result warn'; res.textContent='Answer every question first.'; return; }
+      if(correct===mod.quiz.length){
+        const r=await api('/team-progress',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({module:mid})});
+        if(r.ok){ res.className='qz-result pass'; res.textContent='Perfect. Module complete, +50 XP.';
+          b.disabled=true; b.innerHTML='Completed &#10003;';
+          box.querySelectorAll('input').forEach(i=>i.disabled=true);
+          const md=$('mod-'+mid); md.classList.add('done'); md.querySelector('.dot').innerHTML='&#10003;';
+          toast('+50 XP. Certified is closer.'); loadDash(); }
+      } else {
+        res.className='qz-result warn'; res.textContent=`${correct}/${mod.quiz.length} correct. Re-read, fix #${wrong.join(', #')}, then check again.`;
+      }
+    };
+  });
+
+  renderDrills();
+
+  $('tools').innerHTML = TOOLS.map((t,i)=>`
+    <div class="tool ${i>=3?'wide':''}"><div class="t">${t.t}</div><div class="v">${t.v}</div>
+    <button data-i="${i}">Copy</button></div>`).join('');
+  document.querySelectorAll('.tool button').forEach(b=>{
+    b.onclick = async ()=>{ await navigator.clipboard.writeText(TOOLS[b.dataset.i].c); b.textContent='Copied'; b.classList.add('copied'); setTimeout(()=>{b.textContent='Copy';b.classList.remove('copied')},1800); };
+  });
+}
+
+/* ---------- onboarding flow (tech + sales, role-aware) ---------- */
+let OB=null, OB_STEP=1, OB_ONSIGN=null, OB_KIND='sales';
+const OB_TOUR=[
+ {ic:'&#128203;', h:'Your Work board', p:'Every task Brad or Cash assigns you shows up here, newest first. Anything sitting in Backlog with no owner is yours to grab.'},
+ {ic:'&#9654;&#65039;', h:'Work a task', p:'Hit Start when you begin. When it’s built AND you’ve tested it yourself, move it to Ready for review. Always test before review.'},
+ {ic:'&#128679;', h:'Stuck? Say so', p:'Hit Blocked and type what’s stopping you. Brad gets pinged instantly and clears it. Never sit silent on a blocker, it just wastes your day.'},
+ {ic:'&#9989;', h:'Getting it approved', p:'Only Brad or Cash mark a task Done, that’s the quality check. Keep the board moving and check it daily. That’s the whole job.'},
+];
+const OB_TOUR_SALES=[
+ {ic:'&#127942;', h:'This is The Floor', p:'Your home base. Your rank, your XP, the live team wire and the leaderboard. Every call and close shows up here and the whole team sees it. A little competition keeps it fun.'},
+ {ic:'&#128222;', h:'Leads, ready to dial', p:'The Leads tab has hundreds of local businesses pulled for you. Claim one, tap the number to call, log what happened. The gold NO WEBSITE ones are your hottest prospects. You never run out of people to call.'},
+ {ic:'&#128218;', h:'Learn and get sharp', p:'Playbook walks the whole deal start to finish. Training has seven modules with quizzes, plus role-play drills where you practice real calls. Certified reps close more, so start there.'},
+ {ic:'&#129518;', h:'Scope the deal', p:'After the audit, the Scope tab turns the findings into the client’s money leak and your recommended build and monthly, and hands you a summary to read them. It does the math for you.'},
+ {ic:'&#128176;', h:'Log every close', p:'Sell an audit? Mark it audit-sold on the lead. Closed a build or put them on retainer? Hit those buttons. It updates the CRM and your commission automatically, no paperwork.'},
+];
+const OB_TOUR_LEAD_EXTRA={ic:'&#128101;', h:'Build your own team', p:'You’ve got a Team tab. Add your own reps, they get their own codes, and their wins roll up to you. Grow your pod, grow your override. Their onboarding looks just like yours.'};
+const curTour = () => OB_KIND==='tech' ? OB_TOUR : (OB && OB.role==='lead' ? [...OB_TOUR_SALES, OB_TOUR_LEAD_EXTRA] : OB_TOUR_SALES);
+let OB_TOUR_I=0;
+function showOnboard(status){
+  $('login').classList.add('hide'); $('app').classList.add('hide'); $('gate').classList.add('hide');
+  $('who').classList.remove('hide'); $('whoName').textContent=status.name||'';
+  OB=status; OB_KIND = status.role==='tech' ? 'tech' : 'sales';
+  if(OB_KIND==='tech') OB_STEP = !status.profileComplete ? 1 : !status.docsComplete ? 3 : 4;
+  else OB_STEP = !status.profileComplete ? 1 : 3; // sales: welcome(1) -> details(2) -> tour(3)
+  $('onboard').classList.remove('hide');
+  paintOnboard();
+}
+const obTotalSteps = () => OB_KIND==='tech' ? 4 : 3;
+function obSteps(){
+  const total=obTotalSteps();
+  let h='<div class="ob-steps">';
+  for(let i=1;i<=total;i++){ const cls=i<OB_STEP?'done':i===OB_STEP?'on':''; h+=`<div class="ob-dot ${cls}">${i<OB_STEP?'&#10003;':i}</div>`; if(i<total) h+='<div class="ob-line"></div>'; }
+  return h+'</div>';
+}
+function tourBody(){
+  const tour=curTour(), t=tour[OB_TOUR_I];
+  return `<div class="ob-card ob-tour"><div class="tico">${t.ic}</div><h2>${t.h}</h2><p>${t.p}</p>
+    <div class="ob-tdots">${tour.map((x,i)=>`<span class="${i===OB_TOUR_I?'on':''}"></span>`).join('')}</div>
+    <button class="ob-btn" id="obTourNext">${OB_TOUR_I<tour.length-1?'Next &#8594;':'Start '+(OB_KIND==='tech'?'working':'selling')+' &#8594;'}</button>
+    ${OB_TOUR_I>0?'<button class="ob-back" id="obTourBack">&#8592; Back</button>':''}</div>`;
+}
+function paintOnboard(){
+  let body='';
+  if(OB_STEP===1){
+    const first=OB.name.split(' ')[0];
+    if(OB_KIND==='tech') body=`<div class="ob-card"><h1>Welcome to the build team, ${first}.</h1>
+      <p class="lead">You’re in. Three quick steps, about three minutes, and you’re ready to work: your details, a couple of documents to sign, and a 60-second tour of how the board works.</p>
+      <button class="ob-btn" id="obGo">Let’s get you set up &#8594;</button></div>`;
+    else body=`<div class="ob-card"><h1>Welcome to the team, ${first}. &#127881;</h1>
+      <p class="lead">You’re on The Floor. Two quick steps, about two minutes: your details so we can reach you and pay you, then a fast tour of how everything works. Then you’re selling.</p>
+      <button class="ob-btn" id="obGo">Let’s go &#8594;</button></div>`;
+  } else if(OB_STEP===2){ const p=OB.profile||{};
+    const skillOpts = OB_KIND==='tech'
+      ? ['','GoHighLevel build','Web development','Automation / AI','Design','General VA','Other']
+      : ['','New to sales','Some sales experience','Experienced closer','Sales pro / manager'];
+    const skillLabel = OB_KIND==='tech' ? 'Your main skill' : 'Your sales experience';
+    const payLabel = OB_KIND==='tech' ? 'Pay method' : 'How you’d like commissions paid';
+    body=`<div class="ob-card"><h1>Your details</h1><p class="lead">So we can reach you and pay you correctly. Takes a minute.</p>
+    <div class="ob-f"><label>Email</label><input id="obEmail" type="email" placeholder="you@email.com" value="${p.email||''}"></div>
+    <div class="ob-f"><label>Best contact (WhatsApp or phone)</label><input id="obContact" placeholder="+1 ..." value="${p.contact||''}"></div>
+    <div class="ob-row"><div class="ob-f"><label>City / country</label><input id="obCountry" placeholder="Vancouver, CA" value="${p.country||''}"></div>
+    <div class="ob-f"><label>Time zone</label><input id="obTz" placeholder="PT / GMT-8" value="${p.timezone||''}"></div></div>
+    <div class="ob-f"><label>${skillLabel}</label><select id="obSkill">
+      ${skillOpts.map(s=>`<option ${p.skill===s?'selected':''} value="${s}">${s||'Select...'}</option>`).join('')}</select></div>
+    <div class="ob-row"><div class="ob-f"><label>${payLabel}</label><select id="obPayType">
+      ${['','Wise','PayPal','Payoneer','e-Transfer','Direct deposit','Other'].map(s=>`<option ${p.payType===s?'selected':''} value="${s}">${s||'Select...'}</option>`).join('')}</select></div>
+    <div class="ob-f"><label>Pay detail (email or account for that method)</label><input id="obPayDetail" placeholder="email / account" value="${p.payDetail||''}"></div></div>
+    <button class="ob-btn" id="obSave">Save &amp; continue &#8594;</button><div class="ob-err" id="obErr"></div></div>`;
+  } else if(OB_STEP===3 && OB_KIND==='tech'){
+    body=`<div class="ob-card"><h1>Sign your documents</h1><p class="lead">Standard for everyone on the team: an NDA and your contractor agreement. Review each and sign, it takes two minutes.</p>
+    <div id="obDocs">Loading...</div>
+    <button class="ob-btn" id="obDocsNext" disabled>Continue &#8594;</button></div>`;
+  } else {
+    body=tourBody();
   }
-  document.getElementById('gen').onclick=async function(){
-    var picked=ENG.filter(function(e){return sel[e.k];}).map(function(e){return e.k;});
-    var ge=document.getElementById('genErr');ge.textContent='';
-    if(!picked.length){ge.textContent='Select at least one engine.';return;}
-    var btn=this;btn.disabled=true;btn.textContent='Generating…';
-    try{
-      var r=await fetch('/.netlify/functions/checkout',{method:'POST',headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({paymentLink:true,secret:SECRET,engines:picked,clientRef:document.getElementById('clientRef').value})});
-      var d=await r.json();
-      if(r.status===401){ge.textContent='Access code rejected. Re-enter it.';localStorage.removeItem('ew_team_secret');setTimeout(function(){location.reload();},1500);return;}
-      if(!d.url) throw new Error(d.error||'No link returned');
-      document.getElementById('link').value=d.url;
-      document.getElementById('res').classList.add('show');
-    }catch(err){ge.textContent='Error: '+err.message;}
-    btn.disabled=false;btn.textContent='Generate payment link';
+  $('onboard').innerHTML = obSteps() + body;
+  wireOnboard();
+}
+function wireOnboard(){
+  if($('obGo')) $('obGo').onclick=()=>{ OB_STEP=2; paintOnboard(); };
+  if($('obSave')) $('obSave').onclick=async()=>{
+    const g=id=>$(id)?$(id).value.trim():'';
+    if(!g('obEmail')||!g('obContact')||!g('obSkill')){ $('obErr').textContent='Email, contact and experience are required.'; return; }
+    const r=await api('/team-onboard',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'profile',
+      email:g('obEmail'),contact:g('obContact'),country:g('obCountry'),timezone:g('obTz'),skill:g('obSkill'),payType:g('obPayType'),payDetail:g('obPayDetail')})});
+    if(r.ok&&r.data.profileComplete){ OB.profileComplete=true; OB_TOUR_I=0; OB_STEP=3; paintOnboard(); } // tech step3=docs, sales step3=tour
+    else $('obErr').textContent=(r.data&&r.data.error)||'Please fill the required fields.';
   };
-  document.getElementById('copy').onclick=function(){
-    var i=document.getElementById('link');i.select();
-    navigator.clipboard.writeText(i.value);this.textContent='Copied ✓';var t=this;setTimeout(function(){t.textContent='Copy';},1600);
+  if(OB_STEP===3 && OB_KIND==='tech'){ loadObDocs(); }
+  if($('obTourNext')) $('obTourNext').onclick=async()=>{
+    const tour=curTour();
+    if(OB_TOUR_I<tour.length-1){ OB_TOUR_I++; paintOnboard(); }
+    else { await api('/team-onboard',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'demo-done'})}); $('onboard').classList.add('hide'); await loadDash(); }
   };
-})();
+  if($('obTourBack')) $('obTourBack').onclick=()=>{ OB_TOUR_I--; paintOnboard(); };
+}
+async function loadObDocs(){
+  const r=await api('/team-compliance');
+  if(!r.ok){ $('obDocs').innerHTML='<div class="ob-err">Could not load documents.</div>'; return; }
+  const docs=r.data.docs||[];
+  $('obDocs').innerHTML=docs.map((d,i)=>`<div class="ob-doc ${d.signed?'signed':''}">
+    <div class="di">${d.signed?'&#10003;':i+1}</div>
+    <div><div class="dn">${d.title}</div><div class="dsub">${d.signed?'Signed':'Required'}</div></div>
+    <button data-doc="${d.key}" ${d.signed?'disabled':''}>${d.signed?'Signed':'Review &amp; sign'}</button></div>`).join('');
+  $('obDocs').querySelectorAll('button[data-doc]').forEach(b=>{ if(!b.disabled) b.onclick=()=>openSign(b.dataset.doc); });
+  const allSigned=docs.length && docs.every(d=>d.signed);
+  $('obDocsNext').disabled=!allSigned;
+  $('obDocsNext').onclick=()=>{ if(allSigned){ OB.docsComplete=true; OB_STEP=4; OB_TOUR_I=0; paintOnboard(); } };
+  OB_ONSIGN=loadObDocs; // refresh this list after a sign completes
+}
+
+/* ---------- drills render + simulator ---------- */
+const drillKey = () => 'ew_drills_' + (MY_SLUG || 'x');
+const drillsDone = () => { try { return JSON.parse(localStorage.getItem(drillKey()) || '{}'); } catch(e){ return {}; } };
+const drillMax = (d) => d.turns.length * 2;
+const isAced = (d, done) => (done[d.id] || 0) >= drillMax(d) * 0.8;
+function renderDrills(){
+  const done = drillsDone();
+  $('drills').innerHTML = DRILLS.map(d=>{
+    const aced = isAced(d, done);
+    const best = done[d.id]!=null ? `<div class="dbadge">best ${Math.round(done[d.id]/drillMax(d)*100)}%</div>` : '';
+    return `<div class="drill-card ${aced?'aced':''}" id="drill-${d.id}">
+      <div class="dhead" data-d="${d.id}"><div class="dicon">${aced?'&#10003;':'&#127908;'}</div>
+      <div><div class="dt">${d.t}</div><div class="ds">${d.s}</div></div>${best}</div>
+      <div class="dbody"></div></div>`;
+  }).join('');
+  updateDrillScore();
+  document.querySelectorAll('.dhead').forEach(h=>{ h.onclick=()=>{
+    const card=$('drill-'+h.dataset.d); const open=card.classList.toggle('open');
+    if(open) startDrill(h.dataset.d); else card.querySelector('.dbody').innerHTML='';
+  }; });
+}
+function updateDrillScore(){
+  const done=drillsDone(); const n=DRILLS.filter(d=>isAced(d,done)).length;
+  if($('drillScore')) $('drillScore').textContent = n+'/'+DRILLS.length+' aced';
+}
+function startDrill(id){
+  const d=DRILLS.find(x=>x.id===id); const body=$('drill-'+id).querySelector('.dbody');
+  let turn=0, score=0; const convo=[];
+  const paint=()=>{
+    const t=d.turns[turn];
+    body.innerHTML = convo.join('') +
+      `<div class="sim-line them"><div class="av">P</div><div class="sim-bubble">${t.line}</div></div>
+       <div class="sim-q">Your move</div>
+       <div class="sim-opts">${t.opts.map((o,i)=>`<button class="sim-opt" data-i="${i}">${o.t}</button>`).join('')}</div>`;
+    body.querySelectorAll('.sim-opt').forEach(b=>{ b.onclick=()=>choose(+b.dataset.i); });
+    body.scrollIntoView({block:'nearest'});
+  };
+  const choose=(i)=>{
+    const t=d.turns[turn], o=t.opts[i]; score+=o.score;
+    const cls=o.score>=2?'good':o.score>=1?'ok':'bad';
+    const wrap=body.querySelector('.sim-opts');
+    [...wrap.children].forEach((b,bi)=>{ b.disabled=true; if(bi===i) b.classList.add(cls); });
+    convo.push(`<div class="sim-line them"><div class="av">P</div><div class="sim-bubble">${t.line}</div></div>
+      <div class="sim-line you"><div class="av">Y</div><div class="sim-bubble">${o.t}</div></div>`);
+    wrap.insertAdjacentHTML('afterend',
+      `<div class="sim-fb ${cls}">${o.fb}</div><button class="sim-next">${turn+1>=d.turns.length?'See your score &#8594;':'Continue &#8594;'}</button>`);
+    body.querySelector('.sim-next').onclick=()=>{ turn++; if(turn>=d.turns.length) finish(); else paint(); };
+  };
+  const finish=()=>{
+    const max=drillMax(d), pct=Math.round(score/max*100);
+    const verdict = pct>=90?'Closer energy. That was clean.' : pct>=80?'Aced it. A couple lines to sharpen.' : pct>=60?'Close. Re-read the module and run it back.' : 'Rough one. That’s what drills are for, run it again.';
+    const prev=drillsDone(); if(score>(prev[id]||0)){ prev[id]=score; try{localStorage.setItem(drillKey(),JSON.stringify(prev));}catch(e){} }
+    body.innerHTML = convo.join('') +
+      `<div class="sim-score"><div class="big">${pct}%</div><div class="verdict">${verdict}</div><div class="sub">${score} of ${max} points</div><button class="sim-replay">Run it again</button></div>`;
+    body.querySelector('.sim-replay').onclick=()=>startDrill(id);
+    if(pct>=80){ toast('Drill aced: '+d.t+' &#127908;'); const card=$('drill-'+id); card.classList.add('aced'); card.querySelector('.dicon').innerHTML='&#10003;'; }
+    updateDrillScore();
+  };
+  paint();
+}
+
+function renderDash(d){
+  $('whoName').textContent = d.me.name; $('who').classList.remove('hide');
+  $('rank').textContent = d.me.rank.name;
+  $('insig').innerHTML = insigniaSVG(d.me.rank.name, 56);
+  countUp($('xp'), d.me.xp);
+  $('stToday').textContent = d.me.today || 0;
+  $('stCalls').textContent = d.me.calls || 0;
+  $('stStreak').textContent = (d.me.streak||0) >= 2 ? `${d.me.streak}-day streak \u{1F525} +20 XP/day` : 'Log 3+ calls a day to start a streak';
+  const rkKey='ew_rank_'+d.me.slug, prevRank=localStorage.getItem(rkKey);
+  if(prevRank && prevRank!==d.me.rank.name && RANK_ORDER.indexOf(d.me.rank.name)>RANK_ORDER.indexOf(prevRank)){
+    $('ruInsig').innerHTML=insigniaSVG(d.me.rank.name,120); $('ruName').textContent=d.me.rank.name;
+    $('rankup').classList.add('show'); confettiBurst();
+  }
+  localStorage.setItem(rkKey, d.me.rank.name);
+  $('wire').innerHTML = (d.feed&&d.feed.length) ? d.feed.map(e=>`
+    <div class="wev ${e.type}"><div class="ic">${EV_ICONS[e.type]||'\u2022'}</div>
+    <div class="tx">${e.text}</div><div class="tm">${relTime(e.ts)}</div></div>`).join('')
+    : '<div class="wempty">Quiet in here. First claim, first call, first close all show up on the wire.</div>';
+  $('bar').style.width = d.me.rank.pct + '%';
+  $('nextup').textContent = d.me.rank.next ? `${d.me.rank.nextAt - d.me.xp} XP to ${d.me.rank.next}` : 'Top of the mountain. Stay there.';
+  $('nAudits').textContent = d.me.audits; $('nBuilds').textContent = d.me.builds;
+  $('nRet').textContent = d.me.retainers; $('nTrain').textContent = (d.me.training||0)+'/7';
+
+  if (d.incentive && d.incentive.title){
+    $('inc').classList.remove('hide');
+    $('incTitle').textContent = d.incentive.title;
+    $('incDetail').textContent = d.incentive.detail || '';
+    $('incUntil').textContent = d.incentive.until ? 'ends ' + d.incentive.until : '';
+  } else $('inc').classList.add('hide');
+
+  const seenKey='ew_badges_'+d.me.slug;
+  const seen=JSON.parse(localStorage.getItem(seenKey)||'[]');
+  const now=d.badges.filter(b=>b.unlocked).map(b=>b.id);
+  const fresh=now.filter(id=>!seen.includes(id));
+  if(fresh.length && seen.length){ const b=d.badges.find(x=>x.id===fresh[0]); toast('Achievement unlocked: '+b.name); }
+  localStorage.setItem(seenKey,JSON.stringify(now));
+
+  $('badges').innerHTML = d.badges.map(b=>`
+    <div class="badge ${b.unlocked?'on':''}">${b.unlocked?'':'<span class="lockt">locked</span>'}
+      <div class="ico">${b.name.split(/\\s+/).map(w=>w[0]).join('').slice(0,2)}</div>
+      <div class="bn">${b.name}</div><div class="bd">${b.desc}</div></div>`).join('');
+
+  BOARD_DATA = d.leaderboard; MY_SLUG = d.me.slug; renderBoard();
+
+  ME_ROLE = d.me.role;
+  if(['admin','head'].includes(d.me.role)){ $('admin').classList.remove('hide'); $('opsTabBtn').classList.remove('hide'); loadRoster(); }
+  if(['admin','head','lead'].includes(d.me.role)){ $('teamTabBtn').classList.remove('hide'); $('teamHdr').textContent = d.me.role==='lead' ? 'Your team' : 'The whole team'; }
+  // Managers reach the tech Work board on its own page (The Bench).
+  if(['admin','head'].includes(d.me.role)){ $('whoWork').classList.remove('hide'); }
+  // Sales members get self-serve: view/edit their details, replay the demo.
+  if(['rep','lead'].includes(d.me.role)){
+    $('whoProfile').classList.remove('hide'); $('whoTour').classList.remove('hide');
+    $('whoProfile').onclick=openProfile; $('whoTour').onclick=replayTour;
+  }
+}
+
+let booted=false;
+async function loadDash(){
+  const s = await api('/team-stats');
+  if(!s.ok) return false;
+  $('login').classList.add('hide'); $('app').classList.remove('hide');
+  renderDash(s.data);
+  if(!booted){ const p = await api('/team-progress'); renderStatic(p.ok ? (p.data.progress||[]) : []); booted=true; }
+  return true;
+}
+
+/* ---------- compliance gate ---------- */
+// Single entry point after login / on boot: not logged in -> login; gate owed -> gate; else -> app.
+async function enter(){
+  const c = await api('/team-compliance');
+  if(!c.ok){ $('app').classList.add('hide'); $('gate').classList.add('hide'); $('onboard').classList.add('hide'); $('who').classList.add('hide'); $('login').classList.remove('hide'); return; }
+  // Tech contractors live on their own page (The Bench). Send them there.
+  if(c.data.role==='tech'){ location.href='/team/work/'; return; }
+  // Sales members (rep, lead) get a lighter first-login onboarding: details + guided demo.
+  if(['rep','lead'].includes(c.data.role)){
+    const o = await api('/team-onboard');
+    if(o.ok && (!o.data.profileComplete || !o.data.demoSeen)){ showOnboard(o.data); return; }
+  }
+  $('onboard').classList.add('hide');
+  if(c.data.enforced && !c.data.exempt && !c.data.complete){ showGate(c.data); return; }
+  $('gate').classList.add('hide');
+  await loadDash();
+}
+function showGate(status){
+  $('login').classList.add('hide'); $('app').classList.add('hide');
+  $('who').classList.remove('hide'); $('whoName').textContent = status.name||'';
+  $('gate').classList.remove('hide');
+  renderGateDocs(status);
+}
+function renderGateDocs(status){
+  $('gateDocs').innerHTML = status.docs.map((d,i)=>`
+    <div class="gdoc ${d.signed?'done':''}">
+      <div class="gi">${d.signed?'&#10003;':i+1}</div>
+      <div><div class="gt">${d.title}</div><div class="gs">${d.signed?('Signed '+new Date(d.signedAt).toLocaleDateString()):'Required'}</div></div>
+      <button class="gbtn" data-doc="${d.key}" ${d.signed?'disabled':''}>${d.signed?'Signed &#10003;':'Review &amp; sign'}</button>
+    </div>`).join('') + (status.complete?'<div class="gdone">All signed. Taking you to the floor...</div>':'');
+  $('gateDocs').querySelectorAll('.gbtn[data-doc]').forEach(b=>{ if(!b.disabled) b.onclick=()=>openSign(b.dataset.doc); });
+  if(status.complete) setTimeout(enter, 900);
+}
+async function openSign(key){
+  const r = await api('/team-compliance?doc='+encodeURIComponent(key));
+  if(!r.ok){ toast('Could not load that document'); return; }
+  SIGN_DOC = r.data;
+  $('signTitle').textContent = r.data.title;
+  $('signBody').innerHTML = r.data.body;
+  $('signAcks').innerHTML = r.data.acks.map((a,i)=>`<label class="ack"><input type="checkbox" data-ack="${i}"><span>${a}</span></label>`).join('');
+  $('signName').value=''; $('signErr').textContent='';
+  const recheck=()=>{ const allAck=[...$('signAcks').querySelectorAll('input')].every(x=>x.checked); const named=$('signName').value.trim().length>=3; $('signGo').disabled=!(allAck&&named); };
+  $('signAcks').querySelectorAll('input').forEach(x=>x.onchange=recheck);
+  $('signName').oninput=recheck; recheck();
+  $('signBody').scrollTop=0;
+  $('signModal').classList.add('show');
+}
+$('signClose').onclick=()=>$('signModal').classList.remove('show');
+$('signGo').onclick=async()=>{
+  const acks=[...$('signAcks').querySelectorAll('input')].map(x=>x.checked);
+  $('signGo').disabled=true; $('signErr').textContent='';
+  const r=await api('/team-compliance',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'sign',doc:SIGN_DOC.key,legalName:$('signName').value.trim(),acks})});
+  if(!r.ok){ $('signErr').textContent=r.data.error||'Could not sign. Try again.'; $('signGo').disabled=false; return; }
+  $('signModal').classList.remove('show'); toast('Signed. Thank you.');
+  if(OB_ONSIGN && !$('onboard').classList.contains('hide')) OB_ONSIGN();
+  else renderGateDocs(r.data);
+};
+
+/* ---------- team / downline ---------- */
+async function loadTeam(){
+  if(ME_ROLE==='admin') loadCfg();
+  if(['admin','head'].includes(ME_ROLE)) $('tNewRole').classList.remove('hide');
+  const r = await api('/team-compliance?team=1');
+  if(!r.ok){ $('teamList').innerHTML='<div class="lempty">Not available.</div>'; return; }
+  const t = r.data.team||[];
+  const mgr=['admin','head'].includes(ME_ROLE);
+  $('teamList').innerHTML = t.length ? t.map(m=>`
+    <div class="trow"><div><div class="tn">${m.name} ${m.role!=='rep'?'<span class=rk>'+m.role+'</span>':''}</div>
+      <div class="tm">${m.code?('Code '+m.code+' · '):''}${m.signed}/${m.total} docs signed</div></div>
+      <span class="cbadge ${m.complete?'ok':'no'}">${m.complete?'Cleared':'Pending'}</span>
+      ${mgr&&m.role==='rep'?`<button class="rel" data-mklead="${m.slug}" style="color:var(--gold)">make lead</button>`:''}
+      ${mgr&&m.role==='lead'?`<button class="rel" data-mkrep="${m.slug}">make rep</button>`:''}
+      ${mgr&&m.role==='tech'?`<button class="rel" data-det="${m.slug}" style="color:var(--cyan)">details</button>`:''}
+      ${['rep','tech'].includes(m.role)?`<button class="rel" data-slug="${m.slug}">remove</button>`:''}</div><div class="tdet hide" id="tdet-${m.slug}"></div>`).join('')
+    : '<div class="lempty">No reps yet. Add your first one above and send them their code.</div>';
+  // admin/head: view a tech contractor's onboarding + pay details
+  $('teamList').querySelectorAll('button[data-det]').forEach(b=>{ b.onclick=async()=>{
+    const panel=$('tdet-'+b.dataset.det);
+    if(!panel.classList.contains('hide')){ panel.classList.add('hide'); return; }
+    const r=await api('/team-onboard?slug='+encodeURIComponent(b.dataset.det));
+    if(!r.ok){ toast(r.data.error||'Could not load'); return; }
+    const d=r.data, p=d.profile||{};
+    panel.innerHTML=`<b>Onboarding:</b> details ${d.profileComplete?'<span class=ok>done</span>':'<span class=no>missing</span>'} · docs ${d.docsComplete?'<span class=ok>signed</span>':'<span class=no>unsigned</span>'} · tour ${d.demoSeen?'<span class=ok>seen</span>':'<span class=no>not yet</span>'}<br>
+      <b>Email:</b> ${p.email||'—'} · <b>Contact:</b> ${p.contact||'—'}<br>
+      <b>Location:</b> ${p.country||'—'} · <b>Time zone:</b> ${p.timezone||'—'} · <b>Skill:</b> ${p.skill||'—'}<br>
+      <b>Pay:</b> ${p.payType||'—'} ${p.payDetail?'· '+p.payDetail:''}`;
+    panel.classList.remove('hide');
+  }; });
+  const setrole=async(slug,role)=>{ const r=await api('/team-auth',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'setrole',slug,role})}); if(r.ok){ toast(role==='lead'?'Promoted to Pod Lead. They can build their own team now.':'Set back to rep.'); loadTeam(); } else toast(r.data.error||'failed'); };
+  $('teamList').querySelectorAll('button[data-mklead]').forEach(b=>{ b.onclick=()=>{ if(confirm('Make this rep a Pod Lead? They get their own Team tab to recruit and manage their own reps.')) setrole(b.dataset.mklead,'lead'); }; });
+  $('teamList').querySelectorAll('button[data-mkrep]').forEach(b=>{ b.onclick=()=>{ if(confirm('Set this Pod Lead back to a regular rep?')) setrole(b.dataset.mkrep,'rep'); }; });
+  $('teamList').querySelectorAll('button[data-slug]').forEach(b=>{
+    b.onclick=async()=>{ if(!confirm('Remove this rep? Their access code stops working.')) return;
+      const r2=await api('/team-auth',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'deactivate',slug:b.dataset.slug})});
+      if(r2.ok){ toast('Rep removed'); loadTeam(); } else toast(r2.data.error||'failed'); };
+  });
+}
+$('tAddRep').onclick=async()=>{
+  const name=$('tNewName').value.trim(); if(!name) return;
+  const role=$('tNewRole').classList.contains('hide')?'rep':$('tNewRole').value;
+  const r=await api('/team-auth',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'add',name,role})});
+  $('tAddOut').textContent = r.ok ? `${r.data.rep.name} added. Access code: ${r.data.rep.code} (send it to them now, it won't show again)` : (r.data.error||'failed');
+  if(r.ok){ $('tNewName').value=''; loadTeam(); }
+};
+async function loadCfg(){
+  const r=await api('/team-compliance?config=1');
+  if(!r.ok) return;
+  $('cfgbar').classList.remove('hide');
+  const on=r.data.enforced;
+  $('cfgState').textContent = on?'is ON · everyone must sign before working leads':'is OFF · no one is blocked yet';
+  const btn=$('cfgToggle'); btn.textContent=on?'Turn OFF':'Turn ON'; btn.className='pill '+(on?'on':'off');
+  btn.onclick=async()=>{ const r2=await api('/team-compliance',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'enforce',on:!on})}); if(r2.ok){ toast('Compliance gate '+(r2.data.enforced?'ON':'OFF')); loadCfg(); } else toast(r2.data.error||'failed'); };
+}
+
+/* ---------- leads ---------- */
+let LEADSD=null;
+const NICE={'nail-spa':'Nail / Spa','med-clinic':'Clinic','auto-repair':'Auto repair'};
+const nice=n=>NICE[n]||n.charAt(0).toUpperCase()+n.slice(1);
+async function loadLeads(){
+  const r = await api('/team-leads');
+  if(!r.ok) return;
+  LEADSD=r.data; fillLeadFilters(); renderLeads();
+}
+function fillLeadFilters(){
+  const keep=(sel,vals,label)=>{ const cur=sel.value; sel.innerHTML=`<option value="">${label}</option>`+vals.map(v=>`<option value="${v}">${label==='All niches'?nice(v):v}</option>`).join(''); sel.value=cur; };
+  keep($('fCity'),LEADSD.cities,'All cities'); keep($('fNiche'),LEADSD.niches,'All niches');
+}
+function leadRow(l,mine){
+  const meta=[nice(l.niche),l.city,l.addr].filter(Boolean).join(' \u00b7 ');
+  const hot=l.hot?'<span class="hotb">NO WEBSITE</span>':'';
+  if(mine){
+    const opts=['new','called','no-answer','meeting','audit-sold','dead'].map(x=>`<option ${l.status===x?'selected':''}>${x}</option>`).join('');
+    const showClosers = l.status==='audit-sold' || l.buildAmount || l.retainerMonthly;
+    const closers = showClosers ? `<div class="closer">
+        <button class="bbtn build" data-id="${l.id}">${l.buildAmount?('&#10003; Build $'+l.buildAmount.toLocaleString()):'Build closed'}</button>
+        <button class="bbtn ret" data-id="${l.id}">${l.retainerMonthly?('&#10003; Retainer $'+l.retainerMonthly.toLocaleString()+'/mo'):'On retainer'}</button>
+      </div>` : '';
+    return `<div class="lead"><div><div class="ln">${l.name} ${hot}</div><div class="lm">${meta}</div></div>
+      <div class="right"><a class="call" href="tel:${l.phone.replace(/[^+\d]/g,'')}">${l.phone}</a>
+      <select data-id="${l.id}" class="lst">${opts}</select>
+      ${l.status==='new'?`<button class="rel" data-id="${l.id}">release</button>`:''}</div>${closers}</div>`;
+  }
+  return `<div class="lead"><div><div class="ln">${l.name} ${hot}</div><div class="lm">${meta}</div></div>
+    <div class="right"><span class="lm">${l.phone}</span><button class="claim" data-id="${l.id}">Claim</button></div></div>`;
+}
+function renderLeads(){
+  const d=LEADSD;
+  $('myLeads').innerHTML = d.mine.length ? d.mine.map(l=>leadRow(l,true)).join('')
+    : '<div class="lempty">No leads claimed yet. Grab some from the pool below and get dialing.</div>';
+  const fc=$('fCity').value, fn=$('fNiche').value, fh=$('fHot').checked;
+  const list=d.leads.filter(l=>(!fc||l.city===fc)&&(!fn||l.niche===fn)&&(!fh||l.hot));
+  $('lCount').textContent = d.total ? `${d.total.toLocaleString()} unclaimed leads in the pool. Showing ${list.length}. Hot = no website = perfect audit prospect.` : 'Pool is loading fresh leads. Check back shortly.';
+  $('poolLeads').innerHTML = list.length ? list.map(l=>leadRow(l,false)).join('') : '<div class="lempty">Nothing matches those filters.</div>';
+  document.querySelectorAll('.claim').forEach(b=>{ b.onclick=async()=>{ const r=await api('/team-leads',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'claim',id:b.dataset.id})}); if(r.ok){toast('Lead claimed. Go get it.'); loadLeads();} else toast(r.data.error||'failed'); }; });
+  document.querySelectorAll('.lst').forEach(sel=>{ sel.onchange=async()=>{ const r=await api('/team-leads',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'status',id:sel.dataset.id,status:sel.value})}); if(r.ok){ if(sel.value==='audit-sold') toast('Audit sold! Send the payment + onboarding links.'); loadLeads(); } }; });
+  document.querySelectorAll('.rel').forEach(b=>{ b.onclick=async()=>{ await api('/team-leads',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'release',id:b.dataset.id})}); loadLeads(); }; });
+  document.querySelectorAll('.bbtn.build').forEach(b=>{ b.onclick=async()=>{
+    const raw=prompt('Build amount closed? (the one-time build price, e.g. 4500)'); if(raw===null) return;
+    const amount=parseInt(String(raw).replace(/[^\d]/g,''),10);
+    if(!amount||amount<500){ toast('Enter a build amount of at least $500'); return; }
+    const r=await api('/team-leads',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'build',id:b.dataset.id,amount})});
+    if(r.ok){ toast('Build closed: $'+amount.toLocaleString()+'. Logged to the CRM.'); loadLeads(); loadDash(); } else toast(r.data.error||'failed'); }; });
+  document.querySelectorAll('.bbtn.ret').forEach(b=>{ b.onclick=async()=>{
+    const raw=prompt('Monthly retainer? (Essential 500, Growth 1000, Partner 2000)','1000'); if(raw===null) return;
+    const monthly=parseInt(String(raw).replace(/[^\d]/g,''),10);
+    if(!monthly||monthly<100){ toast('Enter a monthly of at least $100'); return; }
+    const tier = monthly>=2000?'Partner':monthly>=1000?'Growth':monthly>=500?'Essential':'Custom';
+    const r=await api('/team-leads',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'retainer',id:b.dataset.id,monthly,tier})});
+    if(r.ok){ toast('On retainer: $'+monthly.toLocaleString()+'/mo. Logged to the CRM.'); loadLeads(); loadDash(); } else toast(r.data.error||'failed'); }; });
+}
+['fCity','fNiche','fHot'].forEach(id=>$(id).addEventListener('change',renderLeads));
+
+function replayTour(){
+  const role = ME_ROLE || (OB && OB.role) || 'tech';
+  OB = { name: $('whoName').textContent || '', role };
+  OB_KIND = role==='tech' ? 'tech' : 'sales';
+  OB_STEP = OB_KIND==='tech' ? 4 : 3; OB_TOUR_I=0; // tech tour renders at step 4, sales at step 3
+  $('app').classList.add('hide'); $('onboard').classList.remove('hide'); paintOnboard();
+}
+const PF_SKILLS_SALES=['','New to sales','Some sales experience','Experienced closer','Sales pro / manager'];
+const PF_SKILLS=['','GoHighLevel build','Web development','Automation / AI','Design','General VA','Other'];
+const PF_PAY=['','Wise','PayPal','Payoneer','e-Transfer','Direct deposit','Other'];
+async function openProfile(){
+  const r=await api('/team-onboard'); if(!r.ok){ toast('Could not load your profile'); return; }
+  const p=r.data.profile||{};
+  const sales = ['rep','lead'].includes(ME_ROLE);
+  const skills = sales ? PF_SKILLS_SALES : PF_SKILLS;
+  const lbl = $('pfSkill').closest('.ob-f') && $('pfSkill').closest('.ob-f').querySelector('label');
+  if(lbl) lbl.textContent = sales ? 'Your sales experience' : 'Main skill';
+  $('pfSkill').innerHTML=skills.map(s=>`<option value="${s}" ${p.skill===s?'selected':''}>${s||'Select...'}</option>`).join('');
+  $('pfPayType').innerHTML=PF_PAY.map(s=>`<option value="${s}" ${p.payType===s?'selected':''}>${s||'Select...'}</option>`).join('');
+  $('pfEmail').value=p.email||''; $('pfContact').value=p.contact||''; $('pfCountry').value=p.country||''; $('pfTz').value=p.timezone||''; $('pfPayDetail').value=p.payDetail||'';
+  $('pfErr').textContent=''; $('profModal').classList.add('show');
+}
+$('profClose').onclick=()=>$('profModal').classList.remove('show');
+$('pfSave').onclick=async()=>{
+  const g=id=>$(id).value.trim();
+  if(!g('pfEmail')||!g('pfContact')||!g('pfSkill')){ $('pfErr').textContent='Email, contact and skill are required.'; return; }
+  const r=await api('/team-onboard',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'profile',
+    email:g('pfEmail'),contact:g('pfContact'),country:g('pfCountry'),timezone:g('pfTz'),skill:g('pfSkill'),payType:g('pfPayType'),payDetail:g('pfPayDetail')})});
+  if(r.ok){ $('profModal').classList.remove('show'); toast('Profile saved.'); } else $('pfErr').textContent=(r.data&&r.data.error)||'Could not save.';
+};
+
+/* ---------- scope (value engine) ---------- */
+// Each area: build points (missing = full, weak = half), whether it's a running system
+// (for the retainer tier), and how a gap in it leaks revenue.
+const SC_AREAS=[
+ {k:'site',    label:'Website &amp; online presence',        pts:3, sys:true,  leak:'site'},
+ {k:'miss',    label:'Never miss a lead (calls, chat)',      pts:3, sys:true,  leak:'miss'},
+ {k:'book',    label:'Booking &amp; no-shows',               pts:2, sys:true,  leak:'noshow'},
+ {k:'follow',  label:'Follow-up &amp; speed to lead',        pts:2, sys:true,  leak:'slow'},
+ {k:'nurture', label:'Nurture &amp; reactivation',           pts:2, sys:true,  leak:'nurture'},
+ {k:'found',   label:'Get found (Google, reviews, SEO)',     pts:2, sys:true,  leak:'found'},
+ {k:'content', label:'Content &amp; social',                 pts:3, sys:true,  leak:null},
+ {k:'sell',    label:'Funnels &amp; payments',               pts:2, sys:false, leak:null},
+ {k:'keep',    label:'Memberships, community, referrals',    pts:2, sys:false, leak:'keep'},
+ {k:'numbers', label:'Dashboard &amp; attribution',          pts:1, sys:false, leak:null},
+ {k:'custom',  label:'Integrations &amp; custom automation', pts:3, sys:false, leak:null},
+];
+// leak factor by type and severity {gap, weak}. Applied to lead flow or booked customers.
+const SC_LEAK={
+ miss:{g:.27,w:.12,base:'lead',t:'Missed calls and messages'},
+ slow:{g:.15,w:.08,base:'lead',t:'Slow follow-up (speed to lead)'},
+ nurture:{g:.12,w:.06,base:'lead',t:'No nurture / leads going cold'},
+ found:{g:.10,w:.05,base:'lead',t:'Hard to find online'},
+ site:{g:.10,w:.05,base:'lead',t:'Website not converting visitors'},
+ noshow:{g:.10,w:.05,base:'booked',t:'No-shows and cancellations'},
+ keep:{g:.05,w:.03,base:'lead',t:'No repeat / referral engine'},
+};
+const SC_STATE={}; SC_AREAS.forEach(a=>SC_STATE[a.k]='ok');
+let SC_INIT=false;
+function initScope(){
+  if(SC_INIT){ scCompute(); return; } SC_INIT=true;
+  $('scAreas').innerHTML=SC_AREAS.map(a=>`
+    <div class="sc-area"><span class="an">${a.label}</span>
+      <span class="sc-seg" data-k="${a.k}">
+        <button data-v="ok" class="on">OK</button>
+        <button data-v="weak">Weak</button>
+        <button data-v="gap">Missing</button>
+      </span></div>`).join('');
+  $('scAreas').querySelectorAll('.sc-seg').forEach(seg=>{
+    seg.querySelectorAll('button').forEach(btn=>{ btn.onclick=()=>{
+      SC_STATE[seg.dataset.k]=btn.dataset.v;
+      seg.querySelectorAll('button').forEach(x=>x.classList.remove('on'));
+      btn.classList.add('on'); scCompute(); }; });
+  });
+  ['scValue','scLeads','scClose','scName'].forEach(id=>$(id).addEventListener('input',scCompute));
+  scCompute();
+}
+const scMoney=n=>'$'+Math.round(n).toLocaleString();
+function scCompute(){
+  const v=+$('scValue').value||0, L=+$('scLeads').value||0, c=Math.min(100,+$('scClose').value||0)/100;
+  const booked=L*c;
+  const lines=[]; let leak=0;
+  for(const a of SC_AREAS){
+    const sev=SC_STATE[a.k]; if(sev==='ok'||!a.leak) continue;
+    const cfg=SC_LEAK[a.leak]; if(!cfg) continue;
+    const f=sev==='gap'?cfg.g:cfg.w;
+    const lost=cfg.base==='booked' ? booked*f*v : L*f*c*v;
+    if(lost>0){ leak+=lost; lines.push([cfg.t,lost]); }
+  }
+  lines.sort((a,b)=>b[1]-a[1]);
+  $('scLeak').textContent=scMoney(leak);
+  $('scLeakYr').textContent=leak>0?`About ${scMoney(leak*12)} a year walking out the door.`:'Mark the audit findings to see the cost of the gaps.';
+  $('scLines').innerHTML=lines.map(l=>`<div class="sc-line"><span>${l[0]}</span><span>${scMoney(l[1])}/mo</span></div>`).join('');
+  // build points
+  let pts=0, systems=0;
+  for(const a of SC_AREAS){ const s=SC_STATE[a.k]; if(s==='ok') continue;
+    pts+=a.pts*(s==='gap'?1:0.5); if(a.sys) systems++; }
+  let build=0, band='';
+  if(pts>0){ build=Math.max(2000,Math.min(10000,Math.round((1500+pts*350)/250)*250));
+    band = build<4000?'Light build':build<=6500?'Standard build':'Full build'; }
+  $('scBuild').textContent=build?scMoney(build):'$0';
+  $('scBand').textContent=band;
+  let ret=0,tier='';
+  if(systems>0){ if(systems<=2){ret=500;tier='Essential';} else if(systems<=4){ret=1000;tier='Growth';} else {ret=2000;tier='Partner';} }
+  $('scRetainer').innerHTML=ret?scMoney(ret)+'<small>/mo</small>':'$0<small>/mo</small>';
+  $('scTier').textContent=tier?tier+' plan · '+systems+' systems we run':'';
+  window.__scSummary=scSummary({name:$('scName').value.trim(),leak,build,ret,tier,band,lines,systems});
+}
+function scSummary(d){
+  if(!d.build && !d.leak) return 'Fill in the audit findings first.';
+  const who=d.name||'your business';
+  const top=d.lines.slice(0,2).map(l=>l[0].toLowerCase()).join(' and ');
+  let s=`Audit snapshot for ${who}\n\n`;
+  if(d.leak>0) s+=`Right now you're losing about ${scMoney(d.leak)} a month`+(top?`, mostly to ${top}`:'')+`. Over a year that's around ${scMoney(d.leak*12)} left on the table.\n\n`;
+  if(d.build) s+=`To fix it: a ${d.band.toLowerCase()} at ${scMoney(d.build)}, then ${scMoney(d.ret)}/mo to run and keep improving it (${d.tier} plan). Your $500 audit comes off the build.\n\n`;
+  s+=`Biggest gaps we found: `+ (d.lines.length?d.lines.map(l=>l[0]).join(', '):'a few areas to tighten')+`.`;
+  return s;
+}
+$('scCopy').onclick=async()=>{ try{ await navigator.clipboard.writeText(window.__scSummary||''); const b=$('scCopy'); b.textContent='Copied'; b.classList.add('copied'); setTimeout(()=>{b.textContent='Copy the client summary';b.classList.remove('copied');},1800);}catch(e){toast('Copy failed');} };
+
+document.querySelectorAll('nav.tabs button').forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll('nav.tabs button').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+    ['dash','leads','playbook','training','toolkit','scope','team','ops'].forEach(t=>$('tab-'+t).classList.toggle('hide', t!==b.dataset.tab));
+    if(b.dataset.tab==='leads' && !LEADSD) loadLeads();
+    if(b.dataset.tab==='scope') initScope();
+    if(b.dataset.tab==='team') loadTeam();
+    if(b.dataset.tab==='ops') loadOps();
+  };
+});
+
+$('go').onclick = async ()=>{
+  $('err').textContent='';
+  const r = await api('/team-auth',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code:$('code').value})});
+  if(!r.ok){ $('err').textContent="That code didn't work. Check it and try again."; return; }
+  await enter();
+};
+$('code').addEventListener('keydown',e=>{ if(e.key==='Enter') $('go').click(); });
+$('logout').onclick = async ()=>{ await api('/team-auth',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'logout'})}); location.reload(); };
+
+async function loadRoster(){
+  const r = await api('/team-auth?roster=1');
+  if(!r.ok || !r.data.roster) return;
+  $('rosterList').innerHTML = '<div style="font-size:12px;color:var(--dim);margin-bottom:6px">Team roster</div>' +
+    r.data.roster.map(x=>`<div style="display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid #10192e;font-size:13.5px">
+      <span>${x.name}</span><span class="rk">${x.role}</span>
+      ${['rep','tech'].includes(x.role)?`<button class="rel" data-slug="${x.slug}" style="margin-left:auto">remove</button>`:''}</div>`).join('');
+  $('rosterList').querySelectorAll('button[data-slug]').forEach(b=>{
+    b.onclick=async()=>{
+      if(!confirm('Remove this rep from The Floor? Their code stops working.')) return;
+      const r2=await api('/team-auth',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'deactivate',slug:b.dataset.slug})});
+      if(r2.ok){ toast('Rep removed'); loadRoster(); loadDash(); } else toast(r2.data.error||'failed');
+    };
+  });
+}
+let OPSD=null;
+async function loadOps(){
+  const r = await api('/team-admin');
+  if(!r.ok){ $('opsHealth').textContent = 'Not available.'; return; }
+  OPSD = r.data;
+  const h = r.data.health;
+  $('opsHealth').innerHTML = `Pool: <b>${h.poolUnclaimed}</b> unclaimed of ${h.poolSize} (refreshed ${h.poolRefreshed||'?'}) \u00b7 Claims: <b>${h.claimsCount}</b> \u00b7 Wire events: ${h.feedEvents} \u00b7 Active accounts: ${h.rosterActive}`;
+  $('opsReps').innerHTML = r.data.reps.map(x=>`
+    <tr><td>${x.name}${x.role!=='rep'?' <span class="rk">'+x.role+'</span>':''}</td>
+    <td>${x.training}/4</td><td>${x.calls} (${x.callsToday})</td><td>${x.open}</td>
+    <td>${x.meetings}</td><td class="xpcell">${x.auditsSold}</td>
+    <td>${x.staleClaims?'<span style="color:#f87171;font-weight:700">'+x.staleClaims+'</span>':'0'}</td>
+    <td class="rk">${x.lastActive||'\u2014'}</td></tr>`).join('');
+  $('opsClaims').innerHTML = r.data.claims.length ? r.data.claims.map(c=>`
+    <tr><td>${c.lead}${c.staleNew?' <span style="color:#f87171;font-size:11px;font-weight:700">STALE</span>':''}</td>
+    <td class="rk">${c.city}</td><td>${c.rep}</td><td>${c.status}</td>
+    <td class="rk">${c.claimed}</td><td class="rk">${c.updated||'\u2014'}</td></tr>`).join('')
+    : '<tr><td colspan="6" style="color:var(--dim)">No leads claimed yet.</td></tr>';
+}
+$('opsCsv').onclick = ()=>{
+  if(!OPSD) return;
+  const esc=(v)=>'"'+String(v??'').replace(/"/g,'""')+'"';
+  const rows=[['lead','city','niche','phone','rep','status','claimed','updated'].join(',')]
+    .concat(OPSD.claims.map(c=>[c.lead,c.city,c.niche,c.phone,c.rep,c.status,c.claimed,c.updated||''].map(esc).join(',')));
+  const blob=new Blob([rows.join('\n')],{type:'text/csv'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download='the-floor-claims-'+new Date().toISOString().slice(0,10)+'.csv'; a.click();
+};
+$('addRep').onclick = async ()=>{
+  const r = await api('/team-auth',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'add',name:$('newName').value})});
+  $('adminOut').textContent = r.ok ? `${r.data.rep.name} added. Access code: ${r.data.rep.code} (send it to them now, it won't show again)` : (r.data.error||'failed');
+  if(r.ok){ $('newName').value=''; loadDash(); }
+};
+$('setInc').onclick = async ()=>{
+  const r = await api('/team-progress',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({action:'incentive',title:$('incT').value,detail:$('incD').value,until:$('incU').value})});
+  $('adminOut').textContent = r.ok ? 'Incentive set. The whole team sees it now.' : (r.data.error||'failed');
+  if(r.ok) loadDash();
+};
+
+$('bWeek').onclick=()=>{BOARD_MODE='week';$('bWeek').classList.add('on');$('bAll').classList.remove('on');renderBoard();};
+$('bAll').onclick=()=>{BOARD_MODE='all';$('bAll').classList.add('on');$('bWeek').classList.remove('on');renderBoard();};
+if('serviceWorker' in navigator) navigator.serviceWorker.register('/team/sw.js').catch(()=>{});
+setInterval(()=>{ if(!$('app').classList.contains('hide')) loadDash(); }, 90000);
+(async()=>{ await enter(); })();
 </script>
 </body>
 </html>

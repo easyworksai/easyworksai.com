@@ -60,15 +60,11 @@
       const spend = +slider.value;
       const tier = tierFor(spend);
       const revenue = spend * ROAS;
-      const total = spend + tier.fee;
-      const net = revenue - total;
+      const net = revenue - spend;
 
       spendDisp.textContent = spend.toLocaleString();
       ctName.textContent = tier.name;
-      ctFee.textContent  = '$' + tier.fee.toLocaleString() + '/mo';
       cpSpend.textContent = fmt(spend);
-      cpFee.textContent   = fmt(tier.fee);
-      cpTotal.textContent = fmt(total);
       cpRevenue.textContent = fmt(revenue);
       cpNet.textContent = (net >= 0 ? '+' : '') + fmt(net);
       cpNet.style.color = net >= 0 ? 'var(--electric-cyan)' : 'var(--electric-magenta)';

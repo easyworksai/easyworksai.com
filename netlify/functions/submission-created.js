@@ -164,6 +164,55 @@ async function pushToGHL(d) {
   return { contactId, oppErr, noteErr, apptErr, apptOk };
 }
 
+// ---- Onboarding form ("/start") -> GHL: upsert + tag + full note ----
+async function pushOnboardingToGHL(d) {
+  if (!GHL_TOKEN) throw new Error('GHL_EASYWORKS_PIT_TOKEN not set in Netlify env');
+  const fullName = (d.name || '').trim();
+  const parts = fullName.split(/\s+/);
+  const body = {
+    locationId: GHL_LOC,
+    firstName: parts.shift() || fullName || 'Client',
+    lastName: parts.join(' ') || '',
+    name: fullName || undefined,
+    email: d.email || undefined,
+    phone: d.phone || undefined,
+    companyName: d.business || undefined,
+    website: d.website || undefined,
+    source: 'easyworks.ai/start onboarding',
+    tags: ['program-client', 'audit-onboarding', d.rep ? `rep-${String(d.rep).trim().toLowerCase().replace(/\s+/g, '-')}` : null].filter(Boolean),
+  };
+  const r = await fetch(`${GHL_BASE}/contacts/upsert`, {
+    method: 'POST', headers: ghlHeaders(), body: JSON.stringify(body),
+  });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(`contact upsert ${r.status}: ${JSON.stringify(j).slice(0, 200)}`);
+  const contact = j.contact || j;
+  const contactId = contact.id || contact.contactId;
+  if (contactId) {
+    const lines = [
+      'AUDIT ONBOARDING — easyworks.ai/start',
+      '',
+      `Rep            : ${d.rep || '—'}`,
+      `Website        : ${d.website || '—'}`,
+      `Socials        : ${d.socials || '—'}`,
+      `Business phone : ${d.business_phone || '—'}`,
+      `Lead sources   : ${d.lead_sources || '—'}`,
+      `Customer value : ${d.customer_value || '—'}`,
+      `Phone answering: ${d.phone_answering || '—'}`,
+      `After hours    : ${d.after_hours || '—'}`,
+      `CRM/tracking   : ${d.crm || '—'}`,
+      `Paid tools/AI  : ${d.tools || '—'}`,
+      `90-day goal    : ${d.goal || '—'}`,
+      `Best time      : ${d.best_time || '—'}`,
+    ];
+    await fetch(`${GHL_BASE}/contacts/${contactId}/notes`, {
+      method: 'POST', headers: ghlHeaders(),
+      body: JSON.stringify({ body: lines.join('\n') }),
+    }).catch(() => {});
+  }
+  return { contactId };
+}
+
 async function tg(text) {
   try {
     const r = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
@@ -183,6 +232,14 @@ exports.handler = async (event) => {
     const data = payload.data || {};
 
     let ghlSummary = '';
+    if (formName === 'onboarding') {
+      try {
+        const { contactId } = await pushOnboardingToGHL(data);
+        ghlSummary = `\n\n\u2705 <b>GHL:</b> contact <code>${esc(contactId || '?')}</code> tagged audit-onboarding`;
+      } catch (e) {
+        ghlSummary = `\n\n\u274c <b>GHL push FAILED:</b> ${esc(e.message)}\n(submission saved in Netlify dashboard)`;
+      }
+    }
     if (formName === 'intake') {
       try {
         const { contactId, oppErr, noteErr, apptErr, apptOk } = await pushToGHL(data);
@@ -216,6 +273,28 @@ exports.handler = async (event) => {
         `<b>📞 Format:</b> ${esc(fmtLabel)}`,
         (data.stack || data.selected_stack) ? `\n<b>Interested in:</b> ${esc(data.stack || data.selected_stack)}` : null,
         data.message ? `\n<b>Message:</b> ${esc(data.message)}` : null,
+        ghlSummary,
+      ].filter(Boolean).join('\n');
+    } else if (formName === 'onboarding') {
+      message = [
+        '\ud83d\udea6 <b>NEW CLIENT ONBOARDED \u2014 AUDIT STARTS NOW</b>',
+        '',
+        `<b>Business:</b> ${esc(data.business || '?')}`,
+        `<b>Owner:</b> ${esc(data.name || '?')} \u00b7 ${esc(data.phone || '?')} \u00b7 ${esc(data.email || '?')}`,
+        `<b>Rep:</b> ${esc(data.rep || '\u2014')}`,
+        '',
+        `<b>Website:</b> ${esc(data.website || '\u2014')}`,
+        `<b>Socials:</b> ${esc(data.socials || '\u2014')}`,
+        `<b>Biz phone:</b> ${esc(data.business_phone || '\u2014')}`,
+        `<b>Leads from:</b> ${esc(data.lead_sources || '\u2014')}`,
+        `<b>Customer value:</b> ${esc(data.customer_value || '\u2014')}`,
+        `<b>Phone answering:</b> ${esc(data.phone_answering || '\u2014')} / after hours: ${esc(data.after_hours || '\u2014')}`,
+        `<b>CRM:</b> ${esc(data.crm || '\u2014')}`,
+        `<b>Tools/AI:</b> ${esc(data.tools || '\u2014')}`,
+        `<b>90-day goal:</b> ${esc(data.goal || '\u2014')}`,
+        `<b>Best time:</b> ${esc(data.best_time || '\u2014')}`,
+        '',
+        '\u23f1 7-day audit clock started. Run Client_Audit_SOP.',
         ghlSummary,
       ].filter(Boolean).join('\n');
     } else if (formName === 'blissful-touch-intake') {

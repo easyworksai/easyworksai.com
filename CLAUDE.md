@@ -63,6 +63,9 @@ Logged in as `team@easyworksai.com`, site ID `3ba07fa5-82d5-4f17-8f6f-cdc9a91d41
 └── _redirects              # www → apex redirects (404.html served automatically)
 ```
 
+## PUBLIC PRICING REMOVED 2026-08-30 (program model)
+The homepage no longer shows any monthly prices. Reframed to **Audit -> Build -> Maintain** (variable tickets). Removed: 5 engine price tags, the stack-builder + discount tiers, hero $599 line, JSON-LD/meta prices. Added: #program (Audit/Build/Maintain) + #capabilities (9 outcome cards from Internal/Company-Playbook/Capability_Catalog.md). Kept value/contrast numbers ($10k leaking, $60k/yr in-house). PROMOTED TO PRODUCTION 2026-08-30 (easyworks.ai live with program model). checkout.js + internal pricing table below are UNCHANGED (internal truth). Do not re-add public monthly prices without Brad. Sub-pages swept 2026-08-30: ai-suite/content-engine/seo-engine/voice-report (hero price cards -> "Scoped to your audit", meta/FAQ prices removed), ai-revenue-scale (tier fees removed; ROI calculator rewired in revenue-scale.js to pure value: net = revenue - spend, no fee shown, "Projected return"), all 8 locations + 3 industries (psub-meta + inline $599 + priceRange). LEFT AS-IS: scribe/ (standalone SaaS product, own per-seat tiers), clients/blissful-touch (form placeholders only), team/ portal (internal audit $500 legit). Kept client-value numbers (ad-spend bands, $80-150/slot, $300 slot, $10k leaking, $60k/yr). Pre-existing console errors (NaN <line>, addEventListener null) are on PROD too, not from this work.
+
 ## Pricing (encoded in checkout.js + product cards) — 2026-06 RESTRUCTURE + setup fees zeroed
 
 | Engine | Setup | Monthly | Notes |

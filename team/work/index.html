@@ -1,0 +1,693 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>The Bench — Easyworks Build Team</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2214%22%20fill%3D%22%23070b16%22/%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23e8b25a%22/%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23f0c987%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Ctext%20x%3D%2232%22%20y%3D%2247%22%20font-family%3D%22Helvetica%2CArial%2Csans-serif%22%20font-size%3D%2244%22%20font-weight%3D%22bold%22%20text-anchor%3D%22middle%22%20fill%3D%22url%28%23g%29%22%3EB%3C/text%3E%3C/svg%3E" type="image/svg+xml">
+<meta name="theme-color" content="#070b16">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<style>
+:root{
+  --navy:#070b16; --panel:#0d1424; --panel2:#111a30; --line:#1c2740;
+  --blue:#3b82f6; --cyan:#22d3ee; --gold:#e8b25a; --ink:#e8edf7; --dim:#8fa3c8;
+  --green:#34d399; --lock:#39466488; --lockink:#42506e;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--navy);color:var(--ink);font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh}
+.wrap{max-width:920px;margin:0 auto;padding:24px 18px 80px}
+header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.logo{font-weight:800;letter-spacing:.06em;font-size:15px;color:#fff;text-decoration:none}
+.logo span{color:var(--cyan)}
+.who{font-size:13px;color:var(--dim)}
+.who b{color:var(--ink)}
+.who a{color:var(--cyan);text-decoration:none;margin-left:10px;cursor:pointer}
+.hide{display:none!important}
+button{font-family:inherit}
+
+/* mascot login */
+.login .mascot{width:230px;margin:0 auto 6px;display:block;mix-blend-mode:screen;
+  -webkit-mask-image:radial-gradient(ellipse 75% 85% at center 50%,#000 0%,rgba(0,0,0,.85) 70%,transparent 100%);
+  mask-image:radial-gradient(ellipse 75% 85% at center 50%,#000 0%,rgba(0,0,0,.85) 70%,transparent 100%);
+  filter:contrast(1.18) brightness(1.04) saturate(1.12) drop-shadow(0 0 50px rgba(59,130,246,.35)) drop-shadow(0 0 110px rgba(34,211,238,.2))}
+
+/* rank insignia */
+.insig{width:56px;height:56px;flex:none}
+.hero .toprow .rankwrap{display:flex;align-items:center;gap:14px}
+
+/* streak strip */
+.strip{display:flex;gap:18px;align-items:center;font-size:13px;color:var(--dim);margin-top:10px;flex-wrap:wrap}
+.strip b{color:var(--ink)}
+.strip .flame{color:var(--gold);font-weight:800}
+
+/* the wire */
+.wire{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:6px 0;max-height:250px;overflow-y:auto}
+.wev{display:flex;gap:12px;align-items:flex-start;padding:9px 16px;font-size:13.5px;border-bottom:1px solid #10192e}
+.wev:last-child{border-bottom:0}
+.wev .ic{flex:none;width:26px;height:26px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;background:#0a101f}
+.wev.audit .ic{background:#241a09}
+.wev .tx{color:var(--ink)}
+.wev.audit .tx{color:var(--gold);font-weight:700}
+.wev .tm{margin-left:auto;flex:none;font-size:11px;color:var(--lock);padding-top:3px}
+.wempty{padding:16px;text-align:center;color:var(--dim);font-size:13px}
+
+/* board toggle */
+.btoggle{display:inline-flex;gap:4px;background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:3px;margin-left:10px;vertical-align:middle}
+.btoggle button{border:0;background:transparent;color:var(--dim);font-size:11.5px;font-weight:700;padding:5px 10px;border-radius:7px;cursor:pointer}
+.btoggle button.on{background:linear-gradient(90deg,var(--blue),var(--cyan));color:#fff}
+.stk{color:var(--gold);font-size:12px;font-weight:700}
+
+/* rank-up overlay */
+.rankup{position:fixed;inset:0;background:rgba(4,7,14,.92);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:50;opacity:0;pointer-events:none;transition:opacity .4s}
+.rankup.show{opacity:1;pointer-events:auto}
+.rankup canvas{position:absolute;inset:0;width:100%;height:100%}
+.rankup .insig{width:120px;height:120px;position:relative;animation:pop .6s cubic-bezier(.2,1.6,.4,1)}
+.rankup .rl{position:relative;font-size:14px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin-top:18px}
+.rankup .rn{position:relative;font-size:44px;font-weight:800;background:linear-gradient(90deg,var(--blue),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+.rankup .close{position:relative;margin-top:26px;padding:12px 28px;border:0;border-radius:99px;font-weight:700;cursor:pointer;color:#fff;background:linear-gradient(90deg,var(--blue),var(--cyan))}
+@keyframes pop{0%{transform:scale(.3);opacity:0}100%{transform:scale(1);opacity:1}}
+
+/* login */
+.login{max-width:380px;margin:10vh auto 0;text-align:center}
+.login h1{font-size:26px;margin-bottom:8px}
+.login p{color:var(--dim);margin-bottom:24px}
+.login input{width:100%;background:var(--panel);border:1px solid var(--line);border-radius:10px;color:var(--ink);padding:14px;font-size:17px;text-align:center;letter-spacing:.08em;text-transform:uppercase}
+.login input:focus{outline:none;border-color:var(--blue)}
+.login button{width:100%;margin-top:12px;padding:14px;border:0;border-radius:10px;cursor:pointer;font-size:16px;font-weight:700;color:#fff;background:linear-gradient(90deg,var(--blue),var(--cyan))}
+.err{color:#f87171;font-size:13px;margin-top:10px;min-height:18px}
+
+/* tabs */
+nav.tabs{display:flex;gap:6px;margin-bottom:20px;border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:5px;overflow-x:auto}
+nav.tabs button{flex:1;min-width:96px;padding:10px 8px;border:0;border-radius:9px;background:transparent;color:var(--dim);font-size:13.5px;font-weight:700;cursor:pointer;white-space:nowrap}
+nav.tabs button.on{background:linear-gradient(90deg,var(--blue),var(--cyan));color:#fff}
+
+/* incentive banner */
+.inc{display:flex;gap:14px;align-items:center;background:linear-gradient(90deg,#1a1408,#241a09);border:1px solid #3d2f12;border-radius:14px;padding:14px 18px;margin-bottom:16px}
+.inc .flame{font-size:22px}
+.inc b{color:var(--gold)}
+.inc .d{font-size:13px;color:#cbb27f}
+.inc .u{margin-left:auto;font-size:12px;color:#8f7b4f;white-space:nowrap}
+
+/* hero */
+.hero{background:linear-gradient(135deg,var(--panel) 0%,var(--panel2) 100%);border:1px solid var(--line);border-radius:16px;padding:22px 24px;margin-bottom:16px}
+.hero .toprow{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:6px}
+.rank{font-size:30px;font-weight:800;background:linear-gradient(90deg,var(--blue),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+.xp{font-size:14px;color:var(--dim)}
+.xp b{color:var(--ink);font-size:18px}
+.bar{height:10px;background:#0a101f;border-radius:99px;margin:14px 0 6px;overflow:hidden}
+.bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--blue),var(--cyan));transition:width .8s ease}
+.nextup{font-size:12.5px;color:var(--dim)}
+
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.tile{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 8px;text-align:center}
+.tile .n{font-size:30px;font-weight:800}
+.tile .l{font-size:11.5px;color:var(--dim);text-transform:uppercase;letter-spacing:.05em;margin-top:2px}
+.tile .x{font-size:11px;color:var(--cyan);margin-top:4px}
+
+h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--dim);margin:24px 0 12px}
+.badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:12px}
+.badge{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px;text-align:center;position:relative;transition:transform .15s}
+.badge.on{border-color:#2a4a86}
+.badge.on:hover{transform:translateY(-2px)}
+.badge .ico{width:44px;height:44px;margin:0 auto 8px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;background:#0a101f;color:#2a3552}
+.badge.on .ico{background:linear-gradient(135deg,var(--blue),var(--cyan));color:#fff;box-shadow:0 4px 18px rgba(34,211,238,.25)}
+.badge .bn{font-size:13px;font-weight:700;color:var(--lockink)}
+.badge.on .bn{color:var(--ink)}
+.badge .bd{font-size:11.5px;color:var(--lock);margin-top:2px}
+.badge.on .bd{color:var(--dim)}
+.badge .lockt{position:absolute;top:8px;right:10px;font-size:10.5px;color:var(--lock)}
+
+.board{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.board table{width:100%;border-collapse:collapse;font-size:14px}
+.board th{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);text-align:left;padding:12px 14px;border-bottom:1px solid var(--line)}
+.board td{padding:12px 14px;border-bottom:1px solid #131d34}
+.board tr:last-child td{border-bottom:0}
+.board tr.me td{background:#101a31}
+.pos{font-weight:800;width:36px}
+.pos.g{color:var(--gold)} .pos.s{color:#c7d2e8} .pos.b{color:#b0876a}
+.rk{color:var(--cyan);font-size:12.5px}
+.xpcell{font-weight:700}
+
+/* playbook stepper */
+.step{background:var(--panel);border:1px solid var(--line);border-radius:14px;margin-bottom:12px;overflow:hidden}
+.step .head{display:flex;align-items:center;gap:14px;padding:16px 18px;cursor:pointer}
+.step .num{width:34px;height:34px;flex:none;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:800;background:linear-gradient(135deg,var(--blue),var(--cyan));color:#fff}
+.step .t{font-weight:700;font-size:15.5px}
+.step .s{font-size:12.5px;color:var(--dim)}
+.step .chev{margin-left:auto;color:var(--dim);transition:transform .2s}
+.step.open .chev{transform:rotate(90deg)}
+.step .bodyc{display:none;padding:0 18px 18px 66px;color:var(--dim);font-size:14px}
+.step.open .bodyc{display:block}
+.step .bodyc p{margin-bottom:10px}
+.step .bodyc b{color:var(--ink)}
+.say{background:#0a101f;border-left:3px solid var(--cyan);border-radius:0 10px 10px 0;padding:12px 14px;font-style:italic;color:var(--ink);margin:10px 0;font-size:13.5px}
+
+/* training */
+.mod{background:var(--panel);border:1px solid var(--line);border-radius:14px;margin-bottom:12px;overflow:hidden}
+.mod .head{display:flex;align-items:center;gap:14px;padding:16px 18px;cursor:pointer}
+.mod .dot{width:34px;height:34px;flex:none;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;background:#0a101f;color:var(--lockink);border:1px solid var(--line)}
+.mod.done .dot{background:var(--green);color:#04250f;border-color:var(--green)}
+.mod .t{font-weight:700}
+.mod .s{font-size:12.5px;color:var(--dim)}
+.mod .chev{margin-left:auto;color:var(--dim);transition:transform .2s}
+.mod.open .chev{transform:rotate(90deg)}
+.mod .bodyc{display:none;padding:2px 20px 18px;color:var(--dim);font-size:14px}
+.mod.open .bodyc{display:block}
+.mod .bodyc h3{color:var(--blue);font-size:13px;text-transform:uppercase;letter-spacing:.07em;margin:16px 0 6px}
+.mod .bodyc p{margin-bottom:9px}
+.mod .bodyc b{color:var(--ink)}
+.mod .bodyc ul{margin:0 0 10px 18px}
+.mod .bodyc li{margin-bottom:5px}
+.done-btn{margin-top:14px;padding:11px 20px;border:0;border-radius:9px;cursor:pointer;font-weight:700;font-size:14px;color:#fff;background:linear-gradient(90deg,var(--blue),var(--cyan))}
+.done-btn[disabled]{background:#152038;color:var(--green);cursor:default}
+.keypt{background:#241a09;border-left:3px solid var(--gold);border-radius:0 9px 9px 0;padding:11px 14px;font-size:13.5px;color:#e8d0a0;margin:14px 0;line-height:1.5}
+.drill{background:#08191f;border-left:3px solid var(--cyan);border-radius:0 9px 9px 0;padding:11px 14px;font-size:13.5px;color:#a9dbe8;margin:14px 0;line-height:1.5}
+.drill b,.keypt b{color:var(--ink)}
+.quiz{margin-top:20px;background:#0a101f;border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.quiz>h3{color:var(--cyan)!important;margin-top:0!important;text-transform:uppercase!important;font-size:12px!important;letter-spacing:.08em!important}
+.qz-intro{font-size:13px;color:var(--dim);margin-bottom:14px}
+.qz-q{padding:11px 12px;border-radius:9px;margin-bottom:9px;border:1px solid var(--line);background:#0c1424}
+.qz-q.qz-right{background:#0d1c12;border-color:#1c5334}
+.qz-q.qz-wrong{background:#1a0f0f;border-color:#5c2020}
+.qz-prompt{font-weight:700;color:var(--ink);margin-bottom:9px;font-size:13.5px}
+.qz-opt{display:flex;gap:10px;align-items:flex-start;padding:6px 2px;font-size:13.5px;color:var(--dim);cursor:pointer}
+.qz-opt input{margin-top:3px;flex:none;accent-color:var(--blue)}
+.qz-check{margin-top:12px;padding:11px 22px;border:0;border-radius:9px;cursor:pointer;font-weight:700;font-size:14px;color:#fff;background:linear-gradient(90deg,var(--blue),var(--cyan))}
+.qz-check[disabled]{background:#152038;color:var(--green);cursor:default}
+.qz-result{margin-top:11px;font-size:13px;min-height:18px}
+.qz-result.pass{color:var(--green);font-weight:700}
+.qz-result.warn{color:var(--gold)}
+/* role-play drills */
+.drill-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;margin-bottom:12px;overflow:hidden}
+.drill-card .dhead{display:flex;align-items:center;gap:14px;padding:16px 18px;cursor:pointer}
+.drill-card .dicon{width:34px;height:34px;flex:none;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;background:#0a101f}
+.drill-card.aced .dicon{background:var(--green)}
+.drill-card .dt{font-weight:700}
+.drill-card .ds{font-size:12.5px;color:var(--dim)}
+.drill-card .dbadge{margin-left:auto;font-size:11.5px;font-weight:700;color:var(--gold)}
+.drill-card .dbody{display:none;padding:0 18px 18px}
+.drill-card.open .dbody{display:block}
+.sim{background:#0a101f;border:1px solid var(--line);border-radius:12px;padding:16px}
+.sim-line{display:flex;gap:10px;margin-bottom:14px}
+.sim-line .av{width:30px;height:30px;flex:none;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800}
+.sim-line.them .av{background:#241a30;color:#c9a0e8}
+.sim-line.you .av{background:linear-gradient(135deg,var(--blue),var(--cyan));color:#fff}
+.sim-bubble{background:#111a2e;border:1px solid var(--line);border-radius:0 12px 12px 12px;padding:10px 13px;font-size:14px;color:var(--ink);max-width:88%}
+.sim-line.you .sim-bubble{background:#0e2036;border-radius:12px 0 12px 12px}
+.sim-q{font-size:12px;text-transform:uppercase;letter-spacing:.07em;color:var(--dim);margin:6px 0 10px}
+.sim-opt{display:block;width:100%;text-align:left;background:#111a2e;border:1px solid var(--line);border-radius:10px;color:var(--ink);padding:12px 14px;margin-bottom:8px;cursor:pointer;font-size:13.5px;font-family:inherit;transition:border-color .15s}
+.sim-opt:hover{border-color:var(--blue)}
+.sim-opt:disabled{cursor:default;opacity:.85}
+.sim-opt.good{border-color:#1c5334;background:#0d1c12}
+.sim-opt.ok{border-color:#3d2f12;background:#1a1408}
+.sim-opt.bad{border-color:#5c2020;background:#160d12}
+.sim-fb{font-size:13px;border-radius:9px;padding:11px 13px;margin:4px 0 12px;line-height:1.5}
+.sim-fb.good{background:#0d1c12;border:1px solid #1c5334;color:#9ee7b8}
+.sim-fb.ok{background:#1a1408;border:1px solid #3d2f12;color:#e8d0a0}
+.sim-fb.bad{background:#160d12;border:1px solid #5c2020;color:#f0a8a8}
+.sim-fb b{color:#fff}
+.sim-next{padding:10px 20px;border:0;border-radius:9px;cursor:pointer;font-weight:700;font-size:13.5px;color:#fff;background:linear-gradient(90deg,var(--blue),var(--cyan))}
+.sim-score{text-align:center;padding:18px}
+.sim-score .big{font-size:34px;font-weight:800;background:linear-gradient(90deg,var(--blue),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sim-score .verdict{font-weight:700;margin:6px 0 4px}
+.sim-score .sub{font-size:13px;color:var(--dim);margin-bottom:14px}
+.sim-score button{padding:10px 22px;border:0;border-radius:9px;cursor:pointer;font-weight:700;color:#fff;background:var(--blue)}
+.tprog{font-size:13px;color:var(--dim);margin-bottom:14px}
+.tprog b{color:var(--cyan)}
+
+/* toolkit */
+.tools{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tool{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px}
+.tool .t{font-weight:700;margin-bottom:4px}
+.tool .v{font-size:12.5px;color:var(--dim);word-break:break-all;margin-bottom:10px}
+.tool button{padding:8px 14px;border:0;border-radius:8px;cursor:pointer;font-weight:700;font-size:12.5px;color:#fff;background:var(--blue)}
+.tool button.copied{background:var(--green);color:#04250f}
+.tool.wide{grid-column:1/-1}
+
+/* leads */
+.lfilters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.lfilters select{background:var(--panel);border:1px solid var(--line);border-radius:8px;color:var(--ink);padding:8px 10px;font-size:13px}
+.lfilters label{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--dim);cursor:pointer}
+.lead{display:flex;align-items:center;gap:12px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:8px;flex-wrap:wrap}
+.lead .ln{font-weight:700}
+.lead .lm{font-size:12.5px;color:var(--dim)}
+.lead .hotb{font-size:10.5px;font-weight:800;letter-spacing:.05em;color:#0a0a05;background:var(--gold);border-radius:5px;padding:2px 7px}
+.lead .right{margin-left:auto;display:flex;gap:8px;align-items:center}
+.lead a.call{color:var(--cyan);text-decoration:none;font-weight:700;font-size:13.5px}
+.lead button.claim{padding:8px 14px;border:0;border-radius:8px;cursor:pointer;font-weight:700;font-size:12.5px;color:#fff;background:var(--blue)}
+.lead select{background:#0a101f;border:1px solid var(--line);border-radius:8px;color:var(--ink);padding:7px 8px;font-size:12.5px}
+.lead .rel{background:transparent;border:0;color:var(--lock);cursor:pointer;font-size:12px}
+.lead .closer{width:100%;display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;padding-top:10px;border-top:1px solid #131d34}
+.lead .bbtn{padding:8px 14px;border:0;border-radius:8px;cursor:pointer;font-weight:700;font-size:12px;color:#04250f}
+.lead .bbtn.build{background:var(--gold)}
+.lead .bbtn.ret{background:var(--green)}
+.lcount{font-size:12.5px;color:var(--dim);margin-bottom:12px}
+.lempty{color:var(--dim);font-size:14px;padding:20px;text-align:center;background:var(--panel);border:1px dashed var(--line);border-radius:12px}
+
+/* admin */
+.admin{margin-top:26px;border-top:1px dashed var(--line);padding-top:16px}
+.admin .row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.admin input{background:var(--panel);border:1px solid var(--line);border-radius:8px;color:var(--ink);padding:9px 12px;font-size:14px;flex:1;min-width:160px}
+.admin button{padding:9px 16px;border:0;border-radius:8px;cursor:pointer;font-weight:700;color:#fff;background:var(--blue)}
+.admin .out{font-size:13px;color:var(--cyan);margin-top:4px;min-height:18px}
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(80px);background:linear-gradient(90deg,var(--blue),var(--cyan));color:#fff;font-weight:700;padding:13px 22px;border-radius:99px;box-shadow:0 8px 30px rgba(34,211,238,.35);transition:transform .4s;z-index:9}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.foot{margin-top:34px;text-align:center;color:var(--lock);font-size:12px}
+@media (max-width:640px){
+  .tiles{grid-template-columns:repeat(2,1fr)} .tools{grid-template-columns:1fr} .step .bodyc{padding-left:18px}
+  nav.tabs{gap:3px;padding:4px}
+  nav.tabs button{min-width:0;flex:1;font-size:11.5px;padding:9px 2px;letter-spacing:0}
+  .board th:nth-child(3),.board td:nth-child(3){display:none}
+  .board th,.board td{padding:10px 9px;font-size:13px}
+  .lead .right{width:100%;justify-content:flex-end}
+  .insig{width:44px;height:44px} .rank{font-size:24px}
+  .rankup .rn{font-size:34px}
+  .sheet .doctext{max-height:40vh}
+}
+
+/* tech onboarding */
+.onboard{max-width:560px;margin:4vh auto 0;padding:0 6px}
+.ob-steps{display:flex;align-items:center;justify-content:center;margin-bottom:24px}
+.ob-dot{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;background:#0a101f;border:1px solid var(--line);color:var(--dim);flex:none}
+.ob-dot.on{background:linear-gradient(135deg,var(--blue),var(--cyan));color:#fff;border:0}
+.ob-dot.done{background:var(--green);color:#04250f;border:0}
+.ob-line{height:2px;width:32px;background:var(--line)}
+.ob-card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:26px 24px}
+.ob-card h1{font-size:23px;margin-bottom:8px}
+.ob-card .lead{color:var(--dim);font-size:14.5px;line-height:1.6;margin-bottom:20px}
+.ob-f{margin-bottom:13px}
+.ob-f label{display:block;font-size:12.5px;color:var(--dim);margin-bottom:5px}
+.ob-f input,.ob-f select{width:100%;background:#0a101f;border:1px solid var(--line);border-radius:9px;color:var(--ink);padding:11px 13px;font-size:15px;font-family:inherit}
+.ob-f input:focus,.ob-f select:focus{outline:none;border-color:var(--blue)}
+.ob-row{display:flex;gap:10px}
+.ob-row .ob-f{flex:1}
+.ob-btn{width:100%;margin-top:8px;padding:13px;border:0;border-radius:10px;cursor:pointer;font-weight:700;font-size:15px;color:#fff;background:linear-gradient(90deg,var(--blue),var(--cyan))}
+.ob-btn[disabled]{opacity:.5;cursor:default}
+.ob-back{background:transparent;border:0;color:var(--dim);cursor:pointer;font-size:13px;margin-top:10px;width:100%}
+.ob-err{color:#f87171;font-size:12.5px;margin-top:8px;min-height:16px}
+.ob-doc{display:flex;align-items:center;gap:12px;background:#0a101f;border:1px solid var(--line);border-radius:11px;padding:13px 15px;margin-bottom:10px}
+.ob-doc .di{width:30px;height:30px;flex:none;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;background:#111a2e;color:var(--dim)}
+.ob-doc.signed .di{background:var(--green);color:#04250f}
+.ob-doc .dn{font-weight:700;font-size:13.5px}
+.ob-doc .dsub{font-size:11.5px;color:var(--dim)}
+.ob-doc button{margin-left:auto;flex:none;padding:8px 15px;border:0;border-radius:8px;cursor:pointer;font-weight:700;font-size:12.5px;color:#fff;background:linear-gradient(90deg,var(--blue),var(--cyan))}
+.ob-doc.signed button{background:#152038;color:var(--green);cursor:default}
+.ob-tour{text-align:center;padding:6px 0}
+.ob-tour .tico{font-size:46px;margin-bottom:14px}
+.ob-tour h2{font-size:20px;margin-bottom:8px}
+.ob-tour p{color:var(--dim);font-size:14.5px;line-height:1.6;max-width:420px;margin:0 auto 20px}
+.ob-tdots{display:flex;gap:7px;justify-content:center;margin-bottom:18px}
+.ob-tdots span{width:8px;height:8px;border-radius:50%;background:var(--line)}
+.ob-tdots span.on{background:var(--cyan)}
+
+/* compliance gate */
+.gate{max-width:640px;margin:2vh auto 0}
+.gate h1{font-size:23px;margin-bottom:6px}
+.gate .sub{color:var(--dim);margin-bottom:20px;font-size:14px}
+.gdoc{display:flex;align-items:center;gap:14px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:15px 18px;margin-bottom:12px}
+.gdoc .gi{width:34px;height:34px;flex:none;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;background:#0a101f;color:var(--lockink);border:1px solid var(--line)}
+.gdoc.done .gi{background:var(--green);color:#04250f;border-color:var(--green)}
+.gdoc .gt{font-weight:700}
+.gdoc .gs{font-size:12.5px;color:var(--dim)}
+.gdoc .gbtn{margin-left:auto;padding:9px 16px;border:0;border-radius:9px;cursor:pointer;font-weight:700;font-size:13px;color:#fff;background:linear-gradient(90deg,var(--blue),var(--cyan))}
+.gdoc.done .gbtn{background:#152038;color:var(--green);cursor:default}
+.gdone{background:linear-gradient(135deg,#0d1c12,#0c2a17);border:1px solid #1c5334;border-radius:14px;padding:16px;text-align:center;color:var(--green);font-weight:700;margin-top:6px}
+
+/* sign modal */
+.modal{position:fixed;inset:0;background:rgba(4,7,14,.86);display:none;align-items:flex-start;justify-content:center;z-index:60;overflow-y:auto;padding:24px 14px}
+.modal.show{display:flex}
+.sheet{background:var(--panel);border:1px solid var(--line);border-radius:16px;max-width:680px;width:100%;overflow:hidden}
+.sheet .shead{padding:16px 22px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px}
+.sheet .shead .st{font-weight:800;font-size:16px}
+.sheet .shead .sx{margin-left:auto;background:transparent;border:0;color:var(--dim);font-size:24px;cursor:pointer;line-height:1}
+.doctext{padding:16px 22px;max-height:48vh;overflow-y:auto;font-size:13.5px}
+.doctext h4{color:var(--blue);font-size:13px;margin:14px 0 5px}
+.doctext p{margin-bottom:9px;color:var(--dim)}
+.doctext b{color:var(--ink)}
+.doctext .draftnote{background:#241a09;border:1px solid #3d2f12;color:var(--gold);border-radius:8px;padding:8px 10px;font-size:12px;margin-bottom:12px}
+.signbox{padding:16px 22px 20px;border-top:1px solid var(--line)}
+.ack{display:flex;gap:10px;align-items:flex-start;margin-bottom:11px;font-size:13px;color:var(--ink);cursor:pointer}
+.ack input{margin-top:3px;flex:none;width:16px;height:16px}
+.signrow{margin-top:14px}
+.signrow label{display:block;font-size:12px;color:var(--dim);margin-bottom:6px}
+.signrow input{width:100%;background:#0a101f;border:1px solid var(--line);border-radius:9px;color:var(--ink);padding:12px;font-size:15px}
+.signrow input:focus{outline:none;border-color:var(--blue)}
+.signbtn{width:100%;margin-top:14px;padding:13px;border:0;border-radius:10px;cursor:pointer;font-weight:700;font-size:15px;color:#fff;background:linear-gradient(90deg,var(--blue),var(--cyan))}
+.signbtn[disabled]{opacity:.45;cursor:default}
+.signerr{color:#f87171;font-size:12.5px;margin-top:8px;min-height:16px}
+.signmeta{font-size:11px;color:var(--lock);margin-top:10px;text-align:center}
+
+/* team tab */
+.trow{display:flex;align-items:center;gap:12px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:8px;flex-wrap:wrap}
+.trow .tn{font-weight:700}
+.trow .tm{font-size:12px;color:var(--dim)}
+.trow .cbadge{margin-left:auto;font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:6px}
+.trow .cbadge.ok{color:#04250f;background:var(--green)}
+.trow .cbadge.no{color:#241a09;background:var(--gold)}
+.trow .rel{background:transparent;border:0;color:var(--lock);cursor:pointer;font-size:12px}
+.cfgbar{display:flex;align-items:center;gap:10px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin-bottom:14px;font-size:13.5px}
+.cfgbar .pill{margin-left:auto;padding:7px 14px;border:0;border-radius:8px;cursor:pointer;font-weight:700;font-size:12.5px;color:#fff}
+.cfgbar .pill.on{background:var(--green);color:#04250f}
+.cfgbar .pill.off{background:#3a2410;color:var(--gold)}
+
+/* work tab (tech tasks) */
+.workhead{background:linear-gradient(135deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:16px;padding:18px 20px;margin-bottom:18px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.workhead .whi{flex:1;min-width:200px}
+.workhead .wht{font-size:19px;font-weight:800;color:#fff;margin-bottom:3px}
+.workhead .whs{font-size:13px;color:var(--dim)}
+.workhead .whstats{display:flex;gap:10px;flex-wrap:wrap}
+.workhead .whstat{background:#0a101f;border:1px solid var(--line);border-radius:11px;padding:9px 14px;text-align:center;min-width:74px}
+.workhead .whstat .n{font-size:20px;font-weight:800}
+.workhead .whstat .l{font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--dim)}
+.workhead .whstat.rev .n{color:var(--cyan)} .workhead .whstat.blk .n{color:#f87171}
+.task .qcwait{font-size:12px;color:var(--muted,#8b95a7);padding:6px 0;font-style:italic}
+.workhead .whbtns{display:flex;gap:8px;flex-wrap:wrap}
+.workhead .whbtns button{padding:8px 13px;border:1px solid var(--line);border-radius:9px;cursor:pointer;font-weight:700;font-size:12.5px;color:var(--ink);background:#0a101f}
+.workhead .whbtns button:hover{border-color:var(--blue)}
+.tdet{background:#0a101f;border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin:6px 0 10px;font-size:12.5px;color:var(--dim);line-height:1.6}
+.tdet b{color:var(--ink)}
+.tdet .ok{color:var(--green);font-weight:700} .tdet .no{color:var(--gold);font-weight:700}
+.wgroup{margin-bottom:22px}
+.wgroup h2 .cnt{color:var(--cyan)}
+.task{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:13px 15px;margin-bottom:9px}
+.task.p1{border-left:3px solid #f87171}
+.task.blocked{border-color:#5c2020;background:#160d12}
+.task .trow1{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.task .tt{font-weight:700}
+.task .pchip{font-size:10px;font-weight:800;letter-spacing:.05em;padding:2px 7px;border-radius:5px;background:#0a101f;color:var(--dim)}
+.task .pchip.p1{background:#3a1515;color:#f87171}
+.task .pchip.p2{background:#241a09;color:var(--gold)}
+.task .tmeta{font-size:12px;color:var(--dim);margin-top:3px}
+.task .tmeta b{color:var(--ink)}
+.task .tdetail{font-size:13px;color:var(--dim);margin-top:8px;white-space:pre-wrap}
+.task .tnotes{margin-top:8px;border-top:1px solid #131d34;padding-top:8px}
+.task .tnote{font-size:12px;color:var(--dim);margin-bottom:4px}
+.task .tnote b{color:var(--cyan)}
+.task .tacts{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px;align-items:center}
+.task .tacts button{padding:7px 12px;border:0;border-radius:8px;cursor:pointer;font-weight:700;font-size:12px;color:#fff;background:var(--blue)}
+.task .tacts button.ghost{background:#0a101f;color:var(--dim);border:1px solid var(--line)}
+.task .tacts button.warn{background:#3a1515;color:#f87171}
+.task .tacts button.ok{background:var(--green);color:#04250f}
+.task .tacts select{background:#0a101f;border:1px solid var(--line);border-radius:8px;color:var(--ink);padding:6px 8px;font-size:12px}
+.task .tacts input{background:#0a101f;border:1px solid var(--line);border-radius:8px;color:var(--ink);padding:7px 9px;font-size:12px;flex:1;min-width:130px}
+.wform{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:20px}
+.wform .row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.wform input,.wform select,.wform textarea{background:#0a101f;border:1px solid var(--line);border-radius:8px;color:var(--ink);padding:9px 12px;font-size:13.5px;font-family:inherit}
+.wform input{flex:1;min-width:140px}
+.wform textarea{width:100%;min-height:60px;resize:vertical}
+.wform button{padding:10px 18px;border:0;border-radius:8px;cursor:pointer;font-weight:700;color:#fff;background:linear-gradient(90deg,var(--blue),var(--cyan))}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="logo" href="/">EASY<span>WORKS</span></a>
+    <div class="who hide" id="who"><b id="whoName"></b><a id="whoProfile" class="hide">profile</a><a id="whoTour" class="hide">tour</a><a id="logout">log out</a></div>
+  </header>
+
+  <div class="login" id="login">
+    <img class="mascot" src="/img/easy-hero.png" alt="">
+    <h1>The Bench</h1>
+    <p>Easyworks build team. Enter your access code.</p>
+    <input id="code" placeholder="EW-XXXX-0000" autocomplete="off" autofocus>
+    <button id="go">Let me in</button>
+    <div class="err" id="err"></div>
+  </div>
+
+  <div id="app" class="hide">
+    <div class="wform hide" id="wform">
+      <h2 style="margin-top:0">New task</h2>
+      <div class="row"><input id="wTitle" placeholder="Task title"><input id="wClient" placeholder="Client (optional)" style="max-width:170px"></div>
+      <div class="row">
+        <select id="wAssignee"><option value="">Unassigned (backlog)</option></select>
+        <select id="wPriority"><option value="p1">P1 urgent</option><option value="p2" selected>P2 normal</option><option value="p3">P3 whenever</option></select>
+        <input id="wDue" placeholder="Due (e.g. Sep 5)" style="max-width:140px">
+      </div>
+      <textarea id="wDetail" placeholder="What done looks like. Link the SOP if one exists."></textarea>
+      <div class="row" style="margin-top:8px;margin-bottom:0"><button id="wCreate">Create task</button><span class="out" id="wOut" style="font-size:13px;color:var(--cyan);align-self:center"></span></div>
+    </div>
+    <div id="workHead" class="workhead hide"></div>
+    <div id="workBoard"></div>
+    <div class="foot">Build it. Test it. Ship it clean.</div>
+  </div>
+
+  <div id="onboard" class="onboard hide"></div>
+
+  <div class="modal" id="profModal">
+    <div class="sheet" style="max-width:520px">
+      <div class="shead"><span class="st">My profile</span><button class="sx" id="profClose">&times;</button></div>
+      <div style="padding:16px 22px 20px">
+        <div class="ob-f"><label>Email</label><input id="pfEmail" type="email"></div>
+        <div class="ob-f"><label>Best contact (WhatsApp or phone)</label><input id="pfContact"></div>
+        <div class="ob-row"><div class="ob-f"><label>City / country</label><input id="pfCountry"></div><div class="ob-f"><label>Time zone</label><input id="pfTz"></div></div>
+        <div class="ob-f"><label>Main skill</label><select id="pfSkill"></select></div>
+        <div class="ob-row"><div class="ob-f"><label>Pay method</label><select id="pfPayType"></select></div><div class="ob-f"><label>Pay detail</label><input id="pfPayDetail"></div></div>
+        <button class="ob-btn" id="pfSave">Save changes</button><div class="ob-err" id="pfErr"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="signModal">
+  <div class="sheet">
+    <div class="shead"><span class="st" id="signTitle"></span><button class="sx" id="signClose">&times;</button></div>
+    <div class="doctext" id="signBody"></div>
+    <div class="signbox">
+      <div id="signAcks"></div>
+      <div class="signrow"><label>Type your full legal name to sign</label><input id="signName" placeholder="Full legal name" autocomplete="off"></div>
+      <button class="signbtn" id="signGo" disabled>Sign &amp; agree</button>
+      <div class="signerr" id="signErr"></div>
+      <div class="signmeta">Your name, the date and time, and your device are recorded as your electronic signature.</div>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+const $ = (id) => document.getElementById(id);
+const API = '/.netlify/functions';
+async function api(path, opts){ const r = await fetch(API+path,{credentials:'same-origin',...opts}); return {ok:r.ok, data: await r.json().catch(()=>({}))}; }
+function toast(m){ const t=$('toast'); t.innerHTML=m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3400); }
+let ME_ROLE=null, ME_NAME='', SIGN_DOC=null;
+
+/* ---------- onboarding (tech) ---------- */
+let OB=null, OB_STEP=1, OB_ONSIGN=null, OB_TOUR_I=0;
+const OB_TOUR=[
+ {ic:'&#128203;', h:'Your Work board', p:'Every task Brad or Cash assigns you shows up here, newest first. Anything sitting in Backlog with no owner is yours to grab.'},
+ {ic:'&#9654;&#65039;', h:'Work a task', p:'Hit Start when you begin. When it&#8217;s built AND you&#8217;ve tested it yourself, move it to Ready for review. Always test before review.'},
+ {ic:'&#128679;', h:'Stuck? Say so', p:'Hit Blocked and type what&#8217;s stopping you. Brad gets pinged instantly and clears it. Never sit silent on a blocker, it just wastes your day.'},
+ {ic:'&#9989;', h:'Getting it approved', p:'Only Brad or Cash mark a task Done, that&#8217;s the quality check. Keep the board moving and check it daily. That&#8217;s the whole job.'},
+];
+const PF_SKILLS=['','GoHighLevel build','Web development','Automation / AI','Design','General VA','Other'];
+const PF_PAY=['','Wise','PayPal','Payoneer','e-Transfer','Direct deposit','Other'];
+function showOnboard(status){
+  $('login').classList.add('hide'); $('app').classList.add('hide');
+  $('who').classList.remove('hide'); $('whoName').textContent=status.name||'';
+  OB=status; OB_STEP = !status.profileComplete ? 1 : !status.docsComplete ? 3 : 4;
+  $('onboard').classList.remove('hide'); paintOnboard();
+}
+function obSteps(){ let h='<div class="ob-steps">'; for(let i=1;i<=4;i++){ const cls=i<OB_STEP?'done':i===OB_STEP?'on':''; h+=`<div class="ob-dot ${cls}">${i<OB_STEP?'&#10003;':i}</div>`; if(i<4) h+='<div class="ob-line"></div>'; } return h+'</div>'; }
+function paintOnboard(){
+  let body='';
+  if(OB_STEP===1) body=`<div class="ob-card"><h1>Welcome to the build team, ${OB.name.split(' ')[0]}.</h1>
+    <p class="lead">You&#8217;re in. Three quick steps, about three minutes: your details, a couple of documents to sign, and a 60-second tour of how the board works.</p>
+    <button class="ob-btn" id="obGo">Let&#8217;s get you set up &#8594;</button></div>`;
+  else if(OB_STEP===2){ const p=OB.profile||{};
+    body=`<div class="ob-card"><h1>Your details</h1><p class="lead">So we can reach you and pay you correctly. Takes a minute.</p>
+    <div class="ob-f"><label>Email</label><input id="obEmail" type="email" placeholder="you@email.com" value="${p.email||''}"></div>
+    <div class="ob-f"><label>Best contact (WhatsApp or phone)</label><input id="obContact" placeholder="+1 ..." value="${p.contact||''}"></div>
+    <div class="ob-row"><div class="ob-f"><label>City / country</label><input id="obCountry" value="${p.country||''}"></div>
+    <div class="ob-f"><label>Time zone</label><input id="obTz" value="${p.timezone||''}"></div></div>
+    <div class="ob-f"><label>Your main skill</label><select id="obSkill">${PF_SKILLS.map(s=>`<option ${p.skill===s?'selected':''} value="${s}">${s||'Select...'}</option>`).join('')}</select></div>
+    <div class="ob-row"><div class="ob-f"><label>Pay method</label><select id="obPayType">${PF_PAY.map(s=>`<option ${p.payType===s?'selected':''} value="${s}">${s||'Select...'}</option>`).join('')}</select></div>
+    <div class="ob-f"><label>Pay detail (email or account)</label><input id="obPayDetail" value="${p.payDetail||''}"></div></div>
+    <button class="ob-btn" id="obSave">Save &amp; continue &#8594;</button><div class="ob-err" id="obErr"></div></div>`;
+  } else if(OB_STEP===3){
+    body=`<div class="ob-card"><h1>Sign your documents</h1><p class="lead">Standard for everyone on the team: an NDA and your contractor agreement. Review each and sign, it takes two minutes.</p>
+    <div id="obDocs">Loading...</div><button class="ob-btn" id="obDocsNext" disabled>Continue &#8594;</button></div>`;
+  } else {
+    const t=OB_TOUR[OB_TOUR_I];
+    body=`<div class="ob-card ob-tour"><div class="tico">${t.ic}</div><h2>${t.h}</h2><p>${t.p}</p>
+    <div class="ob-tdots">${OB_TOUR.map((x,i)=>`<span class="${i===OB_TOUR_I?'on':''}"></span>`).join('')}</div>
+    <button class="ob-btn" id="obTourNext">${OB_TOUR_I<OB_TOUR.length-1?'Next &#8594;':'Start working &#8594;'}</button>
+    ${OB_TOUR_I>0?'<button class="ob-back" id="obTourBack">&#8592; Back</button>':''}</div>`;
+  }
+  $('onboard').innerHTML = obSteps() + body; wireOnboard();
+}
+function wireOnboard(){
+  if($('obGo')) $('obGo').onclick=()=>{ OB_STEP=2; paintOnboard(); };
+  if($('obSave')) $('obSave').onclick=async()=>{
+    const g=id=>$(id)?$(id).value.trim():'';
+    if(!g('obEmail')||!g('obContact')||!g('obSkill')){ $('obErr').textContent='Email, contact and skill are required.'; return; }
+    const r=await api('/team-onboard',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'profile',
+      email:g('obEmail'),contact:g('obContact'),country:g('obCountry'),timezone:g('obTz'),skill:g('obSkill'),payType:g('obPayType'),payDetail:g('obPayDetail')})});
+    if(r.ok&&r.data.profileComplete){ OB.profileComplete=true; OB_STEP=3; paintOnboard(); } else $('obErr').textContent=(r.data&&r.data.error)||'Please fill the required fields.';
+  };
+  if(OB_STEP===3){ loadObDocs(); }
+  if($('obTourNext')) $('obTourNext').onclick=async()=>{
+    if(OB_TOUR_I<OB_TOUR.length-1){ OB_TOUR_I++; paintOnboard(); }
+    else { await api('/team-onboard',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'demo-done'})}); $('onboard').classList.add('hide'); showWorkApp(); }
+  };
+  if($('obTourBack')) $('obTourBack').onclick=()=>{ OB_TOUR_I--; paintOnboard(); };
+}
+async function loadObDocs(){
+  const r=await api('/team-compliance'); if(!r.ok){ $('obDocs').innerHTML='<div class="ob-err">Could not load documents.</div>'; return; }
+  const docs=r.data.docs||[];
+  $('obDocs').innerHTML=docs.map((d,i)=>`<div class="ob-doc ${d.signed?'signed':''}"><div class="di">${d.signed?'&#10003;':i+1}</div>
+    <div><div class="dn">${d.title}</div><div class="dsub">${d.signed?'Signed':'Required'}</div></div>
+    <button data-doc="${d.key}" ${d.signed?'disabled':''}>${d.signed?'Signed':'Review &amp; sign'}</button></div>`).join('');
+  $('obDocs').querySelectorAll('button[data-doc]').forEach(b=>{ if(!b.disabled) b.onclick=()=>openSign(b.dataset.doc); });
+  const allSigned=docs.length && docs.every(d=>d.signed);
+  $('obDocsNext').disabled=!allSigned;
+  $('obDocsNext').onclick=()=>{ if(allSigned){ OB.docsComplete=true; OB_STEP=4; OB_TOUR_I=0; paintOnboard(); } };
+  OB_ONSIGN=loadObDocs;
+}
+function replayTour(){ OB={ name:$('whoName').textContent||'' }; OB_STEP=4; OB_TOUR_I=0; $('app').classList.add('hide'); $('onboard').classList.remove('hide'); paintOnboard(); }
+async function openProfile(){
+  const r=await api('/team-onboard'); if(!r.ok){ toast('Could not load your profile'); return; }
+  const p=r.data.profile||{};
+  $('pfSkill').innerHTML=PF_SKILLS.map(s=>`<option value="${s}" ${p.skill===s?'selected':''}>${s||'Select...'}</option>`).join('');
+  $('pfPayType').innerHTML=PF_PAY.map(s=>`<option value="${s}" ${p.payType===s?'selected':''}>${s||'Select...'}</option>`).join('');
+  $('pfEmail').value=p.email||''; $('pfContact').value=p.contact||''; $('pfCountry').value=p.country||''; $('pfTz').value=p.timezone||''; $('pfPayDetail').value=p.payDetail||'';
+  $('pfErr').textContent=''; $('profModal').classList.add('show');
+}
+$('profClose').onclick=()=>$('profModal').classList.remove('show');
+$('pfSave').onclick=async()=>{
+  const g=id=>$(id).value.trim();
+  if(!g('pfEmail')||!g('pfContact')||!g('pfSkill')){ $('pfErr').textContent='Email, contact and skill are required.'; return; }
+  const r=await api('/team-onboard',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'profile',
+    email:g('pfEmail'),contact:g('pfContact'),country:g('pfCountry'),timezone:g('pfTz'),skill:g('pfSkill'),payType:g('pfPayType'),payDetail:g('pfPayDetail')})});
+  if(r.ok){ $('profModal').classList.remove('show'); toast('Profile saved.'); } else $('pfErr').textContent=(r.data&&r.data.error)||'Could not save.';
+};
+
+/* ---------- sign modal ---------- */
+async function openSign(key){
+  const r = await api('/team-compliance?doc='+encodeURIComponent(key));
+  if(!r.ok){ toast('Could not load that document'); return; }
+  SIGN_DOC = r.data; $('signTitle').textContent=r.data.title; $('signBody').innerHTML=r.data.body;
+  $('signAcks').innerHTML=r.data.acks.map((a,i)=>`<label class="ack"><input type="checkbox" data-ack="${i}"><span>${a}</span></label>`).join('');
+  $('signName').value=''; $('signErr').textContent='';
+  const recheck=()=>{ const allAck=[...$('signAcks').querySelectorAll('input')].every(x=>x.checked); const named=$('signName').value.trim().length>=3; $('signGo').disabled=!(allAck&&named); };
+  $('signAcks').querySelectorAll('input').forEach(x=>x.onchange=recheck); $('signName').oninput=recheck; recheck();
+  $('signBody').scrollTop=0; $('signModal').classList.add('show');
+}
+$('signClose').onclick=()=>$('signModal').classList.remove('show');
+$('signGo').onclick=async()=>{
+  const acks=[...$('signAcks').querySelectorAll('input')].map(x=>x.checked);
+  $('signGo').disabled=true; $('signErr').textContent='';
+  const r=await api('/team-compliance',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'sign',doc:SIGN_DOC.key,legalName:$('signName').value.trim(),acks})});
+  if(!r.ok){ $('signErr').textContent=r.data.error||'Could not sign. Try again.'; $('signGo').disabled=false; return; }
+  $('signModal').classList.remove('show'); toast('Signed. Thank you.');
+  if(OB_ONSIGN) OB_ONSIGN();
+};
+
+/* ---------- work board ---------- */
+let WORKD=null;
+const W_GROUPS=[['blocked','Blocked'],['review','In review'],['in-progress','In progress'],['backlog','Backlog'],['done','Done']];
+async function loadWork(){
+  const r = await api('/team-tasks');
+  if(!r.ok){ $('workBoard').innerHTML='<div class="lempty">Not available.</div>'; return; }
+  WORKD=r.data; renderWork();
+}
+function renderWorkHead(mgr){
+  const me=WORKD.me, ts=WORKD.tasks, wh=$('workHead'); wh.classList.remove('hide');
+  if(mgr){
+    const c=st=>ts.filter(t=>st.includes(t.status)).length;
+    wh.innerHTML=`<div class="whi"><div class="wht">Work board</div><div class="whs">${WORKD.team.length} tech contractor${WORKD.team.length===1?'':'s'} &#183; you approve everything that ships</div></div>
+      <div class="whstats"><div class="whstat"><div class="n">${c(['backlog','in-progress'])}</div><div class="l">Open</div></div><div class="whstat rev"><div class="n">${c(['review'])}</div><div class="l">For QC</div></div><div class="whstat blk"><div class="n">${c(['blocked'])}</div><div class="l">Blocked</div></div></div>`;
+    return;
+  }
+  const mine=t=>t.assignee===me.slug, c=st=>ts.filter(t=>mine(t)&&st.includes(t.status)).length;
+  wh.innerHTML=`<div class="whi"><div class="wht">Hey ${me.name.split(' ')[0]}.</div><div class="whs">Start &#8594; build + test &#8594; Ready for review. Stuck? Hit Blocked and say why.</div></div>
+    <div class="whstats"><div class="whstat"><div class="n">${c(['backlog','in-progress'])}</div><div class="l">Open</div></div><div class="whstat rev"><div class="n">${c(['review'])}</div><div class="l">In review</div></div><div class="whstat blk"><div class="n">${c(['blocked'])}</div><div class="l">Blocked</div></div></div>
+    <div class="whbtns"><button id="whProfile">My profile</button><button id="whTour">Replay tour</button></div>`;
+  $('whProfile').onclick=openProfile; $('whTour').onclick=replayTour;
+}
+function taskCard(t){
+  const mgr=['admin','head'].includes(WORKD.me.role);
+  const mine=t.assignee===WORKD.me.slug;
+  const meta=[t.client?'<b>'+t.client+'</b>':'', t.assigneeName?('with '+t.assigneeName):'unassigned', t.due?('due '+t.due):'', 'by '+t.createdBy].filter(Boolean).join(' &#183; ');
+  const notes=(t.notes||[]).slice(-4).map(n=>`<div class="tnote"><b>${n.by}:</b> ${n.text}</div>`).join('');
+  let acts='';
+  if(t.status!=='done'){
+    if(!t.assignee && WORKD.me.role==='tech') acts+=`<button data-a="claim" data-id="${t.id}">Claim it</button>`;
+    if((mine||mgr)&&t.status!=='in-progress'&&t.assignee) acts+=`<button data-a="status" data-s="in-progress" data-id="${t.id}">Start</button>`;
+    if((mine||mgr)&&t.status==='in-progress') acts+=`<button data-a="status" data-s="review" data-id="${t.id}">Ready for review</button>`;
+    if((mine||mgr)&&t.status!=='blocked') acts+=`<button class="warn" data-a="block" data-id="${t.id}">Blocked</button>`;
+    if(mgr&&t.status==='review') acts+=`<button class="ok" data-a="status" data-s="done" data-id="${t.id}">Approve &#10003;</button>`;
+    if(mgr){ const opts='<option value="">reassign...</option>'+WORKD.team.map(m=>`<option value="${m.slug}" ${t.assignee===m.slug?'selected':''}>${m.name}</option>`).join('');
+      acts+=`<select data-a="assign" data-id="${t.id}">${opts}</select><button class="ghost" data-a="delete" data-id="${t.id}">delete</button>`; }
+    if(mine||mgr) acts+=`<input data-a="notein" data-id="${t.id}" placeholder="Add a note"><button class="ghost" data-a="note" data-id="${t.id}">Post</button>`;
+  }
+  return `<div class="task ${t.priority} ${t.status==='blocked'?'blocked':''}">
+    <div class="trow1"><span class="pchip ${t.priority}">${t.priority.toUpperCase()}</span><span class="tt">${t.title}</span></div>
+    <div class="tmeta">${meta}</div>${t.detail?`<div class="tdetail">${t.detail}</div>`:''}${notes?`<div class="tnotes">${notes}</div>`:''}${acts?`<div class="tacts">${acts}</div>`:''}</div>`;
+}
+function renderWork(){
+  const mgr=['admin','head'].includes(WORKD.me.role);
+  renderWorkHead(mgr);
+  $('wform').classList.toggle('hide',!mgr);
+  if(mgr){ const cur=$('wAssignee').value;
+    $('wAssignee').innerHTML='<option value="">Unassigned (backlog)</option>'+WORKD.team.map(m=>`<option value="${m.slug}">${m.name}</option>`).join('');
+    $('wAssignee').value=cur; }
+  const ts=WORKD.tasks;
+  const mineFirst=(a,b)=>((b.assignee===WORKD.me.slug)-(a.assignee===WORKD.me.slug))||a.priority.localeCompare(b.priority)||(b.up-a.up);
+  $('workBoard').innerHTML = W_GROUPS.map(([st,label])=>{
+    let list=ts.filter(t=>t.status===st).sort(mineFirst);
+    if(st==='done') list=list.slice(0,15);
+    if(!list.length) return '';
+    return `<div class="wgroup"><h2>${label} <span class="cnt">${list.length}</span></h2>${list.map(taskCard).join('')}</div>`;
+  }).join('') || '<div class="lempty">No tasks yet.'+(mgr?' Create the first one above.':' Brad or Cash will assign work here, and anything in Backlog is yours to claim.')+'</div>';
+  $('workBoard').querySelectorAll('button[data-a],select[data-a="assign"]').forEach(el=>{
+    const id=el.dataset.id;
+    const post=async(b)=>{ const r=await api('/team-tasks',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)}); if(r.ok) loadWork(); else toast(r.data.error||'failed'); };
+    if(el.dataset.a==='claim') el.onclick=()=>post({action:'claim',id});
+    if(el.dataset.a==='status') el.onclick=()=>post({action:'status',id,status:el.dataset.s});
+    if(el.dataset.a==='block') el.onclick=()=>{ const why=prompt('What is blocking it?'); if(why!==null) post({action:'status',id,status:'blocked',reason:why}); };
+    if(el.dataset.a==='delete') el.onclick=()=>{ if(confirm('Delete this task?')) post({action:'delete',id}); };
+    if(el.dataset.a==='note') el.onclick=()=>{ const inp=$('workBoard').querySelector(`input[data-a="notein"][data-id="${id}"]`); const text=(inp.value||'').trim(); if(text) post({action:'note',id,text}); };
+    if(el.dataset.a==='assign') el.onchange=()=>{ if(el.value) post({action:'assign',id,assignee:el.value}); };
+  });
+  $('workBoard').querySelectorAll('input[data-a="notein"]').forEach(inp=>{
+    inp.addEventListener('keydown',e=>{ if(e.key==='Enter') $('workBoard').querySelector(`button[data-a="note"][data-id="${inp.dataset.id}"]`).click(); });
+  });
+}
+$('wCreate').onclick=async()=>{
+  const title=$('wTitle').value.trim(); if(!title){ $('wOut').textContent='Title required'; return; }
+  const r=await api('/team-tasks',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+    action:'create',title,client:$('wClient').value,assignee:$('wAssignee').value,priority:$('wPriority').value,due:$('wDue').value,detail:$('wDetail').value})});
+  if(r.ok){ $('wOut').textContent='Task created'; ['wTitle','wClient','wDue','wDetail'].forEach(i=>$(i).value=''); loadWork(); setTimeout(()=>$('wOut').textContent='',2500); }
+  else $('wOut').textContent=r.data.error||'failed';
+};
+
+/* ---------- boot ---------- */
+function showLogin(){ $('app').classList.add('hide'); $('onboard').classList.add('hide'); $('who').classList.add('hide'); $('login').classList.remove('hide'); }
+function showWorkApp(){
+  $('login').classList.add('hide'); $('onboard').classList.add('hide');
+  $('who').classList.remove('hide'); $('whoName').textContent=ME_NAME;
+  $('app').classList.remove('hide'); loadWork();
+}
+async function enter(){
+  const c = await api('/team-compliance');
+  if(!c.ok){ showLogin(); return; }
+  ME_ROLE=c.data.role; ME_NAME=c.data.name||'';
+  if(!['tech','admin','head'].includes(c.data.role)){ location.href='/team/'; return; } // sales -> main portal
+  if(c.data.role==='tech'){
+    const o = await api('/team-onboard');
+    if(o.ok && (!o.data.profileComplete || !o.data.docsComplete || !o.data.demoSeen)){ showOnboard(o.data); return; }
+  }
+  showWorkApp();
+}
+$('go').onclick = async ()=>{
+  $('err').textContent='';
+  const r = await api('/team-auth',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code:$('code').value})});
+  if(!r.ok){ $('err').textContent="That code didn't work. Check it and try again."; return; }
+  await enter();
+};
+$('code').addEventListener('keydown',e=>{ if(e.key==='Enter') $('go').click(); });
+$('logout').onclick = async ()=>{ await api('/team-auth',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'logout'})}); location.reload(); };
+setInterval(()=>{ if(!$('app').classList.contains('hide')) loadWork(); }, 90000);
+(async()=>{ await enter(); })();
+</script>
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Let's get started — Easyworks</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<style>
+:root{
+  --navy:#070b16; --panel:#0d1424; --line:#1c2740;
+  --blue:#3b82f6; --cyan:#22d3ee; --ink:#e8edf7; --dim:#8fa3c8;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--navy);color:var(--ink);font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:640px;margin:0 auto;padding:32px 20px 80px}
+.logo{font-weight:800;letter-spacing:.06em;font-size:15px;color:#fff;text-decoration:none}
+.logo span{color:var(--cyan)}
+h1{font-size:28px;line-height:1.2;margin:36px 0 10px}
+.sub{color:var(--dim);margin-bottom:8px}
+.eta{display:inline-block;margin:6px 0 30px;padding:5px 12px;border:1px solid var(--line);border-radius:999px;color:var(--cyan);font-size:13px}
+fieldset{border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:20px 18px 14px;margin-bottom:22px}
+legend{padding:0 8px;font-size:13px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--blue)}
+label{display:block;font-size:14px;font-weight:600;margin:14px 0 6px}
+label small{font-weight:400;color:var(--dim)}
+input[type=text],input[type=email],input[type=tel],input[type=url],select,textarea{
+  width:100%;background:#0a101f;border:1px solid var(--line);border-radius:8px;color:var(--ink);
+  padding:11px 12px;font-size:16px;font-family:inherit}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--blue)}
+textarea{min-height:84px;resize:vertical}
+.checks label{display:flex;gap:10px;align-items:flex-start;font-weight:400;font-size:15px;margin:9px 0;cursor:pointer}
+.checks input{margin-top:3px;accent-color:var(--blue)}
+.note{font-size:13.5px;color:var(--dim);margin-top:10px}
+.note b{color:var(--ink)}
+button{width:100%;margin-top:6px;padding:15px;border:0;border-radius:10px;cursor:pointer;
+  font-size:17px;font-weight:700;color:#fff;background:linear-gradient(90deg,var(--blue),var(--cyan))}
+button:hover{filter:brightness(1.08)}
+.foot{margin-top:26px;text-align:center;color:var(--dim);font-size:13px}
+.foot a{color:var(--cyan);text-decoration:none}
+.hp{position:absolute;left:-5000px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="logo" href="/">EASY<span>WORKS</span></a>
+
+  <h1>Welcome aboard. Let's get to work.</h1>
+  <p class="sub">This is the kickoff form for your audit. Answer what you know, skip what you don't. The more you give us, the sharper your report.</p>
+  <span class="eta">Takes about 5 minutes · Audit starts as soon as we get it</span>
+
+  <form name="onboarding" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/start/thanks.html">
+    <input type="hidden" name="form-name" value="onboarding">
+    <p class="hp"><label>Leave this empty <input name="bot-field"></label></p>
+
+    <fieldset>
+      <legend>You</legend>
+      <label>Your name *</label>
+      <input type="text" name="name" required autocomplete="name">
+      <label>Business name *</label>
+      <input type="text" name="business" required autocomplete="organization">
+      <label>Best email *</label>
+      <input type="email" name="email" required autocomplete="email">
+      <label>Cell number * <small>(we text updates, no spam)</small></label>
+      <input type="tel" name="phone" required autocomplete="tel">
+      <label>Who signed you up? <small>(your Easyworks contact's name)</small></label>
+      <input type="text" name="rep">
+    </fieldset>
+
+    <fieldset>
+      <legend>Your online presence</legend>
+      <label>Website <small>(if you have one)</small></label>
+      <input type="url" name="website" placeholder="https://">
+      <label>Instagram / Facebook / TikTok handles</label>
+      <input type="text" name="socials" placeholder="@yourbusiness">
+      <label>Business phone number <small>(the one customers call)</small></label>
+      <input type="tel" name="business_phone">
+    </fieldset>
+
+    <fieldset>
+      <legend>How business comes in</legend>
+      <div class="checks">
+        <label><input type="checkbox" name="lead_sources" value="google">Google search</label>
+        <label><input type="checkbox" name="lead_sources" value="social">Instagram or Facebook</label>
+        <label><input type="checkbox" name="lead_sources" value="referrals">Referrals and word of mouth</label>
+        <label><input type="checkbox" name="lead_sources" value="walkins">Walk-ins / drive-by</label>
+        <label><input type="checkbox" name="lead_sources" value="ads">Paid ads</label>
+        <label><input type="checkbox" name="lead_sources" value="other">Somewhere else</label>
+      </div>
+      <label>Roughly, what's one customer worth to you? <small>(average job or visit, ballpark is fine)</small></label>
+      <input type="text" name="customer_value" placeholder="$">
+    </fieldset>
+
+    <fieldset>
+      <legend>Phones and follow-up</legend>
+      <label>Who answers your phone during business hours?</label>
+      <select name="phone_answering">
+        <option value="">Choose one</option>
+        <option>Me, when I can</option>
+        <option>Front desk / staff</option>
+        <option>It mostly goes to voicemail</option>
+        <option>An answering service</option>
+      </select>
+      <label>What happens to calls after hours?</label>
+      <select name="after_hours">
+        <option value="">Choose one</option>
+        <option>Voicemail</option>
+        <option>Nothing, it just rings</option>
+        <option>Forwarded to my cell</option>
+        <option>Not sure</option>
+      </select>
+      <label>Where do you keep track of customers? <small>(CRM name, spreadsheet, "my phone", all good answers)</small></label>
+      <input type="text" name="crm">
+      <label>List every software or subscription that runs the business <small>(booking, POS, CRM, marketing, chatbots, AI tools. Names are enough, even if you're not sure what it does)</small></label>
+      <textarea name="tools"></textarea>
+    </fieldset>
+
+    <fieldset>
+      <legend>The goal</legend>
+      <label>If we fix one thing in the next 90 days, what should it be?</label>
+      <textarea name="goal" placeholder="More calls answered, more bookings, more reviews, getting found on Google..."></textarea>
+      <label>Best time to reach you</label>
+      <select name="best_time">
+        <option value="">Choose one</option>
+        <option>Morning</option>
+        <option>Afternoon</option>
+        <option>Evening</option>
+        <option>Text me anytime</option>
+      </select>
+    </fieldset>
+
+    <p class="note"><b>About access:</b> to audit things like your Google Business Profile we'll send proper invite requests to your email. We will <b>never</b> ask for your passwords. Anyone who does isn't us.</p>
+
+    <button type="submit">Start my audit</button>
+    <p class="foot">Questions? Call or text <a href="tel:+16042657660">+1 604-265-7660</a> · Easyworks AI Solutions, Surrey BC</p>
+  </form>
+</div>
+</body>
+</html>
