@@ -533,3 +533,27 @@
   }
   if (!input.value) input.value = fmt(suggest);
 })();
+
+/* ─────── GA4 key events (conversions) ─────── */
+// Fires the events that GA4 marks as key events: generate_lead (intake form),
+// book_click (any consultation CTA), phone_click (tel: links), email_click (mailto:).
+(function ga4KeyEvents() {
+  function track(name, params) {
+    if (typeof window.gtag !== 'function') return;
+    window.gtag('event', name, Object.assign({ page_path: location.pathname }, params || {}));
+  }
+  document.addEventListener('click', function (e) {
+    var a = e.target && e.target.closest ? e.target.closest('a') : null;
+    if (!a) return;
+    var href = a.getAttribute('href') || '';
+    var text = (a.textContent || '').trim().slice(0, 60);
+    if (href.indexOf('tel:') === 0) track('phone_click', { link_url: href, link_text: text });
+    else if (href.indexOf('mailto:') === 0) track('email_click', { link_url: href, link_text: text });
+    else if (/#start$/.test(href) || /consult|book/i.test(text)) track('book_click', { link_url: href, link_text: text });
+  }, true);
+  var form = document.getElementById('contactForm');
+  if (form) form.addEventListener('submit', function () {
+    var stack = form.querySelector('input[name="stack"]');
+    track('generate_lead', { method: 'website_form', stack: stack ? stack.value : '' });
+  }, true);
+})();
