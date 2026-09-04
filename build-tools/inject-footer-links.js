@@ -8,7 +8,7 @@ const path = require('path');
 const ROOT = path.join(__dirname, '..');
 
 const NEW_COLUMNS = `<div class="footer-col"><h4>Locations</h4><a href="/locations/vancouver/">Vancouver</a><a href="/locations/surrey/">Surrey</a><a href="/locations/burnaby/">Burnaby</a><a href="/locations/langley/">Langley</a><a href="/locations/abbotsford/">Abbotsford</a><a href="/locations/chilliwack/">Chilliwack</a><a href="/locations/squamish/">Squamish</a><a href="/locations/whistler/">Whistler</a><a href="/locations/">All BC cities →</a></div>
-<div class="footer-col"><h4>Industries</h4><a href="/industries/ai-for-dentists-bc/">AI for Dentists (BC)</a><a href="/industries/ai-for-physio-bc/">AI for Physiotherapy (BC)</a><a href="/industries/ai-for-spas-bc/">AI for Spas + Med-Spas (BC)</a><a href="/industries/">All industries →</a></div>
+<div class="footer-col"><h4>Industries</h4><a href="/industries/ai-for-dentists-bc/">AI for Dentists (BC)</a><a href="/industries/ai-for-physio-bc/">AI for Physiotherapy (BC)</a><a href="/industries/ai-for-spas-bc/">AI for Spas + Med-Spas (BC)</a><a href="/industries/real-estate/">Real Estate Teams</a><a href="/industries/law/">Law Firms</a><a href="/industries/financial/">Mortgage, Insurance, Advisors</a><a href="/industries/home-services/">Home Services</a><a href="/industries/dealerships/">Auto Dealerships</a><a href="/industries/">All industries →</a></div>
 `;
 
 const files = [];
