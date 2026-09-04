@@ -185,12 +185,12 @@ ${footer()}`;
 
 const industryPage = (i) => {
   const url = `https://easyworks.ai/industries/${i.slug}/`;
-  const description = `${i.tagline} Done-for-you AI for ${i.industry.toLowerCase()} in ${i.region}. From $599/mo, no setup, BC-built.`;
+  const description = `${i.tagline} Growth systems for ${i.industry.toLowerCase()}, audited, built and run for you. ${i.region}.`;
   const og = `${i.title} — Easyworks AI`;
 
   const schemas = `
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Service","name":"${i.title}","description":${JSON.stringify(i.intro.slice(0,250))},"url":"${url}","serviceType":"AI for ${i.industry}","provider":{"@type":"LocalBusiness","@id":"https://easyworks.ai/#business","name":"Easyworks AI Solutions"},"areaServed":{"@type":"AdministrativeArea","name":"British Columbia, Canada"},"offers":{"@type":"Offer","price":"599","priceCurrency":"CAD"}}
+{"@context":"https://schema.org","@type":"Service","name":"${i.title}","description":${JSON.stringify(i.intro.slice(0,250))},"url":"${url}","serviceType":"AI for ${i.industry}","provider":{"@type":"LocalBusiness","@id":"https://easyworks.ai/#business","name":"Easyworks AI Solutions"},"areaServed":${JSON.stringify(i.areaServed || "British Columbia, Canada")}}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://easyworks.ai/"},{"@type":"ListItem","position":2,"name":"Industries","item":"https://easyworks.ai/industries/"},{"@type":"ListItem","position":3,"name":"${i.industry}","item":"${url}"}]}
@@ -213,13 +213,15 @@ ${navAndCanvas()}
         <p class="psub-tagline">${i.tagline}</p>
         <p class="psub-pitch">${i.intro}</p>
         <div class="psub-meta">
-          <div class="psub-price"><span class="psub-price-num">$599</span><span>/mo</span></div>
+          <div class="psub-price"><span class="psub-price-num">Audit</span><span>find the leaks</span></div>
           <div class="psub-divider"></div>
-          <div class="psub-price"><span class="psub-price-num">$0</span><span>setup</span></div>
+          <div class="psub-price"><span class="psub-price-num">Build</span><span>only what you need</span></div>
+          <div class="psub-divider"></div>
+          <div class="psub-price"><span class="psub-price-num">Maintain</span><span>we run it monthly</span></div>
         </div>
         <div class="psub-cta-row">
-          <a href="../../#start" class="btn btn-accent btn-lg">Book a consultation <span aria-hidden="true">→</span></a>
-          <a href="../../#products" class="btn btn-glass btn-lg">See the Starter</a>
+          <a href="../../#start" class="btn btn-accent btn-lg">Start with an audit <span aria-hidden="true">→</span></a>
+          <a href="../../#capabilities" class="btn btn-glass btn-lg">See what a build includes</a>
         </div>
       </div>
     </div>
@@ -237,7 +239,7 @@ ${navAndCanvas()}
 
 <section class="section">
   <div class="container">
-    <div class="section-header" data-r><p class="overline">Why us</p><h2>Why BC ${i.industry.toLowerCase()} pick Easyworks.</h2></div>
+    <div class="section-header" data-r><p class="overline">Why us</p><h2>Why ${i.industry.toLowerCase()} pick Easyworks.</h2></div>
     <div class="rs-features">
       ${i.why.map((p, idx) => `<div class="rs-feat" data-r data-d="${idx}"><div class="rs-feat-num">0${idx+1}</div><p>${p}</p></div>`).join('\n      ')}
     </div>
@@ -258,11 +260,11 @@ ${navAndCanvas()}
   <div class="container container-mid">
     <div class="cta-header" data-r>
       <div class="cta-brand"><img src="../../img/icon.svg?v=2" alt="" class="hero-icon-img" style="width:56px;height:56px"><span class="brand-name brand-tracked" style="font-size:1.4rem">EASYWORKS<span class="brand-ai">·AI</span></span></div>
-      <h2>Ready to install at your ${i.industry.toLowerCase().replace(/s$/,'')}?</h2>
-      <p>Tell us about your business. We'll come on-site and have you up in days.</p>
+      <h2>${i.ctaTitle || `Ready to see where your ${i.industry.toLowerCase().replace(/s$/,'')} is leaking leads?`}</h2>
+      <p>${i.ctaText || 'Start with an audit. You get a written report, and the audit is credited to your build.'}</p>
     </div>
     <div style="text-align:center; margin-top: 24px;">
-      <a href="../../#start" class="btn btn-accent btn-lg">Book with a human <span aria-hidden="true">→</span></a>
+      <a href="../../#start" class="btn btn-accent btn-lg">Start with an audit <span aria-hidden="true">→</span></a>
     </div>
   </div>
 </section>
@@ -305,7 +307,7 @@ ${footer()}`;
 
 const industriesIndex = () => {
   const url = `https://easyworks.ai/industries/`;
-  const description = `AI built for your specific industry. BC-focused, on-site, no setup.`;
+  const description = `Growth systems built for your specific industry. Audited, built and run for you. Canada, the US, the UK and worldwide.`;
   const links = industries.map(i => `<a class="rp-card" href="./${i.slug}/" data-r><span class="rp-icon rp-icon-dot"></span><div class="rp-body"><h4>${i.industry}</h4><p>${i.tagline}</p></div><span class="rp-arrow">→</span></a>`).join('\n      ');
   return `${head({title: 'Industries — AI Built for Your Trade | Easyworks AI', description, url, og: 'Easyworks AI Industries'})}
 ${navAndCanvas()}
@@ -318,7 +320,7 @@ ${navAndCanvas()}
       <div class="psub-hero-copy" style="grid-column:1 / -1">
         <h1>Industries we know.</h1>
         <p class="psub-tagline">Built for your trade, not retrofitted to it.</p>
-        <p class="psub-pitch">Generic AI tools fail at industry-specific work because they were never built for it. We are. These are the verticals where our installs are most repeatable, most measurable, and most worth the investment.</p>
+        <p class="psub-pitch">Generic tools fail at industry specific work because they were never built for it. We are. These are the verticals where our builds are most repeatable, most measurable and most worth the investment. Every one starts with an audit.</p>
       </div>
     </div>
   </div>
@@ -335,11 +337,12 @@ ${navAndCanvas()}
 ${footer()}`;
 };
 
-// Write everything
+// Write everything. `--industries-only` skips the city pages.
 let count = 0;
+const INDUSTRIES_ONLY = process.argv.includes('--industries-only');
 
 // City pages
-for (const c of cities) {
+for (const c of (INDUSTRIES_ONLY ? [] : cities)) {
   const dir = path.join(ROOT, 'locations', c.slug);
   fs.mkdirSync(dir, { recursive: true });
   fs.writeFileSync(path.join(dir, 'index.html'), cityPage(c));
@@ -347,9 +350,11 @@ for (const c of cities) {
   count++;
 }
 // Locations index
-fs.mkdirSync(path.join(ROOT, 'locations'), { recursive: true });
-fs.writeFileSync(path.join(ROOT, 'locations', 'index.html'), locationsIndex());
-console.log('wrote locations/index.html');
+if (!INDUSTRIES_ONLY) {
+  fs.mkdirSync(path.join(ROOT, 'locations'), { recursive: true });
+  fs.writeFileSync(path.join(ROOT, 'locations', 'index.html'), locationsIndex());
+  console.log('wrote locations/index.html');
+}
 
 // Industry pages
 for (const i of industries) {
