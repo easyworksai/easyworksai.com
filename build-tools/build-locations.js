@@ -58,12 +58,12 @@ const footer = () => `<footer class="footer"><div class="container"><div class="
 const cityPage = (c) => {
   const url = `https://easyworks.ai/locations/${c.slug}/`;
   const title = `AI Services and AI Consulting in ${c.city}, ${c.region} | Easyworks AI`;
-  const description = `AI services for ${c.city} businesses, installed on-site. AI receptionist, CRM, local SEO, Google Business Profile and website, from $599/mo with no setup fee. AI consulting from a BC team.`;
+  const description = `AI services for ${c.city} businesses, installed on-site. Website, Google Business Profile, CRM, AI receptionist and local SEO, audited, built and run for you by a BC team.`;
   const og = `AI for ${c.city} Businesses — Easyworks AI`;
 
   const schemas = `
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"LocalBusiness","@id":"https://easyworks.ai/locations/${c.slug}/#business","name":"Easyworks AI Solutions — ${c.city}","url":"${url}","image":"https://easyworks.ai/og-image.png","telephone":"+1-604-265-7660","email":"team@easyworksai.com","priceRange":"$599+","areaServed":{"@type":"City","name":"${c.city}, ${c.region}"},"address":{"@type":"PostalAddress","addressLocality":"${c.city}","addressRegion":"${c.region}","addressCountry":"CA"},"geo":{"@type":"GeoCoordinates","latitude":${c.lat},"longitude":${c.lon}},"sameAs":["https://easyworks.ai/"]}
+{"@context":"https://schema.org","@type":"LocalBusiness","@id":"https://easyworks.ai/locations/${c.slug}/#business","name":"Easyworks AI Solutions — ${c.city}","url":"${url}","image":"https://easyworks.ai/og-image.png","telephone":"+1-604-265-7660","email":"team@easyworksai.com","areaServed":{"@type":"City","name":"${c.city}, ${c.region}"},"address":{"@type":"PostalAddress","addressLocality":"${c.city}","addressRegion":"${c.region}","addressCountry":"CA"},"geo":{"@type":"GeoCoordinates","latitude":${c.lat},"longitude":${c.lon}},"sameAs":["https://easyworks.ai/"]}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://easyworks.ai/"},{"@type":"ListItem","position":2,"name":"Locations","item":"https://easyworks.ai/locations/"},{"@type":"ListItem","position":3,"name":"${c.city}","item":"${url}"}]}
@@ -93,13 +93,15 @@ ${navAndCanvas()}
         <p class="psub-tagline">On-site across ${c.city}. Real install. Real humans.</p>
         <p class="psub-pitch">${c.intro}</p>
         <div class="psub-meta">
-          <div class="psub-price"><span class="psub-price-num">$599</span><span>/mo</span></div>
+          <div class="psub-price"><span class="psub-price-num">Audit</span><span>find the leaks</span></div>
           <div class="psub-divider"></div>
-          <div class="psub-price"><span class="psub-price-num">$0</span><span>setup</span></div>
+          <div class="psub-price"><span class="psub-price-num">Build</span><span>only what you need</span></div>
+          <div class="psub-divider"></div>
+          <div class="psub-price"><span class="psub-price-num">Maintain</span><span>we run it monthly</span></div>
         </div>
         <div class="psub-cta-row">
-          <a href="../../#start" class="btn btn-accent btn-lg">Book a ${c.city} consultation <span aria-hidden="true">→</span></a>
-          <a href="../../#products" class="btn btn-glass btn-lg">See the Starter</a>
+          <a href="../../#start" class="btn btn-accent btn-lg">Start with an audit <span aria-hidden="true">→</span></a>
+          <a href="../../#capabilities" class="btn btn-glass btn-lg">See what a build includes</a>
         </div>
       </div>
     </div>
@@ -135,7 +137,7 @@ ${navAndCanvas()}
 
 <section class="section section-alt">
   <div class="container">
-    <div class="section-header center" data-r><p class="overline">What's included</p><h2>Small Business Starter — what every ${c.city} client gets.</h2></div>
+    <div class="section-header center" data-r><p class="overline">What's included</p><h2>What a ${c.city} build can include.</h2></div>
     <div class="rs-features">
       <div class="rs-feat" data-r data-d="0"><div class="rs-feat-num">01</div><h3>Premium website + management</h3><p>Built for your trade. Fast on mobile. We host, maintain, and update it for you.</p></div>
       <div class="rs-feat" data-r data-d="1"><div class="rs-feat-num">02</div><h3>Google Business Profile fully optimized</h3><p>Claimed, categorized, photographed, posting weekly. The single highest-ROI move for local search in ${c.city}.</p></div>
@@ -144,7 +146,7 @@ ${navAndCanvas()}
       <div class="rs-feat" data-r data-d="4"><div class="rs-feat-num">05</div><h3>Local SEO + review engine</h3><p>Citations, schema, and a review-request system that finally moves your star count.</p></div>
       <div class="rs-feat" data-r data-d="5"><div class="rs-feat-num">06</div><h3>Branding kit</h3><p>Logo refresh if you need one, social templates, email signatures. The basics, done right.</p></div>
     </div>
-    <p style="text-align:center;margin-top:32px;font-size:0.95rem;color:rgba(246,248,255,0.75);">All for <strong style="color:#f6f8ff">$599/month</strong>. No setup. Six-month commit. Add Content Engine, AI Suite, or AI Revenue Scale whenever you're ready.</p>
+    <p style="text-align:center;margin-top:32px;font-size:0.95rem;color:rgba(246,248,255,0.75);">Every engagement starts with an audit. We build only what it finds, the audit is credited to the build, and we run it for you every month.</p>
   </div>
 </section>
 
