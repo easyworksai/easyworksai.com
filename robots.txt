@@ -6,6 +6,3 @@ Disallow: /team/
 Disallow: /gbp/
 
 Sitemap: https://easyworks.ai/sitemap.xml
-
-User-agent: *
-Disallow: /ads/
