@@ -20,7 +20,7 @@ module.exports = [
     why: [
       `We work with BC clinics specifically — PIPEDA compliance, Canadian data residency for patient information, and integration with the practice management software you already use (Tracker, ClearDent, Open Dental, Dentrix). We don't ask you to switch systems.`,
       `Most "AI for dentists" sold in BC is built for US clinics and quietly fails on Canadian compliance. We don't.`,
-      `Every engagement starts with an audit of your phones, recall, reviews and Google presence. We build only what it finds, then run it for you every month.`,
+      `Every engagement starts with a Blueprint of your phones, recall, reviews and Google presence. We build only what it finds, then run it for you every month.`,
     ],
     faq: [
       { q: 'Will the AI receptionist mishandle a medical emergency call?', a: 'No — the AI is trained to recognize emergency language and immediately escalate to your on-call protocol (text the dentist, route to your answering service, whatever you choose). It never tries to diagnose or delay.' },
@@ -46,7 +46,7 @@ module.exports = [
     why: [
       `Every physio tool in BC has to handle ICBC and WSBC properly or it\'s useless. We built the BC-specific layer ourselves — see our Easyworks Scribe product, also live for BC clinicians.`,
       `Most physio software was built for the US market and treats Canadian insurance as an afterthought. We didn\'t.`,
-      `Every engagement starts with an audit. Most physio builds pair the receptionist with Voice → Report to unlock the reporting time savings, and we run it for you every month.`,
+      `Every engagement starts with a Blueprint. Most physio builds pair the receptionist with Voice → Report to unlock the reporting time savings, and we run it for you every month.`,
     ],
     faq: [
       { q: 'Will it integrate with Jane?', a: 'Yes. Jane is the dominant EMR in BC physio and we integrate with it natively — appointments flow both ways, charts stay clean.' },
@@ -72,7 +72,7 @@ module.exports = [
     why: [
       `Spa marketing is brand-led. Most AI tools sound corporate and kill the vibe. Ours is configured for your specific brand voice — we calibrate it during install so it sounds like your front desk would, not a robot.`,
       `BC-specific compliance for med-spas matters. Botox, fillers, and laser treatments have provincial regulations on advertising and intake; we configure the AI to stay on the right side.`,
-      `Every engagement starts with an audit. Higher volume spas usually add the content engine for the Instagram and TikTok content that drives the front of funnel, and we run it all for you.`,
+      `Every engagement starts with a Blueprint. Higher volume spas usually add the content engine for the Instagram and TikTok content that drives the front of funnel, and we run it all for you.`,
     ],
     faq: [
       { q: 'Will it integrate with Mindbody / Vagaro / Boulevard?', a: 'Yes — those three are the most common spa booking systems in BC and we integrate with all of them.' },
@@ -89,7 +89,7 @@ module.exports = [
     keywords: ['real estate lead follow up system', 'real estate CRM automation', 'ISA alternative'],
     title: 'Growth Systems for Real Estate Teams and Brokerages',
     tagline: 'Leads answered in under a minute. Past clients nurtured for you. Deadlines watched by a system.',
-    intro: `Portal leads, ad leads and sign calls go cold in the first five minutes. Agents follow up when they can. Past clients never hear from the team again, and transaction deadlines live on sticky notes. One extra closing pays for the year, so that is where we start: we audit your lead flow, your CRM and your follow up, then build and run the system that turns every lead into a conversation while it is still warm.`,
+    intro: `Portal leads, ad leads and sign calls go cold in the first five minutes. Agents follow up when they can. Past clients never hear from the team again, and transaction deadlines live on sticky notes. One extra closing pays for the year, so that is where we start: the Blueprint maps your lead flow, your CRM and your follow up, then build and run the system that turns every lead into a conversation while it is still warm.`,
     services: [
       { name: 'Speed to lead, 24/7', desc: 'Every new lead gets a text and a call within a minute, day or night, from a receptionist that sounds like your team. Sign calls and inbound enquiries are answered, qualified and booked into the right agent’s calendar.' },
       { name: 'Buyer and seller nurture', desc: 'Long nurture sequences for buyers who are six months out and sellers who are “just curious”. Dead leads get reactivated in batches every month instead of dying in the CRM.' },
@@ -98,8 +98,8 @@ module.exports = [
       { name: 'Managed ads with real attribution', desc: 'Meta and Google campaigns with Fair Housing compliant targeting, budget moved to what closes, and a plain English report showing which source produced the commission.' },
     ],
     why: [
-      `Every engagement starts with an audit of your lead sources, response time, CRM hygiene and follow up coverage. You get a written report showing where leads are leaking before we build anything.`,
-      `We build only what the audit finds and run it for you every month. Your CRM stays your CRM. Lofty, kvCORE and Follow Up Boss integrate directly.`,
+      `Every engagement starts with a Blueprint of your lead sources, response time, CRM hygiene and follow up coverage. You get a written report showing where leads are leaking before we build anything.`,
+      `We build only what the Blueprint finds and run it for you every month. Your CRM stays your CRM. Lofty, kvCORE and Follow Up Boss integrate directly.`,
       `Founder led and done for you, not another software subscription your agents ignore. Reference clients in Los Angeles and Houston available by permission.`,
     ],
     faq: [
@@ -117,7 +117,7 @@ module.exports = [
     keywords: ['law firm intake automation', 'legal answering service alternative', 'law firm marketing'],
     title: 'Growth Systems for Law Firms',
     tagline: 'Every intake call answered and qualified. Consults booked automatically. Confidential by design.',
-    intro: `Intake calls come in while you are in court or with a client. A slow callback loses the retainer to the next firm on the search results. Consults no show, reviews stay thin, and intake data gets typed twice. One retained matter pays for the year, so we audit your intake path from first call to signed retainer, then build and run the system that answers, qualifies and books while you practise.`,
+    intro: `Intake calls come in while you are in court or with a client. A slow callback loses the retainer to the next firm on the search results. Consults no show, reviews stay thin, and intake data gets typed twice. One retained matter pays for the year, so the Blueprint maps your intake path from first call to signed retainer, then build and run the system that answers, qualifies and books while you practise.`,
     services: [
       { name: 'Intake receptionist, 24/7', desc: 'Calls answered in the firm’s tone, screened by practice area, qualified with your intake questions and booked for a consult. Urgent matters escalate to a person by your rules. The system never gives legal advice.' },
       { name: 'Consult booking and reminders', desc: 'Self booking, confirmations and reminders that cut consult no shows. Intake forms feed your practice management system so nothing is typed twice. Works with Clio and PracticePanther.' },
@@ -126,9 +126,9 @@ module.exports = [
       { name: 'Dictation to finished documents', desc: 'Voice to Report turns dictation into formatted memos, letters and file notes so the work product is done when the call ends.' },
     ],
     why: [
-      `Every engagement starts with an audit of your intake path, after hours coverage, consult flow, reviews and ad spend. You see where retainers are leaking before anything is built.`,
+      `Every engagement starts with a Blueprint of your intake path, after hours coverage, consult flow, reviews and ad spend. You see where retainers are leaking before anything is built.`,
       `Confidentiality and privilege language is built into the scripts. Data residency follows your province, state or bar rules, and the system never discusses the merits of a matter.`,
-      `Founder led and done for you. We build only what the audit finds and run it for you every month.`,
+      `Founder led and done for you. We build only what the Blueprint finds and run it for you every month.`,
     ],
     faq: [
       { q: 'Will it give legal advice?', a: 'No. It answers, qualifies, books and escalates. Anything about the merits of a matter goes to a lawyer.' },
@@ -145,7 +145,7 @@ module.exports = [
     keywords: ['mortgage broker CRM automation', 'insurance agency marketing', 'financial advisor lead follow up'],
     title: 'Growth Systems for Mortgage Brokers, Insurance Agents and Financial Advisors',
     tagline: 'Answer the quote before the next broker does. Documents chased for you. Renewals never missed.',
-    intro: `Rate shoppers and quote requests do not wait. Applications stall on missing documents. Renewals and annual reviews slip, and the realtors and accountants who send you business stop hearing from you. Client lifetime value is long and referral driven, so we audit your response path, your document workflow and your renewal calendar, then build and run the system that keeps every file and every partner moving.`,
+    intro: `Rate shoppers and quote requests do not wait. Applications stall on missing documents. Renewals and annual reviews slip, and the realtors and accountants who send you business stop hearing from you. Client lifetime value is long and referral driven, so the Blueprint maps your response path, your document workflow and your renewal calendar, then build and run the system that keeps every file and every partner moving.`,
     services: [
       { name: 'First response in minutes', desc: 'Quote and application requests answered by text and phone within a minute, with compliant scripting that never gives rate or product advice. Pre approval and quote funnels that capture the details you actually need.' },
       { name: 'Document chasing on autopilot', desc: 'Reminder sequences that collect outstanding documents without your assistant sending the same email four times. Files move.' },
@@ -154,9 +154,9 @@ module.exports = [
       { name: 'CRM integration and reporting', desc: 'Works with Finmo, Velocity, Salesforce and Wealthbox. One report shows cost per funded deal or policy, not cost per lead. Voice to Report turns dictation into file notes and client letters.' },
     ],
     why: [
-      `Every engagement starts with an audit of your inbound response, application workflow, renewal calendar and partner nurture. You see where deals are stalling before we build anything.`,
+      `Every engagement starts with a Blueprint of your inbound response, application workflow, renewal calendar and partner nurture. You see where deals are stalling before we build anything.`,
       `Compliance first. No rate or product advice from the system, marketing language reviewed against your regulator’s rules, and sign off from your compliance officer before launch.`,
-      `Founder led and done for you. We build only what the audit finds and run it every month.`,
+      `Founder led and done for you. We build only what the Blueprint finds and run it every month.`,
     ],
     faq: [
       { q: 'Will the system quote rates or recommend products?', a: 'No. It captures the enquiry, collects details and books the conversation with you. Advice stays with the licensed person.' },
@@ -173,7 +173,7 @@ module.exports = [
     keywords: ['HVAC answering service', 'contractor lead follow up', 'home service marketing'],
     title: 'Growth Systems for HVAC, Roofing, Plumbing, Electrical and Contractors',
     tagline: 'We pick up when you can’t. Quotes chased until they close. More reviews than the company down the road.',
-    intro: `The call comes in while you are on the roof or under a sink, and it goes to the next company in the search results. Quotes go out and nobody follows up. Your Google Business Profile is thin next to the big franchises, and you have no idea which ad brought the job. A single missed call can cost thousands, so we audit your phones, your quote follow up and your Google presence, then build and run the system that answers, books and chases while you work.`,
+    intro: `The call comes in while you are on the roof or under a sink, and it goes to the next company in the search results. Quotes go out and nobody follows up. Your Google Business Profile is thin next to the big franchises, and you have no idea which ad brought the job. A single missed call can cost thousands, so the Blueprint maps your phones, your quote follow up and your Google presence, then build and run the system that answers, books and chases while you work.`,
     services: [
       { name: 'Receptionist with dispatch rules', desc: 'Every call answered, the basics quoted, the visit booked and routed by your dispatch rules. Missed calls get a text back in seconds. Works with Jobber, ServiceTitan and Housecall Pro.' },
       { name: 'Quote follow up', desc: 'Every estimate gets a follow up sequence until it is accepted or declined, so the jobs you already quoted stop leaking.' },
@@ -182,9 +182,9 @@ module.exports = [
       { name: 'Managed ads and attribution', desc: 'Google Local Services and search ads managed for booked jobs, with a report that shows which ad produced which job. Text to pay on the spot.' },
     ],
     why: [
-      `Every engagement starts with an audit of your missed call rate, after hours path, quote follow up, reviews and Google presence. You see where jobs are leaking before we build anything.`,
+      `Every engagement starts with a Blueprint of your missed call rate, after hours path, quote follow up, reviews and Google presence. You see where jobs are leaking before we build anything.`,
       `Built around the field software you already use. Jobber, ServiceTitan and Housecall Pro integrate directly.`,
-      `Founder led and done for you. We build only what the audit finds and run it every month while you stay on the tools.`,
+      `Founder led and done for you. We build only what the Blueprint finds and run it every month while you stay on the tools.`,
     ],
     faq: [
       { q: 'Can it quote jobs?', a: 'It quotes the basics you give it, like service call fees and ranges, and books the visit. Detailed quotes stay with you.' },
@@ -201,7 +201,7 @@ module.exports = [
     keywords: ['dealership BDC automation', 'automotive lead follow up', 'dealership marketing'],
     title: 'Growth Systems for Auto Dealerships and Independent Lots',
     tagline: 'A BDC that never sleeps. Internet leads answered in minutes. The service lane on autopilot.',
-    intro: `Internet leads get answered hours later. Service customers are never reminded and drift to the quick lube down the street. Inventory content goes stale, reviews lag, and the BDC costs more than it books. We audit your lead response by source, your service reminders and your inventory content, then build and run the system that answers every lead in minutes and keeps the service lane full.`,
+    intro: `Internet leads get answered hours later. Service customers are never reminded and drift to the quick lube down the street. Inventory content goes stale, reviews lag, and the BDC costs more than it books. The Blueprint maps your lead response by source, your service reminders and your inventory content, then build and run the system that answers every lead in minutes and keeps the service lane full.`,
     services: [
       { name: 'BDC receptionist and follow up', desc: 'Internet leads, inbound calls and chat answered in minutes, qualified and booked for a test drive or appraisal. Follow up runs until the customer books or says no.' },
       { name: 'Service lane reminders', desc: 'Maintenance reminders, recall notices and rebooking that keep service customers coming back on schedule.' },
@@ -210,9 +210,9 @@ module.exports = [
       { name: 'Managed ads and DMS integration', desc: 'Inventory and service offer campaigns tied to sold units and repair orders, reporting through your DMS and CRM.' },
     ],
     why: [
-      `Every engagement starts with an audit of lead response time by source, BDC workflow, service reminders, inventory content and reviews. You see where sales are leaking before anything is built.`,
+      `Every engagement starts with a Blueprint of lead response time by source, BDC workflow, service reminders, inventory content and reviews. You see where sales are leaking before anything is built.`,
       `Built to work with your DMS and CRM, not replace them. One dashboard from lead to sold.`,
-      `Founder led and done for you. We build only what the audit finds and run it every month.`,
+      `Founder led and done for you. We build only what the Blueprint finds and run it every month.`,
     ],
     faq: [
       { q: 'Does it replace our BDC?', a: 'It handles first response, qualification and booking around the clock. Your people close the deal.' },

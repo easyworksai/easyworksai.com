@@ -38,7 +38,7 @@ const navAndCanvas = () => `</head><body class="cosmic"><div id="page-loader" ar
 <canvas id="cosmic-canvas" aria-hidden="true"></canvas><div class="cosmic-grid" aria-hidden="true"></div><div class="cosmic-blob cosmic-blob-1" aria-hidden="true"></div><div class="cosmic-blob cosmic-blob-2" aria-hidden="true"></div><div class="cosmic-blob cosmic-blob-3" aria-hidden="true"></div>
 <nav class="nav" id="nav"><div class="nav-inner">
 <a href="../../" class="logo"><img src="../../img/icon.svg?v=2" alt="" class="logo-icon-img"><span class="logo-wordmark logo-tracked">EASYWORKS<span class="logo-ai">·AI</span></span></a>
-<div class="nav-links" id="navLinks"><a href="../../#products">Products</a><a href="../../#onsite">On-site</a><a href="../../#how">Process</a><a href="../../#start" class="nav-cta">Start with an audit</a></div>
+<div class="nav-links" id="navLinks"><a href="../../#products">Products</a><a href="../../#onsite">On-site</a><a href="../../#how">Process</a><a href="/scan/" class="nav-cta">Run the free Scan</a></div>
 </div></nav>`;
 
 const footer = () => `<footer class="footer"><div class="container"><div class="footer-grid">
@@ -58,7 +58,7 @@ const footer = () => `<footer class="footer"><div class="container"><div class="
 const cityPage = (c) => {
   const url = `https://easyworks.ai/locations/${c.slug}/`;
   const title = `AI Services and AI Consulting in ${c.city}, ${c.region} | Easyworks AI`;
-  const description = `AI services for ${c.city} businesses, installed on-site. Website, Google Business Profile, CRM, AI receptionist and local SEO, audited, built and run for you by a BC team.`;
+  const description = `AI services for ${c.city} businesses, installed on-site. Website, Google Business Profile, CRM, AI receptionist and local SEO, diagnosed, built and run for you by a BC team.`;
   const og = `AI for ${c.city} Businesses — Easyworks AI`;
 
   const schemas = `
@@ -93,14 +93,14 @@ ${navAndCanvas()}
         <p class="psub-tagline">On-site across ${c.city}. Real install. Real humans.</p>
         <p class="psub-pitch">${c.intro}</p>
         <div class="psub-meta">
-          <div class="psub-price"><span class="psub-price-num">Audit</span><span>find the leaks</span></div>
+          <div class="psub-price"><span class="psub-price-num">Scan</span><span>free · find the leaks</span></div>
           <div class="psub-divider"></div>
           <div class="psub-price"><span class="psub-price-num">Build</span><span>only what you need</span></div>
           <div class="psub-divider"></div>
           <div class="psub-price"><span class="psub-price-num">Maintain</span><span>we run it monthly</span></div>
         </div>
         <div class="psub-cta-row">
-          <a href="../../#start" class="btn btn-accent btn-lg">Start with an audit <span aria-hidden="true">→</span></a>
+          <a href="/scan/" class="btn btn-accent btn-lg">Run the free Scan <span aria-hidden="true">→</span></a>
           <a href="../../#capabilities" class="btn btn-glass btn-lg">See what a build includes</a>
         </div>
       </div>
@@ -146,7 +146,7 @@ ${navAndCanvas()}
       <div class="rs-feat" data-r data-d="4"><div class="rs-feat-num">05</div><h3>Local SEO + review engine</h3><p>Citations, schema, and a review-request system that finally moves your star count.</p></div>
       <div class="rs-feat" data-r data-d="5"><div class="rs-feat-num">06</div><h3>Branding kit</h3><p>Logo refresh if you need one, social templates, email signatures. The basics, done right.</p></div>
     </div>
-    <p style="text-align:center;margin-top:32px;font-size:0.95rem;color:rgba(246,248,255,0.75);">Every engagement starts with an audit. We build only what it finds, the audit is credited to the build, and we run it for you every month.</p>
+    <p style="text-align:center;margin-top:32px;font-size:0.95rem;color:rgba(246,248,255,0.75);">Every engagement starts with a Blueprint. We build only what it finds, the Blueprint is credited to the build, and we run it for you every month.</p>
   </div>
 </section>
 
@@ -187,7 +187,7 @@ ${footer()}`;
 
 const industryPage = (i) => {
   const url = `https://easyworks.ai/industries/${i.slug}/`;
-  const description = `${i.tagline} Growth systems for ${i.industry.toLowerCase()}, audited, built and run for you. ${i.region}.`;
+  const description = `${i.tagline} Growth systems for ${i.industry.toLowerCase()}, diagnosed, built and run for you. ${i.region}.`;
   const og = `${i.title} — Easyworks AI`;
 
   const schemas = `
@@ -215,14 +215,14 @@ ${navAndCanvas()}
         <p class="psub-tagline">${i.tagline}</p>
         <p class="psub-pitch">${i.intro}</p>
         <div class="psub-meta">
-          <div class="psub-price"><span class="psub-price-num">Audit</span><span>find the leaks</span></div>
+          <div class="psub-price"><span class="psub-price-num">Scan</span><span>free · find the leaks</span></div>
           <div class="psub-divider"></div>
           <div class="psub-price"><span class="psub-price-num">Build</span><span>only what you need</span></div>
           <div class="psub-divider"></div>
           <div class="psub-price"><span class="psub-price-num">Maintain</span><span>we run it monthly</span></div>
         </div>
         <div class="psub-cta-row">
-          <a href="../../#start" class="btn btn-accent btn-lg">Start with an audit <span aria-hidden="true">→</span></a>
+          <a href="/scan/" class="btn btn-accent btn-lg">Run the free Scan <span aria-hidden="true">→</span></a>
           <a href="../../#capabilities" class="btn btn-glass btn-lg">See what a build includes</a>
         </div>
       </div>
@@ -263,10 +263,10 @@ ${navAndCanvas()}
     <div class="cta-header" data-r>
       <div class="cta-brand"><img src="../../img/icon.svg?v=2" alt="" class="hero-icon-img" style="width:56px;height:56px"><span class="brand-name brand-tracked" style="font-size:1.4rem">EASYWORKS<span class="brand-ai">·AI</span></span></div>
       <h2>${i.ctaTitle || `Ready to see where your ${i.industry.toLowerCase().replace(/s$/,'')} is leaking leads?`}</h2>
-      <p>${i.ctaText || 'Start with an audit. You get a written report, and the audit is credited to your build.'}</p>
+      <p>${i.ctaText || 'Start with the free Scan. Then the Blueprint: a written plan, credited to your build.'}</p>
     </div>
     <div style="text-align:center; margin-top: 24px;">
-      <a href="../../#start" class="btn btn-accent btn-lg">Start with an audit <span aria-hidden="true">→</span></a>
+      <a href="/scan/" class="btn btn-accent btn-lg">Run the free Scan <span aria-hidden="true">→</span></a>
     </div>
   </div>
 </section>
@@ -309,7 +309,7 @@ ${footer()}`;
 
 const industriesIndex = () => {
   const url = `https://easyworks.ai/industries/`;
-  const description = `Growth systems built for your specific industry. Audited, built and run for you. Canada, the US, the UK and worldwide.`;
+  const description = `Growth systems built for your specific industry. Diagnosed, built and run for you. Canada, the US, the UK and worldwide.`;
   const links = industries.map(i => `<a class="rp-card" href="./${i.slug}/" data-r><span class="rp-icon rp-icon-dot"></span><div class="rp-body"><h4>${i.industry}</h4><p>${i.tagline}</p></div><span class="rp-arrow">→</span></a>`).join('\n      ');
   return `${head({title: 'Industries — AI Built for Your Trade | Easyworks AI', description, url, og: 'Easyworks AI Industries'})}
 ${navAndCanvas()}
@@ -322,7 +322,7 @@ ${navAndCanvas()}
       <div class="psub-hero-copy" style="grid-column:1 / -1">
         <h1>Industries we know.</h1>
         <p class="psub-tagline">Built for your trade, not retrofitted to it.</p>
-        <p class="psub-pitch">Generic tools fail at industry specific work because they were never built for it. We are. These are the verticals where our builds are most repeatable, most measurable and most worth the investment. Every one starts with an audit.</p>
+        <p class="psub-pitch">Generic tools fail at industry specific work because they were never built for it. We are. These are the verticals where our builds are most repeatable, most measurable and most worth the investment. Every one starts with a Blueprint.</p>
       </div>
     </div>
   </div>

@@ -27,7 +27,7 @@
     },
     seoEngine: {
       keywords: ['seo', 'google', 'search', 'ranking', 'gbp', 'business profile', 'local search', 'maps'],
-      response: "**SEO Engine — $997 setup + $997/mo**:\n\n• Full SEO audit + technical fixes\n• Google Business Profile claim + optimization\n• Local citations build\n• 2 monthly SEO articles\n• Review request automation\n\nGet found on Google when it matters. Inbound traffic flywheel — pairs great with AI Suite to capture every search-driven lead."
+      response: "**SEO Engine — $997 setup + $997/mo**:\n\n• Full SEO review + technical fixes\n• Google Business Profile claim + optimization\n• Local citations build\n• 2 monthly SEO articles\n• Review request automation\n\nGet found on Google when it matters. Inbound traffic flywheel — pairs great with AI Suite to capture every search-driven lead."
     },
     revenueScale: {
       keywords: ['ad', 'ads', 'paid ads', 'paid', 'meta', 'facebook ads', 'google ads', 'scale', 'revenue scale', 'roi', 'roas', 'ad spend'],

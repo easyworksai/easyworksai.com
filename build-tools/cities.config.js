@@ -13,7 +13,7 @@ module.exports = [
     intro: `Vancouver runs on local search. Every restaurant, clinic, salon, contractor, and showroom in this city lives or dies by whether they show up when someone in Mount Pleasant searches for "best <whatever> near me." We come on-site across every Vancouver neighborhood to install the AI systems that get that phone ringing — and keep it ringing while you're working.`,
     why: [
       `Vancouver businesses fight harder for attention than almost anywhere in Canada. The competition is denser, the customer is pickier, the rent demands faster cashflow. Generic AI tools that work in a small town fail here because they were never built for a market this saturated.`,
-      `Our Small Business Starter is the package most Vancouver shops, studios, and service businesses come in on, scoped by the audit. It covers a premium website, your Google Business Profile fully optimized, a real CRM that tracks every lead, basic AI on every channel, and the local SEO that puts you in front of the people already searching for you.`,
+      `Our Small Business Starter is the package most Vancouver shops, studios, and service businesses come in on, scoped by the Blueprint. It covers a premium website, your Google Business Profile fully optimized, a real CRM that tracks every lead, basic AI on every channel, and the local SEO that puts you in front of the people already searching for you.`,
       `Everything is installed on-site at your Vancouver location. We sit with you, train your staff, and stay on call. After 30+ Vancouver-area installs, we know the city's quirks — what works in Kitsilano doesn't always work in Mount Pleasant, and we'll tell you which is which.`,
     ],
     faq: [
