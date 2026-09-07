@@ -1,0 +1,234 @@
+<!DOCTYPE html><html lang="en"><head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3FSRY25VRV"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-3FSRY25VRV');</script>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Easyworks Scan. Free 60 second business check for local businesses in BC</title>
+<meta name="description" content="Find out in 60 seconds how much revenue your business is leaking through missed calls, slow follow-up, a thin Google profile and a slow site. Free, no login. Score, top leaks, and an estimate of what it costs you every month.">
+<meta name="theme-color" content="#070b16">
+<meta property="og:title" content="The Easyworks Scan. Free 60 second business check">
+<meta property="og:description" content="Score your business on Found, Answered, Trusted and Growing. See what the gaps cost you every month.">
+<meta property="og:image" content="https://easyworks.ai/og-image.png?v=2">
+<meta property="og:url" content="https://easyworks.ai/scan/">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Easyworks AI"><meta property="og:locale" content="en_CA">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://easyworks.ai/og-image.png?v=2">
+<link rel="canonical" href="https://easyworks.ai/scan/">
+<link rel="icon" type="image/png" href="../favicon.svg?v=2"><link rel="apple-touch-icon" href="../icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.min.css?v=v3blue6">
+<link rel="stylesheet" href="../redesign.css?v=30">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"The Easyworks Scan","url":"https://easyworks.ai/scan/","applicationCategory":"BusinessApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"CAD"},"description":"Free 60 second check of a local business: website, speed, Google profile, call handling, reviews and follow-up, with an estimate of monthly revenue lost.","provider":{"@type":"Organization","name":"Easyworks AI Solutions","url":"https://easyworks.ai/"}}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What does the Scan check?","acceptedAnswer":{"@type":"Answer","text":"Your website (speed, mobile, titles, schema, booking and call links), your Google Business Profile activity, how calls and leads get answered, your reviews, and whether anything is compounding: content, tracked ads, and the owner's time. It scores you out of 100 across Found, Answered, Trusted and Growing."}},{"@type":"Question","name":"Is the Scan really free?","acceptedAnswer":{"@type":"Answer","text":"Yes. No login, no card. Your email opens the full report. The paid step is the Blueprint, a full in person diagnosis and build plan, and the fee is credited in full to your build."}},{"@type":"Question","name":"How accurate is the revenue estimate?","acceptedAnswer":{"@type":"Answer","text":"It is a conservative estimate built from your answers and industry averages, with every assumption shown. The Blueprint replaces the estimate with your real numbers."}}]}
+</script>
+<style>
+.scan{--gold:#e8b25a;--cyan:#22d3ee;--blue:#3b82f6;--ink:#f6f8ff;--dim:rgba(246,248,255,.66);--panel:rgba(13,19,36,.78);--line:rgba(255,255,255,.09)}
+.scan .wrap{max-width:860px;margin:0 auto;padding:0 20px}
+.scan-hero{padding:128px 0 40px;text-align:left}
+.scan-hero h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(36px,6vw,58px);line-height:1.02;letter-spacing:-.02em;margin:14px 0 14px;text-wrap:balance}
+.scan-hero h1 em{font-style:normal;color:var(--cyan)}
+.scan-hero p.lead{font-size:18px;color:var(--dim);max-width:60ch;margin:0 0 28px}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:26px;backdrop-filter:blur(10px)}
+.field{display:grid;gap:6px;margin-bottom:14px}
+.field label{font-size:13px;color:var(--dim)}
+.field input{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:12px;color:var(--ink);font:500 16px 'Inter',sans-serif;padding:14px 16px;outline:none}
+.field input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(59,130,246,.22)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:600px){.row2{grid-template-columns:1fr}}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--ink);border-radius:999px;padding:9px 14px;font:500 14px 'Inter',sans-serif;cursor:pointer}
+.chip[aria-pressed="true"]{border-color:var(--cyan);background:rgba(34,211,238,.12);color:#dffaff}
+.btn-scan{width:100%;justify-content:center;margin-top:8px}
+.fine{font-size:12.5px;color:var(--dim);margin-top:10px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:34px 0 0}
+@media(max-width:700px){.steps{grid-template-columns:1fr}}
+.step{border:1px solid var(--line);border-radius:14px;padding:18px;background:rgba(255,255,255,.02)}
+.step b{display:block;font-family:'Space Grotesk',sans-serif;font-size:17px;margin-bottom:6px}
+.step p{margin:0;color:var(--dim);font-size:14px;line-height:1.5}
+/* quiz */
+.q{display:none}.q.on{display:block}
+.progress{height:4px;background:rgba(255,255,255,.08);border-radius:2px;margin-bottom:22px;overflow:hidden}
+.progress i{display:block;height:100%;background:linear-gradient(90deg,var(--blue),var(--cyan));width:0;transition:width .3s}
+.q h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(22px,3.4vw,30px);line-height:1.15;margin:0 0 18px;text-wrap:balance}
+.opts{display:grid;gap:10px}
+.opt{text-align:left;border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--ink);border-radius:14px;padding:16px 18px;font:500 16px 'Inter',sans-serif;cursor:pointer;transition:.15s}
+.opt:hover{border-color:rgba(34,211,238,.6)}
+.opt[aria-pressed="true"]{border-color:var(--cyan);background:rgba(34,211,238,.12)}
+.qnav{display:flex;justify-content:space-between;align-items:center;margin-top:18px}
+.linkbtn{background:none;border:0;color:var(--dim);font:500 14px 'Inter',sans-serif;cursor:pointer;padding:8px 0}
+/* running */
+.checks{display:grid;gap:12px;margin-top:8px}
+.chk{display:flex;align-items:center;gap:12px;padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.02);color:var(--dim)}
+.chk .dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.15);flex:none}
+.chk.run .dot{background:var(--cyan);box-shadow:0 0 0 6px rgba(34,211,238,.18);animation:pulse 1s infinite}
+.chk.done{color:var(--ink)}.chk.done .dot{background:#34c37f}
+@keyframes pulse{50%{box-shadow:0 0 0 2px rgba(34,211,238,.1)}}
+/* result */
+.result-top{display:grid;grid-template-columns:200px 1fr;gap:28px;align-items:center}
+@media(max-width:640px){.result-top{grid-template-columns:1fr;text-align:center}}
+.dial{position:relative;width:200px;height:200px;margin:0 auto}
+.dial svg{width:100%;height:100%;transform:rotate(-90deg)}
+.dial .n{position:absolute;inset:0;display:grid;place-items:center;font-family:'Space Grotesk',sans-serif;font-size:56px;font-weight:700;letter-spacing:-.03em}
+.dial .n small{display:block;font-size:12px;font-weight:500;color:var(--dim);letter-spacing:.12em;text-transform:uppercase;text-align:center}
+.band{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;padding:5px 10px;border-radius:999px;border:1px solid var(--line);color:var(--cyan);margin-bottom:10px}
+.money{font-family:'Space Grotesk',sans-serif;font-size:clamp(34px,5vw,48px);font-weight:700;color:var(--gold);letter-spacing:-.02em;line-height:1;margin:6px 0 4px}
+.money small{font-size:15px;color:var(--dim);font-weight:500;letter-spacing:0}
+.leaks{display:grid;gap:10px;margin-top:22px}
+.leak{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:start;padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.02)}
+.leak b{display:block;font-family:'Space Grotesk',sans-serif;font-size:16px}
+.leak p{margin:4px 0 0;color:var(--dim);font-size:14px}
+.leak .amt{font-family:'JetBrains Mono',monospace;color:var(--gold);white-space:nowrap}
+.pillars{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:22px}
+@media(max-width:640px){.pillars{grid-template-columns:repeat(2,1fr)}}
+.pillar{padding:14px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.02)}
+.pillar .k{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.pillar .v{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;margin-top:4px}
+.pillar .bar{height:4px;background:rgba(255,255,255,.08);border-radius:2px;margin-top:8px;overflow:hidden}
+.pillar .bar i{display:block;height:100%;background:var(--blue)}
+.gate{margin-top:26px;border-top:1px solid var(--line);padding-top:22px}
+.gate h3{font-family:'Space Grotesk',sans-serif;font-size:22px;margin:0 0 6px}
+.gate p{color:var(--dim);margin:0 0 14px;font-size:15px}
+.report{display:none;margin-top:26px}
+.report.on{display:block}
+.rgroup{margin-top:22px}
+.rgroup h4{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);margin:0 0 10px}
+.finding{display:grid;grid-template-columns:22px 1fr;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+.finding .s{width:10px;height:10px;border-radius:50%;margin-top:6px}
+.s.pass{background:#34c37f}.s.warn{background:var(--gold)}.s.fail{background:#ef5a5a}
+.finding b{font-size:15px}.finding p{margin:3px 0 0;color:var(--dim);font-size:14px}
+.bp{margin-top:30px;padding:26px;border-radius:18px;background:linear-gradient(135deg,rgba(59,130,246,.18),rgba(34,211,238,.08));border:1px solid rgba(59,130,246,.35)}
+.bp h3{font-family:'Space Grotesk',sans-serif;font-size:26px;margin:0 0 8px;letter-spacing:-.01em}
+.bp p{color:var(--dim);margin:0 0 16px;max-width:60ch}
+.bp .price{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--dim);margin-top:10px}
+.assump{margin-top:18px;font-size:12.5px;color:var(--dim)}
+.assump summary{cursor:pointer;color:var(--ink)}
+.err{color:#ff9c9c;font-size:14px;margin-top:10px;display:none}
+.share{font-size:13px;color:var(--dim);margin-top:14px}
+.share code{font-family:'JetBrains Mono',monospace;color:var(--ink);background:rgba(255,255,255,.05);padding:2px 6px;border-radius:6px}
+</style>
+</head><body class="cosmic scan"><div id="page-loader" aria-hidden="true"><div class="pl-stage"><div class="pl-ring"></div><div class="pl-ring pl-ring-2"></div><div class="pl-ring pl-ring-3"></div><div class="pl-orb"></div><span class="pl-label">Loading</span></div></div>
+<canvas id="cosmic-canvas" aria-hidden="true"></canvas><div class="cosmic-grid" aria-hidden="true"></div><div class="cosmic-blob cosmic-blob-1" aria-hidden="true"></div><div class="cosmic-blob cosmic-blob-2" aria-hidden="true"></div><div class="cosmic-blob cosmic-blob-3" aria-hidden="true"></div>
+<nav class="nav" id="nav"><div class="nav-inner">
+<a href="../" class="logo"><img src="../img/icon.svg?v=2" alt="" class="logo-icon-img"><span class="logo-wordmark logo-tracked">EASYWORKS<span class="logo-ai">·AI</span></span></a>
+<div class="nav-links" id="navLinks"><a href="../#products">Products</a><a href="../#onsite">On-site</a><a href="../#how">Process</a><a href="../#start" class="nav-cta">Book a Consultation</a></div>
+</div></nav>
+
+<main class="scan-hero"><div class="wrap">
+
+  <!-- 1. intro -->
+  <section id="s-intro">
+    <span class="eyebrow">The Easyworks Scan · free · 60 seconds</span>
+    <h1>How much is your business <em>leaking</em> every month?</h1>
+    <p class="lead">We check your website, your Google profile, how calls get answered and whether reviews are flowing. You get a score, the three biggest leaks, and what they cost you. No login.</p>
+    <form class="card" id="introForm" autocomplete="off">
+      <div class="row2">
+        <div class="field"><label for="biz">Business name</label><input id="biz" name="biz" placeholder="Cloverdale Physio" required></div>
+        <div class="field"><label for="city">City</label><input id="city" name="city" placeholder="Surrey, BC"></div>
+      </div>
+      <div class="field"><label for="url">Website (leave blank if you do not have one)</label><input id="url" name="url" placeholder="yourbusiness.ca" inputmode="url"></div>
+      <div class="field"><label>Industry</label><div class="chips" id="industry">
+        <button type="button" class="chip" data-v="dentist">Dental</button><button type="button" class="chip" data-v="physio">Physio / chiro</button><button type="button" class="chip" data-v="spa">Spa / salon</button><button type="button" class="chip" data-v="trades">Trades</button><button type="button" class="chip" data-v="realestate">Real estate</button><button type="button" class="chip" data-v="restaurant">Restaurant</button><button type="button" class="chip" aria-pressed="true" data-v="other">Other</button>
+      </div></div>
+      <button class="btn btn-accent btn-lg btn-scan" type="submit">Run the Scan <span aria-hidden="true">→</span></button>
+      <p class="fine">Six quick questions next, then the checks run. We read public pages only.</p>
+      <p class="err" id="introErr"></p>
+    </form>
+    <div class="steps">
+      <div class="step"><b>Found</b><p>Can people find you. Google profile, site speed, titles, the details Google reads.</p></div>
+      <div class="step"><b>Answered</b><p>Does a lead get a reply. Missed calls, speed to lead, tap to call, booking.</p></div>
+      <div class="step"><b>Trusted and Growing</b><p>Reviews, photos, a current site, content going out, ads you can trace, your own hours back.</p></div>
+    </div>
+  </section>
+
+  <!-- 2. quiz -->
+  <section id="s-quiz" hidden>
+    <span class="eyebrow">Six questions</span>
+    <div class="card" style="margin-top:14px">
+      <div class="progress"><i id="prog"></i></div>
+      <div class="q" data-k="missed"><h2>In a normal week, how many calls go to voicemail?</h2><div class="opts"><button class="opt" data-v="none">None, every call is answered</button><button class="opt" data-v="few">1 to 5</button><button class="opt" data-v="some">6 to 15</button><button class="opt" data-v="many">More than 15</button></div></div>
+      <div class="q" data-k="reply"><h2>When a new lead texts or emails, how fast does someone reply?</h2><div class="opts"><button class="opt" data-v="min5">Within 5 minutes, every time</button><button class="opt" data-v="hour">Within an hour</button><button class="opt" data-v="day">Same day</button><button class="opt" data-v="later">Next day or later</button></div></div>
+      <div class="q" data-k="posting"><h2>Who posts to your Google profile and social, and how often?</h2><div class="opts"><button class="opt" data-v="weekly">Someone posts weekly</button><button class="opt" data-v="monthly">About monthly</button><button class="opt" data-v="rarely">Rarely</button><button class="opt" data-v="nobody">Nobody does</button></div></div>
+      <div class="q" data-k="reviews"><h2>How do you ask for reviews?</h2><div class="opts"><button class="opt" data-v="auto">Automatically after every job</button><button class="opt" data-v="sometimes">Sometimes, when we remember</button><button class="opt" data-v="never">We do not ask</button></div></div>
+      <div class="q" data-k="ads"><h2>What do you spend on ads a month, and can you trace which jobs came from them?</h2><div class="opts"><button class="opt" data-v="none">Nothing right now</button><button class="opt" data-v="u500t">Under $500, and we can trace it</button><button class="opt" data-v="u500u">Under $500, no idea what it brings</button><button class="opt" data-v="o500t">Over $500, and we can trace it</button><button class="opt" data-v="o500u">Over $500, no idea what it brings</button></div></div>
+      <div class="q" data-k="hours"><h2>How many hours a week does the owner spend on admin, follow-up and scheduling?</h2><div class="opts"><button class="opt" data-v="u3">Under 3</button><button class="opt" data-v="h3to8">3 to 8</button><button class="opt" data-v="h8to15">8 to 15</button><button class="opt" data-v="o15">More than 15</button></div></div>
+      <div class="q" data-k="job"><h2>Roughly, what is a customer or job worth to you?</h2><p style="color:var(--dim);margin:-8px 0 14px">We prefilled a typical number for your industry. Change it if you know yours.</p><div class="field"><label for="jobv">Average job or customer value (CAD)</label><input id="jobv" inputmode="numeric" placeholder="650"></div><button class="btn btn-accent btn-lg btn-scan" id="runBtn" type="button">Run the checks <span aria-hidden="true">→</span></button></div>
+      <div class="qnav"><button class="linkbtn" id="qBack" type="button">← Back</button><span class="fine" id="qCount"></span></div>
+    </div>
+  </section>
+
+  <!-- 3. running -->
+  <section id="s-run" hidden>
+    <span class="eyebrow">Running</span>
+    <div class="card" style="margin-top:14px">
+      <h2 style="font-family:'Space Grotesk',sans-serif;font-size:26px;margin:0 0 16px">Checking <span id="runName"></span></h2>
+      <div class="checks">
+        <div class="chk" id="c1"><span class="dot"></span>Loading the website and reading what Google reads</div>
+        <div class="chk" id="c2"><span class="dot"></span>Measuring mobile speed</div>
+        <div class="chk" id="c3"><span class="dot"></span>Looking at the Google profile and reviews</div>
+        <div class="chk" id="c4"><span class="dot"></span>Scoring your answers and estimating the leak</div>
+      </div>
+      <p class="err" id="runErr"></p>
+    </div>
+  </section>
+
+  <!-- 4. result -->
+  <section id="s-result" hidden>
+    <span class="eyebrow">Your Scan</span>
+    <div class="card" style="margin-top:14px">
+      <div class="result-top">
+        <div class="dial"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="10"/><circle id="arc" cx="60" cy="60" r="52" fill="none" stroke="#22d3ee" stroke-width="10" stroke-linecap="round" stroke-dasharray="326.7" stroke-dashoffset="326.7" style="transition:stroke-dashoffset 1.2s cubic-bezier(.2,.7,.2,1)"/></svg><div class="n"><div><span id="scoreN">0</span><small>out of 100</small></div></div></div>
+        <div>
+          <span class="band" id="bandTxt"></span>
+          <div style="font-size:14px;color:var(--dim)">Estimated revenue leaking every month</div>
+          <div class="money" id="moneyN">$0 <small>/ month</small></div>
+          <div style="font-size:13px;color:var(--dim)" id="bizLine"></div>
+        </div>
+      </div>
+      <div class="leaks" id="leaks"></div>
+      <div class="pillars" id="pillars"></div>
+      <details class="assump"><summary>How the estimate is built</summary><p id="assumpTxt"></p></details>
+
+      <div class="gate" id="gate">
+        <h3>Open the full report</h3>
+        <p>Every check with the fix, plus the leak breakdown in dollars. Your email opens it. Add a phone if you want us to walk you through it.</p>
+        <form id="gateForm" autocomplete="on">
+          <div class="row2"><div class="field"><label for="gname">Your name</label><input id="gname" name="name" placeholder="Jordan"></div><div class="field"><label for="gemail">Email</label><input id="gemail" name="email" type="email" required placeholder="you@business.ca"></div></div>
+          <div class="field"><label for="gphone">Phone (optional)</label><input id="gphone" name="phone" type="tel" placeholder="604 555 0123"></div>
+          <button class="btn btn-accent btn-lg btn-scan" type="submit">Open the report <span aria-hidden="true">→</span></button>
+          <p class="fine">No spam. One follow-up from a real person if you leave a phone.</p>
+          <p class="err" id="gateErr"></p>
+        </form>
+      </div>
+
+      <div class="report" id="report">
+        <div class="rgroup"><h4>Found</h4><div id="r-found"></div></div>
+        <div class="rgroup"><h4>Answered</h4><div id="r-answered"></div></div>
+        <div class="rgroup"><h4>Trusted</h4><div id="r-trusted"></div></div>
+        <div class="rgroup"><h4>Growing</h4><div id="r-growing"></div></div>
+        <div class="bp">
+          <h3>Next step: the Blueprint.</h3>
+          <p>We come to you, diagnose every leak with your real numbers, and hand you the build plan. Calls, follow-up, reviews, site, content, ads, CRM, your hours. The Blueprint fee is credited in full to your build.</p>
+          <a class="btn btn-accent btn-lg" id="bpBtn" href="../#start">Get the Blueprint <span aria-hidden="true">→</span></a>
+          <div class="price">Fee credited to your build · Lower Mainland, Fraser Valley, Sea to Sky, remote anywhere</div>
+        </div>
+        <p class="share">Share or come back to this scan: <code id="shareUrl"></code></p>
+      </div>
+    </div>
+  </section>
+
+</div></main>
+
+<footer class="footer"><div class="container"><div class="footer-grid">
+<div class="footer-brand"><a href="../" class="logo"><img src="../img/icon.svg?v=2" alt="" class="logo-icon-img"><span class="logo-wordmark logo-tracked">EASYWORKS<span class="logo-ai">·AI</span></span></a><p>Less doing.<br>More done.</p>
+<div class="footer-contact"><a href="mailto:team@easyworksai.com">team@easyworksai.com</a><a href="tel:+16042657660">+1 (604) 265-7660</a><span>🇨🇦 Built in BC</span><span>Whistler → Chilliwack · global remote</span></div></div>
+<div class="footer-col"><h4>Products</h4><a href="../scribe/">Easyworks Scribe (BC clinicians)</a><a href="../content-engine/">Content Engine</a><a href="../ai-suite/">AI Suite</a><a href="../ai-revenue-scale/">AI Revenue Scale</a><a href="../#onsite">On-site install</a></div>
+<div class="footer-col"><h4>Locations</h4><a href="/locations/vancouver/">Vancouver</a><a href="/locations/surrey/">Surrey</a><a href="/locations/burnaby/">Burnaby</a><a href="/locations/langley/">Langley</a><a href="/locations/">All BC cities →</a></div>
+<div class="footer-col"><h4>Company</h4><a href="../#faq">FAQ</a><a href="../#start">Contact</a><a href="/scan/">The Scan</a></div>
+</div><div class="footer-bar"><span>&copy; 2026 Easyworks AI Solutions</span><span class="footer-links"><a href="../">Home</a></span></div></div></footer>
+
+<script src="scan.js?v=1" defer></script>
+<script src="../redesign.js?v=8" defer></script>
+</body></html>
