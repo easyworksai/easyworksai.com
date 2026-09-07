@@ -64,7 +64,7 @@ export default async (req) => {
       training: `${prog.done.length}/${MODULES.length}`, certified: prog.done.length >= MODULES.length,
       openLeads: my.filter(([, c]) => ['new', 'called', 'no-answer'].includes(c.status)).length,
       meetings: my.filter(([, c]) => c.status === 'meeting').length,
-      auditsSold: my.filter(([, c]) => c.status === 'audit-sold').length,
+      auditsSold: my.filter(([, c]) => (c.status === 'blueprint-sold' || c.status === 'audit-sold')).length,
       dead: my.filter(([, c]) => c.status === 'dead').length,
       staleNew: my.filter(([, c]) => c.status === 'new' && now - c.ts > 5 * 86400e3).length,
       lastActive: lastClaim ? new Date(lastClaim).toISOString().slice(0, 10) : lastDay,
@@ -74,7 +74,7 @@ export default async (req) => {
   const sum = (f) => reps.reduce((a, r) => a + f(r), 0);
   const claimsArr = Object.values(claims);
   const claimedThisWeek = claimsArr.filter((c) => c.ts >= ws).length;
-  const soldThisWeek = claimsArr.filter((c) => c.status === 'audit-sold' && (c.up || c.ts) >= ws).length;
+  const soldThisWeek = claimsArr.filter((c) => (c.status === 'blueprint-sold' || c.status === 'audit-sold') && (c.up || c.ts) >= ws).length;
   const meetThisWeek = claimsArr.filter((c) => c.status === 'meeting' && (c.up || c.ts) >= ws).length;
 
   const tasks = tasksData.tasks.filter((t) => !t.deleted);
@@ -88,7 +88,7 @@ export default async (req) => {
   if (ghlReady()) {
     try {
       const contacts = await fetchContacts();
-      const auditsPaid = countTag(contacts, 'audit-onboarding');
+      const auditsPaid = countTag(contacts, 'blueprint-onboarding') + countTag(contacts, 'audit-onboarding');
       // Build + retainer dollars are now EXACT: the rep captures the real amount on The Floor.
       const buildClaims = claimsArr.filter((c) => c.buildAmount > 0);
       const retClaims = claimsArr.filter((c) => c.retainerMonthly > 0);
@@ -101,7 +101,7 @@ export default async (req) => {
         buildsClosed: buildClaims.length, buildRevenue,
         retainersActive: retClaims.length, mrr,
         closedToDate: auditsPaid * 500 + buildRevenue,
-        weekAuditsPaid: countTagSince(contacts, 'audit-onboarding', ws),
+        weekAuditsPaid: countTagSince(contacts, 'blueprint-onboarding', ws) + countTagSince(contacts, 'audit-onboarding', ws),
         weekBuildRevenue,
         exact: true,
       };

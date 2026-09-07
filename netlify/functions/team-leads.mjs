@@ -1,7 +1,8 @@
 // Lead pool for The Floor. Pool lives in Blobs (uploaded by the lead engine).
 // GET -> { leads: unclaimed pool (trimmed), mine: my claimed leads with status }
 // POST {action:'claim', id}            -> claim a lead (cap on active claims)
-// POST {action:'status', id, status}   -> update a claimed lead: called | no-answer | meeting | audit-sold | dead
+// POST {action:'status', id, status}   -> update a claimed lead: called | no-answer | meeting | blueprint-sold | dead
+// 'audit-sold' is the legacy name of blueprint-sold (renamed 2026-09-07); it is still accepted and normalized.
 // POST {action:'release', id}          -> put an untouched lead back in the pool
 import { getStore } from '@netlify/blobs';
 import { cookieSlug, loadRoster } from './team-auth.mjs';
@@ -9,7 +10,8 @@ import { logEvent, tgPing, bumpActivity } from './team-events.mjs';
 import { isCompliant } from './team-compliance.mjs';
 import { upsertContact, addTags, addNote, createOpportunity, updateOpportunity, STAGE } from './ghl.mjs';
 
-const STATUSES = ['new', 'called', 'no-answer', 'meeting', 'audit-sold', 'dead'];
+const STATUSES = ['new', 'called', 'no-answer', 'meeting', 'blueprint-sold', 'dead'];
+const normStatus = (s) => (s === 'audit-sold' ? 'blueprint-sold' : s);
 const MAX_ACTIVE = 25;
 
 const loadPool = async (store) => (await store.get('leads-pool.json', { type: 'json' })) || { ts: 0, leads: [] };
@@ -109,12 +111,12 @@ export default async (req) => {
     return Response.json({ ok: true });
   }
   if (body.action === 'status') {
-    const st = String(body.status || '');
+    const st = normStatus(String(body.status || ''));
     if (!STATUSES.includes(st)) return Response.json({ error: 'bad status' }, { status: 400 });
     if (c.status === st) return Response.json({ ok: true }); // no-op: no double events or XP
     c.status = st; c.up = Date.now();
     const today = new Date().toISOString().slice(0, 10);
-    const shouldBump = ['called', 'no-answer', 'meeting', 'audit-sold'].includes(st) && c.bumpDay !== today;
+    const shouldBump = ['called', 'no-answer', 'meeting', 'blueprint-sold'].includes(st) && c.bumpDay !== today;
     if (shouldBump) c.bumpDay = today;
     await store.setJSON('leads-claims.json', claims);
     if (shouldBump) await bumpActivity(slug).catch(() => {});
@@ -123,10 +125,10 @@ export default async (req) => {
       logEvent({ type: 'meeting', who: me.name, text: `${me.name} booked a meeting with ${lead.name} (${lead.city})` }).catch(() => {});
       await ghlSync(['meeting-booked'], `Meeting booked by ${me.name} via The Floor.`, { stageId: STAGE.meeting });
     }
-    if (st === 'audit-sold') {
-      logEvent({ type: 'audit', who: me.name, text: `${me.name} SOLD AN AUDIT: ${lead.name} (${lead.city}) \u{1F525}` }).catch(() => {});
+    if (st === 'blueprint-sold') {
+      logEvent({ type: 'audit', who: me.name, text: `${me.name} SOLD A BLUEPRINT: ${lead.name} (${lead.city}) \u{1F525}` }).catch(() => {});
       tgPing(`\u{1F4B0} <b>AUDIT SOLD on The Floor</b>\n${me.name} closed ${lead.name} (${lead.niche}, ${lead.city}).\nMake sure payment + onboarding land.`).catch(() => {});
-      await ghlSync(['audit-onboarding', `rep-${slug}`], `AUDIT SOLD by ${me.name} via The Floor. Payment + onboarding links to follow.`, { stageId: STAGE.proposal, monetaryValue: 500 });
+      await ghlSync(['blueprint-onboarding', `rep-${slug}`], `BLUEPRINT SOLD by ${me.name} via The Floor. Payment + onboarding links to follow.`, { stageId: STAGE.proposal, monetaryValue: 500 });
     }
     if (st === 'dead') await ghlSync(['floor-dead'], `Marked dead by ${me.name} via The Floor.`, { stageId: STAGE.lost, status: 'lost' });
     return Response.json({ ok: true });

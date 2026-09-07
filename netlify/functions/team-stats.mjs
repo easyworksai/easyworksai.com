@@ -23,14 +23,14 @@ const BADGES = [
   { id: 'dialer', name: 'The Dialer', desc: '100 calls logged', test: (s) => s.calls >= 100 },
   { id: 'on-fire', name: 'On Fire', desc: '5-day call streak', test: (s) => s.streak >= 5 },
   { id: 'certified', name: 'Certified', desc: 'All training complete', test: (s) => s.training >= MODULES.length },
-  { id: 'first-blood', name: 'First Blood', desc: 'First audit sold', test: (s) => s.audits >= 1 },
-  { id: 'hat-trick', name: 'Hat Trick', desc: '3 audits sold', test: (s) => s.audits >= 3 },
-  { id: 'double-digits', name: 'Double Digits', desc: '10 audits sold', test: (s) => s.audits >= 10 },
+  { id: 'first-blood', name: 'First Blood', desc: 'First Blueprint sold', test: (s) => s.audits >= 1 },
+  { id: 'hat-trick', name: 'Hat Trick', desc: '3 Blueprints sold', test: (s) => s.audits >= 3 },
+  { id: 'double-digits', name: 'Double Digits', desc: '10 Blueprints sold', test: (s) => s.audits >= 10 },
   { id: 'builder', name: 'The Builder', desc: 'First build closed', test: (s) => s.builds >= 1 },
   { id: 'architect', name: 'The Architect', desc: '3 builds closed', test: (s) => s.builds >= 3 },
   { id: 'landlord', name: 'The Landlord', desc: 'First client on retainer', test: (s) => s.retainers >= 1 },
   { id: 'empire', name: 'Empire', desc: '5 clients on retainer', test: (s) => s.retainers >= 5 },
-  { id: 'full-plate', name: 'Full Plate', desc: 'Audit + build + retainer, all three', test: (s) => s.audits >= 1 && s.builds >= 1 && s.retainers >= 1 },
+  { id: 'full-plate', name: 'Full Plate', desc: 'Blueprint + build + retainer, all three', test: (s) => s.audits >= 1 && s.builds >= 1 && s.retainers >= 1 },
 ];
 
 async function fetchContacts() {
@@ -63,7 +63,7 @@ function statsFor(slug, contacts, name) {
   const first = nameSlug.split('-')[0];
   const ok = new Set([`rep-${slug}`, `rep-${nameSlug}`, first ? `rep-${first}` : null].filter(Boolean));
   const mine = contacts.filter((c) => c.tags.some((t) => ok.has(t)));
-  const audits = mine.filter((c) => c.tags.includes('audit-onboarding')).length;
+  const audits = mine.filter((c) => c.tags.includes('blueprint-onboarding') || c.tags.includes('audit-onboarding')).length;
   const builds = mine.filter((c) => c.tags.includes('build-closed')).length;
   const retainers = mine.filter((c) => c.tags.includes('retainer-active')).length;
   const xp = audits * XP.audit + builds * XP.build + retainers * XP.retainer;
@@ -106,7 +106,7 @@ function weeklyAudits(slug, name, contacts) {
   const nameSlug = (name || '').trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
   const first = nameSlug.split('-')[0];
   const ok = new Set([`rep-${slug}`, `rep-${nameSlug}`, first ? `rep-${first}` : null].filter(Boolean));
-  return contacts.filter((c) => c.tags.some((t) => ok.has(t)) && c.tags.includes('audit-onboarding')
+  return contacts.filter((c) => c.tags.some((t) => ok.has(t)) && (c.tags.includes('blueprint-onboarding') || c.tags.includes('audit-onboarding'))
     && c.added && new Date(c.added).getTime() >= ws).length;
 }
 

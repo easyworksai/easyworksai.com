@@ -36,7 +36,7 @@ export default async (req) => {
       calls, callsToday: act[today] || 0,
       open: myClaims.filter(([, c]) => ['new', 'called', 'no-answer'].includes(c.status)).length,
       meetings: myClaims.filter(([, c]) => c.status === 'meeting').length,
-      auditsSold: myClaims.filter(([, c]) => c.status === 'audit-sold').length,
+      auditsSold: myClaims.filter(([, c]) => (c.status === 'blueprint-sold' || c.status === 'audit-sold')).length,
       dead: myClaims.filter(([, c]) => c.status === 'dead').length,
       staleClaims: stale,
       lastActive: lastClaimTs ? new Date(lastClaimTs).toISOString().slice(0, 10) : lastDay,

@@ -69,7 +69,7 @@ export const STAGE = {
   new: '89707cb7-632a-4e36-b65c-79f94566a5f0',       // New Lead
   contacted: '141829e9-7a54-4978-bab7-d29c456e552b', // Contacted
   meeting: 'e297db98-c2c5-470d-a5a2-b3f98c59a51c',   // Demo Booked
-  proposal: 'bef55bb8-9f2c-475b-ae22-53c3a4de97ba',  // Proposal Sent (audit sold)
+  proposal: 'bef55bb8-9f2c-475b-ae22-53c3a4de97ba',  // Proposal Sent (Blueprint sold)
   won: '3f082382-70ab-4f65-8631-989a4176c3ab',       // Won (build closed)
   lost: '1eae97f4-01ab-4c6d-87b0-d1a12157d256',       // Lost (dead)
 };
