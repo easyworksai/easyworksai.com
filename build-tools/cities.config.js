@@ -226,14 +226,14 @@ module.exports = [
     neighborhoods: ['Ladner', 'Tsawwassen', 'North Delta', 'Sunshine Hills', 'Scottsdale', 'Annieville', 'Boundary Bay'],
     landmarks: ['Ladner Village', 'the Tsawwassen Ferry Terminal', 'Tsawwassen Mills', 'Burns Bog', 'Boundary Bay', 'the Alex Fraser Bridge'],
     nearby: ['richmond', 'surrey', 'vancouver'],
-    intro: `Delta is where Easyworks is based, and it is the clearest example we have of a place Google gets wrong. Ladner, Tsawwassen and North Delta are three separate communities that happen to share a city name, separated by farmland and a highway. A North Delta customer will never drive to Ladner for a haircut, but Google will happily show them a Ladner salon and skip yours. We fix that from home turf.`,
+    intro: `Delta is the clearest example we have of a place Google gets wrong. Ladner, Tsawwassen and North Delta are three separate communities that happen to share a city name, separated by farmland and a highway. A North Delta customer will never drive to Ladner for a haircut, but Google will happily show them a Ladner salon and skip yours. We fix that from home turf.`,
     why: [
       `Delta businesses need their Google Business Profile to name the community, not just the city. "Dentist Tsawwassen" and "dentist North Delta" are different searches with different winners. Most Delta profiles say "Delta" and lose both. We set the service area and the page copy so you own your own community first.`,
       `The Small Business Starter is built for exactly this size of business. Premium website, Google Business Profile rebuilt, CRM, AI receptionist, and the local SEO that puts you in the Map Pack for Ladner, Tsawwassen or North Delta searches.`,
-      `We are local. On-site install anywhere in Delta is a short drive for us, and we are around Ladner Village and the Scottsdale corridor all the time. When something needs a hand, we come by.`,
+      `We are close. On-site install anywhere in Delta is a short drive from the Fraser Valley, and we are through Ladner Village and the Scottsdale corridor often. When something needs a hand, we come by.`,
     ],
     faq: [
-      { q: 'Is Easyworks actually in Delta?', a: 'Yes. Delta is home base. Every other BC city we serve, we drive to from here.' },
+      { q: 'Is Easyworks actually in Delta?', a: 'We are based in the Fraser Valley and install on-site across Delta, Metro Vancouver and the Valley. Remote clients across Canada and the US get the same system without the drive.' },
       { q: 'I am in Tsawwassen. Will I show up for ferry traffic searches?', a: 'That is a real opportunity. Thousands of people a day search "near me" from the terminal line-up. We optimize your profile and hours so you catch that traffic.' },
       { q: 'Do you serve the farms and agricultural businesses out by Boundary Bay?', a: 'Yes. Farm stands, nurseries, equipment and services all rank well locally because there is little competition. Long-form content about what you actually offer does the work.' },
     ],
