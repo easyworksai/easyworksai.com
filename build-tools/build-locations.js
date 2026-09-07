@@ -57,8 +57,8 @@ const footer = () => `<footer class="footer"><div class="container"><div class="
 
 const cityPage = (c) => {
   const url = `https://easyworks.ai/locations/${c.slug}/`;
-  const title = `AI Services and AI Consulting in ${c.city}, ${c.region} | Easyworks AI`;
-  const description = `AI services for ${c.city} businesses, installed on-site. Website, Google Business Profile, CRM, AI receptionist and local SEO, diagnosed, built and run for you by a BC team.`;
+  const title = c.title || `AI Services and AI Consulting in ${c.city}, ${c.region} | Easyworks AI`;
+  const description = c.description || `AI services for ${c.city} businesses, installed on-site. Website, Google Business Profile, CRM, AI receptionist and local SEO, diagnosed, built and run for you by a BC team.`;
   const og = `AI for ${c.city} Businesses — Easyworks AI`;
 
   const schemas = `
@@ -117,6 +117,15 @@ ${navAndCanvas()}
   </div>
 </section>
 
+${c.consulting ? `<section class="section">
+  <div class="container">
+    <div class="section-header" data-r><p class="overline">${c.consulting.overline}</p><h2>${c.consulting.h2}</h2></div>
+    <div class="rs-features">
+      ${c.consulting.paras.map((p, i) => `<div class="rs-feat" data-r data-d="${i}"><div class="rs-feat-num">0${i+1}</div><p>${p}</p></div>`).join('\n      ')}
+    </div>
+    <p style="margin-top:22px" data-r><a href="/scan/" class="btn btn-accent btn-lg">Run the free Scan <span aria-hidden="true">→</span></a></p>
+  </div>
+</section>` : ''}
 <section class="section section-alt">
   <div class="container">
     <div class="section-header center" data-r><p class="overline">Where we work</p><h2>Neighborhoods we install in.</h2></div>
