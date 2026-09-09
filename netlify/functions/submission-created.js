@@ -7,7 +7,7 @@
 //  2. Forwards a summary to Brad's Telegram so a lead can never be lost
 //     (fires even if GHL push fails — triple redundancy with Netlify dashboard).
 
-const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '8793569908:AAHh42Na4VUlcW3ktdjp5Luz4igoZbj92gU';
+const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '' // Easyworks bot (EW_BOT_TOKEN in Netlify env), no GuapBot fallback;
 const TELEGRAM_CHAT_ID   = process.env.TELEGRAM_CHAT_ID   || '8271274624';
 
 // GHL — Easyworks AI sub-account

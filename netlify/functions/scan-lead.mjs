@@ -17,7 +17,7 @@ const GHL_LOC = process.env.GHL_EASYWORKS_LOCATION_ID || 'epCxi4CaxbM1sOwVjBTf';
 // Opportunities go where the sales team actually works: Easyworks Sales Pipeline, New Lead.
 const PIPELINE_ID = SALES_PIPELINE;
 const STAGE_ID = STAGE.new;
-const TG_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '8793569908:AAHh42Na4VUlcW3ktdjp5Luz4igoZbj92gU';
+const TG_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '' // Easyworks bot (EW_BOT_TOKEN in Netlify env), no GuapBot fallback;
 const TG_CHAT = process.env.TELEGRAM_CHAT_ID || '8271274624';
 const H = () => ({ Authorization: `Bearer ${GHL_TOKEN}`, Version: GHL_VER, 'Content-Type': 'application/json', Accept: 'application/json' });
 const money = (n) => '$' + Math.round(Number(n) || 0).toLocaleString('en-CA');
