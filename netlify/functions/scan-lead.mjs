@@ -5,6 +5,8 @@
 //
 //   POST /api/scan-lead  { id, email, phone?, name? }
 import { getStore } from '@netlify/blobs';
+import { PIPELINE_ID as SALES_PIPELINE, STAGE } from './ghl.mjs';
+import { INDUSTRIES } from './scan-model.mjs';
 
 const store = () => getStore({ name: 'scan', consistency: 'strong' });
 const json = (body, status = 200) => new Response(JSON.stringify(body), { status, headers: { 'content-type': 'application/json', 'cache-control': 'no-store', 'access-control-allow-origin': '*' } });
@@ -12,8 +14,9 @@ const json = (body, status = 200) => new Response(JSON.stringify(body), { status
 const GHL_BASE = 'https://services.leadconnectorhq.com', GHL_VER = '2021-07-28';
 const GHL_TOKEN = process.env.GHL_EASYWORKS_PIT_TOKEN || '';
 const GHL_LOC = process.env.GHL_EASYWORKS_LOCATION_ID || 'epCxi4CaxbM1sOwVjBTf';
-const PIPELINE_ID = 'AvA0uLpy36h3FmauRM5J';                 // EasyWorks AI Website Leads
-const STAGE_ID = '0bb5b396-2c14-4c5d-acb6-c0e525c1271e';     // New Website Lead
+// Opportunities go where the sales team actually works: Easyworks Sales Pipeline, New Lead.
+const PIPELINE_ID = SALES_PIPELINE;
+const STAGE_ID = STAGE.new;
 const TG_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '8793569908:AAHh42Na4VUlcW3ktdjp5Luz4igoZbj92gU';
 const TG_CHAT = process.env.TELEGRAM_CHAT_ID || '8271274624';
 const H = () => ({ Authorization: `Bearer ${GHL_TOKEN}`, Version: GHL_VER, 'Content-Type': 'application/json', Accept: 'application/json' });
@@ -66,6 +69,18 @@ export default async (req) => {
     const r = await fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ chat_id: TG_CHAT, text, disable_web_page_preview: true }) });
     out.telegram = r.ok;
   } catch {}
+  // The Floor: drop the lead into the unclaimed pool, flagged hot, so Cash sees it without opening GHL.
+  try {
+    const pool = getStore({ name: 'sales-team', consistency: 'strong' });
+    const data = (await pool.get('leads-pool.json', { type: 'json' })) || { ts: 0, leads: [] };
+    const pid = 'scan-' + id;
+    if (!data.leads.some((l) => l.id === pid)) {
+      data.leads.unshift({ id: pid, name: biz, city: input.city || '', niche: INDUSTRIES[input.industry]?.label || input.industry, phone: phone || '', email, contact: person, addr: `Scan ${result.score}/100 · leaking ~${money(result.money.monthly)}/mo`, hot: true, source: 'Easyworks Scan', scanId: id, score: result.score, band: result.band, leak: result.money.monthly, reportUrl, ts: Date.now() });
+      data.ts = Date.now();
+      await pool.setJSON('leads-pool.json', data);
+      out.floor = true;
+    }
+  } catch (e) { out.floorError = e.message; }
   rec.lead = { email, phone, name: person, at: new Date().toISOString(), ghl: out.ghl };
   rec.unlocked = true;
   await store().setJSON(id, rec, { metadata: { name: input.name, industry: input.industry, score: result.score, lead: 1 } });

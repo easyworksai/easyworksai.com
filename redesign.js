@@ -557,3 +557,22 @@
     track('generate_lead', { method: 'website_form', stack: stack ? stack.value : '' });
   }, true);
 })();
+
+/* ─────── Scan → Blueprint handoff: attach the scan to the consultation form ─────── */
+(function scanHandoff() {
+  const form = document.getElementById('contactForm');
+  if (!form) return;
+  let scan = null;
+  try { scan = JSON.parse(sessionStorage.getItem('ew_scan') || 'null'); } catch (e) {}
+  const qid = new URLSearchParams(location.search).get('scan');
+  if (qid && (!scan || scan.id !== qid)) scan = { id: qid };
+  if (!scan || !scan.id) return;
+  const set = (name, value) => { if (value == null || value === '') return; let el = form.querySelector('input[name="' + name + '"]'); if (!el) { el = document.createElement('input'); el.type = 'hidden'; el.name = name; form.appendChild(el); } el.value = String(value); };
+  const apply = (sc) => {
+    set('scan_id', sc.id); set('scan_score', sc.score); set('scan_leak', sc.leak); set('scan_url', sc.url); set('lead_type', 'blueprint');
+    const biz = form.querySelector('[name="business"]'); if (biz && !biz.value && sc.name) biz.value = sc.name;
+    const msg = form.querySelector('[name="message"]'); if (msg && !msg.value && sc.score != null) msg.value = 'I ran the Scan (' + sc.score + '/100). I want the Blueprint.';
+  };
+  if (scan.score != null) apply(scan);
+  else fetch('/api/scan?r=' + encodeURIComponent(scan.id)).then((r) => (r.ok ? r.json() : null)).then((rec) => { if (rec && rec.result) apply({ id: rec.id, score: rec.result.score, leak: rec.result.money.monthly, name: rec.input.name, url: rec.input.url }); }).catch(() => {});
+})();

@@ -63,7 +63,7 @@ export default async (req) => {
     // Sync into GHL: the lead becomes a real CRM contact the moment it's claimed,
     // owned by the rep, tagged by niche — no one has to open GoHighLevel.
     const cid = await upsertContact({
-      name: lead.name, phone: lead.phone,
+      name: lead.name, phone: lead.phone, email: lead.email,
       tags: [`rep-${slug}`, 'floor-lead', lead.niche ? `niche-${lead.niche}` : null].filter(Boolean),
       source: `The Floor${lead.city ? ' · ' + lead.city : ''}`,
     });

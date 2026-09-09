@@ -16,8 +16,10 @@ const GHL_VER    = '2021-07-28';
 const GHL_TOKEN  = process.env.GHL_EASYWORKS_PIT_TOKEN || '';
 const GHL_LOC    = process.env.GHL_EASYWORKS_LOCATION_ID || 'epCxi4CaxbM1sOwVjBTf';
 // "EasyWorks AI Website Leads" pipeline → "New Website Lead" stage
-const GHL_PIPELINE_ID = 'AvA0uLpy36h3FmauRM5J';
-const GHL_STAGE_ID    = '0bb5b396-2c14-4c5d-acb6-c0e525c1271e';
+// 2026-09-09: consultation/Blueprint requests go where the sales team works (Easyworks Sales Pipeline, New Lead),
+// not the old Website Leads pipeline nobody watches.
+const GHL_PIPELINE_ID = process.env.GHL_PIPELINE_ID || 'FtnFKVIUyAh7NLy6Hgpt';
+const GHL_STAGE_ID    = '89707cb7-632a-4e36-b65c-79f94566a5f0';
 // Optional: GHL Calendar to auto-book consultations. Leave unset to skip booking.
 const GHL_CALENDAR_ID = process.env.GHL_EASYWORKS_CONSULT_CALENDAR_ID || '';
 
@@ -62,7 +64,7 @@ async function ghlUpsertContact(d) {
     phone: d.phone || undefined,
     companyName: d.business || undefined,
     source: 'easyworks.ai consultation form',
-    tags: ['website-consultation', 'consultation-requested', 'website-lead'],
+    tags: ['website-consultation', 'consultation-requested', 'website-lead', ...(d.scan_id ? ['scan-blueprint-request'] : [])],
   };
   const r = await fetch(`${GHL_BASE}/contacts/upsert`, {
     method: 'POST', headers: ghlHeaders(), body: JSON.stringify(body),
@@ -104,6 +106,7 @@ async function ghlAddNote(contactId, d) {
     `Business : ${d.business || '—'}`,
     `Industry : ${d.industry || '—'}`,
     (d.stack || d.selected_stack) ? `Interested in : ${d.stack || d.selected_stack}` : null,
+    d.scan_id ? `SCAN     : ${d.scan_score || '?'}/100, leaking ~$${d.scan_leak || '?'}/mo. Report: https://easyworks.ai/scan/?r=${d.scan_id}` : null,
     '',
     `Preferred date : ${d.preferred_date || '—'}`,
     `Preferred time : ${win ? win.label : (d.preferred_time || '—')}`,

@@ -97,7 +97,7 @@
     res.findings.forEach((f) => (groups[f.pillar] || groups.found).push(f));
     Object.entries(groups).forEach(([k, arr]) => { const el = $('#r-' + k); if (el) el.innerHTML = arr.map((f) => `<div class="finding"><span class="s ${f.status}"></span><div><b>${f.label}</b>${f.status !== 'pass' ? `<p>${f.fix}</p>` : ''}</div></div>`).join(''); });
     $('#shareUrl').textContent = location.origin + '/scan/?r=' + rec.id;
-    const bp = $('#bpBtn'); bp.href = '../#start'; bp.onclick = () => { track('blueprint_click', { score: res.score, band: res.band }); try { sessionStorage.setItem('ew_scan', JSON.stringify({ id: rec.id, score: res.score, leak: res.money.monthly, name: inp.name, url: inp.url })); } catch (e) {} };
+    const bp = $('#bpBtn'); bp.href = '../?scan=' + encodeURIComponent(rec.id) + '#start'; bp.onclick = () => { track('blueprint_click', { score: res.score, band: res.band }); try { sessionStorage.setItem('ew_scan', JSON.stringify({ id: rec.id, score: res.score, leak: res.money.monthly, name: inp.name, url: inp.url })); } catch (e) {} };
     if (rec.unlocked) { $('#gate').style.display = 'none'; $('#report').classList.add('on'); }
   }
 
