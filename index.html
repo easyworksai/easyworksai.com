@@ -23,7 +23,7 @@
   <link rel="canonical" href="https://easyworks.ai">
   <link rel="icon" type="image/png" href="favicon.svg?v=2">
   <link rel="apple-touch-icon" href="icon-192.png">
-  <link rel="preload" as="image" href="img/easy-hero.png" fetchpriority="high">
+  <link rel="preload" as="image" href="img/easy-hero.webp" imagesrcset="img/easy-hero-720.webp 720w, img/easy-hero.webp 1100w" imagesizes="(max-width: 760px) 320px, 540px" type="image/webp" fetchpriority="high">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
@@ -222,7 +222,7 @@
     </div>
     <div class="hero-mascot" data-r>
       <div class="mascot-glow"></div>
-      <img src="img/easy-hero.png" alt="Easy — the Easyworks mascot" class="mascot-img mascot-float">
+      <picture><source type="image/webp" srcset="img/easy-hero-720.webp 720w, img/easy-hero.webp 1100w" sizes="(max-width: 760px) 320px, 540px"><img src="img/easy-hero.png" alt="Easy — the Easyworks mascot" class="mascot-img mascot-float" width="1100" height="1100" fetchpriority="high" decoding="async"></picture>
       <div class="mascot-orbit orbit-1"></div>
       <div class="mascot-orbit orbit-2"></div>
     </div>
@@ -1028,7 +1028,7 @@
     <div class="onsite-band onsite-band-v2">
       <div class="onsite-mascot" data-r>
         <div class="mascot-glow mascot-glow-cyan"></div>
-        <img src="img/easy-hero-female.png" alt="" loading="lazy" class="mascot-img mascot-float">
+        <picture><source type="image/webp" srcset="img/easy-hero-female-720.webp 720w, img/easy-hero-female.webp 1100w" sizes="(max-width: 760px) 320px, 540px"><img src="img/easy-hero-female.png" alt="" loading="lazy" decoding="async" width="1100" height="1100" class="mascot-img mascot-float"></picture>
       </div>
       <div class="onsite-copy" data-r data-d="1">
         <p class="overline">🇨🇦 Built in British Columbia</p>
@@ -1373,11 +1373,24 @@
   </div>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js" defer></script>
 <script src="script.min.js?v=73d7341d" defer></script>
 <script src="redesign.js?v=9" defer></script>
-<script src="work-sphere.js?v=4" defer></script>
-<script src="three-scene.js?v=3" defer></script>
-<script src="chatbot.js?v=4" defer></script>
+<script>
+// Heavy extras load after the page is usable. The 3D scene (three.js, 163 KB) only on desktop,
+// never for reduced-motion or data-saver users; the work sphere and the chat widget on idle.
+(function(){
+  var add=function(src,cb){var el=document.createElement('script');el.src=src;el.defer=true;if(cb)el.onload=cb;document.body.appendChild(el);};
+  var idle=window.requestIdleCallback||function(f){setTimeout(f,1200);};
+  var conn=navigator.connection||{};var lite=conn.saveData||/2g/.test(conn.effectiveType||'');
+  var reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  window.addEventListener('load',function(){
+    idle(function(){
+      if(!reduced)add('work-sphere.js?v=4');
+      if(window.innerWidth>=900&&!reduced&&!lite)add('https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js',function(){add('three-scene.js?v=3');});
+      setTimeout(function(){add('chatbot.js?v=4');},3500);
+    });
+  });
+})();
+</script>
 </body>
 </html>
