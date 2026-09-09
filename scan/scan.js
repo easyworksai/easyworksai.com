@@ -99,6 +99,19 @@
     $('#shareUrl').textContent = location.origin + '/scan/?r=' + rec.id;
     const bp = $('#bpBtn'); bp.href = '../?scan=' + encodeURIComponent(rec.id) + '#start'; bp.onclick = () => { track('blueprint_click', { score: res.score, band: res.band }); try { sessionStorage.setItem('ew_scan', JSON.stringify({ id: rec.id, score: res.score, leak: res.money.monthly, name: inp.name, url: inp.url })); } catch (e) {} };
     if (rec.unlocked) { $('#gate').style.display = 'none'; $('#report').classList.add('on'); }
+    // Measured speed arrives a little later than the rest. Poll for it and update the page in place.
+    if (rec.speedPending && rec.checks && rec.checks.speed && rec.checks.speed.source !== 'pagespeed') pollSpeed(rec.id, 0);
+  }
+  function pollSpeed(id, n) {
+    if (n > 14) return;
+    setTimeout(async () => {
+      try {
+        const r = await fetch('/api/scan?r=' + encodeURIComponent(id)); if (!r.ok) return;
+        const rec = await r.json();
+        if (rec.checks && rec.checks.speed && rec.checks.speed.source === 'pagespeed') { rec.speedPending = false; state.rec = rec; render(rec); return; }
+      } catch (e) {}
+      pollSpeed(id, n + 1);
+    }, n === 0 ? 6000 : 5000);
   }
 
   // ---- gate ----------------------------------------------------------------------------------

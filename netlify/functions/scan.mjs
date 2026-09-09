@@ -141,6 +141,12 @@ export default async (req) => {
   const id = Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(-4);
   const rec = { id, at: new Date().toISOString(), input: { name, url, city, industry, quiz, job: body.job || null }, checks, result };
   await store().setJSON(id, rec, { metadata: { name, industry, score: result.score } });
+  // Real PageSpeed takes 15 to 40 s, longer than this function may run. Kick the background job
+  // and let the page poll; it swaps the estimate for the measured score when it lands.
+  if (process.env.PSI_API_KEY && site.reachable) {
+    try { fetch(new URL('/api/scan-speed', u.origin).href, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ id }) }).catch(() => {}); } catch {}
+    rec.speedPending = true;
+  }
   return json(rec);
 };
 
