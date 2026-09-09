@@ -97,7 +97,9 @@ async function checkProfile(name, city) {
     method: 'POST', headers: { 'content-type': 'application/json', 'X-Goog-Api-Key': key, 'X-Goog-FieldMask': 'places.id,places.displayName,places.rating,places.userRatingCount,places.websiteUri,places.regularOpeningHours,places.photos,places.types,places.formattedAddress' },
     body: JSON.stringify({ textQuery: `${name} ${city || ''}`.trim(), maxResultCount: 1 }),
   }), 6000, null);
-  if (!r || !r.ok) return { found: false, error: r ? `places ${r.status}` : 'places timed out' };
+  // An API error (key not enabled, quota, timeout) is NOT "profile not found": return null so the
+  // model falls back to the quiz instead of failing the business for our own setup problem.
+  if (!r || !r.ok) { console.log('places unavailable:', r ? r.status : 'timeout'); return null; }
   const d = await r.json(); const p = d.places?.[0];
   if (!p) return { found: false };
   return { found: true, name: p.displayName?.text, rating: p.rating ?? null, reviews: p.userRatingCount ?? 0, website: p.websiteUri || null, hours: !!p.regularOpeningHours, photos: (p.photos || []).length, types: p.types || [], address: p.formattedAddress };
