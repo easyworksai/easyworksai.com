@@ -5230,3 +5230,6 @@ body {
   .status-strip { gap: 8px 12px; font-size: 0.72rem; padding: 12px 14px; }
   .status-sep { display: none; }
 }
+
+/* Speed: the hero paints before JS. Reveal animation stays for everything below the fold. */
+.hero-v2 [data-r]{opacity:1 !important;transform:none !important;transition:none !important}
