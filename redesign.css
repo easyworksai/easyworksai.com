@@ -5219,3 +5219,50 @@ body {
 
 /* Speed: the hero paints before JS. Reveal animation stays for everything below the fold. */
 .hero-v2 [data-r]{opacity:1 !important;transform:none !important;transition:none !important}
+
+/* ════════════════════════════════════════════════════════════════════
+   MOBILE CLEANUP (2026-09-18)
+   ════════════════════════════════════════════════════════════════════ */
+/* The hero glow + orbit rings extend ~210px past the right edge. Desktop hides it,
+   iOS Safari lets the page pan sideways and zoom out. Clip at the source and guard
+   at the root. `clip` (not hidden) so position:sticky keeps working. */
+html, body { max-width: 100%; overflow-x: clip; }
+.hero, .hero-v2 { overflow-x: clip; }
+@supports not (overflow-x: clip) { html, body, .hero, .hero-v2 { overflow-x: hidden; } }
+
+@media (max-width: 768px) {
+  /* Product cards: the Starter + Revenue Scale art blocks were ~480px tall on a phone
+     (a 300px min-height glyph inside a 220px+ container). Bring every card's art to one size. */
+  .eh-mascot, .eh-mascot .eng-glyph { min-height: 0; }
+  .eh-mascot { height: 170px; margin-bottom: 4px; }
+  .eh-mascot .eng-glyph svg, .eh-mascot img { width: auto; height: 150px; max-width: 200px; }
+  .engine-hero { padding: 22px 18px; gap: 12px; }
+
+  /* Section rhythm: the page was 26,000px tall. Tighter vertical padding, same hierarchy. */
+  .section, section.section { padding-top: 56px; padding-bottom: 56px; }
+  .section-header { margin-bottom: 28px; }
+  .cap-card, .rs-feat, .promise-card { padding: 20px 18px; }
+
+  /* Tap targets: 44px minimum on the things people actually tap. */
+  .hp-num, .hero-phone a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 6px; }
+  .footer-contact a { display: block; padding: 7px 0; }
+  .footer-col a { display: block; }
+  .faq-q { min-height: 52px; }
+  #more-industries a { display: inline-block; padding: 10px 2px; }
+
+  /* Footer: 1,600px of single-column links. Two columns for the link lists. */
+  /* An older rule forces the footer grid to one column with !important, so the
+     two-column layout happens inside each link list instead. */
+  .footer-grid { row-gap: 22px; }
+  .footer-col { display: block; column-count: 2; column-gap: 20px; }
+  .footer-col h4 { column-span: all; margin-bottom: 4px; }
+  .footer-col a { break-inside: avoid; padding: 6px 0; }
+
+  /* Sticky pill: readable label, clear of the chat button, safe-area aware. */
+  .sticky-cta-scarcity .sc-scarcity { font-size: 0.7rem; letter-spacing: .06em; }
+  .sticky-cta { left: 16px; bottom: calc(14px + env(safe-area-inset-bottom)); max-width: calc(100vw - 96px); }
+  .ew-chat-fab { bottom: calc(14px + env(safe-area-inset-bottom)); }
+
+  /* Small print that was under 12px. */
+  .ec-tag, .ed-label, .cap-chip, .cap-tags span, .guarantee-sub { font-size: 0.75rem; }
+}
