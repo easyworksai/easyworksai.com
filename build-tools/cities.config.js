@@ -14,7 +14,7 @@ module.exports = [
     why: [
       `Vancouver businesses fight harder for attention than almost anywhere in Canada. The competition is denser, the customer is pickier, the rent demands faster cashflow. Generic AI tools that work in a small town fail here because they were never built for a market this saturated.`,
       `Our Small Business Starter is the package most Vancouver shops, studios, and service businesses come in on, scoped by the Blueprint. It covers a premium website, your Google Business Profile fully optimized, a real CRM that tracks every lead, basic AI on every channel, and the local SEO that puts you in front of the people already searching for you.`,
-      `Everything is installed on-site at your Vancouver location. We sit with you, train your staff, and stay on call. After 30+ Vancouver-area installs, we know the city's quirks — what works in Kitsilano doesn't always work in Mount Pleasant, and we'll tell you which is which.`,
+      `Everything is installed on-site at your Vancouver location. We sit with you, train your staff, and stay on call. We learn your neighbourhood before we build. What works in Kitsilano doesn't always work in Mount Pleasant, and we'll tell you which is which.`,
     ],
     faq: [
       { q: 'Do you actually come into Vancouver to install?', a: 'Yes. Every Vancouver client gets an on-site visit at your location for the install and first training session. We bring laptops, walk through every tool with you, and don\'t leave until your team can run it without us.' },
@@ -128,10 +128,10 @@ module.exports = [
     why: [
       `Chilliwack businesses are usually undercompeted in local search compared to the Lower Mainland — which means a properly optimized GBP and a real local content strategy can put you in the Map Pack faster here than almost anywhere else.`,
       `The Small Business Starter covers it: GBP claim with proper Chilliwack service area (Sardis, Promontory, Yarrow — search patterns differ), a website that loads fast on rural connections, CRM, basic AI receptionist, and the local SEO that captures both Chilliwack and Cultus Lake summer traffic.`,
-      `We come to Chilliwack for on-site installs. Yes, the drive. That's the point. The local Chilliwack businesses who hire us tell us "you actually came" is the reason they signed.`,
+      `We come to Chilliwack for on-site installs. Yes, the drive. That's the point.`,
     ],
     faq: [
-      { q: 'Is the on-site install really worth the drive from Vancouver?', a: 'For us, yes. For you, it matters because the install runs better in person — your team learns it, your specific tools get integrated, and we catch the local quirks. Remote installs work too but we prefer to come once.' },
+      { q: 'Is the on-site install really worth the drive?', a: 'For us, yes. For you, it matters because the install runs better in person — your team learns it, your specific tools get integrated, and we catch the local quirks. Remote installs work too but we prefer to come once.' },
       { q: 'Cultus Lake / summer market — do you handle seasonal businesses?', a: 'Yes. We can put your AI and content into a seasonal mode (high pace May-September, dialed back October-April) so you\'re not paying for capacity you don\'t need in the slow months.' },
     ],
   },

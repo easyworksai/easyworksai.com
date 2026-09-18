@@ -12,7 +12,7 @@ module.exports = [
     intro: `Dental clinics in British Columbia lose more revenue to no-shows and missed phone calls than to any other category of operations problem. Patients call after hours. Patients call during a procedure when the front desk is helping someone else. Patients book online but no one follows up to confirm. Every one of those calls is a $300+ appointment slot. We close those gaps.`,
     services: [
       { name: 'AI Receptionist (24/7 call handling)', desc: 'Patients call after hours, the AI handles routine questions, books appointments directly into your operatory schedule, and texts a polite "we got your message" for anything that needs a human. Caps about 40% of after-hours calls without involving your staff.' },
-      { name: 'No-show reduction', desc: 'Automated SMS confirmation sequence at 7 days, 24 hours, and 2 hours before the appointment. Patients can confirm or reschedule with one tap. Real BC dental clients see no-shows drop by 30-50%.' },
+      { name: 'No-show reduction', desc: 'Automated SMS confirmation sequence at 7 days, 24 hours, and 2 hours before the appointment. Patients can confirm or reschedule with one tap. Built to bring your no-show rate down.' },
       { name: 'Recall automation', desc: 'Every cleaning recall hits the patient on time, every time, in their preferred channel. Patients who haven\'t booked in 9 months get a re-engagement sequence that brings 8-15% back in the door.' },
       { name: 'New-patient acquisition', desc: 'Local SEO plus a Google Business Profile fully optimized for dental categories puts you in the Map Pack for "dentist near me" in your specific BC city. Most BC clinics have terrible GBPs that we can fix in week one.' },
       { name: 'Insurance + treatment plan follow-up', desc: 'When a patient leaves with a recommended crown or implant plan, the system follows up at 7, 14, and 30 days with personalized reminders. Quietly significant for case-acceptance rates.' },
@@ -39,7 +39,7 @@ module.exports = [
     services: [
       { name: 'AI Receptionist with ICBC/WSBC intake', desc: 'AI handles incoming calls, captures the right intake information up front (claim number, GP referral status, MVA date), and books appointments. Reduces front-desk load by an average of 15-20 hours a week in a 3-physio clinic.' },
       { name: 'Voice → Report (CL-19 + Form 8)', desc: 'Our flagship for BC physio: dictate a session, get back a fully formatted ICBC CL-19 or WSBC Form 8 with the codes and language ICBC actually accepts. Physiotherapists report saving 4-7 hours per week in reporting alone.' },
-      { name: 'Automated reminders + cancellations', desc: 'Same-day cancellations cost a clinic $80-150 a slot. SMS reminder sequences cut cancellation rates by 25-40% in real BC clinics we\'ve installed.' },
+      { name: 'Automated reminders + cancellations', desc: 'Same-day cancellations cost a clinic $80-150 a slot. SMS reminder sequences are built to cut that cancellation rate.' },
       { name: 'New-patient acquisition via local SEO', desc: 'Google Business Profile optimization for the physio categories, ICBC injury-specific local pages, and content that ranks for "physio near me" in your specific city. Most BC physio clinic GBPs are 40-60% complete; we get to 100%.' },
       { name: 'Insurance billing follow-up', desc: 'When a claim is short-paid or denied, the system flags it and queues the appeal. Sounds boring, recovers thousands a month.' },
     ],
