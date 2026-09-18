@@ -7,14 +7,14 @@ const hamburger = document.getElementById('hamburger');
 const navLinks = document.getElementById('navLinks');
 const nav = document.getElementById('nav');
 
-hamburger.addEventListener('click', () => {
+if (hamburger && navLinks) hamburger.addEventListener('click', () => {
   navLinks.classList.toggle('active');
   hamburger.classList.toggle('open');
 });
-navLinks.querySelectorAll('a').forEach(a => {
+navLinks && navLinks.querySelectorAll('a').forEach(a => {
   a.addEventListener('click', () => {
     navLinks.classList.remove('active');
-    hamburger.classList.remove('open');
+    hamburger && hamburger.classList.remove('open');
   });
 });
 
@@ -116,6 +116,8 @@ document.querySelectorAll('.psub-video').forEach(wrap => {
 (function stackBuilder(){
   const stack = document.getElementById('stack');
   if (!stack) return;
+  // Public pricing was removed 2026-08-30; pages without the price fields skip the legacy builder.
+  if (!document.getElementById('sb-std-setup')) return;
   const engines = stack.querySelectorAll('.sb-engine');
   const stdSetup = document.getElementById('sb-std-setup');
   const stdMo    = document.getElementById('sb-std-mo');

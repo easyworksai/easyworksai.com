@@ -38,7 +38,7 @@ const navAndCanvas = () => `</head><body class="cosmic"><div id="page-loader" ar
 <canvas id="cosmic-canvas" aria-hidden="true"></canvas><div class="cosmic-grid" aria-hidden="true"></div><div class="cosmic-blob cosmic-blob-1" aria-hidden="true"></div><div class="cosmic-blob cosmic-blob-2" aria-hidden="true"></div><div class="cosmic-blob cosmic-blob-3" aria-hidden="true"></div>
 <nav class="nav" id="nav"><div class="nav-inner">
 <a href="../../" class="logo"><img src="../../img/icon.svg?v=2" alt="" class="logo-icon-img"><span class="logo-wordmark logo-tracked">EASYWORKS<span class="logo-ai">·AI</span></span></a>
-<div class="nav-links" id="navLinks"><a href="../../#products">Products</a><a href="../../#onsite">On-site</a><a href="../../#how">Process</a><a href="/scan/" class="nav-cta">Run the free Scan</a></div>
+<div class="nav-links" id="navLinks"><a href="../../#products">Products</a><a href="../../#onsite">On-site</a><a href="../../#how">Process</a><a href="/scan/" class="nav-cta">Run the free Scan</a></div><button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span></button>
 </div></nav>`;
 
 const footer = () => `<footer class="footer"><div class="container"><div class="footer-grid">

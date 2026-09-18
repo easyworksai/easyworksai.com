@@ -20,7 +20,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/style.min.css?v=v3blue6">
-<link rel="stylesheet" href="/redesign.css?v=38">
+<link rel="stylesheet" href="/redesign.css?v=42">
 <style>
   /* Page-specific 404 styles */
   .e404 {
@@ -227,18 +227,18 @@
       <img src="/img/icon.svg?v=3" alt="" class="logo-icon-img">
       <span class="logo-wordmark logo-tracked">EASYWORKS</span>
     </a>
-    <div class="nav-links">
+    <div class="nav-links" id="navLinks">
       <a href="/#products">Engines</a>
       <a href="/#start" class="nav-cta">Book a Consultation</a>
-    </div>
+    </div><button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span></button>
   </div>
 </nav>
 
 <main class="e404">
-  <!-- Easy is lost in space — the actual mascot -->
+  <!-- brand mark -->
   <div class="e404-mascot">
     <div class="e404-mascot-glow"></div>
-    <img src="/img/easy-404.png" alt="Easy lost in space" class="e404-mascot-img">
+    <img src="/img/mark-hero.webp?v=2" alt="The Easyworks mark" class="e404-mascot-img" width="1100" height="1100">
   </div>
 
   <h1 class="e404-code"><span class="e404-glitch">404</span></h1>
@@ -249,7 +249,7 @@
 
   <div class="e404-cta-row">
     <a href="/" class="btn btn-accent btn-lg btn-glow">Back to home <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="transform:rotate(180deg)"><path d="M3 8h10m0 0l-4-4m4 4l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-    <a href="/#products" class="btn btn-glass btn-lg">See the 5 engines</a>
+    <a href="/#products" class="btn btn-glass btn-lg">See what we build</a>
   </div>
 
   <div class="e404-links">
@@ -265,7 +265,7 @@
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js" defer></script>
-<script src="/script.min.js?v=73d7341d" defer></script>
+<script src="/script.min.js?v=75" defer></script>
 <script src="/redesign.js?v=9" defer></script>
 </body>
 </html>

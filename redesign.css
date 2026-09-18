@@ -5266,3 +5266,45 @@ html, body { max-width: 100%; overflow-x: clip; }
   /* Small print that was under 12px. */
   .ec-tag, .ed-label, .cap-chip, .cap-tags span, .guarantee-sub { font-size: 0.75rem; }
 }
+
+/* One icon system: cyan line icons everywhere (the emoji set clashed with the capability cards). */
+.ew-ico { width: 26px; height: 26px; color: #22d3ee; display: block; }
+.promise-icon, .tl-icon { font-size: 0; line-height: 0; filter: none; }
+.promise-icon .ew-ico { width: 30px; height: 30px; }
+.tl-icon { display: flex; justify-content: center; margin-bottom: 10px; }
+.st-icon .ew-ico { width: 22px; height: 22px; }
+.ef-icon { display: inline-flex; align-items: center; }
+.ef-icon .ew-ico { width: 18px; height: 18px; color: currentColor; }
+
+/* Desktop footer: five blocks sat in a three-column grid and wrapped, leaving dead space. */
+@media (min-width: 1025px) {
+  .footer-grid { grid-template-columns: 1.7fr 1fr 1.3fr 1fr 1fr; gap: 40px; align-items: start; }
+  .footer-grid .footer-col:nth-child(3) { column-count: 2; column-gap: 18px; display: block; }
+  .footer-grid .footer-col:nth-child(3) h4 { column-span: all; margin-bottom: 10px; }
+  .footer-grid .footer-col:nth-child(3) a { display: block; margin-bottom: 8px; break-inside: avoid; }
+}
+
+/* Sub-page hero on phones: the Scan / Build / Run strip would not wrap and pushed the
+   whole hero to 563px, clipping the headline and paragraph on both sides. */
+.psub-hero-grid > * { min-width: 0; }
+@media (max-width: 768px) {
+  .psub-hero-copy, .psub-hero-copy > * { max-width: 100%; }
+  .psub-hero h1 { font-size: clamp(1.7rem, 7.4vw, 2.2rem); overflow-wrap: anywhere; text-wrap: balance; }
+  .psub-meta { width: 100%; box-sizing: border-box; flex-wrap: wrap; gap: 10px 14px; padding: 14px; }
+  .psub-meta > * { flex: 1 1 96px; min-width: 0; }
+  .psub-meta .psub-divider { display: none; }
+  .psub-cta-row { width: 100%; }
+  .psub-cta-row .btn { width: 100%; justify-content: center; box-sizing: border-box; }
+}
+
+/* On-site band on product pages: the copy column would not shrink on phones (761px wide). */
+.onsite-band > * { min-width: 0; }
+@media (max-width: 900px) { section .onsite-band { grid-template-columns: minmax(0, 1fr); } .onsite-copy { max-width: 100%; } }
+
+/* Product pages: the on-site image block kept a fixed minimum wider than a phone. */
+@media (max-width: 900px) {
+  .onsite-photo { min-height: 0; width: 100%; max-width: 100%; }
+  .onsite-photo img, .onsite-photo picture { max-width: min(78vw, 320px); height: auto; margin: 0 auto; display: block; }
+}
+/* 404 + thanks: decorative glows pushed the body to 443px. */
+.e404, .thanks-wrap, .thanks-hero { overflow-x: clip; max-width: 100%; }
