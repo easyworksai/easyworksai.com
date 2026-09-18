@@ -11,3 +11,7 @@
 
 [functions."checkout"]
   external_node_modules = ["stripe"]
+
+# SOP library PDFs ship inside the function, never served statically
+[functions."team-resources"]
+  included_files = ["team/resources-private/**"]

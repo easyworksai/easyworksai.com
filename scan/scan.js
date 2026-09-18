@@ -6,7 +6,9 @@
   const track = (name, params) => { try { window.gtag && gtag('event', name, params || {}); } catch (e) {} };
   const money = (n) => '$' + Math.round(Number(n) || 0).toLocaleString('en-CA');
   const JOB_DEFAULT = { dentist: 650, physio: 480, spa: 180, trades: 2400, realestate: 9000, restaurant: 45, other: 400 };
-  const PILLAR_LABEL = { found: 'Found', answered: 'Answered', trusted: 'Trusted', growing: 'Growing' };
+  // The four vital signs the Scan reads (brand vocabulary). Connection + Immunity
+  // are the Blueprint's deeper read.
+  const PILLAR_LABEL = { found: 'Voice', answered: 'Reflexes', trusted: 'Circulation', growing: 'Autonomy' };
 
   const state = { industry: 'other', quiz: {}, rec: null };
   const sections = { intro: $('#s-intro'), quiz: $('#s-quiz'), run: $('#s-run'), result: $('#s-result') };
@@ -65,7 +67,7 @@
       chk.forEach((c) => { c.classList.remove('run'); c.classList.add('done'); });
       state.rec = rec;
       history.replaceState(null, '', '?r=' + rec.id);
-      setTimeout(() => render(rec), 500);
+      setTimeout(() => { render(rec); if (rec.pending && (rec.pending.speed || rec.pending.bench)) pollSpeed(rec.id, 0); }, 500);
     } catch (e) {
       clearInterval(timer);
       const er = $('#runErr'); er.textContent = e.message + '. Go back and try again.'; er.style.display = 'block';
@@ -99,16 +101,29 @@
     $('#shareUrl').textContent = location.origin + '/scan/?r=' + rec.id;
     const bp = $('#bpBtn'); bp.href = '../?scan=' + encodeURIComponent(rec.id) + '#start'; bp.onclick = () => { track('blueprint_click', { score: res.score, band: res.band }); try { sessionStorage.setItem('ew_scan', JSON.stringify({ id: rec.id, score: res.score, leak: res.money.monthly, name: inp.name, url: inp.url })); } catch (e) {} };
     if (rec.unlocked) { $('#gate').style.display = 'none'; $('#report').classList.add('on'); }
-    // Measured speed arrives a little later than the rest. Poll for it and update the page in place.
-    if (rec.speedPending && rec.checks && rec.checks.speed && rec.checks.speed.source !== 'pagespeed') pollSpeed(rec.id, 0);
+    // v2: the local competitor benchmark (lands from the background job) and the two Blueprint-only
+    // vitals as honest previews. Polling is started once by the caller, not here, so a repaint
+    // never spawns a second poll chain.
+    const bm = rec.checks && rec.checks.benchmark, pv = res.previews || {}, pend = rec.pending || {};
+    const benchEl = $('#bench');
+    if (benchEl) benchEl.innerHTML = [
+      bm && bm.of ? `<div class="leak"><div><b>You rank #${bm.rank} of ${bm.of} nearby ${bm.typeLabel || 'businesses'} on Google</b><p>${bm.leader ? `The leader, ${bm.leader.name}, has ${bm.leader.reviews} reviews at ${bm.leader.rating} stars. You have ${bm.you.reviews} at ${bm.you.rating || 'no rating'}.` : 'You lead your area on reviews. The job now is keeping it that way.'}</p></div></div>`
+        : (pend.bench ? `<div class="leak"><div><b>Checking your local competitors</b><p>Ranking you against the nearby businesses you actually compete with on Google.</p></div></div>` : ''),
+      pv.connection ? `<div class="leak"><div><b>Connection: ${pv.connection.found} of ${pv.connection.of} systems found on your site</b><p>Booking, chat, forms, click to call, CRM. The Blueprint checks whether they talk to each other.</p></div></div>` : '',
+      pv.immunity ? `<div class="leak"><div><b>Immunity: ${pv.immunity.found} of ${pv.immunity.of} foundations in place</b><p>The basics that keep a business ready for what is coming. Scored in full in the Blueprint.</p></div></div>` : '',
+    ].join('');
   }
+  // The deep checks (measured speed, local benchmark) land in the background. Poll the record, paint
+  // whatever has arrived, and stop once the job has cleared both pending flags (or after ~80 s).
   function pollSpeed(id, n) {
     if (n > 14) return;
     setTimeout(async () => {
       try {
         const r = await fetch('/api/scan?r=' + encodeURIComponent(id)); if (!r.ok) return;
         const rec = await r.json();
-        if (rec.checks && rec.checks.speed && rec.checks.speed.source === 'pagespeed') { rec.speedPending = false; state.rec = rec; render(rec); return; }
+        state.rec = rec; render(rec);
+        const p = rec.pending || {};
+        if (!p.speed && !p.bench) return;
       } catch (e) {}
       pollSpeed(id, n + 1);
     }, n === 0 ? 6000 : 5000);
@@ -132,6 +147,6 @@
   // ---- deep link ?r=id -------------------------------------------------------------------------
   const rid = new URLSearchParams(location.search).get('r');
   if (rid) {
-    fetch('/api/scan?r=' + encodeURIComponent(rid)).then((r) => (r.ok ? r.json() : null)).then((rec) => { if (rec && rec.result) { state.rec = rec; render(rec); } }).catch(() => {});
+    fetch('/api/scan?r=' + encodeURIComponent(rid)).then((r) => (r.ok ? r.json() : null)).then((rec) => { if (rec && rec.result) { state.rec = rec; render(rec); if (rec.pending && (rec.pending.speed || rec.pending.bench)) pollSpeed(rec.id, 0); } }).catch(() => {});
   }
 })();

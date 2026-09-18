@@ -24,10 +24,17 @@ export const QUIZ = {
   hours:    { u3: 2, h3to8: 5, h8to15: 11, o15: 18 },                      // owner admin hours per week
 };
 
+// Longevity bands — the customer reads their outlook, not a grade. The Rating is
+// the /100 composite (the "Business Longevity Rating"); the band is its verdict.
 export const BANDS = [
-  [90, 'Dialed in'], [70, 'Working'], [40, 'Holding'], [0, 'Leaking'],
+  [90, 'Built to last'], [70, 'Healthy'], [40, 'At risk'], [0, 'Critical'],
 ];
 export const bandOf = (score) => BANDS.find(([min]) => score >= min)[1];
+
+// The four vital signs the free Scan can read from public signals. The Blueprint
+// adds the two that need inside access — Connection (are your systems wired into
+// one) and Immunity (how ready you are for where the market goes by 2030).
+export const VITALS = { found: 'Voice', answered: 'Reflexes', trusted: 'Circulation', growing: 'Autonomy' };
 
 const clamp = (n, lo, hi) => Math.max(lo, Math.min(hi, n));
 const pts = (ok, max) => (ok === true ? max : ok === 'warn' ? Math.round(max / 2) : 0);
@@ -37,6 +44,10 @@ export function score({ industry = 'other', checks, quiz = {}, job }) {
   const ind = INDUSTRIES[industry] || INDUSTRIES.other;
   const site = checks.site || {}, speed = checks.speed || {}, prof = checks.profile || null;
   const jobValue = Number(job) > 0 ? Number(job) : ind.job;
+  // v2: review recency. Places returns the five most recent review times; days since the last one
+  // is a stronger trust signal than the raw count. null when no reviews were read.
+  const lastReviewMs = Math.max(0, ...((prof?.reviewTimes || []).map((t) => Date.parse(t)).filter(Number.isFinite)));
+  const sinceDays = lastReviewMs ? Math.floor((Date.now() - lastReviewMs) / 86400000) : null;
   const findings = []; // { pillar, key, status: pass|warn|fail, label, fix, points, max }
   const add = (pillar, key, status, max, label, fix) => findings.push({ pillar, key, status, label, fix, points: pts(status === 'pass' ? true : status === 'warn' ? 'warn' : false, max), max });
 
@@ -54,6 +65,9 @@ export function score({ industry = 'other', checks, quiz = {}, job }) {
   }
   const perf = speed.score; // 0..100 or null
   add('found', 'speed', perf == null ? 'warn' : perf >= 70 ? 'pass' : perf >= 40 ? 'warn' : 'fail', 6, `Mobile speed${perf != null ? ` (${perf}/100)` : ''}`, 'Compress images, drop unused scripts, and get the first screen under 2.5 seconds on mobile.');
+  // v2 (Voice): presence across channels. Being findable in more than one place is part of the voice.
+  const social = site.social || [];
+  if (site.reachable) add('found', 'social', social.length >= 2 ? 'pass' : social.length === 1 ? 'warn' : 'fail', 3, `Social channels linked from the site (${social.length})`, 'Link at least Instagram and Facebook from the site and post weekly. Presence across channels is how you stay seen.');
   if (prof) {
     add('found', 'profile', prof.found ? 'pass' : 'fail', 5, 'Google Business Profile found', 'Claim and verify the profile. It is the single biggest local ranking factor.');
   } else {
@@ -80,6 +94,15 @@ export function score({ industry = 'other', checks, quiz = {}, job }) {
     add('trusted', 'rating', prof.rating >= 4.7 ? 'pass' : prof.rating >= 4.3 ? 'warn' : 'fail', 4, `Rating ${prof.rating ?? 'n/a'}`, 'Reply to every review and ask happy customers the same day. Ratings climb when the ask is automatic.');
     add('trusted', 'reviewcount', prof.reviews >= ind.reviewMedian ? 'pass' : prof.reviews >= ind.reviewMedian / 3 ? 'warn' : 'fail', 6, `${prof.reviews ?? 0} reviews (typical for your industry: ${ind.reviewMedian})`, 'An automatic review request after every job is the only way to close a review gap.');
     add('trusted', 'photos', prof.photos >= 20 ? 'pass' : prof.photos >= 8 ? 'warn' : 'fail', 3, 'Profile photos', 'Twenty plus real photos: team, work, storefront. Profiles with photos get 42% more direction requests.');
+    // v2 (Circulation): velocity. A healthy local business earns a review about every two weeks.
+    add('trusted', 'recency', sinceDays == null ? 'fail' : sinceDays <= 30 ? 'pass' : sinceDays <= 90 ? 'warn' : 'fail', 3, sinceDays == null ? 'No recent reviews found' : `Last review ${sinceDays} day${sinceDays === 1 ? '' : 's'} ago`, 'Ask every customer the same day. A healthy local business earns a review about every two weeks.');
+    // v2 (Circulation): where they sit against the businesses they actually compete with. Lands from
+    // the background job, so it is only scored once the benchmark exists on the record.
+    const bm = checks.benchmark;
+    if (bm && bm.of >= 3 && bm.rank) {
+      const third = Math.ceil(bm.of / 3);
+      add('trusted', 'localrank', bm.rank <= third ? 'pass' : bm.rank <= third * 2 ? 'warn' : 'fail', 3, `#${bm.rank} of ${bm.of} nearby ${bm.typeLabel || 'businesses'} on Google`, bm.leader ? `The leader has ${bm.leader.reviews} reviews at ${bm.leader.rating} stars. An automatic review ask after every job is how you close that gap.` : 'An automatic review ask after every job is how you climb.');
+    }
   } else {
     add('trusted', 'review-ask', askFactor === 1 ? 'pass' : askFactor > 0 ? 'warn' : 'fail', 10, 'Review requests after every job', 'Automate the ask. Businesses that ask every customer average three times the reviews of those that ask sometimes.');
     add('trusted', 'photos-quiz', 'warn', 3, 'Profile photos', 'We will check photo count in the Blueprint. Twenty plus is the bar.');
@@ -127,8 +150,15 @@ export function score({ industry = 'other', checks, quiz = {}, job }) {
   // Top three leaks for the result page: worst findings weighted by points lost, cross-referenced with money.
   const worst = findings.filter((f) => f.status !== 'pass').sort((a, b) => (b.max - b.points) - (a.max - a.points)).slice(0, 3);
 
+  // v2 previews: the two Blueprint-only vitals, shown as honest counts so the free tier hints at
+  // them without pretending to score what it cannot see from outside.
+  const previews = {
+    connection: { found: [site.booking, site.chat, site.form, site.telLink, site.crm].filter(Boolean).length, of: 5 },
+    immunity: { found: [site.https, site.viewport, site.schemaAny, site.fresh, (perf ?? 0) >= 70, (site.social || []).length >= 2, sinceDays != null && sinceDays <= 90].filter(Boolean).length, of: 7 },
+  };
+
   return {
-    score: total, band: bandOf(total), pillars, findings, worst,
+    score: total, band: bandOf(total), pillars, findings, worst, previews, benchmark: checks.benchmark ?? null,
     money: { monthly: leakTotal, leaks: leaks.map((l) => ({ ...l, amount: Math.round(l.amount / 10) * 10 })), assumptions: { industry: ind.label, closeRate: ind.close, jobValue, leadsPerMonth: ind.leads, reviewMedian: ind.reviewMedian } },
   };
 }

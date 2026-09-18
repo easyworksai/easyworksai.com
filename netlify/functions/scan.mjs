@@ -58,6 +58,9 @@ async function checkSite(url) {
     fresh: new RegExp(`(©|&copy;|copyright)[^\\d]{0,20}(${year}|${year - 1})`, 'i').test(h) || h.includes(String(year)) || /id=["']year["']|new Date\(\)\.getFullYear/.test(h),
     scripts: (h.match(/<script[^>]+src=/gi) || []).length,
     images: (h.match(/<img[\s>]/gi) || []).length,
+    // v2: presence across channels (Voice) and the systems wired into the site (Connection preview).
+    social: ['instagram.com', 'facebook.com', 'linkedin.com', 'tiktok.com', 'youtube.com'].filter((d) => lower.includes(d)),
+    crm: /leadconnector|gohighlevel|hubspot|salesforce|zoho|pipedrive|activecampaign|keap|jobber|housecall/.test(lower),
     sitemap: null,
   };
   try {
@@ -94,7 +97,7 @@ async function checkProfile(name, city) {
   const key = process.env.GOOGLE_PLACES_KEY;
   if (!key || !name) return null;
   const r = await withTimeout(fetch('https://places.googleapis.com/v1/places:searchText', {
-    method: 'POST', headers: { 'content-type': 'application/json', 'X-Goog-Api-Key': key, 'X-Goog-FieldMask': 'places.id,places.displayName,places.rating,places.userRatingCount,places.websiteUri,places.regularOpeningHours,places.photos,places.types,places.formattedAddress' },
+    method: 'POST', headers: { 'content-type': 'application/json', 'X-Goog-Api-Key': key, 'X-Goog-FieldMask': 'places.id,places.displayName,places.rating,places.userRatingCount,places.websiteUri,places.regularOpeningHours,places.photos,places.types,places.formattedAddress,places.location,places.primaryType,places.reviews' },
     body: JSON.stringify({ textQuery: `${name} ${city || ''}`.trim(), maxResultCount: 1 }),
   }), 6000, null);
   // An API error (key not enabled, quota, timeout) is NOT "profile not found": return null so the
@@ -102,7 +105,13 @@ async function checkProfile(name, city) {
   if (!r || !r.ok) { console.log('places unavailable:', r ? r.status : 'timeout'); return null; }
   const d = await r.json(); const p = d.places?.[0];
   if (!p) return { found: false };
-  return { found: true, name: p.displayName?.text, rating: p.rating ?? null, reviews: p.userRatingCount ?? 0, website: p.websiteUri || null, hours: !!p.regularOpeningHours, photos: (p.photos || []).length, types: p.types || [], address: p.formattedAddress };
+  return {
+    found: true, id: p.id, name: p.displayName?.text, rating: p.rating ?? null, reviews: p.userRatingCount ?? 0, website: p.websiteUri || null,
+    hours: !!p.regularOpeningHours, photos: (p.photos || []).length, types: p.types || [], address: p.formattedAddress,
+    // v2: what the background benchmark and the recency finding need.
+    location: p.location ?? null, primaryType: p.primaryType ?? null,
+    reviewTimes: (p.reviews || []).map((r) => r.publishTime).filter(Boolean),
+  };
 }
 
 // --- handler ---------------------------------------------------------------------------------
@@ -139,13 +148,17 @@ export default async (req) => {
   const checks = { site, speed, profile };
   const result = scoreModel({ industry, checks, quiz, job: body.job });
   const id = Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(-4);
-  const rec = { id, at: new Date().toISOString(), input: { name, url, city, industry, quiz, job: body.job || null }, checks, result };
+  // The deep checks (measured PageSpeed, the local competitor benchmark) take longer than this
+  // function may run. Flag what is pending ON the stored record, kick the background job, and let
+  // the page poll the record; the job fills each piece in, re-scores, and clears its flag.
+  const pending = {
+    speed: !!(process.env.PSI_API_KEY && site.reachable),
+    bench: !!(process.env.GOOGLE_PLACES_KEY && profile && profile.found && profile.location),
+  };
+  const rec = { id, at: new Date().toISOString(), input: { name, url, city, industry, quiz, job: body.job || null }, checks, result, pending };
   await store().setJSON(id, rec, { metadata: { name, industry, score: result.score } });
-  // Real PageSpeed takes 15 to 40 s, longer than this function may run. Kick the background job
-  // and let the page poll; it swaps the estimate for the measured score when it lands.
-  if (process.env.PSI_API_KEY && site.reachable) {
+  if (pending.speed || pending.bench) {
     try { fetch(new URL('/api/scan-speed', u.origin).href, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ id }) }).catch(() => {}); } catch {}
-    rec.speedPending = true;
   }
   return json(rec);
 };

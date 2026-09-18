@@ -1,0 +1,123 @@
+[
+ {
+  "code": "EW-TECH-00",
+  "title": "Tech Team SOP Library",
+  "blurb": "How the library is organised, what to read first, and how to use it on every task",
+  "kicker": "LIBRARY GUIDE",
+  "version": "1.0",
+  "date": "2026-09-10",
+  "pages": 5,
+  "file": "EW-TECH-00_tech-team-sop-library.pdf",
+  "published": true
+ },
+ {
+  "code": "EW-TECH-01",
+  "title": "How We Work",
+  "blurb": "The Bench, the task flow, and what done means",
+  "kicker": "STANDARD OPERATING PROCEDURE",
+  "version": "1.0",
+  "date": "2026-09-10",
+  "pages": 6,
+  "file": "EW-TECH-01_how-we-work.pdf",
+  "published": true
+ },
+ {
+  "code": "EW-TECH-02",
+  "title": "Access and Security",
+  "blurb": "Who can touch what, and how access is granted and removed",
+  "kicker": "STANDARD OPERATING PROCEDURE",
+  "version": "1.0",
+  "date": "2026-09-10",
+  "pages": 7,
+  "file": "EW-TECH-02_access-and-security.pdf",
+  "published": true
+ },
+ {
+  "code": "EW-TECH-03",
+  "title": "Client Onboarding and the 7 Day Build",
+  "blurb": "From audit approved to a live, trained client in one week",
+  "kicker": "STANDARD OPERATING PROCEDURE",
+  "version": "1.0",
+  "date": "2026-09-10",
+  "pages": 10,
+  "file": "EW-TECH-03_client-onboarding-and-the-7-day-build.pdf",
+  "published": true
+ },
+ {
+  "code": "EW-TECH-04",
+  "title": "GHL Sub-Account Baseline Build",
+  "blurb": "Standing up a client sub-account the Easyworks way, from empty to ready for automations",
+  "kicker": "STANDARD OPERATING PROCEDURE",
+  "version": "1.0",
+  "date": "2026-09-10",
+  "pages": 9,
+  "file": "EW-TECH-04_ghl-sub-account-baseline-build.pdf",
+  "published": true
+ },
+ {
+  "code": "EW-TECH-05",
+  "title": "GHL Automations Playbook",
+  "blurb": "The standard workflows every client gets, and how to build and test each one",
+  "kicker": "PLAYBOOK",
+  "version": "1.0",
+  "date": "2026-09-10",
+  "pages": 10,
+  "file": "EW-TECH-05_ghl-automations-playbook.pdf",
+  "published": true
+ },
+ {
+  "code": "EW-TECH-06",
+  "title": "AI Suite: Voice AI and Conversation AI",
+  "blurb": "Setting up a client's AI receptionist and chat so it books, captures, and hands off correctly",
+  "kicker": "STANDARD OPERATING PROCEDURE",
+  "version": "1.0",
+  "date": "2026-09-10",
+  "pages": 8,
+  "file": "EW-TECH-06_ai-suite-voice-ai-and-conversation-ai.pdf",
+  "published": true
+ },
+ {
+  "code": "EW-TECH-07",
+  "title": "Websites, Funnels and Local SEO",
+  "blurb": "Building and shipping a client site that converts and gets found",
+  "kicker": "STANDARD OPERATING PROCEDURE",
+  "version": "1.0",
+  "date": "2026-09-10",
+  "pages": 8,
+  "file": "EW-TECH-07_websites-funnels-and-local-seo.pdf",
+  "published": true
+ },
+ {
+  "code": "EW-TECH-08",
+  "title": "Integrations, Webhooks and AI-Assisted Code",
+  "blurb": "How we connect systems and write code with Claude Code without shipping something we can't explain",
+  "kicker": "STANDARD OPERATING PROCEDURE",
+  "version": "1.0",
+  "date": "2026-09-10",
+  "pages": 7,
+  "file": "EW-TECH-08_integrations-webhooks-and-ai-assisted-code.pdf",
+  "published": true
+ },
+ {
+  "code": "EW-TECH-09",
+  "title": "QA and the Go-Live Gate",
+  "blurb": "How work gets tested, evidenced, and approved",
+  "kicker": "STANDARD OPERATING PROCEDURE",
+  "version": "1.0",
+  "date": "2026-09-10",
+  "pages": 8,
+  "file": "EW-TECH-09_qa-and-the-go-live-gate.pdf",
+  "published": true
+ },
+ {
+  "code": "EW-TECH-10",
+  "title": "Client AI Agents: the Agentic Foundation",
+  "blurb": "The nine layer standard every Easyworks client agent is built and inspected against",
+  "kicker": "PLAYBOOK (ADVANCED)",
+  "version": "1.0",
+  "date": "2026-09-10",
+  "pages": 7,
+  "file": "EW-TECH-10_client-ai-agents-the-agentic-foundation.pdf",
+  "published": true
+ }
+]

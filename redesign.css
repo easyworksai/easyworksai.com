@@ -1725,41 +1725,27 @@ section, footer, .trust-strip, .container { position: relative; z-index: 2; }
    3D LOGO + 3D RIBBON
    ════════════════════════════════════════════════════════════════════ */
 
-/* 3D Nav logo wordmark */
-.logo {
-  perspective: 600px;
-  transform-style: preserve-3d;
+/* Nav logo: clean and still. The mark is a circular badge, so it gets a true
+   circle clip (the old 7px radius cut the corners off and bled dark against the
+   nav), no glow halo, and no continuous 3D rotation (rotating a 32px raster on a
+   Retina screen is what caused the shimmer). Motion lives on hover only. */
+.logo { perspective: none; transform-style: flat; gap: 11px; }
+.logo-icon-img,
+.logo:hover .logo-icon-img {
+  width: 32px; height: 32px; border-radius: 50%; box-shadow: none;
+  animation: none; transform: none;
+  transition: transform .25s ease;
+  image-rendering: auto; -webkit-backface-visibility: hidden; backface-visibility: hidden;
+  outline: 1px solid rgba(255,255,255,.06); outline-offset: -1px;
 }
-.logo-icon-img {
-  transform-style: preserve-3d;
-  animation: logo-icon-spin 8s ease-in-out infinite;
-}
-@keyframes logo-icon-spin {
-  0%, 100% { transform: rotateY(0deg) rotateX(0deg); }
-  25%      { transform: rotateY(20deg) rotateX(-8deg); }
-  50%      { transform: rotateY(0deg)  rotateX(0deg); }
-  75%      { transform: rotateY(-20deg) rotateX(8deg); }
-}
-.logo-wordmark {
-  transform-style: preserve-3d;
-  display: inline-block;
-  animation: logo-word-tilt 10s ease-in-out infinite;
-  transform-origin: center center;
-}
-@keyframes logo-word-tilt {
-  0%, 100% { transform: rotateY(0deg) rotateZ(0deg); }
-  50%      { transform: rotateY(8deg) rotateZ(0deg); }
-}
-.logo:hover .logo-wordmark { animation-duration: 2s; }
-.logo-ai {
-  display: inline-block;
-  color: #22d3ee;
-  animation: logo-ai-pulse 2.6s ease-in-out infinite;
-  text-shadow: 0 0 12px rgba(34,211,238,0.55);
-}
-@keyframes logo-ai-pulse {
-  0%, 100% { text-shadow: 0 0 12px rgba(34,211,238,0.55), 0 0 24px rgba(34,211,238,0.3); transform: translateZ(0); }
-  50%      { text-shadow: 0 0 22px rgba(34,211,238,0.9),  0 0 44px rgba(59,130,246,0.45); transform: translateZ(6px); }
+.logo:hover .logo-icon-img { transform: scale(1.06); }
+.logo-wordmark { display: inline-block; animation: none; transform: none; transform-style: flat; -webkit-font-smoothing: antialiased; }
+.logo-ai { display: inline-block; color: #22d3ee; animation: none; transform: none; text-shadow: none; }
+/* Hero badge is the same circular mark: circle clip, no rounded-square corners. */
+.hero-icon-img { border-radius: 50%; box-shadow: none; outline: 1px solid rgba(255,255,255,.08); outline-offset: -1px; }
+@media (max-width: 768px) {
+  .logo-icon-img { width: 30px; height: 30px; }
+  .logo-wordmark { font-size: 1.05rem; letter-spacing: .16em; }
 }
 
 /* Hero brand wordmark — also gets the 3D treatment but more dramatic */
