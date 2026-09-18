@@ -5368,3 +5368,23 @@ html, body { max-width: 100%; overflow-x: clip; }
   #capabilities.section-caps .cap-chips { display: none; }
   #capabilities.section-caps .caps-foot { font-size: 14px; margin-top: 20px; }
 }
+
+/* Program steps carry their days (the separate schedule section was merged in). */
+#program.section-program .prog-step { position: relative; }
+#program.section-program .prog-day { position: absolute; top: 22px; right: 20px; font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; color: #22d3ee; border: 1px solid rgba(34,211,238,.35); border-radius: 999px; padding: 4px 10px; background: rgba(34,211,238,.06); }
+/* Three doors, trimmed. On phones the two wrong doors collapse to title, quote and cost. */
+@media (max-width: 768px) {
+  .compare-grid { gap: 12px; }
+  .compare-diy .cmp-list, .compare-agency .cmp-list { display: none; }
+  .compare-diy, .compare-agency { padding: 16px 18px !important; display: grid; grid-template-columns: 1fr auto; align-items: center; column-gap: 14px; }
+  .compare-diy .cmp-head, .compare-agency .cmp-head { margin: 0; padding: 0; border: 0; }
+  .compare-diy .cmp-cost, .compare-agency .cmp-cost { margin: 0; padding: 0; border: 0; text-align: right; }
+  .compare-diy .cmp-cost strong, .compare-agency .cmp-cost strong { font-size: 1.05rem; }
+  .compare-us { padding: 22px 18px !important; }
+  #program.section-program .prog-step { padding: 20px 18px; }
+  #program.section-program .prog-day { top: 18px; right: 16px; }
+  #program.section-program .prog-arrow { display: none; }
+}
+
+/* No orphaned last words in headings. */
+h1, h2, h3, .section-header h2 { text-wrap: balance; }
