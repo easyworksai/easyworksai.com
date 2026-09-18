@@ -5313,3 +5313,58 @@ html, body { max-width: 100%; overflow-x: clip; }
 .logo-icon-img, .logo:hover .logo-icon-img { width: 34px; height: 34px; border-radius: 0; outline: none; object-fit: contain; filter: drop-shadow(0 0 6px rgba(59,130,246,.35)); }
 @media (max-width: 768px) { .logo-icon-img { width: 32px; height: 32px; } }
 .anchor-alias { display: block; position: relative; top: -80px; visibility: hidden; height: 0; }
+
+/* ════ Header mark is vector now: no clip, no glow. ════ */
+.logo-icon-img, .logo:hover .logo-icon-img { width: 32px; height: 32px; border-radius: 0; outline: none; filter: none; }
+@media (max-width: 768px) { .logo-icon-img { width: 30px; height: 30px; } }
+
+/* ════ Named packages: one row of links (replaces the five product cards) ════ */
+.product-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px; margin: 34px auto 6px; max-width: 980px; }
+.pr-label { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: .68rem; letter-spacing: .16em; text-transform: uppercase; color: rgba(246,248,255,.5); margin-right: 6px; }
+.pr-link { position: relative; padding: 10px 16px; border-radius: 999px; border: 1px solid rgba(255,255,255,.1); background: rgba(12,20,36,.6); color: #eef2fb; font-size: .9rem; font-weight: 500; text-decoration: none; overflow: hidden; transition: border-color .25s, transform .25s, color .25s; }
+.pr-link::after { content: ''; position: absolute; inset: 0; background: linear-gradient(100deg, transparent 30%, rgba(34,211,238,.22) 50%, transparent 70%); transform: translateX(-120%); animation: pr-sheen 5.5s ease-in-out infinite; }
+.pr-link:nth-of-type(2)::after { animation-delay: .5s } .pr-link:nth-of-type(3)::after { animation-delay: 1s } .pr-link:nth-of-type(4)::after { animation-delay: 1.5s } .pr-link:nth-of-type(5)::after { animation-delay: 2s } .pr-link:nth-of-type(6)::after { animation-delay: 2.5s }
+@keyframes pr-sheen { 0%, 62% { transform: translateX(-120%); } 82%, 100% { transform: translateX(120%); } }
+.pr-link:hover { border-color: rgba(34,211,238,.6); transform: translateY(-2px); color: #fff; }
+.pr-core { border-color: rgba(34,211,238,.45); }
+.pr-gold { border-color: rgba(232,178,90,.45); }
+@media (prefers-reduced-motion: reduce) { .pr-link::after { animation: none; } }
+
+/* ════ Calmer phone: still alive, not busy ════ */
+@media (max-width: 768px) {
+  /* one background layer (the starfield), not five */
+  .cosmic-grid, .cosmic-blob, .hero-stars, .mascot-orbit, .geo-shape { display: none !important; }
+  .mascot-glow { opacity: .55; inset: -20%; }
+  /* frosted glass on every card made scrolling stutter */
+  .card, .cap-card, .ind-card, .cmp-card, .compare-us, .engine-card, .engine-hero, .tl-card, .leak-row, .proof-card, .faq-item, .cs-detail, .coverage-card, .form, .pr-link { -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
+  .cap-card, .ind-card, .faq-item, .tl-card { box-shadow: none; }
+  /* quicker, shorter reveals, no long staggers */
+  [data-r] { transform: translateY(12px); transition-duration: .45s; }
+  [data-r][data-d="1"], [data-r][data-d="2"], [data-r][data-d="3"], [data-r][data-d="4"] { transition-delay: .06s; }
+  /* hero: headline above the fold */
+  .hero-v2 { padding-top: 84px; padding-bottom: 36px; }
+  .mascot-img { max-width: min(62vw, 250px) !important; }
+  .mascot-float { animation-duration: 8s; }
+  .hero-v2 h1 { margin-top: 6px; }
+  /* rhythm */
+  .section, section.section { padding-top: 44px; padding-bottom: 44px; }
+  .section-header { margin-bottom: 22px; }
+  .section-header h2 { font-size: clamp(1.55rem, 6.4vw, 1.95rem); line-height: 1.15; }
+  /* one floating control, compact */
+  .sticky-cta-scarcity .sc-scarcity { display: none; }
+  .sticky-cta { padding: 10px 14px; font-size: .85rem; }
+  .product-row { justify-content: flex-start; gap: 8px; margin-top: 24px; }
+  .pr-label { width: 100%; margin: 0 0 2px; }
+  .pr-link { padding: 9px 13px; font-size: .84rem; }
+}
+
+/* Capability cards on phones: one compact row each (icon beside text, chips hidden). */
+@media (max-width: 560px) {
+  #capabilities.section-caps .caps-grid { gap: 10px; }
+  #capabilities.section-caps .cap { display: grid; grid-template-columns: 30px 1fr; column-gap: 14px; align-items: start; padding: 15px 16px; border-radius: 14px; }
+  #capabilities.section-caps .cap-ico { width: 28px; height: 28px; margin: 2px 0 0; grid-row: 1 / span 2; }
+  #capabilities.section-caps .cap h3 { font-size: 15.5px; margin: 0 0 3px; grid-column: 2; }
+  #capabilities.section-caps .cap p { font-size: 13px; margin: 0; grid-column: 2; }
+  #capabilities.section-caps .cap-chips { display: none; }
+  #capabilities.section-caps .caps-foot { font-size: 14px; margin-top: 20px; }
+}
