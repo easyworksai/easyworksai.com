@@ -53,10 +53,10 @@ function reportEmail({ person, biz, result, reportUrl, id }) {
 ${rows ? `<p style="margin:24px 0 4px;font:bold 13px Arial,Helvetica,sans-serif;letter-spacing:1px;color:#55607a">WHERE IT IS GOING</p><table role="presentation" width="100%" cellpadding="0" cellspacing="0">${rows}</table>` : ''}
 <p style="margin:26px 0 8px" align="center"><a href="${reportUrl}" style="display:inline-block;background:#3b82f6;color:#ffffff;text-decoration:none;font:bold 16px Arial,Helvetica,sans-serif;padding:14px 28px;border-radius:10px">Open your full report</a></p>
 <p style="margin:22px 0 14px">The Scan reads four vitals from the outside. The next step is the <a href="${bpUrl}" style="color:#2563eb">Blueprint</a>: I read all six using your real numbers and give you a written plan in priority order. The fee is credited in full to your build, and the document is yours either way.</p>
-<p style="margin:0 0 14px">If anything in the report looks off, just reply to this email. It comes to me.</p>
+<p style="margin:0 0 14px">If anything in the report looks off, just reply to this email and I will take a look.</p>
 <p style="margin:0 0 4px">Brad Palmer</p><p style="margin:0;color:#55607a;font-size:14px">Founder, Easyworks · +1 604 265 7660</p>
 </td></tr>
-<tr><td style="padding:22px 28px 26px;font:12px/1.6 Arial,Helvetica,sans-serif;color:#8a94a8">You are getting this because you asked for your Scan report at easyworks.ai. This is a one time message, you have not been added to a list.<br>Easyworks AI Solutions Inc. · 37209 Hawkins Pickle Road, Dewdney, BC V2V 0M7, Canada</td></tr>
+<tr><td style="padding:22px 28px 26px;font:12px/1.6 Arial,Helvetica,sans-serif;color:#8a94a8">You are getting this because you asked for your Scan report at easyworks.ai.<br>Easyworks AI Solutions Inc. · 37209 Hawkins Pickle Road, Dewdney, BC V2V 0M7, Canada</td></tr>
 </table></div>`;
   return { subject, html };
 }
