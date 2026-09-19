@@ -32,7 +32,7 @@ const head = ({ title, description, url, og }) => `<!DOCTYPE html><html lang="en
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../style.min.css?v=v3blue6">
-<link rel="stylesheet" href="../../redesign.css?v=51">`;
+<link rel="stylesheet" href="../../redesign.css?v=52">`;
 
 const navAndCanvas = () => `</head><body class="cosmic"><div id="page-loader" aria-hidden="true"><div class="pl-stage"><div class="pl-ring"></div><div class="pl-ring pl-ring-2"></div><div class="pl-ring pl-ring-3"></div><div class="pl-orb"></div><span class="pl-label">Loading</span></div></div>
 <canvas id="cosmic-canvas" aria-hidden="true"></canvas><div class="cosmic-grid" aria-hidden="true"></div><div class="cosmic-blob cosmic-blob-1" aria-hidden="true"></div><div class="cosmic-blob cosmic-blob-2" aria-hidden="true"></div><div class="cosmic-blob cosmic-blob-3" aria-hidden="true"></div>
@@ -48,7 +48,7 @@ const footer = () => `<footer class="footer"><div class="container"><div class="
 <div class="footer-col"><h4>Products</h4><a href="../../scribe/">Easyworks Scribe (BC clinicians)</a><a href="../../content-engine/">Content Engine</a><a href="../../seo-engine/">SEO Engine</a><a href="../../ai-suite/">AI Suite</a><a href="../../ai-revenue-scale/">AI Revenue Scale</a></div>
 <div class="footer-col"><h4>Locations</h4><a href="/locations/vancouver/">Vancouver</a><a href="/locations/surrey/">Surrey</a><a href="/locations/burnaby/">Burnaby</a><a href="/locations/langley/">Langley</a><a href="/locations/abbotsford/">Abbotsford</a><a href="/locations/chilliwack/">Chilliwack</a><a href="/locations/squamish/">Squamish</a><a href="/locations/whistler/">Whistler</a><a href="/locations/coquitlam/">Coquitlam</a><a href="/locations/richmond/">Richmond</a><a href="/locations/delta/">Delta</a><a href="/locations/new-westminster/">New Westminster</a><a href="/locations/north-vancouver/">North Vancouver</a><a href="/locations/maple-ridge/">Maple Ridge</a><a href="/locations/">All BC cities →</a></div>
 <div class="footer-col"><h4>Industries</h4><a href="/industries/home-services/">Home services and trades</a><a href="/industries/med-spas/">Med spas</a><a href="/industries/dental/">Dental practices</a><a href="/industries/">All industries →</a></div>
-<div class="footer-col"><h4>Company</h4><a href="/scan/">The Scan (free)</a><a href="../../#faq">FAQ</a><a href="../../#start">Contact</a><a href="mailto:team@easyworksai.com">team@easyworksai.com</a></div>
+<div class="footer-col"><h4>Company</h4><a href="/scan/">The Scan (free)</a><a href="/blueprint/">The Blueprint</a><a href="../../#faq">FAQ</a><a href="../../#start">Contact</a><a href="mailto:team@easyworksai.com">team@easyworksai.com</a></div>
 </div><div class="footer-bar"><span>&copy; 2026 Easyworks AI Solutions</span><span class="footer-links"><a href="../../">Home</a></span></div></div></footer>
 
 <script src="../../script.min.js?v=73d7341d" defer></script>
@@ -296,6 +296,126 @@ const landerPage = (i) => {
     .replace('<body class="cosmic">', `<body class="cosmic is-lander" data-lander="${i.lander}">`);
 };
 
+// The Blueprint page (/blueprint/). One level deep, so the shared ../../ paths are rewritten to ../
+const blueprintPage = () => {
+  const url = 'https://easyworks.ai/blueprint/';
+  const title = 'The Blueprint: a full diagnosis of your business | Easyworks';
+  const description = 'The Blueprint reads all six vitals of your business with real numbers, then gives you a written diagnosis and a build plan in priority order. Founder led. The fee is credited in full to your build.';
+  const vitals = [
+    ['Connection', 'Are your phone, website, calendar, CRM and reviews one system, or separate tools that never talk? This is the one the free Scan cannot see from outside.'],
+    ['Reflexes', 'How fast a new lead gets a real reply, and how many calls end in voicemail. Measured from your own call and message logs.'],
+    ['Voice', 'How easily customers find you: your site, your Google profile, your listings and where you rank for what they actually search.'],
+    ['Circulation', 'Repeat business, reviews and referrals. Whether past customers come back, and whether happy ones are ever asked to say so.'],
+    ['Immunity', 'How ready you are for where your market is heading over the next few years. The other vital the Scan cannot read.'],
+    ['Autonomy', 'How much of the business runs without the owner. We count the hours you spend on admin, follow up and scheduling.'],
+  ];
+  const gets = [
+    ['A written diagnosis', 'Plain language, no jargon. What is weak, why, and the evidence behind every point.'],
+    ['Your full Rating', 'Your Business Longevity Rating across all six vitals, based on your real numbers and not industry averages.'],
+    ['What each gap costs', 'A monthly figure for each weakness, worked out from your own calls, leads and job values.'],
+    ['The build plan', 'What to fix, in priority order, with a fixed scope and price for each piece. Nothing you do not need.'],
+  ];
+  const steps = [
+    ['Book a 15 minute call', 'You talk to the founder. We confirm the Blueprint fits your business and quote the fee before you commit to anything.'],
+    ['We gather the real numbers', 'About an hour of your time across one or two calls. We look at your call logs, follow up, Google profile, reviews, site and the tools you use.'],
+    ['You get the Blueprint', 'A written document, walked through with you live. Usually inside three days of the first working call.'],
+  ];
+  const faq = [
+    ['What does the Blueprint cost?', 'The fee is quoted on your first call, before you commit. It is credited in full to your build, so if you go ahead it costs you nothing extra.'],
+    ['Do I have to build with Easyworks afterwards?', 'No. The Blueprint is yours to keep either way. You can hand it to your own team or another company.'],
+    ['How is it different from the free Scan?', 'The Scan reads four vitals from public signals and six questions, in about a minute. The Blueprint reads all six vitals using your real numbers, and ends with a scoped build plan.'],
+    ['How much of my time does it take?', 'About an hour in total, plus the walkthrough at the end.'],
+    ['What access do you need?', 'Read access to what you already use: your phone or call log, your Google Business Profile, your booking or CRM tool and your website analytics if you have them. We never need passwords sent by email, and we tell you exactly what we looked at.'],
+    ['What if I am not happy?', 'The Blueprint is yours to keep whatever you decide. If you go ahead with a build and are not happy in the first 30 days, we make it right or refund you.'],
+  ];
+  const schemas = `
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Service","name":"The Blueprint","description":${JSON.stringify(description)},"url":"${url}","provider":{"@type":"LocalBusiness","@id":"https://easyworks.ai/#business","name":"Easyworks AI Solutions"},"areaServed":["Canada","United States"]}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[${faq.map(f => `{"@type":"Question","name":${JSON.stringify(f[0])},"acceptedAnswer":{"@type":"Answer","text":${JSON.stringify(f[1])}}}`).join(',')}]}
+</script>`;
+  const html = `${head({ title, description, url, og: 'The Blueprint | Easyworks' })}${schemas}
+${navAndCanvas()}
+
+<section class="psub-hero bp-hero">
+  <div class="psub-hero-mesh"></div>
+  <div class="container">
+    <div class="psub-hero-grid" data-r data-d="1">
+      <div class="psub-hero-icon"><div class="eng-glyph" aria-hidden="true"><svg viewBox="0 0 200 200" class="gl-glow"><rect class="gl-stroke gl-stroke-2" x="46" y="34" width="108" height="132" rx="10"/><path class="gl-stroke" d="M66 70h68M66 96h68M66 122h40"/><circle class="gl-fill-gold" cx="134" cy="134" r="9"/></svg></div></div>
+      <div class="psub-hero-copy">
+        <p class="overline">Step two, after the free Scan</p>
+        <h1>The Blueprint</h1>
+        <p class="psub-tagline">The full physical for your business.</p>
+        <p class="psub-pitch">The Scan reads what anyone can see from outside. The Blueprint goes inside. The founder reads all six vitals using your real numbers, then hands you a written diagnosis and a build plan in priority order. The fee is credited in full to your build, and the document is yours to keep either way.</p>
+        <div class="psub-cta-row">
+          <a href="../#start" class="btn btn-accent btn-lg" data-bp-book>Book your Blueprint <span aria-hidden="true">→</span></a>
+          <a href="/scan/" class="btn btn-glass btn-lg" data-bp-scan>Run the free Scan first</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt" id="vitals">
+  <div class="container">
+    <div class="section-header" data-r><p class="overline">What we read</p><h2>Six vitals. Your real numbers.</h2></div>
+    <div class="rs-features">
+      ${vitals.map((v, idx) => `<div class="rs-feat" data-r data-d="${idx % 3}"><div class="rs-feat-num">0${idx + 1}</div><h3>${v[0]}</h3><p>${v[1]}</p></div>`).join('\n      ')}
+    </div>
+  </div>
+</section>
+
+<section class="section" id="deliverable">
+  <div class="container container-mid">
+    <div class="section-header" data-r><p class="overline">What you get</p><h2>A document you can act on.</h2></div>
+    <dl class="bp-gets">
+      ${gets.map((g, idx) => `<div class="bp-get" data-r data-d="${idx % 2}"><dt>${g[0]}</dt><dd>${g[1]}</dd></div>`).join('\n      ')}
+    </dl>
+  </div>
+</section>
+
+<section class="section section-alt" id="how">
+  <div class="container container-mid">
+    <div class="section-header" data-r><p class="overline">How it works</p><h2>Three steps. Founder led.</h2></div>
+    <ol class="bp-steps">
+      ${steps.map((st, idx) => `<li class="bp-step" data-r data-d="${idx}"><span class="bp-step-n">${idx + 1}</span><div><h3>${st[0]}</h3><p>${st[1]}</p></div></li>`).join('\n      ')}
+    </ol>
+  </div>
+</section>
+
+<section class="section" id="faq">
+  <div class="container container-mid">
+    <p class="overline" data-r>FAQ</p>
+    <h2 data-r data-d="1">Blueprint questions, answered.</h2>
+    <div class="faq-list">
+      ${faq.map(f => `<div class="faq-item" data-r><button class="faq-q">${f[0]}</button><div class="faq-a"><p>${f[1]}</p></div></div>`).join('\n      ')}
+    </div>
+  </div>
+</section>
+
+<section class="section section-cta" id="start">
+  <div class="container container-mid">
+    <div class="cta-header" data-r>
+      <h2>Ready for the full picture?</h2>
+      <p>Book a 15 minute call with the founder. If you have run the Scan, your results come with you.</p>
+    </div>
+    <div style="text-align:center; margin-top: 24px;">
+      <a href="../#start" class="btn btn-accent btn-lg" data-bp-book>Book your Blueprint <span aria-hidden="true">→</span></a>
+    </div>
+  </div>
+</section>
+<script>
+(function(){var r=new URLSearchParams(location.search).get('r');if(!r)return;
+document.querySelectorAll('[data-bp-book]').forEach(function(a){a.href='../?scan='+encodeURIComponent(r)+'#start';});
+document.querySelectorAll('[data-bp-scan]').forEach(function(a){a.href='/scan/?r='+encodeURIComponent(r);a.textContent='Back to your Scan report';});
+document.querySelectorAll('[data-bp-book]').forEach(function(a){a.addEventListener('click',function(){try{gtag('event','blueprint_click',{from:'blueprint_page'});}catch(e){}});});})();
+</script>
+
+${footer()}`;
+  return html.split('../../').join('../');
+};
+
 // Index pages
 const locationsIndex = () => {
   const url = `https://easyworks.ai/locations/`;
@@ -395,6 +515,10 @@ for (const i of industries.filter(x => x.lander)) {
   fs.writeFileSync(path.join(dir, 'index.html'), landerPage(i));
   console.log('wrote for/' + i.lander + '/index.html');
 }
+
+fs.mkdirSync(path.join(ROOT, 'blueprint'), { recursive: true });
+fs.writeFileSync(path.join(ROOT, 'blueprint', 'index.html'), blueprintPage());
+console.log('wrote blueprint/index.html');
 
 fs.mkdirSync(path.join(ROOT, 'industries'), { recursive: true });
 fs.writeFileSync(path.join(ROOT, 'industries', 'index.html'), industriesIndex());

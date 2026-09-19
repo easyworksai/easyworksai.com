@@ -5424,3 +5424,18 @@ h1, h2, h3, .section-header h2 { text-wrap: balance; }
 .ind-link:hover, .ind-link:focus-visible { color:#7dd3fc; text-decoration:underline; }
 .is-lander .footer-col:not(:first-child) { display:none; }
 .is-lander .hamburger { display:none; }
+
+
+/* Blueprint page (2026-09-18) */
+.bp-hero .overline { margin-bottom: 10px; }
+.bp-gets { margin: 28px 0 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 40px; }
+.bp-get { padding: 22px 0; border-top: 1px solid rgba(59,130,246,.22); }
+.bp-get dt { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 1.12rem; color: #f6f8ff; margin-bottom: 6px; }
+.bp-get dd { margin: 0; color: rgba(246,248,255,.72); line-height: 1.6; font-size: .98rem; }
+.bp-steps { list-style: none; margin: 28px 0 0; padding: 0; counter-reset: none; position: relative; }
+.bp-steps::before { content: ''; position: absolute; left: 19px; top: 20px; bottom: 20px; width: 1px; background: linear-gradient(#3b82f6, #22d3ee); opacity: .45; }
+.bp-step { display: grid; grid-template-columns: 40px 1fr; gap: 20px; padding: 14px 0; position: relative; }
+.bp-step-n { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; font-family: 'JetBrains Mono', monospace; font-size: .9rem; color: #070b16; background: linear-gradient(135deg, #3b82f6, #22d3ee); position: relative; z-index: 1; }
+.bp-step h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.15rem; margin: 6px 0 6px; color: #f6f8ff; }
+.bp-step p { margin: 0; color: rgba(246,248,255,.72); line-height: 1.6; }
+@media (max-width: 700px) { .bp-gets { grid-template-columns: 1fr; } .bp-get { padding: 18px 0; } }

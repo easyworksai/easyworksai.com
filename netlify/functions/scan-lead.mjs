@@ -29,6 +29,38 @@ async function ghl(path, body) {
   return j;
 }
 
+// The report email: sent once per scan, through the GHL conversation so replies land in the CRM.
+const esc = (v) => String(v ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const BAND_COLOR = { 'Built to last': '#22d3ee', Healthy: '#3b82f6', 'At risk': '#e8b25a', Critical: '#ef6b6b' };
+function reportEmail({ person, biz, result, reportUrl, id }) {
+  const first = (person || '').trim().split(/\s+/)[0];
+  const leaks = (result.money?.leaks || []).slice(0, 3);
+  const rows = leaks.length
+    ? leaks.map((l) => `<tr><td style="padding:12px 0;border-top:1px solid #e3e8f2;font:15px/1.5 Arial,Helvetica,sans-serif;color:#1b2333"><strong>${esc(l.label)}</strong><br><span style="color:#55607a">${esc(l.line)}</span></td><td style="padding:12px 0 12px 16px;border-top:1px solid #e3e8f2;font:bold 15px Arial,Helvetica,sans-serif;color:#1b2333;white-space:nowrap;vertical-align:top" align="right">${money(l.amount)}/mo</td></tr>`).join('')
+    : (result.worst || []).slice(0, 3).map((w) => `<tr><td style="padding:12px 0;border-top:1px solid #e3e8f2;font:15px/1.5 Arial,Helvetica,sans-serif;color:#1b2333"><strong>${esc(w.label)}</strong></td><td></td></tr>`).join('');
+  const bpUrl = `https://easyworks.ai/blueprint/?r=${encodeURIComponent(id)}`;
+  const subject = `Your Business Longevity Rating: ${result.score}/100 (${result.band})`;
+  const html = `<div style="background:#f3f5fa;padding:24px 12px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;margin:0 auto;background:#ffffff;border-radius:14px;overflow:hidden">
+<tr><td style="background:#070b16;padding:22px 28px;font:bold 15px Arial,Helvetica,sans-serif;letter-spacing:4px;color:#ffffff">EASYWORKS</td></tr>
+<tr><td style="padding:28px 28px 8px;font:16px/1.6 Arial,Helvetica,sans-serif;color:#1b2333">
+<p style="margin:0 0 14px">${first ? 'Hi ' + esc(first) + ',' : 'Hi,'}</p>
+<p style="margin:0 0 18px">Here is the Scan you ran for <strong>${esc(biz)}</strong>. Keep this email, the link below opens your full report any time.</p>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#070b16;border-radius:12px"><tr>
+<td style="padding:20px 22px;font:13px Arial,Helvetica,sans-serif;color:#9fb0d0">BUSINESS LONGEVITY RATING<br><span style="font:bold 40px Arial,Helvetica,sans-serif;color:#ffffff">${result.score}</span><span style="font:16px Arial,Helvetica,sans-serif;color:#9fb0d0"> / 100</span><br><span style="font:bold 14px Arial,Helvetica,sans-serif;color:${BAND_COLOR[result.band] || '#22d3ee'}">${esc(result.band)}</span></td>
+<td style="padding:20px 22px;font:13px Arial,Helvetica,sans-serif;color:#9fb0d0" align="right">ESTIMATED COST OF THE GAPS<br><span style="font:bold 26px Arial,Helvetica,sans-serif;color:#e8b25a">${money(result.money?.monthly)}</span><span style="font:14px Arial,Helvetica,sans-serif;color:#9fb0d0"> / month</span></td>
+</tr></table>
+<p style="margin:10px 0 0;font:12px/1.5 Arial,Helvetica,sans-serif;color:#7a859c">The monthly figure is a conservative estimate from your answers and industry averages. The report shows the working.</p>
+${rows ? `<p style="margin:24px 0 4px;font:bold 13px Arial,Helvetica,sans-serif;letter-spacing:1px;color:#55607a">WHERE IT IS GOING</p><table role="presentation" width="100%" cellpadding="0" cellspacing="0">${rows}</table>` : ''}
+<p style="margin:26px 0 8px" align="center"><a href="${reportUrl}" style="display:inline-block;background:#3b82f6;color:#ffffff;text-decoration:none;font:bold 16px Arial,Helvetica,sans-serif;padding:14px 28px;border-radius:10px">Open your full report</a></p>
+<p style="margin:22px 0 14px">The Scan reads four vitals from the outside. The next step is the <a href="${bpUrl}" style="color:#2563eb">Blueprint</a>: I read all six using your real numbers and give you a written plan in priority order. The fee is credited in full to your build, and the document is yours either way.</p>
+<p style="margin:0 0 14px">If anything in the report looks off, just reply to this email. It comes to me.</p>
+<p style="margin:0 0 4px">Brad Palmer</p><p style="margin:0;color:#55607a;font-size:14px">Founder, Easyworks · +1 604 265 7660</p>
+</td></tr>
+<tr><td style="padding:22px 28px 26px;font:12px/1.6 Arial,Helvetica,sans-serif;color:#8a94a8">You are getting this because you asked for your Scan report at easyworks.ai. This is a one time message, you have not been added to a list.<br>Easyworks AI Solutions Inc. · 37209 Hawkins Pickle Road, Dewdney, BC V2V 0M7, Canada</td></tr>
+</table></div>`;
+  return { subject, html };
+}
+
 export default async (req) => {
   if (req.method === 'OPTIONS') return new Response('', { status: 204, headers: { 'access-control-allow-origin': '*', 'access-control-allow-headers': 'content-type', 'access-control-allow-methods': 'POST' } });
   if (req.method !== 'POST') return json({ error: 'POST only' }, 405);
@@ -63,6 +95,13 @@ export default async (req) => {
       const contactId = up.contact?.id;
       out.ghl = !!contactId;
       if (contactId) {
+        if (!rec.emailedAt) {
+          try {
+            const { subject, html } = reportEmail({ person, biz, result, reportUrl, id });
+            await ghl('/conversations/messages', { type: 'Email', contactId, subject, html, emailFrom: 'Brad at Easyworks <team@easyworksai.com>' });
+            rec.emailedAt = new Date().toISOString(); out.email = true;
+          } catch (e) { out.emailError = e.message; }
+        }
         await ghl('/contacts/' + contactId + '/notes', { body: `EASYWORKS SCAN ${result.score}/100 (${result.band})\n${campLine ? 'Campaign: ' + campLine + '\n' : ''}Business: ${biz}\nSite: ${input.url || 'none'}\nCity: ${input.city || '?'} · Industry: ${input.industry}\nEstimated leak: ${money(result.money.monthly)}/mo\n\nTop leaks:\n${leaks}\n\nWorst checks: ${worst}\n\nReport: ${reportUrl}\nNext step: Blueprint (internal: $500, credited to build).` }).catch(() => {});
         await ghl('/opportunities/', { locationId: GHL_LOC, pipelineId: PIPELINE_ID, pipelineStageId: STAGE_ID, contactId, name: `Scan: ${biz} (${result.score}/100)`, status: 'open', monetaryValue: 2000, source: 'Easyworks Scan' }).catch(() => {});
       }
