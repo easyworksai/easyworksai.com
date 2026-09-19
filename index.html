@@ -28,7 +28,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap"></noscript>
   <link rel="stylesheet" href="style.min.css?v=v3blue6">
-  <link rel="stylesheet" href="redesign.css?v=49">
+  <link rel="stylesheet" href="redesign.css?v=50">
 
   <!-- Schema: LocalBusiness -->
   <script type="application/ld+json">
@@ -525,11 +525,11 @@
 <section class="section section-proof" id="proof">
   <div class="container">
     <div class="section-header center" data-r>
-      <p class="overline">Work we've shipped</p>
-      <h2>Real businesses.<br><span class="h2-dim">Healthier, and still standing.</span></h2>
+      <p class="overline">Our network</p>
+      <h2>The company we keep.<br><span class="h2-dim">Canada and the United States.</span></h2>
     </div>
     <div class="cs" data-r data-d="1">
-      <div class="cs-stage" id="cs-stage" role="list" aria-label="Clients we've built for">
+      <div class="cs-stage" id="cs-stage" role="list" aria-label="Clients, partners and sister companies">
         <div class="cs-glow"></div>
         <div class="cs-ring r1"></div>
         <div class="cs-ring r2"></div>
@@ -555,10 +555,40 @@
           <span class="ws-orb">SM</span><span class="ws-label">SMC Sunday Club</span>
         </a>
 
-        <a class="ws-item" role="listitem" href="https://valoraconcierge.com" target="_blank" rel="noopener"
-           data-name="Valora Concierge" data-cat="Luxury concierge · Vancouver, BC"
-           data-desc="Brand identity and a booking and operations workflow for a VIP concierge handling cars, jets and yachts.">
-          <span class="ws-orb">VC</span><span class="ws-label">Valora Concierge</span>
+        <a class="ws-item" role="listitem" tabindex="0"
+           data-name="Cyrene Dellinger &amp; Associates" data-cat="Real estate · Los Angeles"
+           data-desc="A private agent that works new leads inside her CRM so follow up never slips.">
+          <span class="ws-orb">CD</span><span class="ws-label">Cyrene Dellinger</span>
+        </a>
+
+        <a class="ws-item" role="listitem" href="https://realoneslink.com" target="_blank" rel="noopener"
+           data-name="Real Ones Link" data-cat="Private membership network"
+           data-desc="Membership community site with the CRM behind it, built and run by us.">
+          <span class="ws-orb">RO</span><span class="ws-label">Real Ones Link</span>
+        </a>
+
+        <a class="ws-item" role="listitem" tabindex="0"
+           data-name="Platinum Reserve Events" data-cat="Live events · Quebec"
+           data-desc="Artist contracting and campaign planning for a multi day festival.">
+          <span class="ws-orb">PR</span><span class="ws-label">Platinum Reserve</span>
+        </a>
+
+        <a class="ws-item" role="listitem" tabindex="0"
+           data-name="Blue Path Navigation" data-cat="Indoor wayfinding · Retail"
+           data-desc="Technical partner on an indoor navigation app for shopping centres.">
+          <span class="ws-orb">BP</span><span class="ws-label">Blue Path</span>
+        </a>
+
+        <a class="ws-item" role="listitem" href="https://ampcos.com" target="_blank" rel="noopener"
+           data-name="Ampcos Advisory Group" data-cat="Our parent company · Advisory"
+           data-desc="The advisory group Easyworks belongs to. Strategy, structure and technology for growing companies.">
+          <span class="ws-orb">AA</span><span class="ws-label">Ampcos Advisory</span>
+        </a>
+
+        <a class="ws-item" role="listitem" href="https://ampcoslabs.com/robotics/" target="_blank" rel="noopener"
+           data-name="Ampcos Robotics" data-cat="Sister company · Robotics"
+           data-desc="Our sister lab working on safe, scoped robots for real workplaces.">
+          <span class="ws-orb">AR</span><span class="ws-label">Ampcos Robotics</span>
         </a>
       </div>
 
@@ -572,7 +602,7 @@
         <a class="d-cta" id="cs-dCta" href="#" target="_blank" rel="noopener">Visit <span class="arr">↗</span></a>
       </div>
     </div>
-    <p class="proof-foot" data-r data-d="2"><span class="foot-desktop">Drag to spin · hover a client to lock on · click to visit their live site.</span><span class="foot-mobile">Tap any client to visit their live site.</span></p>
+    <p class="proof-foot" data-r data-d="2"><span class="foot-desktop">Drag to spin · hover a name to lock on · click to visit.</span><span class="foot-mobile">Tap any name for the detail.</span></p>
   </div>
 </section>
 
@@ -829,7 +859,7 @@
         tick(); setInterval(tick, 30000);
         var d = document.getElementById('status-deploy');
         if(d){
-          var deploy = new Date('2026-09-18T23:29:42Z');
+          var deploy = new Date('2026-09-19T00:32:54Z');
           if(!isNaN(deploy.getTime())){
             var diff = Math.floor((Date.now()-deploy.getTime())/60000);
             if(diff < 60) d.textContent = diff + ' min ago';
@@ -854,7 +884,7 @@
   var reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   window.addEventListener('load',function(){
     idle(function(){
-      if(!reduced)add('work-sphere.js?v=4');
+      if(!reduced)add('work-sphere.js?v=5');
       if(window.innerWidth>=900&&!reduced&&!lite)add('https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js',function(){add('three-scene.js?v=3');});
       setTimeout(function(){add('chatbot.js?v=4');},3500);
     });

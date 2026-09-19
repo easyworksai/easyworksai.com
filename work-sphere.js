@@ -52,7 +52,9 @@
       dCat.textContent  = el.getAttribute('data-cat');
       dName.textContent = el.getAttribute('data-name');
       dDesc.textContent = el.getAttribute('data-desc');
-      dCta.setAttribute('href', el.getAttribute('href'));
+      var link = el.getAttribute('href');
+      if (link) { dCta.setAttribute('href', link); dCta.style.display = ''; }
+      else { dCta.removeAttribute('href'); dCta.style.display = 'none'; }
       for (var j = 0; j < N; j++) items[j].classList.toggle('is-active', j === idx);
     }
 
@@ -102,7 +104,7 @@
         e.preventDefault();
         if (didDrag) { didDrag = false; return; }   // a drag, not a tap
         if (selected === idx) {
-          window.open(el.href, '_blank', 'noopener');
+          if (el.getAttribute('href')) window.open(el.href, '_blank', 'noopener');
         } else {
           selectOrb(idx);
         }

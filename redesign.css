@@ -3209,6 +3209,10 @@ section, footer, .trust-strip, .container { position: relative; z-index: 2; }
 .ws-item:nth-of-type(3) .ws-orb { background: linear-gradient(135deg, #3b82f6, #22d3ee); }
 .ws-item:nth-of-type(4) .ws-orb { background: linear-gradient(135deg, #7dd3fc, #3b82f6); }
 .ws-item:nth-of-type(5) .ws-orb { background: linear-gradient(135deg, #22d3ee, #3b82f6); }
+.ws-item:nth-of-type(6) .ws-orb { background: linear-gradient(135deg, #4f86f7, #7dd3fc); }
+.ws-item:nth-of-type(7) .ws-orb { background: linear-gradient(135deg, #3b82f6, #22d3ee); }
+.ws-item:nth-of-type(8) .ws-orb { background: linear-gradient(135deg, #7dd3fc, #3b82f6); }
+.ws-item:not([href]) { cursor: default; }
 .ws-label {
   font-family: var(--font);
   font-weight: 600;
