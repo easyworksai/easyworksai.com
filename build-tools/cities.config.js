@@ -10,16 +10,16 @@ module.exports = [
     neighborhoods: ['Mount Pleasant', 'Kitsilano', 'Yaletown', 'Gastown', 'Mount Pleasant', 'Marpole', 'Dunbar', 'Fraserview', 'East Van', 'Downtown', 'False Creek'],
     landmarks: ['Stanley Park', 'BC Place', 'Granville Island', 'Science World', 'the SeaBus', 'Robson Street', 'Commercial Drive'],
     nearby: ['burnaby', 'surrey', 'squamish'],
-    intro: `Vancouver runs on local search. Every restaurant, clinic, salon, contractor, and showroom in this city lives or dies by whether they show up when someone in Mount Pleasant searches for "best <whatever> near me." We come on-site across every Vancouver neighborhood to install the AI systems that get that phone ringing — and keep it ringing while you're working.`,
+    intro: `Vancouver runs on local search. Every restaurant, clinic, salon, contractor, and showroom in this city lives or dies by whether they show up when someone in Mount Pleasant searches for "best <whatever> near me." We build the systems that get that phone ringing, and keep it answered while you're working.`,
     why: [
       `Vancouver businesses fight harder for attention than almost anywhere in Canada. The competition is denser, the customer is pickier, the rent demands faster cashflow. Generic AI tools that work in a small town fail here because they were never built for a market this saturated.`,
       `Our Small Business Starter is the package most Vancouver shops, studios, and service businesses come in on, scoped by the Blueprint. It covers a premium website, your Google Business Profile fully optimized, a real CRM that tracks every lead, basic AI on every channel, and the local SEO that puts you in front of the people already searching for you.`,
-      `Everything is installed on-site at your Vancouver location. We sit with you, train your staff, and stay on call. We learn your neighbourhood before we build. What works in Kitsilano doesn't always work in Mount Pleasant, and we'll tell you which is which.`,
+      `The founder is on every Vancouver build. We set it up with you, train your staff live, and stay on call. We learn your neighbourhood before we build. What works in Kitsilano doesn't always work in Mount Pleasant, and we'll tell you which is which.`,
     ],
     faq: [
-      { q: 'Do you actually come into Vancouver to install?', a: 'Yes. Every Vancouver client gets an on-site visit at your location for the install and first training session. We bring laptops, walk through every tool with you, and don\'t leave until your team can run it without us.' },
+      { q: 'Who actually does the work?', a: 'The founder. The person you talk to on the first call is the person who scopes and builds your system. We walk your team through every tool live and stay with it until they can run it without us.' },
       { q: 'How long until I rank on Google in Vancouver?', a: 'Map Pack appearances typically inside 30 days once your Google Business Profile is fully optimized and citation work is done. Page-one organic for competitive Vancouver terms is usually a 60-120 day curve, longer for terms with strong incumbents. We send monthly rank reports so you see exactly where you stand.' },
-      { q: 'Which Vancouver neighborhoods do you serve?', a: 'All of them. Downtown, the West Side, East Van, North Van, the Tri-Cities — anywhere a Vancouverite would call Vancouver. If you\'re in Burnaby, Richmond, or Surrey, we still come to you; we just call those by their own names.' },
+      { q: 'Which Vancouver neighborhoods do you serve?', a: 'All of them. Downtown, the West Side, East Van, North Van, the Tri-Cities — anywhere a Vancouverite would call Vancouver. If you\'re in Burnaby, Richmond, or Surrey, we cover those too; they just have their own pages.' },
     ],
   },
   {
@@ -34,15 +34,15 @@ module.exports = [
     why: [
       `Surrey businesses have a particular problem: the customer base is huge, the area is spread out, and most local services can't physically scale fast enough to capture the demand. AI is the equalizer. A two-person shop in Newton can answer calls 24/7 and book appointments while they're elbow-deep in a job, just like a 20-person operation downtown.`,
       `Our Small Business Starter is the entry point for most Surrey businesses. It covers a premium website built for your trade, your Google Business Profile fully claimed and optimized, CRM, basic AI receptionist, and the local SEO push that finally puts you in the Map Pack for Surrey searches.`,
-      `We install on-site at your Surrey location, train your team there, and stay on call. Surrey-specific advice: GBP listings here punch above their weight because Surrey customers search by neighborhood ("dentist in Cloverdale," "physio Newton") more than by city. We optimize for that pattern.`,
+      `The founder is on every Surrey build. We train your team live and stay on call. Surrey-specific advice: GBP listings here punch above their weight because Surrey customers search by neighborhood ("dentist in Cloverdale," "physio Newton") more than by city. We optimize for that pattern.`,
     ],
-    consulting: { overline: 'AI consulting in Surrey', h2: 'AI consulting for Surrey businesses, done on-site.', paras: [
+    consulting: { overline: 'AI consulting in Surrey', h2: 'AI consulting for Surrey businesses, founder led.', paras: [
       `AI consulting in Surrey usually means a slide deck and a retainer. Ours means we sit at your front desk in Newton or Cloverdale, watch how calls and leads actually move, and leave with a Blueprint that says exactly which pieces to install and what they will return.`,
       `AI services for Surrey businesses that pay for themselves first: a receptionist that answers every call and books, instant follow-up on every enquiry, review requests after every job, and a Google profile built to win the neighbourhood searches Surrey customers actually type.`,
       `Run the free Scan before you talk to anyone, including us. It shows what your Surrey business is leaking every month. The Blueprint confirms it with your real numbers, and its fee is credited to the build.`,
     ] },
     faq: [
-      { q: 'I\'m in Cloverdale / Newton / South Surrey. Do you actually come out?', a: 'Yes. Every quadrant of Surrey, every install on-site. We drive there, set up at your location, and train your team in person.' },
+      { q: 'I\'m in Cloverdale / Newton / South Surrey. Do you cover my area?', a: 'Yes. Every quadrant of Surrey. We build each Google profile and page around the neighbourhood your customers actually search from, and train your team live.' },
       { q: 'Why does my Surrey competitor show up before me on Google?', a: 'Usually one of two reasons: their Google Business Profile is more complete (categories, photos, services, posts, reviews), or they\'re built into more local directories. Both are fixable in 30-60 days with the Starter.' },
       { q: 'Do you work with South Asian-language businesses in Surrey?', a: 'Yes. Many of our Surrey clients run multilingual operations. Our AI receptionist handles English/Punjabi/Hindi calls, and we can build your site multilingual when it matters.' },
     ],
@@ -59,10 +59,10 @@ module.exports = [
     why: [
       `If you serve customers in both Burnaby and Vancouver — which most Burnaby businesses do — you need a Google Business Profile and a website that targets both markets without confusing Google about where you actually are. That's specific work, not a checkbox.`,
       `The Small Business Starter covers the foundation: GBP claim and full optimization (service area set correctly), website, CRM, basic AI receptionist, and the cross-city SEO that puts you on the map for searches in both directions.`,
-      `On-site install across every part of Burnaby — Metrotown corridor, Brentwood, Lougheed, Edmonds, the Heights. We're physically here regularly because many of our Vancouver and Surrey clients are right next door.`,
+      `We work with every part of Burnaby: the Metrotown corridor, Brentwood, Lougheed, Edmonds, the Heights. The founder is on every build, and your team is trained live.`,
     ],
     consulting: { overline: 'AI consulting in Burnaby', h2: 'AI consulting and AI services for Burnaby businesses.', paras: [
-      `AI consulting in Burnaby starts with a question nobody asks: which calls are you missing, and what are they worth? We measure that first, on-site in Metrotown, Brentwood or the Heights, and the Blueprint turns the answer into a short list of things to build.`,
+      `AI consulting in Burnaby starts with a question nobody asks: which calls are you missing, and what are they worth? We measure that first, and the Blueprint turns the answer into a short list of things to build.`,
       `The AI services Burnaby businesses need are not exotic. A receptionist that never sends a customer to voicemail, follow-up that replies in seconds, a review engine, a Google profile that ranks on both sides of the Vancouver border. We install them and run them for you.`,
       `Sixty seconds on the free Scan tells you whether it is worth a conversation. Most Burnaby businesses find a leak they did not know about in the first three questions.`,
     ] },
@@ -83,7 +83,7 @@ module.exports = [
     why: [
       `Langley businesses serve a customer base that drives. People in Willoughby drive to Walnut Grove. People in Murrayville drive to Aldergrove. If your Google presence doesn't make it obvious you serve that whole radius, you're invisible to half your real audience.`,
       `The Small Business Starter covers the foundation: GBP claim and full optimization with a service area that covers the Township properly, a website that loads fast on the rural-edge connections common east of 264th, CRM, basic AI receptionist, and Township-aware local SEO.`,
-      `On-site install across both Langley City and the Township. We've been to Fort Langley, the Murrayville corridor, the Willoughby townhouse developments, and the rural east side. We know where the cell coverage drops and where it doesn't — matters more than people think.`,
+      `We cover both Langley City and the Township: Fort Langley, the Murrayville corridor, Willoughby and the rural east side. The founder is on every build, and your team is trained live.`,
     ],
     faq: [
       { q: 'I serve the Township, not the city. Does that change anything?', a: 'Yes, importantly. Township businesses need a "Township of Langley" service area on GBP, not just "Langley." Customers search differently for each. We set this correctly.' },
@@ -102,17 +102,17 @@ module.exports = [
     why: [
       `An Abbotsford business is often serving farms and families and students all at once. That breadth is your advantage if your AI and content reflect it — generic city pages don't, ours do.`,
       `The Small Business Starter covers the foundation: GBP claim and full optimization with a service area covering Matsqui and Sumas, a website built for Fraser Valley load times, CRM, basic AI receptionist, and Fraser-Valley-specific local SEO that doesn't try to compete with Vancouver SERPs.`,
-      `We come to Abbotsford. Every install, every monthly check-in. The drive is worth it because Abbotsford clients tend to refer harder than anywhere else — the community is tight, word travels fast.`,
+      `Abbotsford is home turf. The founder is on every build and every monthly check in. The community here is tight and word travels fast, so we build like our name is on it.`,
     ],
     title: 'AI for Business in Abbotsford, BC: Answered Calls, Booked Jobs | Easyworks AI',
-    description: 'AI for Abbotsford businesses, installed at your shop. A receptionist that answers every call, follow-up that never forgets, a Google profile that ranks. Run the free 60 second Scan first.',
+    description: 'AI for Abbotsford businesses, founder led. A receptionist that answers every call, follow-up that never forgets, a Google profile that ranks. Run the free 60 second Scan first.',
     consulting: { overline: 'AI for business in Abbotsford', h2: 'AI for business in Abbotsford, explained without the jargon.', paras: [
-      `AI for business in Abbotsford means one practical thing: the work that falls through the cracks gets done by a system instead of by you at 9pm. Calls answered while you are on a job. Quotes followed up until they close. Reviews asked for after every visit. That is the whole pitch, and we install it in person.`,
+      `AI for business in Abbotsford means one practical thing: the work that falls through the cracks gets done by a system instead of by you at 9pm. Calls answered while you are on a job. Quotes followed up until they close. Reviews asked for after every visit. That is the whole pitch, and the founder builds it with you.`,
       `Most Abbotsford businesses we scan are leaking in the same three places: calls to voicemail, leads that wait a day for a reply, and a Google profile with four photos and no posts. None of those need a big project. They need the right pieces connected, which is what the Blueprint maps and the build fixes.`,
       `Start with the free Scan. Sixty seconds, no login, and you see your own leak number. If it is worth fixing, the Blueprint comes next and its fee is credited to your build.`,
     ] },
     faq: [
-      { q: 'Do you cover Mission and the rural Fraser Valley too?', a: 'Yes. Mission, Hatzic, Deroche — we drive out for installs. Mission has its own GBP behaviour worth optimizing for separately.' },
+      { q: 'Do you cover Mission and the rural Fraser Valley too?', a: 'Yes. Mission, Hatzic and Deroche are all covered. Mission has its own GBP behaviour worth optimizing for separately.' },
       { q: 'My Abbotsford business is dual-language. Does that work with your AI?', a: 'Yes. Punjabi, Hindi, Korean, Dutch (yes, there\'s a community), German Mennonite — our AI receptionist supports the major Fraser Valley language pairs.' },
     ],
   },
@@ -124,14 +124,14 @@ module.exports = [
     neighborhoods: ['Sardis', 'Garrison Crossing', 'Vedder', 'Promontory', 'Yarrow', 'Rosedale', 'Greendale'],
     landmarks: ['Cultus Lake', 'Mount Cheam', 'the Vedder River', 'Cottonwood Mall', 'the Chilliwack Heritage Park'],
     nearby: ['abbotsford'],
-    intro: `Chilliwack is the eastern edge of how far most Vancouver-based companies will drive. Most won't. We will. That alone makes us different — and it's why Chilliwack businesses tend to lean hard on a partner who actually shows up.`,
+    intro: `Chilliwack sits at the edge of most Vancouver companies' attention. Most treat it as an afterthought. We don't, and it's why Chilliwack businesses tend to lean hard on a partner who actually answers.`,
     why: [
       `Chilliwack businesses are usually undercompeted in local search compared to the Lower Mainland — which means a properly optimized GBP and a real local content strategy can put you in the Map Pack faster here than almost anywhere else.`,
       `The Small Business Starter covers it: GBP claim with proper Chilliwack service area (Sardis, Promontory, Yarrow — search patterns differ), a website that loads fast on rural connections, CRM, basic AI receptionist, and the local SEO that captures both Chilliwack and Cultus Lake summer traffic.`,
-      `We come to Chilliwack for on-site installs. Yes, the drive. That's the point.`,
+      `The founder is on every Chilliwack build. You get a direct line, not a ticket queue.`,
     ],
     faq: [
-      { q: 'Is the on-site install really worth the drive?', a: 'For us, yes. For you, it matters because the install runs better in person — your team learns it, your specific tools get integrated, and we catch the local quirks. Remote installs work too but we prefer to come once.' },
+      { q: 'How does setup work if you are not in my shop?', a: 'We build it with you over a few short calls, connect your existing tools, and train your team live on screen. You get a direct line to the founder the whole way.' },
       { q: 'Cultus Lake / summer market — do you handle seasonal businesses?', a: 'Yes. We can put your AI and content into a seasonal mode (high pace May-September, dialed back October-April) so you\'re not paying for capacity you don\'t need in the slow months.' },
     ],
   },
@@ -147,7 +147,7 @@ module.exports = [
     why: [
       `A Squamish business needs to rank for "Squamish" searches AND show up in Vancouver-area searches when someone is planning a weekend up. Most local SEO treats those as the same problem; they aren't.`,
       `The Small Business Starter covers the foundation: GBP claim, website built to handle high-bandwidth visuals (outdoor businesses live on photos), CRM, basic AI receptionist, and a SEO setup that targets both the local market and the inbound Vancouver visitor market.`,
-      `On-site install means we drive up the Sea-to-Sky. We're up there often — Squamish and Whistler clients run in the same week. The on-site visit matters even more here because cell service is patchy in places and your tech has to work without constant connectivity.`,
+      `The founder is on every Squamish build. Cell service is patchy in places along the corridor, so we build for that: your system has to work without constant connectivity.`,
     ],
     faq: [
       { q: 'How do you handle the tourist vs. local split?', a: 'Two pages or two services on your site — one targeted at locals (regulars, repeat customers, loyalty), one at weekend visitors (booking, info, what to expect). Both feed into the same CRM but speak different languages.' },
@@ -166,7 +166,7 @@ module.exports = [
     why: [
       `A Whistler business needs to appear correctly in Google for "Whistler" but also for season-specific searches ("Whistler skiing," "Whistler summer," "Whistler dining") that have wildly different traffic patterns. Generic SEO levels them all; we don't.`,
       `The Small Business Starter covers GBP optimization for Whistler's specific seasonality, a website built fast for the high-bandwidth visual content Whistler customers expect, multi-language CRM (English/French/German/Mandarin commonly), AI receptionist that handles tourist questions politely without burning your team's time, and a SEO setup that knows when ski-season terms outrank summer terms.`,
-      `On-site install in Whistler. Yes, we make the drive. We pair Whistler visits with Squamish or weekend installs and treat the corridor as a single service region.`,
+      `The founder is on every Whistler build. We treat the Sea to Sky corridor as one market, because your customers do.`,
     ],
     faq: [
       { q: 'My business is seasonal. Will my AI sit idle in shoulder season?', a: 'No — we configure your AI for "shoulder mode" automatically. Less capacity, lower cost, still online to capture early-season inquiries. Bumps back up when bookings spike.' },
@@ -181,21 +181,21 @@ module.exports = [
     neighborhoods: ['Coquitlam Centre', 'Burquitlam', 'Maillardville', 'Westwood Plateau', 'Austin Heights', 'Port Coquitlam', 'Port Moody', 'Burke Mountain'],
     landmarks: ['Coquitlam Centre', 'Lafarge Lake', 'the Evergreen Line', 'Mundy Park', 'Rocky Point Park', 'Town Centre Park'],
     nearby: ['burnaby', 'new-westminster', 'maple-ridge'],
-    intro: `Coquitlam is three cities in one search area. Coquitlam, Port Coquitlam and Port Moody share customers, share the Evergreen Line, and share the same problem: every local business is competing for the same "near me" searches across the whole Tri-Cities and most of them are not set up to win. We come out to Coquitlam Centre, Burquitlam, Burke Mountain and the Ports to fix that on-site.`,
+    intro: `Coquitlam is three cities in one search area. Coquitlam, Port Coquitlam and Port Moody share customers, share the Evergreen Line, and share the same problem: every local business is competing for the same "near me" searches across the whole Tri-Cities and most of them are not set up to win. We fix that for businesses in Coquitlam Centre, Burquitlam, Burke Mountain and the Ports.`,
     why: [
       `Tri-Cities customers search by the place they are standing in, not the city on the business licence. Someone at Lafarge Lake types "physio Coquitlam." Someone in Burquitlam types "dentist near me" and Google decides whether that means you. Your Google Business Profile, your service area and your website have to agree on where you are and who you serve, or you lose both searches.`,
       `The Small Business Starter is the package most Coquitlam businesses come in on. It covers a premium website, your Google Business Profile properly built out, a real CRM, an AI receptionist that answers when you cannot, and the local SEO push that gets you into the Map Pack for Tri-Cities searches.`,
-      `Everything is installed on-site. We come to your location in Coquitlam, Port Coquitlam or Port Moody, sit with your staff and do not leave until they can run it. Burnaby and New Westminster clients are next door, so we are in the area every week.`,
+      `The founder is on every build in Coquitlam, Port Coquitlam and Port Moody. We train your staff live and stay with it until they can run it.`,
     ],
     consulting: { overline: 'AI services in Coquitlam', h2: 'AI services for Coquitlam and the Tri-Cities.', paras: [
       `AI services in Coquitlam should cover all three cities at once, because your customers do. A receptionist that answers every call from Port Moody to Burke Mountain, follow-up that books the appointment before the customer calls the next clinic, and a Google profile set up for Tri-Cities searches.`,
-      `We install on-site and we keep it running. The Blueprint maps what is leaking in your specific setup, the build fixes it, and the monthly plan keeps it improving.`,
+      `We build it and we keep it running. The Blueprint maps what is leaking in your specific setup, the build fixes it, and the monthly plan keeps it improving.`,
       `Run the free Scan first. It takes a minute and shows the leak in dollars, which makes the next decision an easy one.`,
     ] },
     faq: [
       { q: 'Do you cover Port Coquitlam and Port Moody too?', a: 'Yes. We treat the Tri-Cities as one service area. Your Google Business Profile gets all three cities set correctly so you show up in each of them without faking an address.' },
       { q: 'How is Coquitlam different from Burnaby for local SEO?', a: 'Less competition per search, but the searches are split across three city names. We set up your profile and pages so Google connects you to all three instead of just the one on your licence.' },
-      { q: 'What does the first 30 days look like?', a: 'On-site install, Google Business Profile rebuilt, website live, CRM and AI receptionist answering. Map Pack movement usually shows inside the first month for Tri-Cities terms.' },
+      { q: 'What does the first 30 days look like?', a: 'System built, Google Business Profile rebuilt, website live, CRM and AI receptionist answering. Map Pack movement usually shows inside the first month for Tri-Cities terms.' },
     ],
   },
   {
@@ -206,11 +206,11 @@ module.exports = [
     neighborhoods: ['Steveston', 'Brighouse', 'Ironwood', 'Hamilton', 'Terra Nova', 'Seafair', 'Bridgeport', 'Sea Island'],
     landmarks: ['Steveston Village', 'Richmond Centre', 'the Canada Line', 'YVR', 'Aberdeen Centre', 'the Richmond Olympic Oval', 'Garry Point Park'],
     nearby: ['vancouver', 'delta', 'burnaby'],
-    intro: `Richmond is one of the most bilingual local markets in Canada, and Google knows it. A clinic in Brighouse, a shop in Steveston, a contractor working out of Ironwood: they are all being searched for in English and Chinese, on phones, from the Canada Line. Most Richmond businesses have a website that handles one of those and a Google profile that handles neither. We install the whole system on-site.`,
+    intro: `Richmond is one of the most bilingual local markets in Canada, and Google knows it. A clinic in Brighouse, a shop in Steveston, a contractor working out of Ironwood: they are all being searched for in English and Chinese, on phones, from the Canada Line. Most Richmond businesses have a website that handles one of those and a Google profile that handles neither. We build the whole system for you.`,
     why: [
       `Richmond searches are dense and fast. The customer is standing in Aberdeen Centre or Richmond Centre and wants an answer in the next two minutes. If your phone goes to voicemail or your profile has no hours and three photos, the next business on the list gets the call. An AI receptionist that answers every call and books straight into your calendar is the single biggest fix for Richmond service businesses.`,
       `The Small Business Starter covers it. Premium website, Google Business Profile fully built, CRM, AI receptionist and the local SEO that puts you in the Map Pack for Richmond and Steveston searches. Multilingual handling is available when your customers need it.`,
-      `We install on-site anywhere in Richmond, including Sea Island and the industrial areas around Bridgeport. Vancouver and Delta clients are minutes away, so we are on the Canada Line corridor constantly.`,
+      `We work anywhere in Richmond, including Sea Island and the industrial areas around Bridgeport. The founder is on every build.`,
     ],
     faq: [
       { q: 'Can the AI receptionist handle Cantonese or Mandarin callers?', a: 'Yes. We configure the receptionist for the languages your customers actually use, and we can build your website bilingual when it matters for your market.' },
@@ -230,10 +230,10 @@ module.exports = [
     why: [
       `Delta businesses need their Google Business Profile to name the community, not just the city. "Dentist Tsawwassen" and "dentist North Delta" are different searches with different winners. Most Delta profiles say "Delta" and lose both. We set the service area and the page copy so you own your own community first.`,
       `The Small Business Starter is built for exactly this size of business. Premium website, Google Business Profile rebuilt, CRM, AI receptionist, and the local SEO that puts you in the Map Pack for Ladner, Tsawwassen or North Delta searches.`,
-      `We are close. On-site install anywhere in Delta is a short drive from the Fraser Valley, and we are through Ladner Village and the Scottsdale corridor often. When something needs a hand, we come by.`,
+      `We know Delta. The founder is on every build, and when something needs a hand you have a direct line.`,
     ],
     faq: [
-      { q: 'Is Easyworks actually in Delta?', a: 'We are based in the Fraser Valley and install on-site across Delta, Metro Vancouver and the Valley. Remote clients across Canada and the US get the same system without the drive.' },
+      { q: 'Is Easyworks actually in Delta?', a: 'We started in the Lower Mainland and work remote first with businesses across Canada and the United States. Delta clients get the same founder led build and a direct line.' },
       { q: 'I am in Tsawwassen. Will I show up for ferry traffic searches?', a: 'That is a real opportunity. Thousands of people a day search "near me" from the terminal line-up. We optimize your profile and hours so you catch that traffic.' },
       { q: 'Do you serve the farms and agricultural businesses out by Boundary Bay?', a: 'Yes. Farm stands, nurseries, equipment and services all rank well locally because there is little competition. Long-form content about what you actually offer does the work.' },
     ],
@@ -246,11 +246,11 @@ module.exports = [
     neighborhoods: ['Downtown New West', 'Sapperton', 'Queensborough', 'Uptown', 'the Quay', 'Brow of the Hill', 'West End'],
     landmarks: ['the River Market', 'Westminster Quay', 'Royal Columbian Hospital', 'Columbia Street', 'Queens Park', 'the Pattullo Bridge'],
     nearby: ['burnaby', 'coquitlam', 'surrey'],
-    intro: `New Westminster is small, dense and surrounded. Burnaby on one side, Surrey across the river, Coquitlam up the hill. That means a New West business shows up in three cities' worth of searches if the setup is right, and gets buried under three cities' worth of competitors if it is not. Most Columbia Street and Sapperton businesses are in the second group. We change that on-site.`,
+    intro: `New Westminster is small, dense and surrounded. Burnaby on one side, Surrey across the river, Coquitlam up the hill. That means a New West business shows up in three cities' worth of searches if the setup is right, and gets buried under three cities' worth of competitors if it is not. Most Columbia Street and Sapperton businesses are in the second group. We change that.`,
     why: [
       `Downtown New West, Sapperton and Queensborough are three distinct search areas on a very small map. A Royal Columbian nurse searching "lunch near me" and a Quay resident searching "physio New Westminster" are both your customer, and Google decides which businesses it shows each of them based on how complete and consistent your profile is. Completeness wins here more than anywhere in Metro Vancouver.`,
       `The Small Business Starter covers it. Premium website, Google Business Profile fully built, CRM, AI receptionist for the calls you miss, and the local SEO that puts you in the Map Pack for New West and the neighbouring cities.`,
-      `We install on-site. Columbia Street, Sapperton, Uptown, Queensborough, all of it. Burnaby and Coquitlam clients are minutes away, so we are on this side of the river weekly.`,
+      `Columbia Street, Sapperton, Uptown, Queensborough, all of it. The founder is on every build.`,
     ],
     faq: [
       { q: 'Should my Google profile say New Westminster or Burnaby?', a: 'Your real address, always. Then we set the service area to cover the cities you actually serve so you rank across the border without faking anything.' },
@@ -266,11 +266,11 @@ module.exports = [
     neighborhoods: ['Lonsdale', 'Lynn Valley', 'Deep Cove', 'Edgemont', 'Lower Lonsdale', 'Capilano', 'Seymour', 'West Vancouver'],
     landmarks: ['the Lonsdale Quay', 'Lynn Canyon', 'Grouse Mountain', 'the Capilano Suspension Bridge', 'Deep Cove', 'Park Royal', 'the Lions Gate Bridge'],
     nearby: ['vancouver', 'squamish', 'burnaby'],
-    intro: `The North Shore has a bridge problem. Customers on this side do not want to cross Lions Gate or the Second Narrows for anything they can get in Lonsdale, Lynn Valley or Edgemont, and they search accordingly. Google, though, keeps showing them Vancouver businesses because the North Shore listings are thin. A well built North Van profile beats a downtown competitor here almost every time. We build it on-site.`,
+    intro: `The North Shore has a bridge problem. Customers on this side do not want to cross Lions Gate or the Second Narrows for anything they can get in Lonsdale, Lynn Valley or Edgemont, and they search accordingly. Google, though, keeps showing them Vancouver businesses because the North Shore listings are thin. A well built North Van profile beats a downtown competitor here almost every time. We build it.`,
     why: [
       `North Vancouver customers are loyal to the North Shore and search by neighbourhood. "Dentist Lynn Valley," "physio Lower Lonsdale," "spa Edgemont." If your Google Business Profile and website name the neighbourhood, you win those searches with less competition than anywhere south of the bridges. West Vancouver works the same way.`,
       `The Small Business Starter covers the foundation. Premium website, Google Business Profile rebuilt with the right neighbourhood and service area, CRM, AI receptionist, and the local SEO that puts you in the North Shore Map Pack.`,
-      `We install on-site across North Van, West Van and out to Deep Cove. We are also on the Sea to Sky for Squamish and Whistler clients, so the North Shore is on the way.`,
+      `We work across North Van, West Van and out to Deep Cove. The founder is on every build.`,
     ],
     faq: [
       { q: 'Do you cover West Vancouver as well?', a: 'Yes. We treat the North Shore as one service area and set your profile to cover the District, the City and West Van correctly.' },
@@ -290,7 +290,7 @@ module.exports = [
     why: [
       `There is less competition per search here than anywhere west of the Golden Ears Bridge. A complete Google Business Profile, a fast website and an AI receptionist that actually answers put a Maple Ridge business at the top of the Map Pack faster than the same work would in Burnaby or Surrey. The customers are already searching; almost nobody is set up to be found.`,
       `The Small Business Starter is the entry point. Premium website, Google Business Profile rebuilt, CRM, AI receptionist, and the local SEO that covers Maple Ridge and Pitt Meadows as one market.`,
-      `We install on-site in Haney, Albion, Silver Valley, Pitt Meadows and out to Whonnock. Langley and Coquitlam clients are close, so the Ridge is a regular stop.`,
+      `We work with businesses in Haney, Albion, Silver Valley, Pitt Meadows and out to Whonnock. The founder is on every build.`,
     ],
     faq: [
       { q: 'Do you cover Pitt Meadows too?', a: 'Yes. Maple Ridge and Pitt Meadows share customers and searches. Your profile gets both set correctly.' },

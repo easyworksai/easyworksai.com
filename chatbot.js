@@ -7,7 +7,7 @@
 
   const CONFIG = {
     botName: 'Ewa',
-    greeting: "Hey! 👋 I'm Ewa, the Easyworks AI assistant. I can answer questions about our services, pricing, or help you get started. What can I help with?",
+    greeting: "Hey! 👋 I'm Ewa, the Easyworks AI assistant. I can answer questions about what we build, how it works, or help you get started. What can I help with?",
     typingDelay: 800,
     collectFields: ['name', 'business', 'phone', 'email'],
   };
@@ -15,55 +15,55 @@
   const KNOWLEDGE = {
     pricing: {
       keywords: ['price', 'pricing', 'cost', 'how much', 'afford', 'pay', 'money', 'dollar', 'budget', 'expensive', 'cheap', 'fee', 'subscription', 'monthly'],
-      response: "We have **5 engines** — pick what you need, stack 2+ to save up to 20%:\n\n• **AI Suite** — $997 setup + **$497/mo** (foundation — everyone starts here)\n• **Content Engine** — $1,297 setup + **$997/mo**\n• **SEO Engine** — $997 setup + **$997/mo**\n• **AI Revenue Scale** — $997 setup + **from $497/mo** (tiered by ad spend)\n• **Voice → Report** — $997 setup + **$497/mo**\n\nMost-popular bundle is **Full Stack** (AI Suite + Content + SEO + Revenue Scale) at **$3,517 setup + $2,450/mo** — 15% off standalone. Month-to-month, no lock-in. Want me to send you to the stack builder?"
+      response: "We don't do one price for everyone, because no two businesses are weak in the same place.\n\n1. **The Scan** is free and takes about a minute. It gives you your Business Longevity Rating.\n2. **The Blueprint** is a paid written diagnosis, and the fee is credited in full to your build.\n3. **The build** is scoped to what the Blueprint finds, so you only pay for what is actually weak.\n4. **Maintain** is a monthly plan where we run it for you.\n\nWant the link to the free Scan?"
     },
     aiSuite: {
       keywords: ['ai suite', 'crm', 'receptionist', 'answer call', 'follow up', 'booking', 'inbox'],
-      response: "**AI Suite — $997 setup + $497/mo** — the foundation everyone starts with:\n\n• 24/7 AI receptionist (answers + qualifies + books)\n• Instant SMS + email follow-up (under 60 sec)\n• Online booking + auto-reminders\n• Full CRM + mobile app\n• Replace · Integrate · Shadow modes (your choice)\n\nThree deployment modes: replace your CRM entirely, bolt our AI onto your existing one, or run alongside in shadow. Want to book a discovery call?"
+      response: "**AI Suite** covers the front desk:\n\n• A receptionist that answers every call, qualifies and books\n• Text and email follow up in under a minute\n• Online booking with reminders\n• One CRM and mobile app for every customer\n\nWe can replace your current CRM, connect to it, or run quietly beside it. What it costs depends on your Blueprint. Want to start with the free Scan?"
     },
     contentEngine: {
       keywords: ['content', 'social', 'post', 'instagram', 'tiktok', 'reels', 'video', 'branding', 'social media'],
-      response: "**Content Engine — $1,297 setup + $997/mo**:\n\n• Daily AI-generated posts (IG, FB, TikTok)\n• Photo + video generation (Higgsfield-powered)\n• Brand voice + visual identity training\n• Auto-posting + scheduling\n• Engagement monitoring + reply suggestions\n\nYour brand presence on autopilot. Pairs with AI Revenue Scale to feed paid ads fresh creative weekly."
+      response: "**Content Engine** keeps your brand in front of your market:\n\n• Posts, photos and video made in your brand voice\n• Scheduled and published for you\n• Engagement watched, with reply suggestions\n\nIt is scoped after your Blueprint so it fits what your business actually needs."
     },
     seoEngine: {
       keywords: ['seo', 'google', 'search', 'ranking', 'gbp', 'business profile', 'local search', 'maps'],
-      response: "**SEO Engine — $997 setup + $997/mo**:\n\n• Full SEO review + technical fixes\n• Google Business Profile claim + optimization\n• Local citations build\n• 2 monthly SEO articles\n• Review request automation\n\nGet found on Google when it matters. Inbound traffic flywheel — pairs great with AI Suite to capture every search-driven lead."
+      response: "Getting found is part of every build:\n\n• Technical fixes on your site\n• Google Business Profile built out properly\n• Local listings and a steady review engine\n• Pages written for what your customers really search\n\nThe free Scan shows how findable you are right now. Want the link?"
     },
     revenueScale: {
       keywords: ['ad', 'ads', 'paid ads', 'paid', 'meta', 'facebook ads', 'google ads', 'scale', 'revenue scale', 'roi', 'roas', 'ad spend'],
-      response: "**AI Revenue Scale — $997 setup + from $497/mo** (tiered by ad spend):\n\n• Meta + Google ads managed end-to-end\n• Auto budget reallocation every 4 hours by ROI\n• Creative rotation + A/B testing\n• Live cross-channel attribution + plain-English reports\n• You pay ad spend directly to platforms — clean books\n\nTiers: Starter ($497/mo mgmt, up to $2k ad spend) · Growth ($997/mo, $2-5k) · Scale ($1,497/mo, $5-10k).\n\n⚠️ Warning: possibility of too many customers. Requires AI Suite + 1 demand engine. Want the calculator?"
+      response: "**AI Revenue Scale** is managed Meta and Google ads:\n\n• Campaigns built and run end to end\n• Budget moved toward what is earning\n• Fresh creative tested on a schedule\n• Plain English reports\n\nYou pay ad spend straight to the platforms, so your books stay clean. It works best once calls and follow up are already handled."
     },
     voiceReport: {
       keywords: ['voice', 'dictation', 'transcription', 'notary', 'paralegal', 'report', 'document', 'whisper', 'transcribe'],
-      response: "**Voice → Report — $997 setup + $497/mo**:\n\n• Custom client submission app\n• 24/7 automated transcription\n• Higher quality than DIY tools\n• Templates for medical, legal, real estate, insurance, court\n• Unlimited submissions, flat rate\n\nDictation in, finished report out. Built for notaries, paralegals, real estate agents, insurance adjusters, doctors, dentists, therapists, court reporters."
+      response: "**Voice to Report** turns dictation into finished reports, using your own templates. It is a specialty product for report heavy professions. Ask us on a call if it fits your work."
     },
     bundles: {
       keywords: ['bundle', 'stack', 'package', 'discount', 'save', 'all', 'everything', 'combo', 'all in one'],
-      response: "Pre-built bundles save 10-20%:\n\n• **Starter** — AI Suite only — $997 + $497/mo · \"Never miss a call\"\n• **Local Growth** — AI Suite + SEO — $1,795 + $1,345/mo · \"Get found, get booked\"\n• **Brand Builder** — AI Suite + Content — $2,065 + $1,345/mo · \"Make noise, capture leads\"\n• **Full Stack** — AI Suite + Content + SEO + Revenue Scale — **$3,517 + $2,450/mo** (most popular, 15% off)\n\nStack 5 engines and save 20%. Want me to walk you through the stack builder?"
+      response: "We don't sell fixed bundles anymore. Your Blueprint shows which parts of your business are weak, and the build covers those parts only. Most businesses start with calls, follow up and being found on Google. The free Scan is the fastest way to see where you stand."
     },
     timeline: {
       keywords: ['how long', 'how fast', 'when', 'timeline', 'start', 'setup', 'get going', 'ready', 'launch'],
-      response: "We move fast:\n\n1. **Discovery call** — 15 min to learn your business (on-site if you're local to Surrey, BC)\n2. **Build** — Same day, we configure everything\n3. **Go live** — 2-3 business days total\n\nZero technical skills needed. We handle 100% of setup and ongoing management. Want to book that discovery call?"
+      response: "About a week from your first call:\n\n1. **Days 1 to 3.** Scan and Blueprint. We diagnose what is weak.\n2. **Days 4 to 6.** We build it with you and test it.\n3. **Day 7 onward.** You go live, your team is trained, and we keep it running.\n\nNo technical skills needed on your side."
     },
     contract: {
       keywords: ['contract', 'lock in', 'cancel', 'commit', 'long term', 'agreement', 'month to month', 'quit', 'leave'],
-      response: "No contracts. Month-to-month only. **30-day satisfaction guarantee** — not happy in the first 30 days, we make it right or refund you.\n\nMost clients stay because the ROI is obvious within the first week, but you're never locked in."
+      response: "Not happy in the first 30 days? We make it right or refund you. Terms for your build and monthly plan are laid out plainly in your Blueprint before you commit to anything."
     },
     industries: {
       keywords: ['industry', 'business type', 'contractor', 'plumber', 'hvac', 'lawyer', 'dentist', 'physio', 'physical therapy', 'nail', 'spa', 'salon', 'restaurant', 'real estate', 'auto', 'cleaning', 'fitness', 'landscap'],
-      response: "We specialize in **physio clinics, dental offices, and nail salons / spas** — but we work with 34+ industries:\n\n🦴 Physio / chiropractic\n🦷 Dental & medical\n💅 Nail salons / spas\n🔧 Contractors & trades\n🏠 Real estate\n⚖️ Law firms\n🚗 Auto services\n💪 Fitness / wellness\n🧹 Cleaning services\n📝 Notaries / paralegals\n\nEach setup is customized to your industry — different scripts, workflows, follow-up sequences. What type of business do you run?"
+      response: "We work with most businesses that live on calls, bookings and reviews: clinics, dental offices, spas, trades and contractors, real estate, law firms, auto, fitness and more.\n\nTell me what you do and I'll point you to the right page, or you can run the free Scan and see your own numbers."
     },
     onsite: {
-      keywords: ['onsite', 'on-site', 'in person', 'come to', 'install', 'location', 'where', 'surrey', 'canada', 'bc', 'local', 'whistler', 'vancouver', 'chilliwack', 'abbotsford', 'langley', 'global', 'partnership', 'reseller', 'agency'],
-      response: "**Built in BC, serving worldwide.**\n\n🚙 **On-site install** — Whistler → Chilliwack and every city between. We come to you, install on-site, train your team. No travel charge in the corridor.\n\n🌐 **Global remote** — outside BC? We install + manage remotely with the same standard. On-call support, same response time.\n\n🤝 **Partnerships welcome** — resellers, agencies, white-label arrangements. Email team@easyworksai.com with 'Partnership inquiry'.\n\nWant to book your on-site walkthrough?"
+      keywords: ['founder', 'who', 'remote', 'onsite', 'on-site', 'in person', 'install', 'location', 'usa', 'united states', 'america', 'where', 'surrey', 'canada', 'bc', 'local', 'whistler', 'vancouver', 'chilliwack', 'abbotsford', 'langley', 'global', 'partnership', 'reseller', 'agency'],
+      response: "Easyworks is **founder led**. The person you talk to on the first call is the person who scopes and builds your system.\n\nWe work remote first with businesses across Canada and the United States, and your team is trained live.\n\nWe're also open to partnerships with agencies and resellers. Email team@easyworksai.com with 'Partnership inquiry'."
     },
     ai: {
       keywords: ['ai', 'artificial intelligence', 'robot', 'bot', 'automated', 'real person', 'human', 'live agent'],
-      response: "Our AI receptionist handles calls with natural conversation — qualifies leads, answers FAQs, books appointments. Callers typically can't tell it's AI.\n\nBut there's always a human layer: urgent calls route to you, our team manages + optimizes everything behind the scenes. It's not \"set and forget\" — it's a fully managed system.\n\nWant a sample call?"
+      response: "The receptionist holds a natural conversation. It answers questions, qualifies the caller and books the appointment.\n\nThere is always a human layer. Urgent calls route to you, and our team watches and tunes the system every month."
     },
     results: {
       keywords: ['results', 'roi', 'return', 'work', 'proof', 'case study', 'testimonial', 'guarantee'],
-      response: "What our clients typically see:\n\n• **3x more leads** captured (no missed calls)\n• **<60 sec** response time to new inquiries\n• **40% more bookings** from better follow-up\n• **5x more reviews** within 30 days\n• **2.4× ROAS lift** on Revenue Scale clients within 90 days\n\nOne dental clinic went from 3 Google reviews to 47 in 30 days. **30-day satisfaction guarantee** on every engine.\n\nWant to see how this would work for your specific business?"
+      response: "We don't quote numbers we can't stand behind for your business. Here's what the system is built to do:\n\n• Answer every call, including after hours\n• Reply to new inquiries in under a minute\n• Follow up until the customer books or says no\n• Ask for a review after every job\n\nThe free Scan estimates what the gaps are costing you today, using your own details. And if you're not happy in the first 30 days, we make it right or refund you."
     },
     getStarted: {
       keywords: ['get started', 'sign up', 'begin', 'interested', 'ready', 'lets go', 'let\'s go', 'book', 'call', 'schedule', 'talk to someone', 'speak'],
@@ -71,14 +71,14 @@
     },
     competitor: {
       keywords: ['competitor', 'compare', 'vs', 'versus', 'alternative', 'difference', 'better', 'other', 'already have', 'diy', 'agency'],
-      response: "Three doors most businesses face:\n\n1. **DIY** — \"I'll learn it myself.\" Real cost: your time + 7 disconnected tools.\n2. **Big agency** — $5-15k/mo, reports not results, 12-month contracts, you're client #847.\n3. **Easyworks** — from $497/mo, we come to you, install on-site, month-to-month, 30-day refund.\n\nIt's the difference between buying a race car and having a pit crew. Want us to walk you through what we'd replace in your current stack?"
+      response: "Three doors most businesses face:\n\n1. **Do it yourself.** Your time, plus a pile of tools that don't talk to each other.\n2. **Big agency.** Long contracts, reports instead of results, and you're one client of hundreds.\n3. **Easyworks.** Founder led. One connected system, built and run for you, with a 30 day make it right or refund promise.\n\nWant to see where your business stands? The free Scan takes about a minute."
     }
   };
 
   const FALLBACK_RESPONSES = [
-    "Good question! Let me make sure I get you the right answer. Would you like me to connect you with our team directly, or can I help with something about our pricing, features, or how we work?",
-    "I want to make sure I give you accurate info on that. Our team can dive deeper — want me to have someone reach out? Or I can help with pricing, what's included, or how fast we get you set up.",
-    "That's a bit outside my wheelhouse, but our team would love to chat about it. Want to book a quick 15-min call, or is there something else I can help with — like pricing or features?"
+    "Good question! Let me make sure I get you the right answer. Would you like me to connect you with our team directly, or can I help with what we build or how we work?",
+    "I want to make sure I give you accurate info on that. Our team can dive deeper. Want me to have someone reach out? Or I can help with what's included or how fast we get you set up.",
+    "That's a bit outside my wheelhouse, but our team would love to chat about it. Want to book a quick 15-min call, or is there something else I can help with — like what we build or how it works?"
   ];
 
   let state = {
@@ -377,7 +377,7 @@
       showTyping();
       setTimeout(() => {
         hideTyping();
-        addBotMessage(`${state.leadData.business} — love it. What's the best **phone number** to reach you?`);
+        addBotMessage(`${state.leadData.business}, love it. What's the best **phone number** to reach you?`);
         state.collectStep = 2;
       }, CONFIG.typingDelay);
     } else if (step === 2) {

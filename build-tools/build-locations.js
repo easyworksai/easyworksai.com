@@ -38,14 +38,14 @@ const navAndCanvas = () => `</head><body class="cosmic"><div id="page-loader" ar
 <canvas id="cosmic-canvas" aria-hidden="true"></canvas><div class="cosmic-grid" aria-hidden="true"></div><div class="cosmic-blob cosmic-blob-1" aria-hidden="true"></div><div class="cosmic-blob cosmic-blob-2" aria-hidden="true"></div><div class="cosmic-blob cosmic-blob-3" aria-hidden="true"></div>
 <nav class="nav" id="nav"><div class="nav-inner">
 <a href="../../" class="logo"><img src="../../img/mark.svg?v=1" width="32" height="32" alt="" class="logo-icon-img"><span class="logo-wordmark logo-tracked">EASYWORKS<span class="logo-ai">·AI</span></span></a>
-<div class="nav-links" id="navLinks"><a href="../../#products">Products</a><a href="../../#onsite">On-site</a><a href="../../#how">Process</a><a href="/scan/" class="nav-cta">Run the free Scan</a></div><button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span></button>
+<div class="nav-links" id="navLinks"><a href="../../#products">Products</a><a href="../../#coverage">Where we work</a><a href="../../#how">Process</a><a href="/scan/" class="nav-cta">Run the free Scan</a></div><button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span></button>
 </div></nav>`;
 
 const footer = () => `<footer class="footer"><div class="container"><div class="footer-grid">
 <div class="footer-brand"><a href="../../" class="logo"><img src="../../img/mark.svg?v=1" width="32" height="32" alt="" class="logo-icon-img"><span class="logo-wordmark logo-tracked">EASYWORKS<span class="logo-ai">·AI</span></span></a><p>Less doing.<br>More done.</p>
-<div class="footer-contact"><a href="mailto:team@easyworksai.com">team@easyworksai.com</a><a href="tel:+16042657660">+1 (604) 265-7660</a><span>🇨🇦 Built in BC</span><span>Whistler → Chilliwack · global remote</span></div>
+<div class="footer-contact"><a href="mailto:team@easyworksai.com">team@easyworksai.com</a><a href="tel:+16042657660">+1 (604) 265-7660</a><span>Founder led</span><span>Canada and the United States</span></div>
 </div>
-<div class="footer-col"><h4>Products</h4><a href="../../scribe/">Easyworks Scribe (BC clinicians)</a><a href="../../content-engine/">Content Engine</a><a href="../../seo-engine/">SEO Engine</a><a href="../../ai-suite/">AI Suite</a><a href="../../ai-revenue-scale/">AI Revenue Scale</a><a href="../../#onsite">On-site install</a></div>
+<div class="footer-col"><h4>Products</h4><a href="../../scribe/">Easyworks Scribe (BC clinicians)</a><a href="../../content-engine/">Content Engine</a><a href="../../seo-engine/">SEO Engine</a><a href="../../ai-suite/">AI Suite</a><a href="../../ai-revenue-scale/">AI Revenue Scale</a></div>
 <div class="footer-col"><h4>Locations</h4><a href="/locations/vancouver/">Vancouver</a><a href="/locations/surrey/">Surrey</a><a href="/locations/burnaby/">Burnaby</a><a href="/locations/langley/">Langley</a><a href="/locations/abbotsford/">Abbotsford</a><a href="/locations/chilliwack/">Chilliwack</a><a href="/locations/squamish/">Squamish</a><a href="/locations/whistler/">Whistler</a><a href="/locations/coquitlam/">Coquitlam</a><a href="/locations/richmond/">Richmond</a><a href="/locations/delta/">Delta</a><a href="/locations/new-westminster/">New Westminster</a><a href="/locations/north-vancouver/">North Vancouver</a><a href="/locations/maple-ridge/">Maple Ridge</a><a href="/locations/">All BC cities →</a></div>
 <div class="footer-col"><h4>Industries</h4><a href="/industries/ai-for-dentists-bc/">AI for Dentists (BC)</a><a href="/industries/ai-for-physio-bc/">AI for Physiotherapy (BC)</a><a href="/industries/ai-for-spas-bc/">AI for Spas + Med-Spas (BC)</a><a href="/industries/real-estate/">Real Estate Teams</a><a href="/industries/law/">Law Firms</a><a href="/industries/financial/">Mortgage, Insurance, Advisors</a><a href="/industries/home-services/">Home Services</a><a href="/industries/dealerships/">Auto Dealerships</a><a href="/industries/">All industries →</a></div>
 <div class="footer-col"><h4>Company</h4><a href="/scan/">The Scan (free)</a><a href="../../#faq">FAQ</a><a href="../../#start">Contact</a><a href="mailto:team@easyworksai.com">team@easyworksai.com</a></div>
@@ -58,7 +58,7 @@ const footer = () => `<footer class="footer"><div class="container"><div class="
 const cityPage = (c) => {
   const url = `https://easyworks.ai/locations/${c.slug}/`;
   const title = c.title || `AI Services and AI Consulting in ${c.city}, ${c.region} | Easyworks AI`;
-  const description = c.description || `AI services for ${c.city} businesses, installed on-site. Website, Google Business Profile, CRM, AI receptionist and local SEO, diagnosed, built and run for you by a BC team.`;
+  const description = c.description || `AI services for ${c.city} businesses, founder led. Website, Google Business Profile, CRM, AI receptionist and local SEO, diagnosed, built and run for you.`;
   const og = `AI for ${c.city} Businesses — Easyworks AI`;
 
   const schemas = `
@@ -90,7 +90,7 @@ ${navAndCanvas()}
       <div class="psub-hero-icon"><div class="eng-glyph" aria-hidden="true"><svg viewBox="0 0 200 200" class="gl-glow"><circle class="gl-stroke gl-stroke-2" cx="100" cy="92" r="28"/><path class="gl-stroke gl-stroke-2" d="M62 162c0-23 17-42 38-42s38 19 38 42"/><circle class="gl-fill-gold" cx="100" cy="92" r="6"/></svg></div></div>
       <div class="psub-hero-copy">
         <h1>AI for ${c.city} businesses.</h1>
-        <p class="psub-tagline">On-site across ${c.city}. Real install. Real humans.</p>
+        <p class="psub-tagline">Working with ${c.city} businesses. Founder led. Real humans.</p>
         <p class="psub-pitch">${c.intro}</p>
         <div class="psub-meta">
           <div class="psub-price"><span class="psub-price-num">Scan</span><span>free · find the leaks</span></div>
@@ -183,7 +183,7 @@ ${c.consulting ? `<section class="section">
     <div class="cta-header" data-r>
       <div class="cta-brand"><img src="../../img/icon.svg?v=2" alt="" class="hero-icon-img" style="width:56px;height:56px"><span class="brand-name brand-tracked" style="font-size:1.4rem">EASYWORKS<span class="brand-ai">·AI</span></span></div>
       <h2>Ready to install in ${c.city}?</h2>
-      <p>Tell us about your ${c.city} business. We'll <strong>come see you</strong> — real humans, real install, on-site.</p>
+      <p>Tell us about your ${c.city} business. You'll <strong>talk to the founder</strong>. Real humans, a real build.</p>
     </div>
     <div style="text-align:center; margin-top: 24px;">
       <a href="../../#start" class="btn btn-accent btn-lg">Book with a human <span aria-hidden="true">→</span></a>
@@ -286,9 +286,9 @@ ${footer()}`;
 // Index pages
 const locationsIndex = () => {
   const url = `https://easyworks.ai/locations/`;
-  const description = `Easyworks AI installs done-for-you AI systems on-site across BC. Whistler → Chilliwack. See your city.`;
+  const description = `Easyworks builds and runs done for you customer systems for BC businesses, founder led. See your city.`;
   const links = cities.map(c => `<a class="rp-card" href="./${c.slug}/" data-r><span class="rp-icon rp-icon-dot"></span><div class="rp-body"><h4>${c.city}</h4><p>AI for ${c.city} businesses</p></div><span class="rp-arrow">→</span></a>`).join('\n      ');
-  return `${head({title: 'Locations — On-Site AI Install Across BC | Easyworks AI', description, url, og: 'Easyworks AI Locations'})}
+  return `${head({title: 'Locations: AI Services Across BC | Easyworks AI', description, url, og: 'Easyworks AI Locations'})}
 ${navAndCanvas()}
 
 <section class="psub-hero">
@@ -298,8 +298,8 @@ ${navAndCanvas()}
     <div class="psub-hero-grid" data-r data-d="1">
       <div class="psub-hero-copy" style="grid-column:1 / -1">
         <h1>Locations across BC.</h1>
-        <p class="psub-tagline">Whistler to Chilliwack. We come to you.</p>
-        <p class="psub-pitch">Every install starts with us showing up at your location. We set the systems up at your shop, your studio, your clinic — not a Zoom call. Below is every BC city we currently install in.</p>
+        <p class="psub-tagline">Whistler to Chilliwack. Founder led.</p>
+        <p class="psub-pitch">Every build is led by the founder, from the first call to the day you go live. Below is every BC city we have a dedicated page for. Anywhere else in Canada or the United States works the same way.</p>
       </div>
     </div>
   </div>
