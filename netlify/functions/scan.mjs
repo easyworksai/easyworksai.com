@@ -35,7 +35,8 @@ async function checkSite(url) {
   const ttfb = Date.now() - t0;
   if (!res.ok) return { reachable: false, error: `HTTP ${res.status}` };
   const finalUrl = res.url || url;
-  const h = html.slice(0, 400_000);
+  const h = html.slice(0, 4_000_000);
+  const textLen = h.replace(/<(script|style|noscript|svg)[\s\S]*?<\/\1>/gi, ' ').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').length;
   const pick = (re) => { const m = h.match(re); return m ? m[1].replace(/\s+/g, ' ').trim() : ''; };
   const has = (re) => re.test(h);
   const lower = h.toLowerCase();
@@ -62,12 +63,22 @@ async function checkSite(url) {
     social: ['instagram.com', 'facebook.com', 'linkedin.com', 'tiktok.com', 'youtube.com'].filter((d) => lower.includes(d)),
     crm: /leadconnector|gohighlevel|hubspot|salesforce|zoho|pipedrive|activecampaign|keap|jobber|housecall/.test(lower),
     sitemap: null,
+    // A page with almost no readable text is built in the browser. We cannot see what a visitor sees, so misses are 'could not check', not fails.
+    thin: textLen < 1200,
   };
   try {
     const origin = new URL(finalUrl).origin;
-    const sm = await withTimeout(fetch(origin + '/sitemap.xml', { method: 'GET', headers: { 'user-agent': 'EasyworksScan/1.0' } }), 4000, null);
-    site.sitemap = !!(sm && sm.ok && /<(urlset|sitemapindex)/i.test((await sm.text()).slice(0, 2000)));
-  } catch { site.sitemap = false; }
+    const ua = { 'user-agent': 'Mozilla/5.0 (compatible; EasyworksScan/1.0; +https://easyworks.ai/scan/)' };
+    const isMap = async (u) => { const r = await withTimeout(fetch(u, { headers: ua, redirect: 'follow' }), 4000, null); if (!r) return null; if (!r.ok) return false; return /<(urlset|sitemapindex)/i.test((await r.text()).slice(0, 4000)); };
+    // robots.txt is where a sitemap is declared. Fall back to the two common paths.
+    const candidates = [];
+    const rb = await withTimeout(fetch(origin + '/robots.txt', { headers: ua }), 4000, null);
+    if (rb && rb.ok) for (const m of (await rb.text()).matchAll(/^\s*sitemap:\s*(\S+)/gim)) candidates.push(m[1]);
+    candidates.push(origin + '/sitemap.xml', origin + '/sitemap_index.xml');
+    let found = false, blocked = 0;
+    for (const u of candidates.slice(0, 4)) { const ok = await isMap(u); if (ok) { found = true; break; } if (ok === null) blocked++; }
+    site.sitemap = found ? true : blocked ? null : false; // null = could not check
+  } catch { site.sitemap = null; }
   return site;
 }
 

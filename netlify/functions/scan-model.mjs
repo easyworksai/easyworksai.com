@@ -50,25 +50,31 @@ export function score({ industry = 'other', checks, quiz = {}, job }) {
   const lastReviewMs = Math.max(0, ...((prof?.reviewTimes || []).map((t) => Date.parse(t)).filter(Number.isFinite)));
   const sinceDays = lastReviewMs ? Math.floor((Date.now() - lastReviewMs) / 86400000) : null;
   const findings = []; // { pillar, key, status: pass|warn|fail, label, fix, points, max }
-  const add = (pillar, key, status, max, label, fix) => findings.push({ pillar, key, status, label, fix, points: pts(status === 'pass' ? true : status === 'warn' ? 'warn' : false, max), max });
+  // status 'unknown' = we could not check it. It carries no points and no max, so it never moves the score.
+  const add = (pillar, key, status, max, label, fix) => findings.push(status === 'unknown'
+    ? { pillar, key, status, label, fix, points: 0, max: 0 }
+    : { pillar, key, status, label, fix, points: pts(status === 'pass' ? true : status === 'warn' ? 'warn' : false, max), max });
+  // On a page built in the browser a miss proves nothing, so it becomes 'unknown'. A hit is still a hit.
+  const miss = (status) => (site.thin && status !== 'pass' ? 'unknown' : status);
+  const CANT = 'We could not read this from outside. The Blueprint checks it properly.';
 
   // ---- Found (30) --------------------------------------------------------------
   if (site.reachable) {
     add('found', 'title', site.title && site.title.length >= 20 && site.title.length <= 70 ? 'pass' : site.title ? 'warn' : 'fail', 4, 'Page title tells Google what you do and where', 'Write a title like "Service in City | Business name", 50 to 60 characters.');
     add('found', 'description', site.description ? (site.description.length >= 80 ? 'pass' : 'warn') : 'fail', 3, 'Meta description', 'Add a 140 to 160 character description that names the service and city.');
-    add('found', 'h1', site.h1 ? 'pass' : 'fail', 2, 'One clear headline (H1)', 'Put your main service and city in the page headline.');
+    add('found', 'h1', miss(site.h1 ? 'pass' : 'fail'), 2, 'One clear headline (H1)', site.thin && !site.h1 ? CANT : 'Put your main service and city in the page headline.');
     add('found', 'schema', site.schemaLocal ? 'pass' : site.schemaAny ? 'warn' : 'fail', 5, 'Business details in a format Google reads (schema)', 'Add LocalBusiness schema with name, address, phone, hours and service area.');
-    add('found', 'sitemap', site.sitemap ? 'pass' : 'fail', 2, 'Sitemap', 'Publish sitemap.xml and submit it in Search Console.');
+    add('found', 'sitemap', site.sitemap ? 'pass' : site.sitemap === false ? 'fail' : 'unknown', 2, 'Sitemap', site.sitemap === false ? 'Publish a sitemap, list it in robots.txt and submit it in Search Console.' : CANT);
     add('found', 'canonical', site.canonical ? 'pass' : 'warn', 1, 'Canonical URL', 'Add a canonical tag so Google indexes one version of each page.');
     add('found', 'viewport', site.viewport ? 'pass' : 'fail', 2, 'Mobile friendly', 'Add the viewport meta tag and test on a phone. Most local searches are mobile.');
   } else {
     add('found', 'site', 'fail', 19, 'Website reachable', site.error ? `We could not load the site (${site.error}). Google cannot either.` : 'No website found. A one page site with your services, city and a booking button is the floor.');
   }
   const perf = speed.score; // 0..100 or null
-  add('found', 'speed', perf == null ? 'warn' : perf >= 70 ? 'pass' : perf >= 40 ? 'warn' : 'fail', 6, `Mobile speed${perf != null ? ` (${perf}/100)` : ''}`, 'Compress images, drop unused scripts, and get the first screen under 2.5 seconds on mobile.');
+  add('found', 'speed', perf == null ? 'unknown' : perf >= 70 ? 'pass' : perf >= 40 ? 'warn' : 'fail', 6, `Mobile speed${perf != null ? ` (${perf}/100)` : ''}`, 'Compress images, drop unused scripts, and get the first screen under 2.5 seconds on mobile.');
   // v2 (Voice): presence across channels. Being findable in more than one place is part of the voice.
   const social = site.social || [];
-  if (site.reachable) add('found', 'social', social.length >= 2 ? 'pass' : social.length === 1 ? 'warn' : 'fail', 3, `Social channels linked from the site (${social.length})`, 'Link at least Instagram and Facebook from the site and post weekly. Presence across channels is how you stay seen.');
+  if (site.reachable) add('found', 'social', miss(social.length >= 2 ? 'pass' : social.length === 1 ? 'warn' : 'fail'), 3, `Social channels linked from the site (${social.length})`, 'Link at least Instagram and Facebook from the site and post weekly. Presence across channels is how you stay seen.');
   if (prof) {
     add('found', 'profile', prof.found ? 'pass' : 'fail', 5, 'Google Business Profile found', 'Claim and verify the profile. It is the single biggest local ranking factor.');
   } else {
@@ -82,9 +88,9 @@ export function score({ industry = 'other', checks, quiz = {}, job }) {
   const replyLoss = QUIZ.reply[quiz.reply] ?? 0.3;
   add('answered', 'reply', replyLoss === 0 ? 'pass' : replyLoss <= 0.1 ? 'warn' : 'fail', 10, 'Speed to lead', 'Reply inside 5 minutes, automatically, on every channel. After 5 minutes the odds of reaching a lead drop 8 times.');
   if (site.reachable) {
-    add('answered', 'tel', site.telLink ? 'pass' : site.phoneText ? 'warn' : 'fail', 4, 'Tap to call on the site', 'Make the phone number a tel: link and pin it in the header on mobile.');
-    add('answered', 'booking', site.booking ? 'pass' : site.form ? 'warn' : 'fail', 4, 'Online booking or lead form', 'Add a booking button that opens a real calendar. A contact form is the minimum.');
-    add('answered', 'afterhours', site.chat || site.booking ? 'pass' : 'warn', 2, 'After hours path', 'Chat or booking lets a 9pm visitor act now instead of forgetting by morning.');
+    add('answered', 'tel', miss(site.telLink ? 'pass' : site.phoneText ? 'warn' : 'fail'), 4, 'Tap to call on the site', 'Make the phone number a tel: link and pin it in the header on mobile.');
+    add('answered', 'booking', miss(site.booking ? 'pass' : site.form ? 'warn' : 'fail'), 4, 'Online booking or lead form', 'Add a booking button that opens a real calendar. A contact form is the minimum.');
+    add('answered', 'afterhours', miss(site.chat || site.booking ? 'pass' : 'warn'), 2, 'After hours path', 'Chat or booking lets a 9pm visitor act now instead of forgetting by morning.');
   } else {
     add('answered', 'site-answer', 'fail', 10, 'A way to book online', 'Without a site there is no after hours path at all.');
   }
@@ -106,12 +112,12 @@ export function score({ industry = 'other', checks, quiz = {}, job }) {
     }
   } else {
     add('trusted', 'review-ask', askFactor === 1 ? 'pass' : askFactor > 0 ? 'warn' : 'fail', 10, 'Review requests after every job', 'Automate the ask. Businesses that ask every customer average three times the reviews of those that ask sometimes.');
-    add('trusted', 'photos-quiz', 'warn', 3, 'Profile photos', 'We will check photo count in the Blueprint. Twenty plus is the bar.');
+    add('trusted', 'photos-quiz', 'unknown', 3, 'Google profile photos and review count', 'Not checked in this Scan. The Blueprint reads your Google profile directly.');
   }
   if (site.reachable) {
     add('trusted', 'https', site.https ? 'pass' : 'fail', 3, 'Secure site (HTTPS)', 'Browsers label non-HTTPS sites "Not secure". Fix at the host, usually free.');
     add('trusted', 'fresh', site.fresh ? 'pass' : 'warn', 2, 'Site looks current', 'Update the copyright year and add something dated this quarter. Stale sites read as closed.');
-    add('trusted', 'proof', site.proof ? 'pass' : 'warn', 2, 'Reviews or testimonials on the site', 'Pull your Google reviews onto the homepage.');
+    add('trusted', 'proof', miss(site.proof ? 'pass' : 'warn'), 2, 'Reviews or testimonials on the site', 'Pull your Google reviews onto the homepage.');
   } else {
     add('trusted', 'site-trust', 'fail', 7, 'Website trust signals', 'No site to carry proof.');
   }
@@ -129,27 +135,46 @@ export function score({ industry = 'other', checks, quiz = {}, job }) {
   for (const f of findings) { const p = pillars[f.pillar] ||= { points: 0, max: 0 }; p.points += f.points; p.max += f.max; }
   const WEIGHT = { found: 30, answered: 30, trusted: 20, growing: 20 };
   let total = 0;
-  for (const [k, w] of Object.entries(WEIGHT)) { const p = pillars[k] || { points: 0, max: 1 }; p.score = Math.round((p.points / p.max) * w); p.weight = w; total += p.score; }
+  for (const [k, w] of Object.entries(WEIGHT)) { const p = pillars[k] || { points: 0, max: 1 }; p.score = Math.round((p.points / (p.max || 1)) * w); p.weight = w; total += p.score; }
   total = clamp(total, 0, 100);
+  // When a lot could not be checked, the top verdict is not ours to give.
+  const unverified = findings.filter((f) => f.status === 'unknown').length;
+  if (unverified >= 4) total = Math.min(total, 89);
 
   // ---- money -----------------------------------------------------------------------
   const monthlyRevenueEst = ind.leads * ind.close * jobValue;
   const leaks = [];
   // Capped at 40% of the estimated monthly revenue so a big-ticket trade does not get an absurd number.
-  const missedLoss = Math.min(missedPerWeek * 4.3 * 0.35 * ind.close * jobValue, monthlyRevenueEst * 0.4);
+  // Not every missed call is a new customer (existing clients, suppliers and spam ring too), and not every
+  // enquiry arrives as a message. Both shares are stated assumptions, shown to the user.
+  const NEW_CALL_SHARE = 0.4, MESSAGE_SHARE = 0.4;
+  // New customers lost to voicemail can never exceed the enquiries the business gets by phone (about 6 in 10).
+  const missedNew = Math.min(missedPerWeek * 4.3 * NEW_CALL_SHARE, ind.leads * 0.6);
+  const missedLoss = missedNew * 0.35 * ind.close * jobValue;
   if (missedLoss > 0) leaks.push({ key: 'missed', label: 'Missed calls', amount: missedLoss, line: `${missedPerWeek} calls a week to voicemail. About a third never call back.` });
-  const replyLossAmt = ind.leads * replyLoss * ind.close * jobValue;
+  // Slow replies only cost the revenue not already counted as lost to missed calls, so the two never overlap.
+  const replyLossAmt = replyLoss * MESSAGE_SHARE * Math.max(0, monthlyRevenueEst - missedLoss);
   if (replyLossAmt > 0) leaks.push({ key: 'reply', label: 'Slow follow-up', amount: replyLossAmt, line: 'Leads that wait pick whoever answered first.' });
   const reviewCount = prof?.found ? prof.reviews ?? 0 : null;
   const reviewShort = reviewCount == null ? askFactor === 0 : reviewCount < ind.reviewMedian;
-  if (reviewShort) { const pct = (reviewCount != null && reviewCount < 10) || askFactor === 0 ? 0.10 : 0.05; leaks.push({ key: 'reviews', label: 'Review gap', amount: monthlyRevenueEst * pct, line: 'Fewer reviews than the businesses you compete with on the map.' }); }
+  if (reviewShort) {
+    // Only claim a gap against competitors when we have actually read the review count.
+    const known = reviewCount != null;
+    const pct = known ? (reviewCount < 10 ? 0.10 : 0.05) : 0.05;
+    leaks.push({ key: 'reviews', label: known ? 'Review gap' : 'Reviews not being asked for', amount: monthlyRevenueEst * pct, line: known ? `${reviewCount} reviews, against about ${ind.reviewMedian} for a typical business in your industry.` : 'You told us nobody asks customers for a review. New customers read reviews before they call.' });
+  }
   if (adSpend && !traced) leaks.push({ key: 'ads', label: 'Untracked ad spend', amount: adSpend * 0.25, line: 'A quarter of untracked spend is waste on average.' });
   if (hours > 3) leaks.push({ key: 'hours', label: 'Owner admin time', amount: (hours - 3) * 4.3 * 45, line: `${hours} hours a week on work a system should do.` });
+  // The whole estimate is capped at 35% of estimated monthly revenue. A number bigger than the business is not believable.
+  const LEAK_CAP = 0.35;
+  const rawTotal = leaks.reduce((s, l) => s + l.amount, 0);
+  const capped = rawTotal > monthlyRevenueEst * LEAK_CAP;
+  if (capped) { const k = (monthlyRevenueEst * LEAK_CAP) / rawTotal; leaks.forEach((l) => { l.amount *= k; }); }
   leaks.sort((a, b) => b.amount - a.amount);
   const leakTotal = Math.round(leaks.reduce((s, l) => s + l.amount, 0) / 50) * 50;
 
   // Top three leaks for the result page: worst findings weighted by points lost, cross-referenced with money.
-  const worst = findings.filter((f) => f.status !== 'pass').sort((a, b) => (b.max - b.points) - (a.max - a.points)).slice(0, 3);
+  const worst = findings.filter((f) => f.status !== 'pass' && f.status !== 'unknown').sort((a, b) => (b.max - b.points) - (a.max - a.points)).slice(0, 3);
 
   // v2 previews: the two Blueprint-only vitals, shown as honest counts so the free tier hints at
   // them without pretending to score what it cannot see from outside.
@@ -159,7 +184,7 @@ export function score({ industry = 'other', checks, quiz = {}, job }) {
   };
 
   return {
-    score: total, band: bandOf(total), pillars, findings, worst, previews, benchmark: checks.benchmark ?? null,
-    money: { monthly: leakTotal, leaks: leaks.map((l) => ({ ...l, amount: Math.round(l.amount / 10) * 10 })), assumptions: { industry: ind.label, closeRate: ind.close, jobValue, leadsPerMonth: ind.leads, reviewMedian: ind.reviewMedian } },
+    score: total, band: bandOf(total), unverified, pillars, findings, worst, previews, benchmark: checks.benchmark ?? null,
+    money: { monthly: leakTotal, leaks: leaks.map((l) => ({ ...l, amount: Math.round(l.amount / 10) * 10 })), assumptions: { capped, capPct: LEAK_CAP, revenueEst: Math.round(monthlyRevenueEst), industry: ind.label, closeRate: ind.close, jobValue, leadsPerMonth: ind.leads, reviewMedian: ind.reviewMedian } },
   };
 }
