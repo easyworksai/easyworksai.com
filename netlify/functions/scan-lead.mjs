@@ -37,6 +37,10 @@ export default async (req) => {
   const email = String(b.email || '').trim().toLowerCase();
   const phone = String(b.phone || '').replace(/[^\d+]/g, '').slice(0, 16);
   const person = String(b.name || '').trim().slice(0, 100);
+  const camp = {}; for (const k of ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'gclid', 'fbclid']) { const v = b.camp && b.camp[k]; if (v) camp[k] = String(v).slice(0, 120); }
+  const slug = (v) => String(v).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40);
+  const campTags = [camp.utm_source && `src-${slug(camp.utm_source)}`, camp.utm_campaign && `cell-${slug(camp.utm_campaign)}`, (camp.gclid || camp.fbclid) && 'paid-click'].filter(Boolean);
+  const campLine = Object.keys(camp).length ? Object.entries(camp).filter(([k]) => k.startsWith('utm_')).map(([k, v]) => `${k.slice(4)}=${v}`).join(' · ') : '';
   if (!id || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return json({ error: 'A real email is needed to open the report.' }, 400);
   const rec = await store().get(id, { type: 'json' });
   if (!rec) return json({ error: 'scan not found' }, 404);
@@ -53,20 +57,21 @@ export default async (req) => {
     try {
       const up = await ghl('/contacts/upsert', {
         locationId: GHL_LOC, email, ...(phone ? { phone } : {}), ...(person ? { name: person } : {}), companyName: biz, website: input.url || undefined, city: input.city || undefined,
-        source: 'Easyworks Scan', tags: ['scan', bandTag, `industry-${input.industry}`],
+        source: 'Easyworks Scan', tags: ['scan', bandTag, `industry-${input.industry}`, ...campTags],
         customFields: [],
       });
       const contactId = up.contact?.id;
       out.ghl = !!contactId;
       if (contactId) {
-        await ghl('/contacts/' + contactId + '/notes', { body: `EASYWORKS SCAN ${result.score}/100 (${result.band})\nBusiness: ${biz}\nSite: ${input.url || 'none'}\nCity: ${input.city || '?'} · Industry: ${input.industry}\nEstimated leak: ${money(result.money.monthly)}/mo\n\nTop leaks:\n${leaks}\n\nWorst checks: ${worst}\n\nReport: ${reportUrl}\nNext step: Blueprint (internal: $500, credited to build).` }).catch(() => {});
+        await ghl('/contacts/' + contactId + '/notes', { body: `EASYWORKS SCAN ${result.score}/100 (${result.band})\n${campLine ? 'Campaign: ' + campLine + '\n' : ''}Business: ${biz}\nSite: ${input.url || 'none'}\nCity: ${input.city || '?'} · Industry: ${input.industry}\nEstimated leak: ${money(result.money.monthly)}/mo\n\nTop leaks:\n${leaks}\n\nWorst checks: ${worst}\n\nReport: ${reportUrl}\nNext step: Blueprint (internal: $500, credited to build).` }).catch(() => {});
         await ghl('/opportunities/', { locationId: GHL_LOC, pipelineId: PIPELINE_ID, pipelineStageId: STAGE_ID, contactId, name: `Scan: ${biz} (${result.score}/100)`, status: 'open', monetaryValue: 2000, source: 'Easyworks Scan' }).catch(() => {});
       }
     } catch (e) { out.ghlError = e.message; }
   }
   try {
     const text = `Scan lead: ${biz} scored ${result.score}/100 (${result.band}), leaking about ${money(result.money.monthly)}/mo.\n${person ? person + ' · ' : ''}${email}${phone ? ' · ' + phone : ''}\n${input.city || ''} ${input.industry}\nTop leak: ${result.money.leaks[0] ? result.money.leaks[0].label + ' ' + money(result.money.leaks[0].amount) : 'none'}\n${reportUrl}${out.ghl ? '' : '\n(GHL push failed: ' + (out.ghlError || 'no token') + ')'}`;
-    const r = await fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ chat_id: TG_CHAT, text, disable_web_page_preview: true }) });
+    const textOut = campLine ? text + '\nCampaign: ' + campLine : text;
+    const r = await fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ chat_id: TG_CHAT, text: textOut, disable_web_page_preview: true }) });
     out.telegram = r.ok;
   } catch {}
   // The Floor: drop the lead into the unclaimed pool, flagged hot, so Cash sees it without opening GHL.

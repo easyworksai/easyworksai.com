@@ -8,6 +8,7 @@ export const INDUSTRIES = {
   dentist:     { label: 'Dental clinic',        close: 0.6,  job: 650,  leads: 40,  reviewMedian: 120 },
   physio:      { label: 'Physio / chiro',       close: 0.7,  job: 480,  leads: 35,  reviewMedian: 80 },
   spa:         { label: 'Spa / salon',          close: 0.65, job: 180,  leads: 60,  reviewMedian: 150 },
+  medspa:      { label: 'Med spa / aesthetics', close: 0.5,  job: 540,  leads: 45,  reviewMedian: 150 },
   trades:      { label: 'Trades / contractor',  close: 0.45, job: 2400, leads: 25,  reviewMedian: 60 },
   realestate:  { label: 'Real estate',          close: 0.08, job: 9000, leads: 30,  reviewMedian: 40 },
   restaurant:  { label: 'Restaurant / cafe',    close: 0.9,  job: 45,   leads: 200, reviewMedian: 300 },

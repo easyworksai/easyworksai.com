@@ -3,14 +3,26 @@
   'use strict';
   const $ = (s, el) => (el || document).querySelector(s);
   const $$ = (s, el) => Array.from((el || document).querySelectorAll(s));
-  const track = (name, params) => { try { window.gtag && gtag('event', name, params || {}); } catch (e) {} };
+  const track = (name, params) => { try { window.gtag && gtag('event', name, Object.assign({}, typeof campParams === 'function' ? campParams() : {}, params || {})); } catch (e) {} };
   const money = (n) => '$' + Math.round(Number(n) || 0).toLocaleString('en-CA');
-  const JOB_DEFAULT = { dentist: 650, physio: 480, spa: 180, trades: 2400, realestate: 9000, restaurant: 45, other: 400 };
+  const JOB_DEFAULT = { dentist: 650, physio: 480, medspa: 540, spa: 180, trades: 2400, realestate: 9000, restaurant: 45, other: 400 };
   // The four vital signs the Scan reads (brand vocabulary). Connection + Immunity
   // are the Blueprint's deeper read.
   const PILLAR_LABEL = { found: 'Voice', answered: 'Reflexes', trusted: 'Circulation', growing: 'Autonomy' };
 
   const state = { industry: 'other', quiz: {}, rec: null };
+
+  // Campaign tags: keep the first utm_* / click id we see this session so the lead carries its ad cell.
+  const CAMP_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'gclid', 'fbclid'];
+  const camp = (() => {
+    let c = {};
+    try { c = JSON.parse(sessionStorage.getItem('ew_camp') || '{}'); } catch (e) {}
+    const q = new URLSearchParams(location.search);
+    CAMP_KEYS.forEach((k) => { const v = q.get(k); if (v && !c[k]) c[k] = v.slice(0, 120); });
+    try { sessionStorage.setItem('ew_camp', JSON.stringify(c)); } catch (e) {}
+    return c;
+  })();
+  const campParams = () => ({ campaign: camp.utm_campaign || '', source: camp.utm_source || '', medium: camp.utm_medium || '' });
   const sections = { intro: $('#s-intro'), quiz: $('#s-quiz'), run: $('#s-run'), result: $('#s-result') };
   const show = (k) => { Object.entries(sections).forEach(([n, el]) => { el.hidden = n !== k; }); window.scrollTo({ top: 0, behavior: 'smooth' }); };
 
@@ -20,6 +32,8 @@
     c.setAttribute('aria-pressed', 'true'); state.industry = c.dataset.v;
     $('#jobv').placeholder = JOB_DEFAULT[state.industry];
   }));
+  const preI = new URLSearchParams(location.search).get('i');
+  if (preI && JOB_DEFAULT[preI]) { const chip = $('#industry .chip[data-v="' + preI + '"]'); if (chip) chip.click(); }
   $('#introForm').addEventListener('submit', (e) => {
     e.preventDefault();
     const biz = $('#biz').value.trim(), url = $('#url').value.trim();
@@ -135,7 +149,7 @@
     const btn = $('#gateForm button[type=submit]'); btn.disabled = true;
     const er = $('#gateErr'); er.style.display = 'none';
     try {
-      const r = await fetch('/api/scan-lead', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ id: state.rec.id, email: $('#gemail').value, phone: $('#gphone').value, name: $('#gname').value }) });
+      const r = await fetch('/api/scan-lead', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ id: state.rec.id, email: $('#gemail').value, phone: $('#gphone').value, name: $('#gname').value, camp }) });
       const j = await r.json();
       if (!r.ok) throw new Error(j.error || 'Could not open the report');
       track('generate_lead', { method: 'scan_gate', score: state.rec.result.score, band: state.rec.result.band, has_phone: !!$('#gphone').value });

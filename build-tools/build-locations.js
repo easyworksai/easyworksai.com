@@ -32,7 +32,7 @@ const head = ({ title, description, url, og }) => `<!DOCTYPE html><html lang="en
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../style.min.css?v=v3blue6">
-<link rel="stylesheet" href="../../redesign.css?v=30">`;
+<link rel="stylesheet" href="../../redesign.css?v=51">`;
 
 const navAndCanvas = () => `</head><body class="cosmic"><div id="page-loader" aria-hidden="true"><div class="pl-stage"><div class="pl-ring"></div><div class="pl-ring pl-ring-2"></div><div class="pl-ring pl-ring-3"></div><div class="pl-orb"></div><span class="pl-label">Loading</span></div></div>
 <canvas id="cosmic-canvas" aria-hidden="true"></canvas><div class="cosmic-grid" aria-hidden="true"></div><div class="cosmic-blob cosmic-blob-1" aria-hidden="true"></div><div class="cosmic-blob cosmic-blob-2" aria-hidden="true"></div><div class="cosmic-blob cosmic-blob-3" aria-hidden="true"></div>
@@ -47,7 +47,7 @@ const footer = () => `<footer class="footer"><div class="container"><div class="
 </div>
 <div class="footer-col"><h4>Products</h4><a href="../../scribe/">Easyworks Scribe (BC clinicians)</a><a href="../../content-engine/">Content Engine</a><a href="../../seo-engine/">SEO Engine</a><a href="../../ai-suite/">AI Suite</a><a href="../../ai-revenue-scale/">AI Revenue Scale</a></div>
 <div class="footer-col"><h4>Locations</h4><a href="/locations/vancouver/">Vancouver</a><a href="/locations/surrey/">Surrey</a><a href="/locations/burnaby/">Burnaby</a><a href="/locations/langley/">Langley</a><a href="/locations/abbotsford/">Abbotsford</a><a href="/locations/chilliwack/">Chilliwack</a><a href="/locations/squamish/">Squamish</a><a href="/locations/whistler/">Whistler</a><a href="/locations/coquitlam/">Coquitlam</a><a href="/locations/richmond/">Richmond</a><a href="/locations/delta/">Delta</a><a href="/locations/new-westminster/">New Westminster</a><a href="/locations/north-vancouver/">North Vancouver</a><a href="/locations/maple-ridge/">Maple Ridge</a><a href="/locations/">All BC cities →</a></div>
-<div class="footer-col"><h4>Industries</h4><a href="/industries/ai-for-dentists-bc/">AI for Dentists (BC)</a><a href="/industries/ai-for-physio-bc/">AI for Physiotherapy (BC)</a><a href="/industries/ai-for-spas-bc/">AI for Spas + Med-Spas (BC)</a><a href="/industries/real-estate/">Real Estate Teams</a><a href="/industries/law/">Law Firms</a><a href="/industries/financial/">Mortgage, Insurance, Advisors</a><a href="/industries/home-services/">Home Services</a><a href="/industries/dealerships/">Auto Dealerships</a><a href="/industries/">All industries →</a></div>
+<div class="footer-col"><h4>Industries</h4><a href="/industries/home-services/">Home services and trades</a><a href="/industries/med-spas/">Med spas</a><a href="/industries/dental/">Dental practices</a><a href="/industries/">All industries →</a></div>
 <div class="footer-col"><h4>Company</h4><a href="/scan/">The Scan (free)</a><a href="../../#faq">FAQ</a><a href="../../#start">Contact</a><a href="mailto:team@easyworksai.com">team@easyworksai.com</a></div>
 </div><div class="footer-bar"><span>&copy; 2026 Easyworks AI Solutions</span><span class="footer-links"><a href="../../">Home</a></span></div></div></footer>
 
@@ -197,7 +197,7 @@ ${footer()}`;
 const industryPage = (i) => {
   const url = `https://easyworks.ai/industries/${i.slug}/`;
   const description = `${i.tagline} Growth systems for ${i.industry.toLowerCase()}, diagnosed, built and run for you. ${i.region}.`;
-  const og = `${i.title} — Easyworks AI`;
+  const og = `${i.title} | Easyworks`;
 
   const schemas = `
 <script type="application/ld+json">
@@ -210,7 +210,7 @@ const industryPage = (i) => {
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[${i.faq.map(f => `{"@type":"Question","name":${JSON.stringify(f.q)},"acceptedAnswer":{"@type":"Answer","text":${JSON.stringify(f.a)}}}`).join(',')}]}
 </script>`;
 
-  return `${head({title: `${i.title} — Easyworks AI`, description, url, og})}${schemas}
+  return `${head({title: `${i.title} | Easyworks`, description, url, og})}${schemas}
 ${navAndCanvas()}
 
 <section class="psub-hero">
@@ -281,6 +281,19 @@ ${navAndCanvas()}
 </section>
 
 ${footer()}`;
+};
+
+// Ad landers (/for/<key>/): same page, noindex, no site nav, every CTA goes to the Scan with the industry preselected.
+const landerPage = (i) => {
+  const scan = `/scan/?i=${i.scanKey}`;
+  return industryPage(i)
+    .split(`https://easyworks.ai/industries/${i.slug}/`).join(`https://easyworks.ai/for/${i.lander}/`)
+    .replace('<meta charset="UTF-8">', '<meta name="robots" content="noindex,follow"><meta charset="UTF-8">')
+    .replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>\s*/g, '')
+    .replace(/<a href="\.\.\/" class="psub-back"[^>]*>[^<]*<\/a>/, '')
+    .replace(/<a href="\.\.\/\.\.\/#products">Products<\/a><a href="\.\.\/\.\.\/#coverage">Where we work<\/a><a href="\.\.\/\.\.\/#how">Process<\/a>/, '')
+    .split('href="/scan/"').join(`href="${scan}"`)
+    .replace('<body class="cosmic">', `<body class="cosmic is-lander" data-lander="${i.lander}">`);
 };
 
 // Index pages
@@ -376,6 +389,13 @@ for (const i of industries) {
   count++;
 }
 // Industries index
+for (const i of industries.filter(x => x.lander)) {
+  const dir = path.join(ROOT, 'for', i.lander);
+  fs.mkdirSync(dir, { recursive: true });
+  fs.writeFileSync(path.join(dir, 'index.html'), landerPage(i));
+  console.log('wrote for/' + i.lander + '/index.html');
+}
+
 fs.mkdirSync(path.join(ROOT, 'industries'), { recursive: true });
 fs.writeFileSync(path.join(ROOT, 'industries', 'index.html'), industriesIndex());
 console.log('wrote industries/index.html');
