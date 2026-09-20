@@ -28,6 +28,19 @@ header{display:flex;justify-content:space-between;align-items:center;margin-bott
 .who a{color:var(--cyan);text-decoration:none;margin-left:10px;cursor:pointer}
 .hide{display:none!important}
 /* EA view: read only. Team activity, the wire, the board and Ops. No personal sales stats, no sales tabs. */
+#today .tdhead{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin:4px 0 2px}
+#today .tdhead h1{font-size:22px;margin:0}
+#today .tdhead .tdmeta{font-size:12.5px;color:var(--dim)}
+#today .tdhead button{margin-left:auto;padding:6px 12px;border:1px solid var(--line);border-radius:8px;background:transparent;color:var(--ink);font-size:12px;font-weight:700;cursor:pointer}
+#today .tdgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 22px}
+@media(max-width:760px){#today .tdgrid{grid-template-columns:1fr}}
+#today .board td{padding:10px 14px;border-top:1px solid #10192e;vertical-align:top}
+#today .board tr:first-child td{border-top:0}
+#today .tdsub{display:block;font-size:12px;color:var(--dim);margin-top:2px}
+#today .tdnum{white-space:nowrap;text-align:right;color:var(--dim);font-size:12.5px}
+#today .tdnum b{color:#f87171}
+#today .tdnone{color:var(--dim);font-size:13.5px;padding:12px 14px}
+#today h2 .cnt{color:var(--ink)}
 body.ea-view #tab-dash .hero,body.ea-view #tab-dash .tiles,body.ea-view #badgesHdr,body.ea-view #badges,body.ea-view .tabs button:not([data-tab="dash"]):not([data-tab="ops"]){display:none!important}
 button{font-family:inherit}
 
@@ -434,6 +447,7 @@ h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--dim);
 
     <!-- DASHBOARD -->
     <section id="tab-dash">
+      <div id="today" class="hide"></div>
       <div class="inc hide" id="inc">
         <div class="flame">&#128293;</div>
         <div><b id="incTitle"></b><div class="d" id="incDetail"></div></div>
@@ -1312,12 +1326,37 @@ function renderDash(d){
   // Managers reach the tech Work board on its own page (The Bench).
   if(['admin','head'].includes(d.me.role)){ $('whoWork').classList.remove('hide'); }
   // The EA reads The Floor: wire, board and Ops numbers. Nothing here writes.
-  if(d.me.role==='ea'){ document.body.classList.add('ea-view'); $('opsTabBtn').classList.remove('hide'); $('whoWork').classList.remove('hide'); }
+  if(d.me.role==='ea'){ loadToday(); document.body.classList.add('ea-view'); $('opsTabBtn').classList.remove('hide'); $('whoWork').classList.remove('hide'); }
   // Sales members get self-serve: view/edit their details, replay the demo.
   if(['rep','lead'].includes(d.me.role)){
     $('whoProfile').classList.remove('hide'); $('whoTour').classList.remove('hide');
     $('whoProfile').onclick=openProfile; $('whoTour').onclick=replayTour;
   }
+}
+
+/* ---------- Today (EA): what needs a push, read from GHL + the Bench. Read only. ---------- */
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+async function loadToday(fresh){
+  const r=await api('/team-today'+(fresh?'?refresh=1':''));
+  const el=$('today'); if(!r.ok){ el.classList.add('hide'); return; }
+  const d=r.data, err=k=>(d.errors||[]).includes(k);
+  const down='<div class="tdnone">Could not reach GHL just now. Try Refresh in a minute.</div>';
+  const nm=x=>x.link?`<a href="${esc(x.link)}" target="_blank" rel="noopener" style="color:inherit">${esc(x.name||x.title)}</a>`:esc(x.name||x.title);
+  const tm=t=>new Date(t).toLocaleTimeString([], {hour:'numeric',minute:'2-digit'});
+  const dy=n=>n===0?'today':n===1?'1 day':n+' days';
+  const block=(title,rows,empty,key)=>`<div><h2>${title} <span class="cnt">${key&&err(key)?'':rows.length}</span></h2><div class="board">${key&&err(key)?down:(rows.length?'<table>'+rows.join('')+'</table>':`<div class="tdnone">${empty}</div>`)}</div></div>`;
+  const meetings=d.meetings.map(m=>`<tr><td>${nm(m)}<span class="tdsub">${esc(m.calendar)}${m.status&&m.status!=='confirmed'?' · '+esc(m.status):''}</span></td><td class="tdnum">${tm(m.start)}</td></tr>`);
+  const stuck=d.stuck.map(x=>`<tr><td>${nm(x)}<span class="tdsub">${esc(x.stage)} · ${x.rep?esc(x.rep):'no rep'}</span></td><td class="tdnum"><b>${dy(x.days)}</b> in stage</td></tr>`);
+  const scan=d.scanLeads.map(x=>`<tr><td>${nm(x)}<span class="tdsub">${x.band?esc(x.band):'Scan lead'} · no owner</span></td><td class="tdnum">${dy(x.days)}</td></tr>`);
+  const b=d.bench, bench=[]
+    .concat(b.blocked.map(t=>`<tr><td>${esc(t.title)}<span class="tdsub">Blocked${t.why?': '+esc(t.why):''} · ${t.assignee?esc(t.assignee):'unassigned'}</span></td><td class="tdnum"><b>${dy(t.days)}</b></td></tr>`))
+    .concat(b.review.map(t=>`<tr><td>${esc(t.title)}<span class="tdsub">Waiting for QC · ${t.assignee?esc(t.assignee):'unassigned'}</span></td><td class="tdnum">${dy(t.days)}</td></tr>`))
+    .concat(b.nudged.map(t=>`<tr><td>${esc(t.title)}<span class="tdsub">Nudged, no reply · ${t.assignee?esc(t.assignee):'unassigned'}</span></td><td class="tdnum">${t.hours<24?t.hours+' h':dy(Math.floor(t.hours/24))}</td></tr>`));
+  el.innerHTML=`<div class="tdhead"><h1>Today</h1><span class="tdmeta">${new Date().toLocaleDateString([], {weekday:'long',month:'long',day:'numeric'})} · updated ${tm(d.refreshedAt)}</span><button id="tdRefresh">Refresh</button></div>
+    <div class="tdgrid">${block('Meetings today',meetings,'No meetings booked today.','meetings')}${block('Work board',bench,'Nothing blocked, nothing waiting.')}
+    ${block('Stuck deals',stuck,'No deals are stuck.','stuck')}${block('New Scan leads, no owner',scan,'Every Scan lead has an owner.','scanLeads')}</div>`;
+  el.classList.remove('hide');
+  $('tdRefresh').onclick=async()=>{ $('tdRefresh').disabled=true; $('tdRefresh').textContent='Refreshing'; await loadToday(true); };
 }
 
 let booted=false;

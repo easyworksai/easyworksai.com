@@ -5,4 +5,6 @@
 3. Seed `leads-pool.json` (ids L1..L6) into `.netlify/blobs-serve/entries/<site>/site:sales-team/`, add a test rep as admin
 4. `REP_CODE=<test rep code> bash scripts/local-test/smoke-ghl-stage-hook.sh`
 
+5. Today panel: `ADMIN_CODE=.. EA_CODE=.. TECH_CODE=.. REP_CODE=.. bash scripts/local-test/smoke-team-today.sh` (fresh stub, delete `today-cache.json` first)
+
 `GHL_API_BASE` exists only for this. Production never sets it.

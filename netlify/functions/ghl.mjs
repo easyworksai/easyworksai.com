@@ -149,3 +149,13 @@ export async function listPipelineOpportunities() {
 
 const shapeOpp = (o) => ({ id: o.id, pipelineId: o.pipelineId, stageId: o.pipelineStageId, status: o.status || 'open',
   contactId: o.contactId || (o.contact && o.contact.id) || null, name: o.name || '' });
+
+// Generic read for anything not wrapped above. Returns { ok, status, json }. Never throws.
+export async function ghlFetch(path, { method = 'GET', body } = {}) {
+  if (!ghlReady()) return { ok: false, status: 0, json: null };
+  try {
+    const r = await fetch(`${BASE}${path}`, { method, headers: { ...H(), ...(body ? { 'Content-Type': 'application/json' } : {}) },
+      body: body ? JSON.stringify(body) : undefined });
+    return { ok: r.ok, status: r.status, json: await r.json().catch(() => null) };
+  } catch { return { ok: false, status: 0, json: null }; }
+}
