@@ -10,16 +10,18 @@ import { getStore } from '@netlify/blobs';
 import { cookieSlug, loadRoster } from './team-auth.mjs';
 import { isTechOnboarded } from './team-onboard.mjs';
 import { ghlFetch, ghlReady, GHL_LOC, PIPELINE_ID, STAGE } from './ghl.mjs';
+import { loadHandoffs, missingOf, CHECKS } from './team-handoffs.mjs';
 
 const TZ = 'America/Vancouver';
 const CACHE_MS = 5 * 60 * 1000;
 // days a deal may sit in a stage before it counts as stuck
 const STUCK_DAYS = { [STAGE.new]: 2, [STAGE.contacted]: 5, [STAGE.meeting]: 7, [STAGE.proposal]: 7 };
+const STALE_DAYS = 2; // in progress with no note or move for this long = gone quiet
 const STAGE_NAME = { [STAGE.new]: 'New Lead', [STAGE.contacted]: 'Contacted', [STAGE.meeting]: 'Demo Booked', [STAGE.proposal]: 'Proposal Sent' };
 const store = () => getStore({ name: 'sales-team', consistency: 'strong' });
 
 // Start and end of "today" in Vancouver, as UTC ms.
-function todayRange(now = new Date()) {
+export function todayRange(now = new Date()) {
   const parts = Object.fromEntries(new Intl.DateTimeFormat('en-CA', { timeZone: TZ, hour12: false,
     year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' })
     .formatToParts(now).filter((p) => p.type !== 'literal').map((p) => [p.type, +p.value]));
@@ -82,7 +84,7 @@ async function loadScanLeads(errors) {
   }).sort((a, b) => a.days - b.days);
 }
 
-function loadBench(tasksData, roster) {
+export function loadBench(tasksData, roster) {
   const nameOf = (s) => (roster.find((r) => r.slug === s) || {}).name || s;
   const tasks = (tasksData.tasks || []).filter((t) => !t.deleted);
   const now = Date.now();
@@ -91,8 +93,18 @@ function loadBench(tasksData, roster) {
   return {
     blocked: tasks.filter((t) => t.status === 'blocked').map((t) => ({ ...row(t), why: t.blockedWhy || null })),
     review: tasks.filter((t) => t.status === 'review').map(row),
+    stale: tasks.filter((t) => t.status === 'in-progress' && !t.nudgedAt && now - (t.up || t.ts) >= STALE_DAYS * 86400e3).map(row),
+    overdue: tasks.filter((t) => t.dueDate && t.status !== 'done' && t.dueDate < todayRange().day).map((t) => ({ ...row(t), due: t.dueDate })),
     nudged: tasks.filter((t) => t.nudgedAt && !['done', 'blocked', 'review'].includes(t.status)) // blocked/review already listed above.map((t) => ({ ...row(t), hours: Math.floor((now - t.nudgedAt) / 3600e3) })),
   };
+}
+
+export async function loadOpenHandoffs(roster) {
+  const nameOf = (s) => (roster.find((r) => r.slug === s) || {}).name || s;
+  const label = (k) => CHECKS.find((c) => c.key === k).label;
+  return (await loadHandoffs()).items.filter((h) => !h.closed)
+    .map((h) => ({ id: h.id, name: h.name, rep: h.rep ? nameOf(h.rep) : null, days: Math.floor((Date.now() - h.ts) / 86400e3), missing: missingOf(h).map(label) }))
+    .sort((a, b) => b.days - a.days);
 }
 
 export default async (req) => {
@@ -136,6 +148,7 @@ export default async (req) => {
     refreshedAt: ghl.ts, day: ghl.day, tz: TZ,
     meetings: ghl.meetings.map(link), stuck: ghl.stuck.map(link), scanLeads: ghl.scanLeads.map(link),
     bench: loadBench(tasksData, roster), // always live
+    handoffs: await loadOpenHandoffs(roster), // always live
     errors: ghl.errors,
   });
 };

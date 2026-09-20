@@ -3,7 +3,7 @@
 // Runs on Netlify's scheduler (not reachable by URL in production). 10:00 UTC = 3am Vancouver.
 import { getStore } from '@netlify/blobs';
 import { listPipelineOpportunities, ghlReady } from './ghl.mjs';
-import { syncClaimFromOpp } from './ghl-stage-hook.mjs';
+import { syncClaimFromOpp, openHandoffFor } from './ghl-stage-hook.mjs';
 import { tgPing } from './team-events.mjs';
 
 export const config = { schedule: '0 10 * * *' };
@@ -29,7 +29,9 @@ export default async () => {
     const fresh = (await store().get('leads-claims.json', { type: 'json' })) || {};
     for (const [leadId, c] of Object.entries(fresh)) {
       const opp = c.oppId && byId[c.oppId];
-      if (opp) syncClaimFromOpp(c, opp);
+      if (!opp) continue;
+      const r2 = syncClaimFromOpp(c, opp);
+      if (r2.from !== r2.to && r2.to === 'blueprint-sold') await openHandoffFor(leadId, c, opp).catch(() => {});
     }
     await store().setJSON('leads-claims.json', fresh);
     const lines = [];

@@ -6,5 +6,8 @@
 4. `REP_CODE=<test rep code> bash scripts/local-test/smoke-ghl-stage-hook.sh`
 
 5. Today panel: `ADMIN_CODE=.. EA_CODE=.. TECH_CODE=.. REP_CODE=.. bash scripts/local-test/smoke-team-today.sh` (fresh stub, delete `today-cache.json` first)
+6. Handoffs, gate, stale/overdue, shift report: same codes, `bash scripts/local-test/smoke-handoffs.sh` (also set `TELEGRAM_API_BASE=http://localhost:8898`, the stub fakes Telegram)
 
-`GHL_API_BASE` exists only for this. Production never sets it.
+macOS bash is 3.2: never nest `\"$VAR\"` inside `"$(...)"` in these scripts. Capture into `R` first.
+
+`GHL_API_BASE` and `TELEGRAM_API_BASE` exist only for this. Production never sets it.

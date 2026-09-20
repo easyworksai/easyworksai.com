@@ -4,6 +4,7 @@ import { getStore } from '@netlify/blobs';
 
 // Secrets come from Netlify env only — never hardcode a bot token or chat id (this repo is public).
 const TG_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '';
+const TG_BASE = process.env.TELEGRAM_API_BASE || 'https://api.telegram.org'; // only ever overridden by local tests
 const TG_CHAT = process.env.TELEGRAM_CHAT_ID || '';
 
 export async function loadFeed() {
@@ -28,6 +29,18 @@ export async function tgPing(text) {
       body: JSON.stringify({ chat_id: TG_CHAT, text, parse_mode: 'HTML', disable_web_page_preview: true }),
     });
   } catch { /* best effort */ }
+}
+
+// Same as tgPing, but reports whether Telegram accepted it (for things a person is waiting on, like a shift report).
+export async function tgSend(text) {
+  try {
+    const r = await fetch(`${TG_BASE}/bot${TG_TOKEN}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: TG_CHAT, text, parse_mode: 'HTML', disable_web_page_preview: true }),
+    });
+    return r.ok;
+  } catch { return false; }
 }
 
 // Daily call activity per rep: activity-<slug>.json { "YYYY-MM-DD": count }

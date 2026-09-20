@@ -1,10 +1,13 @@
 import http from 'node:http';
-const opps = {}; const events = []; const contacts = []; let n = 0; const calls = []; let down = false;
+const opps = {}; const events = []; const contacts = []; let n = 0; const calls = []; const tg = []; let tgDown = false; let down = false;
 const send = (res, code, obj) => { res.writeHead(code, { 'Content-Type': 'application/json' }); res.end(JSON.stringify(obj)); };
 http.createServer(async (req, res) => {
   let raw = ''; for await (const ch of req) raw += ch; const body = raw ? JSON.parse(raw) : {};
   const u = new URL(req.url, 'http://x'); const p = u.pathname;
   if (p === '/__calls') return send(res, 200, calls);
+  if (p === '/__tg') return send(res, 200, tg);
+  if (p === '/__tgdown') { tgDown = !!body.down; return send(res, 200, { tgDown }); }
+  if (/^\/bot[^/]+\/sendMessage$/.test(p)) { if (tgDown) return send(res, 500, { ok: false }); tg.push(body.text); return send(res, 200, { ok: true }); } // fake Telegram
   if (p === '/__down') { down = !!body.down; return send(res, 200, { down }); }
   if (p.startsWith('/__set/')) { Object.assign(opps[p.slice(7)] || {}, body); return send(res, 200, opps[p.slice(7)] || null); }
   if (p === '/__add') { const id = 'ext-' + (++n); opps[id] = { id, pipelineId: body.pipelineId || 'FtnFKVIUyAh7NLy6Hgpt', pipelineStageId: body.pipelineStageId, status: 'open', contactId: 'cx', name: body.name || 'External' }; return send(res, 200, opps[id]); }

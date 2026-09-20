@@ -52,7 +52,7 @@ expect "no errors" "$(J "d['errors']" < $S/ea.json)" "[]"
 expect "no phones, emails, dollar values, ids or links in the EA payload" "$(python3 -c "
 s=open('$S/ea.json').read()
 print(any(k in s for k in ['+1555','phone','x@y.z','monetaryValue','9999','4000','contactId','oppId','\"link\"','gohighlevel']))")" False
-expect "bench block present" "$(J "sorted(d['bench'].keys())" < $S/ea.json)" "['blocked', 'nudged', 'review']"
+expect "bench block present" "$(J "sorted(d['bench'].keys())" < $S/ea.json)" "['blocked', 'nudged', 'overdue', 'review', 'stale']"
 
 echo "== admin gets links, still no money or phones"
 curl -s -b $S/brad.jar $B/team-today > $S/ad.json

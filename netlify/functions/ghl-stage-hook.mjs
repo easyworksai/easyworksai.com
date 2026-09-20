@@ -15,6 +15,7 @@ import { getStore } from '@netlify/blobs';
 import crypto from 'node:crypto';
 import { getOpportunity, PIPELINE_ID, STAGE } from './ghl.mjs';
 import { tgPing } from './team-events.mjs';
+import { ensureHandoff } from './team-handoffs.mjs';
 
 const SECRET = process.env.GHL_HOOK_SECRET || '';
 const store = () => getStore({ name: 'sales-team', consistency: 'strong' });
@@ -49,6 +50,13 @@ export function syncClaimFromOpp(c, opp) {
 
 // GHL's payload shape varies by trigger, so collect every id it might carry (opportunity or contact)
 // and let our own claims decide which deal it is.
+// A sale marked in GHL still needs its paperwork chased: open the same handoff a Floor sale opens.
+export async function openHandoffFor(leadId, c, opp) {
+  const pool = (await store().get('leads-pool.json', { type: 'json' })) || { leads: [] };
+  const lead = pool.leads.find((l) => l.id === leadId) || {};
+  return ensureHandoff({ leadId, name: lead.name || (opp && opp.name) || leadId, city: lead.city, niche: lead.niche, slug: c.slug });
+}
+
 const pickIds = (b) => [b.opportunity_id, b.opportunityId, b.opportunity && b.opportunity.id,
   b.customData && b.customData.opportunity_id, b.customData && b.customData.opportunityId,
   b.contact_id, b.contactId, b.id]
@@ -82,6 +90,7 @@ export default async (req) => {
   const [leadId, c] = entry;
   const res = syncClaimFromOpp(c, opp);
   if (res.changed) await store().setJSON('leads-claims.json', claims);
+  if (res.from !== res.to && res.to === 'blueprint-sold') await openHandoffFor(leadId, c, opp).catch(() => {});
   if (res.won) {
     await tgPing(`\u{1F3C6} <b>Deal marked Won in GHL</b>\n${opp.name || leadId} (rep: ${c.slug}).\nNo build amount is logged on The Floor yet. Log it on the lead card so revenue and commission are right.`);
   }

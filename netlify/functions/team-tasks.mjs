@@ -20,6 +20,7 @@ import { cookieSlug, loadRoster } from './team-auth.mjs';
 import { tgPing } from './team-events.mjs';
 import { isCompliant } from './team-compliance.mjs';
 import { isTechOnboarded } from './team-onboard.mjs';
+import { handoffGate } from './team-handoffs.mjs';
 
 const STATUSES = ['backlog', 'in-progress', 'review', 'blocked', 'done'];
 const PRIORITIES = ['p1', 'p2', 'p3'];
@@ -72,6 +73,7 @@ export default async (req) => {
       client: String(body.client || '').trim().slice(0, 60),
       priority: PRIORITIES.includes(body.priority) ? body.priority : 'p2',
       due: String(body.due || '').trim().slice(0, 30),
+      dueDate: /^\d{4}-\d{2}-\d{2}$/.test(String(body.due || '').trim()) ? String(body.due).trim() : null, // drives "overdue"
       status: 'backlog',
       assignee,
       createdBy: me.name,
@@ -92,7 +94,12 @@ export default async (req) => {
   if (body.action === 'assign') {
     if (!canManage) return Response.json({ error: 'not allowed' }, { status: 403 });
     const a = String(body.assignee || '');
-    t.assignee = roster.some((r) => r.slug === a && r.active && r.role === 'tech') ? a : null;
+    const next = roster.some((r) => r.slug === a && r.active && r.role === 'tech') ? a : null;
+    // Paper before production: a build task from a handoff gets no owner until the handoff is complete.
+    const gate = next ? await handoffGate(t) : null;
+    if (gate && body.override !== true) return Response.json({ error: gate, handoffGate: true }, { status: 409 });
+    if (gate) t.notes.push({ by: me.name, text: 'Assigned before the handoff was complete (override).', ts: Date.now() });
+    t.assignee = next;
     t.up = Date.now();
     await saveTasks(data);
     return Response.json({ ok: true });
@@ -102,6 +109,8 @@ export default async (req) => {
     if (me.role !== 'tech') return Response.json({ error: 'not allowed' }, { status: 403 });
     if (t.assignee) return Response.json({ error: 'already assigned' }, { status: 409 });
     if (t.status !== 'backlog') return Response.json({ error: 'not claimable' }, { status: 400 });
+    const gate = await handoffGate(t);
+    if (gate) return Response.json({ error: gate, handoffGate: true }, { status: 409 });
     t.assignee = me.slug; t.up = Date.now();
     await saveTasks(data);
     return Response.json({ ok: true });
@@ -122,6 +131,7 @@ export default async (req) => {
     if (isMine) { delete t.nudgedAt; delete t.nudgedBy; } // the assignee moved it: nudge answered
     const reason = String(body.reason || '').trim().slice(0, 300);
     if (st === 'blocked' && reason) t.notes.push({ by: me.name, text: 'BLOCKED: ' + reason, ts: Date.now() });
+    if (isEa && st === 'in-progress') t.notes.push({ by: me.name, text: 'UNBLOCKED: back in progress', ts: Date.now() });
     if (st !== 'blocked') delete t.blockedWhy; else t.blockedWhy = reason;
     await saveTasks(data);
     const label = `${t.title}${t.client ? ` (${t.client})` : ''}`;

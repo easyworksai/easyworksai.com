@@ -8,6 +8,7 @@ import { getStore } from '@netlify/blobs';
 import { cookieSlug, loadRoster } from './team-auth.mjs';
 import { logEvent, tgPing, bumpActivity } from './team-events.mjs';
 import { isCompliant } from './team-compliance.mjs';
+import { ensureHandoff } from './team-handoffs.mjs';
 import { upsertContact, addTags, addNote, createOpportunity, updateOpportunity, STAGE } from './ghl.mjs';
 
 const STATUSES = ['new', 'called', 'no-answer', 'meeting', 'blueprint-sold', 'dead'];
@@ -129,6 +130,8 @@ export default async (req) => {
     if (st === 'blueprint-sold') {
       logEvent({ type: 'audit', who: me.name, text: `${me.name} SOLD A BLUEPRINT: ${lead.name} (${lead.city}) \u{1F525}` }).catch(() => {});
       tgPing(`\u{1F4B0} <b>AUDIT SOLD on The Floor</b>\n${me.name} closed ${lead.name} (${lead.niche}, ${lead.city}).\nMake sure payment + onboarding land.`).catch(() => {});
+      // Handoff 1 (sales to tech) opens here. Best effort: never blocks the rep.
+      await ensureHandoff({ leadId: lead.id, name: lead.name, city: lead.city, niche: lead.niche, slug }).catch(() => {});
       await ghlSync(['blueprint-onboarding', `rep-${slug}`], `BLUEPRINT SOLD by ${me.name} via The Floor. Payment + onboarding links to follow.`, { stageId: STAGE.proposal, monetaryValue: 500 });
     }
     if (st === 'dead') await ghlSync(['floor-dead'], `Marked dead by ${me.name} via The Floor.`, { stageId: STAGE.lost, status: 'lost' });

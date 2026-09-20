@@ -1351,10 +1351,14 @@ async function loadToday(fresh){
   const b=d.bench, bench=[]
     .concat(b.blocked.map(t=>`<tr><td>${esc(t.title)}<span class="tdsub">Blocked${t.why?': '+esc(t.why):''} · ${t.assignee?esc(t.assignee):'unassigned'}</span></td><td class="tdnum"><b>${dy(t.days)}</b></td></tr>`))
     .concat(b.review.map(t=>`<tr><td>${esc(t.title)}<span class="tdsub">Waiting for QC · ${t.assignee?esc(t.assignee):'unassigned'}</span></td><td class="tdnum">${dy(t.days)}</td></tr>`))
+    .concat((b.overdue||[]).map(t=>`<tr><td>${esc(t.title)}<span class="tdsub">Overdue since ${esc(t.due)} · ${t.assignee?esc(t.assignee):'unassigned'}</span></td><td class="tdnum"><b>overdue</b></td></tr>`))
+    .concat((b.stale||[]).map(t=>`<tr><td>${esc(t.title)}<span class="tdsub">Gone quiet · ${t.assignee?esc(t.assignee):'unassigned'}</span></td><td class="tdnum"><b>${dy(t.days)}</b></td></tr>`))
     .concat(b.nudged.map(t=>`<tr><td>${esc(t.title)}<span class="tdsub">Nudged, no reply · ${t.assignee?esc(t.assignee):'unassigned'}</span></td><td class="tdnum">${t.hours<24?t.hours+' h':dy(Math.floor(t.hours/24))}</td></tr>`));
+  const hand=(d.handoffs||[]).map(h=>`<tr><td>${esc(h.name)}<span class="tdsub">Missing: ${esc(h.missing.join(', ').toLowerCase())}${h.rep?' · sold by '+esc(h.rep):''}</span></td><td class="tdnum">${h.days>=3?'<b>'+dy(h.days)+'</b>':dy(h.days)}</td></tr>`);
   el.innerHTML=`<div class="tdhead"><h1>Today</h1><span class="tdmeta">${new Date().toLocaleDateString([], {weekday:'long',month:'long',day:'numeric'})} · updated ${tm(d.refreshedAt)}</span><button id="tdRefresh">Refresh</button></div>
     <div class="tdgrid">${block('Meetings today',meetings,'No meetings booked today.','meetings')}${block('Work board',bench,'Nothing blocked, nothing waiting.')}
-    ${block('Stuck deals',stuck,'No deals are stuck.','stuck')}${block('New Scan leads, no owner',scan,'Every Scan lead has an owner.','scanLeads')}</div>`;
+    ${block('Stuck deals',stuck,'No deals are stuck.','stuck')}${block('New Scan leads, no owner',scan,'Every Scan lead has an owner.','scanLeads')}
+    ${block('Handoffs waiting',hand,'No sold deals are waiting on paperwork.')}</div>`;
   el.classList.remove('hide');
   $('tdRefresh').onclick=async()=>{ $('tdRefresh').disabled=true; $('tdRefresh').textContent='Refreshing'; await loadToday(true); };
 }

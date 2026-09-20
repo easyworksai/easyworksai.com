@@ -18,6 +18,7 @@ import { getStore } from '@netlify/blobs';
 import crypto from 'node:crypto';
 import { loadRoster } from './team-auth.mjs';
 import { logEvent, loadFeed } from './team-events.mjs';
+import { handoffGate } from './team-handoffs.mjs';
 
 const TOKEN = process.env.EW_BRIEF_TOKEN || '';
 const store = () => getStore({ name: 'sales-team', consistency: 'strong' });
@@ -63,7 +64,11 @@ export default async (req) => {
     if (!t) return Response.json({ error: 'task not found' }, { status: 404 });
     if (action === 'task.assign') {
       const a = String(body.assignee || '');
-      t.assignee = roster.some((r) => r.slug === a && r.active && r.role === 'tech') ? a : null;
+      const next = roster.some((r) => r.slug === a && r.active && r.role === 'tech') ? a : null;
+      const gate = next ? await handoffGate(t) : null; // same paper-before-production gate as the portal
+      if (gate && body.override !== true) return Response.json({ error: gate, handoffGate: true, hint: 'pass override:true to assign anyway' }, { status: 409 });
+      if (gate) t.notes.push({ by: ME.name, text: 'Assigned before the handoff was complete (override).', ts: Date.now() });
+      t.assignee = next;
       t.up = Date.now(); await s.setJSON('tasks.json', d);
       if (t.assignee) logEvent({ type: 'task', who: ME.name, text: `${ME.name} assigned ${nameOf(t.assignee)}: ${t.title}` }).catch(() => {});
       return Response.json({ ok: true, task: t });

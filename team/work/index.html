@@ -370,6 +370,13 @@ h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--dim);
 .tdet .ok{color:var(--green);font-weight:700} .tdet .no{color:var(--gold);font-weight:700}
 .wgroup{margin-bottom:22px}
 .wgroup h2 .cnt{color:var(--cyan)}
+#handoffs{margin:18px 0 6px}
+#handoffs .hsub{font-size:12.5px;color:var(--dim);margin:-6px 0 10px}
+.hoff .hchecks{display:flex;flex-wrap:wrap;gap:6px;margin:9px 0 2px}
+.hoff .hck{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;border:1px solid var(--line);background:#0a101f;color:var(--dim);font-size:12px;font-weight:700;cursor:pointer}
+.hoff .hck.on{border-color:#1f5f4a;background:#0c2a22;color:#6ee7b7}
+.hoff .hck[disabled]{cursor:default;opacity:.75}
+#repText{width:100%;min-height:320px;background:#0a101f;border:1px solid var(--line);border-radius:10px;color:var(--ink);padding:12px;font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;resize:vertical}
 .task{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:13px 15px;margin-bottom:9px}
 .task.p1{border-left:3px solid #f87171}
 .task.blocked{border-color:#5c2020;background:#160d12}
@@ -422,12 +429,13 @@ h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--dim);
       <div class="row">
         <select id="wAssignee"><option value="">Unassigned (backlog)</option></select>
         <select id="wPriority"><option value="p1">P1 urgent</option><option value="p2" selected>P2 normal</option><option value="p3">P3 whenever</option></select>
-        <input id="wDue" placeholder="Due (e.g. Sep 5)" style="max-width:140px">
+        <input id="wDue" type="date" title="Due date" style="max-width:160px">
       </div>
       <textarea id="wDetail" placeholder="What done looks like. Link the SOP if one exists."></textarea>
       <div class="row" style="margin-top:8px;margin-bottom:0"><button id="wCreate">Create task</button><span class="out" id="wOut" style="font-size:13px;color:var(--cyan);align-self:center"></span></div>
     </div>
     <div id="workHead" class="workhead hide"></div>
+    <div id="handoffs" class="hide"></div>
     <div id="workBoard"></div>
     <div class="foot">Build it. Test it. Ship it clean.</div>
   </div>
@@ -449,6 +457,16 @@ h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--dim);
   </div>
 </div>
 
+<div class="modal" id="repModal">
+  <div class="sheet" style="max-width:620px">
+    <div class="shead"><span class="st">Shift report</span><button class="sx" id="repClose">&times;</button></div>
+    <div style="padding:16px 22px 20px">
+      <p style="font-size:13px;color:var(--dim);margin:0 0 10px">Drafted from what you did on the portal today. Edit it, add anything else, then send. It goes to Brad.</p>
+      <textarea id="repText"></textarea>
+      <button class="ob-btn" id="repSend">Send to Brad</button><div class="ob-err" id="repErr"></div>
+    </div>
+  </div>
+</div>
 <div class="modal" id="signModal">
   <div class="sheet">
     <div class="shead"><span class="st" id="signTitle"></span><button class="sx" id="signClose">&times;</button></div>
@@ -484,6 +502,7 @@ const OB_TOUR_EA=[
  {ic:'&#128203;', h:'The whole board', p:'You see every task, who has it, where it stands and the notes. Blocked and In review sit at the top.'},
  {ic:'&#128276;', h:'Keep work moving', p:'Add a note on any task. Hit Nudge when a task has gone quiet and the person on it gets asked for an update.'},
  {ic:'&#128679;', h:'Blocked and unblocked', p:'Mark a task Blocked and say why. When the blocker clears, move it back to In progress.'},
+ {ic:'&#128221;', h:'Handoffs and your shift report', p:'Every sold deal shows under Handoffs until the scope sheet, intake form and payment are in. You tick scope and intake, Brad or Cash confirm payment. At the end of your shift, hit Shift report, edit the draft and send it.'},
  {ic:'&#9989;', h:'Quality check stays with Brad and Cash', p:'You can create tasks and keep them moving. Only Brad or Cash approve a task as Done.'},
 ];
 const obTour=()=>ME_ROLE==='ea'?OB_TOUR_EA:OB_TOUR;
@@ -596,15 +615,54 @@ async function loadWork(){
   const r = await api('/team-tasks');
   if(!r.ok){ $('workBoard').innerHTML='<div class="lempty">Not available.</div>'; return; }
   WORKD=r.data; renderWork();
+  if(['admin','head','ea'].includes(WORKD.me.role)) loadHandoffs(); else $('handoffs').classList.add('hide');
 }
+
+/* ---------- handoffs: sales to tech, paper before production ---------- */
+const hesc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+async function loadHandoffs(){
+  const r=await api('/team-handoffs'); const el=$('handoffs');
+  if(!r.ok){ el.classList.add('hide'); return; }
+  const open=(r.data.handoffs||[]).filter(h=>!h.closed);
+  if(!open.length){ el.classList.add('hide'); return; }
+  const canPay=r.data.canPayment, mgr=['admin','head'].includes(WORKD.me.role);
+  el.innerHTML=`<div class="wgroup"><h2>Handoffs <span class="cnt">${open.length}</span></h2><div class="hsub">Sold, not yet ready to build. All four done and the build task can be assigned.</div>`+open.map(h=>{
+    const pills=r.data.checks.map(c=>{ const on=!!(h.checks[c.key]&&h.checks[c.key].done); const locked=c.key==='task'||(c.key==='payment'&&!canPay);
+      return `<button class="hck ${on?'on':''}" data-h="${h.id}" data-k="${c.key}" data-on="${on?1:0}" ${locked?'disabled':''} title="${on?hesc('by '+h.checks[c.key].by):locked&&c.key==='payment'?'Brad or Cash confirm payment':''}">${on?'&#10003;':'&#9675;'} ${hesc(c.label)}</button>`; }).join('');
+    const notes=(h.notes||[]).slice(-3).map(n=>`<div class="tnote"><b>${hesc(n.by)}:</b> ${hesc(n.text)}</div>`).join('');
+    return `<div class="task hoff"><div class="trow1"><span class="tt">${hesc(h.name)}</span></div>
+      <div class="tmeta">${[h.city?hesc(h.city):'', h.repName?'sold by '+hesc(h.repName):'', h.days===0?'today':h.days+(h.days===1?' day':' days')+' ago'].filter(Boolean).join(' &#183; ')}</div>
+      <div class="hchecks">${pills}</div>${notes?`<div class="tnotes">${notes}</div>`:''}
+      <div class="tacts">${h.taskId?'':`<button data-ha="task" data-h="${h.id}">Create build task</button>`}<input data-ha="notein" data-h="${h.id}" placeholder="Add a note"><button class="ghost" data-ha="note" data-h="${h.id}">Post</button>${mgr?`<button class="ghost" data-ha="close" data-h="${h.id}">deal fell through</button>`:''}</div></div>`; }).join('')+'</div>';
+  el.classList.remove('hide');
+  const hpost=async(b)=>{ const r2=await api('/team-handoffs',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)}); if(!r2.ok) toast(r2.data.error||'failed'); else if(r2.data.handoff&&r2.data.handoff.closed&&r2.data.handoff.closed.reason==='complete') toast('Handoff complete. The build task can be assigned now.'); loadWork(); };
+  el.querySelectorAll('.hck:not([disabled])').forEach(b=>b.onclick=()=>hpost({action:'check',id:b.dataset.h,key:b.dataset.k,done:b.dataset.on!=='1'}));
+  el.querySelectorAll('button[data-ha="task"]').forEach(b=>b.onclick=()=>hpost({action:'task',id:b.dataset.h}));
+  el.querySelectorAll('button[data-ha="note"]').forEach(b=>b.onclick=()=>{ const i=el.querySelector(`input[data-ha="notein"][data-h="${b.dataset.h}"]`); const text=(i.value||'').trim(); if(text) hpost({action:'note',id:b.dataset.h,text}); });
+  el.querySelectorAll('button[data-ha="close"]').forEach(b=>b.onclick=()=>{ const why=prompt('Why is this handoff closing?','Deal fell through'); if(why!==null) hpost({action:'close',id:b.dataset.h,reason:why}); });
+}
+
+/* ---------- shift report (EA) ---------- */
+async function openReport(){
+  const r=await api('/team-report'); if(!r.ok){ toast(r.data.error||'Could not build the report'); return; }
+  $('repText').value=r.data.draft; $('repErr').textContent=r.data.sentToday?`Sent ${r.data.sentToday} of ${r.data.maxPerDay} today.`:''; $('repSend').disabled=r.data.sentToday>=r.data.maxPerDay; $('repSend').textContent='Send to Brad';
+  $('repModal').classList.add('show');
+}
+$('repClose').onclick=()=>$('repModal').classList.remove('show');
+$('repSend').onclick=async()=>{
+  $('repSend').disabled=true; $('repSend').textContent='Sending'; $('repErr').textContent='';
+  const r=await api('/team-report',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'send',text:$('repText').value})});
+  if(r.ok){ $('repModal').classList.remove('show'); toast('Report sent to Brad.'); }
+  else { $('repErr').textContent=r.data.error||'Could not send.'; $('repSend').disabled=false; $('repSend').textContent='Send to Brad'; }
+};
 function renderWorkHead(mgr){
   const me=WORKD.me, ts=WORKD.tasks, wh=$('workHead'); wh.classList.remove('hide');
   const ea=me.role==='ea';
   if(mgr||ea){
     const c=st=>ts.filter(t=>st.includes(t.status)).length;
     wh.innerHTML=`<div class="whi"><div class="wht">Work board</div><div class="whs">${WORKD.team.length} tech contractor${WORKD.team.length===1?'':'s'} &#183; ${ea?'Brad or Cash approve what ships':'you approve everything that ships'}</div></div>
-      <div class="whstats"><div class="whstat"><div class="n">${c(['backlog','in-progress'])}</div><div class="l">Open</div></div><div class="whstat rev"><div class="n">${c(['review'])}</div><div class="l">For QC</div></div><div class="whstat blk"><div class="n">${c(['blocked'])}</div><div class="l">Blocked</div></div></div>${ea?'<div class="whbtns"><button id="whFloor">The Floor</button><button id="whProfile">My profile</button><button id="whTour">Replay tour</button></div>':''}`;
-    if(ea){ $('whFloor').onclick=()=>{ location.href='/team/'; }; $('whProfile').onclick=openProfile; $('whTour').onclick=replayTour; }
+      <div class="whstats"><div class="whstat"><div class="n">${c(['backlog','in-progress'])}</div><div class="l">Open</div></div><div class="whstat rev"><div class="n">${c(['review'])}</div><div class="l">For QC</div></div><div class="whstat blk"><div class="n">${c(['blocked'])}</div><div class="l">Blocked</div></div></div>${ea?'<div class="whbtns"><button id="whReport">Shift report</button><button id="whFloor">The Floor</button><button id="whProfile">My profile</button><button id="whTour">Replay tour</button></div>':''}`;
+    if(ea){ $('whReport').onclick=openReport; $('whFloor').onclick=()=>{ location.href='/team/'; }; $('whProfile').onclick=openProfile; $('whTour').onclick=replayTour; }
     return;
   }
   const mine=t=>t.assignee===me.slug, c=st=>ts.filter(t=>mine(t)&&st.includes(t.status)).length;
@@ -634,7 +692,7 @@ function taskCard(t){
     if(mine||mgr||ea) acts+=`<input data-a="notein" data-id="${t.id}" placeholder="Add a note"><button class="ghost" data-a="note" data-id="${t.id}">Post</button>`;
   }
   return `<div class="task ${t.priority} ${t.status==='blocked'?'blocked':''}">
-    <div class="trow1"><span class="pchip ${t.priority}">${t.priority.toUpperCase()}</span><span class="tt">${t.title}</span>${t.nudgedAt&&(mine||ea)?`<span class="pchip p1" title="Nudged by ${t.nudgedBy||''}">UPDATE NEEDED</span>`:''}</div>
+    <div class="trow1"><span class="pchip ${t.priority}">${t.priority.toUpperCase()}</span><span class="tt">${t.title}</span>${t.dueDate&&t.status!=='done'&&t.dueDate<new Date().toLocaleDateString('en-CA')?'<span class="pchip p1">OVERDUE</span>':''}${t.nudgedAt&&(mine||ea)?`<span class="pchip p1" title="Nudged by ${t.nudgedBy||''}">UPDATE NEEDED</span>`:''}</div>
     <div class="tmeta">${meta}</div>${t.detail?`<div class="tdetail">${t.detail}</div>`:''}${notes?`<div class="tnotes">${notes}</div>`:''}${acts?`<div class="tacts">${acts}</div>`:''}</div>`;
 }
 function renderWork(){
@@ -655,7 +713,10 @@ function renderWork(){
   }).join('') || '<div class="lempty">No tasks yet.'+((mgr||ea)?' Create the first one above.':' Brad or Cash will assign work here, and anything in Backlog is yours to claim.')+'</div>';
   $('workBoard').querySelectorAll('button[data-a],select[data-a="assign"]').forEach(el=>{
     const id=el.dataset.id;
-    const post=async(b)=>{ const r=await api('/team-tasks',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)}); if(r.ok) loadWork(); else toast(r.data.error||'failed'); };
+    const post=async(b)=>{ const r=await api('/team-tasks',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)});
+      if(r.ok){ loadWork(); return; }
+      if(r.data&&r.data.handoffGate&&b.action==='assign'&&!b.override&&confirm(r.data.error+'\n\nAssign it anyway?')){ post({...b,override:true}); return; }
+      toast(r.data.error||'failed'); loadWork(); };
     if(el.dataset.a==='claim') el.onclick=()=>post({action:'claim',id});
     if(el.dataset.a==='status') el.onclick=()=>post({action:'status',id,status:el.dataset.s});
     if(el.dataset.a==='block') el.onclick=()=>{ const why=prompt('What is blocking it?'); if(why!==null) post({action:'status',id,status:'blocked',reason:why}); };

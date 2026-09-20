@@ -19,8 +19,8 @@ expect "three opportunities exist in fake GHL" "$#" 3
 FEED0=$(curl -s -b $S/rep.jar $B/team-stats | J "len(d['feed'])"); CALLS0=$(curl -s -b $S/rep.jar $B/team-stats | J "d['me']['calls']")
 
 echo "== auth + junk"
-expect "wrong secret refused" "$(hook "{\"opportunity_id\":\"$O1\"}" nope | tail -1)" 401
-expect "no secret refused" "$(hook "{\"opportunity_id\":\"$O1\"}" '' | tail -1)" 401
+R=$(hook "{\"opportunity_id\":\"$O1\"}" nope | tail -1); expect "wrong secret refused" "$R" 401
+R=$(hook "{\"opportunity_id\":\"$O1\"}" '' | tail -1); expect "no secret refused" "$R" 401
 expect "GET refused" "$(curl -s -o /dev/null -w '%{http_code}' "$B/ghl-stage-hook?k=$K")" 405
 expect "empty payload skipped" "$(hook '{}' | head -1 | J "d.get('skipped')")" "no id in payload"
 expect "unknown opportunity skipped" "$(hook '{"opportunity_id":"zzz"}' | head -1 | J "d.get('skipped')")" "not a Floor lead"
@@ -31,9 +31,9 @@ expect "L1 still new (we read GHL, not the payload)" "$(mine L1)" new
 
 echo "== GHL moves flow to the Floor"
 curl -s -X POST $G/__set/$O1 -d "{\"pipelineStageId\":\"$ST_MEET\"}" >/dev/null
-expect "hook reports change" "$(hook "{\"opportunity_id\":\"$O1\"}" | head -1 | J "str(d['from'])+'>'+str(d['to'])")" "new>meeting"
+R=$(hook "{\"opportunity_id\":\"$O1\"}" | head -1 | J "str(d['from'])+'>'+str(d['to'])"); expect "hook reports change" "$R" "new>meeting"
 expect "L1 card shows meeting" "$(mine L1)" meeting
-expect "same hook again is a no-op" "$(hook "{\"opportunity_id\":\"$O1\"}" | head -1 | J "d['changed']")" False
+R=$(hook "{\"opportunity_id\":\"$O1\"}" | head -1 | J "d['changed']"); expect "same hook again is a no-op" "$R" False
 curl -s -X POST $G/__set/$O1 -d "{\"pipelineStageId\":\"$ST_CON\"}" >/dev/null; hook "{\"id\":\"$O1\"}" >/dev/null
 expect "moved back in GHL -> called (payload used 'id')" "$(mine L1)" called
 leads '{"action":"status","id":"L2","status":"no-answer"}' >/dev/null
@@ -60,17 +60,17 @@ R=$(hook "{\"opportunity_id\":\"$O3\"}" | head -1)
 expect "won flagged, ping sent once" "$(echo $R | J "d['won']")" True
 expect "status untouched by won" "$(mine L3)" new
 expect "no build amount written from GHL" "$(curl -s -b $S/rep.jar $B/team-leads | J "next(l['buildAmount'] for l in d['mine'] if l['id']=='L3')")" 0
-expect "second won hook does not ping again" "$(hook "{\"opportunity_id\":\"$O3\"}" | head -1 | J "d['won']")" False
+R=$(hook "{\"opportunity_id\":\"$O3\"}" | head -1 | J "d['won']"); expect "second won hook does not ping again" "$R" False
 leads '{"action":"claim","id":"L4"}' >/dev/null; leads '{"action":"build","id":"L4","amount":4000}' >/dev/null
 O4=$(curl -s $G/opportunities/search | J "d['opportunities'][-1]['id']")
-expect "build closed on the Floor: hook is a no-op, no won ping" "$(hook "{\"opportunity_id\":\"$O4\"}" | head -1 | J "str(d['changed'])+str(d['won'])")" FalseFalse
+R=$(hook "{\"opportunity_id\":\"$O4\"}" | head -1 | J "str(d['changed'])+str(d['won'])"); expect "build closed on the Floor: hook is a no-op, no won ping" "$R" FalseFalse
 
 echo "== other pipeline + GHL down"
 curl -s -X POST $G/__set/$O1 -d '{"pipelineId":"OTHER","pipelineStageId":"x"}' >/dev/null
-expect "other pipeline ignored" "$(hook "{\"opportunity_id\":\"$O1\"}" | head -1 | J "d.get('skipped')")" "other pipeline"
+R=$(hook "{\"opportunity_id\":\"$O1\"}" | head -1 | J "d.get('skipped')"); expect "other pipeline ignored" "$R" "other pipeline"
 curl -s -X POST $G/__set/$O1 -d "{\"pipelineId\":\"FtnFKVIUyAh7NLy6Hgpt\",\"pipelineStageId\":\"$ST_MEET\"}" >/dev/null
 curl -s -X POST $G/__down -d '{"down":true}' >/dev/null
-expect "GHL down -> 502 so GHL retries" "$(hook "{\"opportunity_id\":\"$O1\"}" | tail -1)" 502
+R=$(hook "{\"opportunity_id\":\"$O1\"}" | tail -1); expect "GHL down -> 502 so GHL retries" "$R" 502
 expect "nothing changed while down" "$(mine L1)" called
 curl -s -o /dev/null $B/ghl-stage-reconcile
 expect "reconcile while GHL is down changes nothing" "$(mine L1)" called
