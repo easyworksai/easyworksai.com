@@ -471,12 +471,12 @@ ${footer()}`;
   return html.split('../../').join('../');
 };
 
+// Reference stories, told without names (Brad 2026-09-19: use these as reference stories, not named case studies).
 const BUILT = [
-  ['Indoor navigation', 'Blue Path Navigation', 'Type a store, follow a glowing path to the door. We are the technical partner: the phone app, a dashboard for the building owner and the licensing console behind it.', ''],
-  ['Data platform', 'GoldRush Bids', 'A search platform that gathers government contract bids into one place, built and run with partners in Los Angeles.', 'https://goldrushbids.com'],
-  ['Membership and music', 'SMC Sunday Club', 'A members platform with its own login, payments, music player, events list and a street team app. Owned by the artist, not rented from a social network.', 'https://smcsundayclub.com'],
-  ['Private network', 'Real Ones Link', 'A private membership network with its own site and the customer system behind it.', 'https://realoneslink.com'],
-  ['Private assistant', 'Cyrene Dellinger &amp; Associates', 'A private assistant a Los Angeles realtor texts like a colleague. It keeps track of every lead inside her own tools.', ''],
+  ['Indoor navigation', 'A map for the inside of big buildings', 'Someone told us people get lost in large shopping centres. The first working version existed that night: type a store, follow a glowing path to the door. A dashboard for the building owner and a licensing console followed the next day.', ''],
+  ['Data platform', 'Every government contract in one place', 'A founder wanted one search across the public bid portals his industry has to watch. The platform now gathers thousands of open contracts and reads them for him.', ''],
+  ['Creator platform', 'An artist who owns his audience', 'A recording artist wanted a home that was his, not rented from a social network. Members, payments, a music player, an events list and an app for his street team.', ''],
+  ['Private assistant', 'An assistant that never sleeps', 'A realtor wanted help that kept up with her. She texts it like a colleague, and it keeps track of every lead inside the tools she already uses.', ''],
 ];
 
 const studioPage = () => simplePage({
@@ -495,7 +495,7 @@ const studioPage = () => simplePage({
       ['You are a creator', 'Your audience lives on platforms you do not own. We build the place that is yours: membership, payments, content, events, and the data that comes with them.'],
       ['You are a private client', 'You want something built properly and quietly: a private assistant, an internal tool, a system nobody else has. One person accountable, from the first call to the day it runs.'],
     ] },
-    { kind: 'work', id: 'built', overline: 'What we have built', h2: 'None of these is a CRM.', items: BUILT, note: 'Every one started the same way. Someone had a vision, and we built the machine underneath it.' },
+    { kind: 'work', id: 'built', overline: 'What we have built', h2: 'Four ideas that did not exist until someone asked.', items: BUILT, note: 'Every one started the same way. Someone had a vision, and we built the machine underneath it.' },
     { kind: 'steps', id: 'how', overline: 'How it works', h2: 'Working software first. Decks later.', items: [
       ['A conversation', 'You talk to the founder. We find out what the idea really needs, what already exists that we can stand on, and what has to be invented.'],
       ['A working first version, in days', 'Not a slideshow. Something you can open on your phone and put in front of the people it is for.'],
@@ -537,12 +537,9 @@ const partnersPage = () => simplePage({
       ['Terms in writing', 'Who does what, who owns what, who gets paid what. Agreed before any work begins, so nobody is guessing later.'],
       ['A first project', 'We start with one client or one working version, prove it, and grow from there.'],
     ] },
-    { kind: 'work', id: 'network', overline: 'Who we work with', h2: 'The company we keep.', items: [
+    { kind: 'work', id: 'network', overline: 'The family', h2: 'Who stands behind us.', items: [
       ['Parent company', 'Ampcos Advisory Group', 'The advisory group Easyworks belongs to. Strategy, structure and technology for growing companies.', 'https://ampcos.com'],
       ['Sister company', 'Ampcos Robotics', 'Our sister lab working on safe, scoped robots for real workplaces. Early stage.', 'https://ampcoslabs.com/robotics/'],
-      ['Venture', 'Blue Path Navigation', 'Indoor navigation for shopping centres. We are the technical partner.', ''],
-      ['Venture', 'GoldRush Bids', 'Government contract search, built and run with partners in Los Angeles.', 'https://goldrushbids.com'],
-      ['Events', 'Platinum Reserve Events', 'Artist contracting and campaign planning for a multi day festival.', ''],
     ] },
   ],
   faq: [
