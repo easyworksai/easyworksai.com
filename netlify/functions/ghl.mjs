@@ -4,7 +4,8 @@
 // Writes are best-effort: a GHL hiccup must never block a rep's action on The Floor.
 import { getStore } from '@netlify/blobs';
 
-const BASE = 'https://services.leadconnectorhq.com';
+// GHL_API_BASE is only ever set for local tests against a stub. Production never sets it.
+const BASE = process.env.GHL_API_BASE || 'https://services.leadconnectorhq.com';
 const VER = '2021-07-28';
 export const GHL_TOKEN = process.env.GHL_EASYWORKS_PIT_TOKEN || '';
 export const GHL_LOC = process.env.GHL_EASYWORKS_LOCATION_ID || 'epCxi4CaxbM1sOwVjBTf';
@@ -117,3 +118,34 @@ export async function addNote(contactId, noteBody) {
     return r.ok;
   } catch { return false; }
 }
+
+// Read one opportunity straight from GHL. Returns { id, pipelineId, stageId, status, contactId, name } or null.
+export async function getOpportunity(oppId) {
+  if (!ghlReady() || !oppId) return null;
+  try {
+    const r = await fetch(`${BASE}/opportunities/${encodeURIComponent(oppId)}`, { headers: H() });
+    if (!r.ok) return null;
+    const j = await r.json();
+    return shapeOpp(j.opportunity || j);
+  } catch { return null; }
+}
+
+// Every opportunity in the sales pipeline (all statuses), paged. Returns null if GHL could not be read at all.
+export async function listPipelineOpportunities() {
+  if (!ghlReady()) return null;
+  const out = [];
+  try {
+    for (let page = 1; page <= 20; page++) {
+      const r = await fetch(`${BASE}/opportunities/search?location_id=${GHL_LOC}&pipeline_id=${PIPELINE_ID}&status=all&limit=100&page=${page}`, { headers: H() });
+      if (!r.ok) return page === 1 ? null : out;
+      const j = await r.json();
+      const batch = j.opportunities || [];
+      out.push(...batch.map(shapeOpp));
+      if (batch.length < 100) break;
+    }
+  } catch { return out.length ? out : null; }
+  return out;
+}
+
+const shapeOpp = (o) => ({ id: o.id, pipelineId: o.pipelineId, stageId: o.pipelineStageId, status: o.status || 'open',
+  contactId: o.contactId || (o.contact && o.contact.id) || null, name: o.name || '' });
