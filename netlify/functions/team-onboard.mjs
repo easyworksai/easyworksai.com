@@ -17,10 +17,10 @@ async function docsComplete(slug) {
   return DOCS.every((d) => sigs[d.key] && sigs[d.key].version === d.version);
 }
 
-// Exported guard used by team-tasks: a tech may operate only when fully onboarded.
+// Exported guard used by team-tasks + team-admin: a tech (or the EA) may operate only when fully onboarded.
 export async function isTechOnboarded(rep) {
   if (!rep) return false;
-  if (rep.role !== 'tech') return true; // non-tech roles aren't gated by this flow
+  if (!['tech', 'ea'].includes(rep.role)) return true; // other roles aren't gated by this flow
   const prof = await store().get(pkey(rep.slug), { type: 'json' });
   if (!prof || !prof.complete) return false;
   return docsComplete(rep.slug);

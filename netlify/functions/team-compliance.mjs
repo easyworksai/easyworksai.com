@@ -146,7 +146,10 @@ export default async (req) => {
     await store().setJSON(recKey(me.slug), rec);
 
     const nowComplete = isRecordComplete(rec);
-    if (nowComplete && !wasComplete) {
+    if (nowComplete && !wasComplete && me.role === 'ea') {
+      // the EA is not on the sales floor: no wire line, neutral ping
+      tgPing(`✅ <b>Onboarding documents signed</b>\n${me.name} signed all onboarding documents.`).catch(() => {});
+    } else if (nowComplete && !wasComplete) {
       logEvent({ type: 'join', who: me.name, text: `${me.name} completed compliance and is cleared to sell ✅` }).catch(() => {});
       tgPing(`✅ <b>Compliance complete</b>\n${me.name} signed all onboarding documents and is cleared to operate on The Floor.`).catch(() => {});
     }

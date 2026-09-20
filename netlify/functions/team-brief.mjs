@@ -40,7 +40,7 @@ export default async (req) => {
   const s = store();
   const roster = await loadRoster();
   const active = roster.filter((r) => r.active);
-  const sellers = active.filter((r) => !['admin', 'tech'].includes(r.role));
+  const sellers = active.filter((r) => !['admin', 'tech', 'ea'].includes(r.role));
   const pool = (await s.get('leads-pool.json', { type: 'json' })) || { ts: 0, leads: [] };
   const claims = (await s.get('leads-claims.json', { type: 'json' })) || {};
   const tasksData = (await s.get('tasks.json', { type: 'json' })) || { tasks: [] };

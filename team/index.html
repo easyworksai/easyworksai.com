@@ -27,6 +27,8 @@ header{display:flex;justify-content:space-between;align-items:center;margin-bott
 .who b{color:var(--ink)}
 .who a{color:var(--cyan);text-decoration:none;margin-left:10px;cursor:pointer}
 .hide{display:none!important}
+/* EA view: read only. Team activity, the wire, the board and Ops. No personal sales stats, no sales tabs. */
+body.ea-view #tab-dash .hero,body.ea-view #tab-dash .tiles,body.ea-view #badgesHdr,body.ea-view #badges,body.ea-view .tabs button:not([data-tab="dash"]):not([data-tab="ops"]){display:none!important}
 button{font-family:inherit}
 
 /* mascot login */
@@ -458,7 +460,7 @@ h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--dim);
         <div class="tile"><div class="n" id="nRet">0</div><div class="l">On retainer</div><div class="x">+250 XP</div></div>
         <div class="tile"><div class="n" id="nTrain">0/7</div><div class="l">Training</div><div class="x">+50 XP each</div></div>
       </div>
-      <h2>Achievements</h2>
+      <h2 id="badgesHdr">Achievements</h2>
       <div class="badges" id="badges"></div>
       <h2>Leaderboard
         <span class="btoggle"><button id="bWeek" class="on">This week</button><button id="bAll">All time</button></span>
@@ -593,7 +595,7 @@ h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--dim);
       <h2 id="teamHdr">Your team</h2>
       <div class="tprog">Recruit a rep and they get their own access code. They must sign the onboarding documents before they can work leads.</div>
       <div class="admin" style="border:0;padding:0;margin:0 0 16px">
-        <div class="row"><input id="tNewName" placeholder="New team member full name"><select id="tNewRole" class="hide" style="background:var(--panel);border:1px solid var(--line);border-radius:8px;color:var(--ink);padding:9px 12px;font-size:14px"><option value="rep">Sales rep</option><option value="tech">Tech contractor</option></select><button id="tAddRep">Add</button></div>
+        <div class="row"><input id="tNewName" placeholder="New team member full name"><select id="tNewRole" class="hide" style="background:var(--panel);border:1px solid var(--line);border-radius:8px;color:var(--ink);padding:9px 12px;font-size:14px"><option value="rep">Sales rep</option><option value="tech">Tech contractor</option><option value="ea">Executive assistant</option></select><button id="tAddRep">Add</button></div>
         <div class="out" id="tAddOut"></div>
       </div>
       <div id="teamList"></div>
@@ -1309,6 +1311,8 @@ function renderDash(d){
   if(['admin','head','lead'].includes(d.me.role)){ $('teamTabBtn').classList.remove('hide'); $('teamHdr').textContent = d.me.role==='lead' ? 'Your team' : 'The whole team'; }
   // Managers reach the tech Work board on its own page (The Bench).
   if(['admin','head'].includes(d.me.role)){ $('whoWork').classList.remove('hide'); }
+  // The EA reads The Floor: wire, board and Ops numbers. Nothing here writes.
+  if(d.me.role==='ea'){ document.body.classList.add('ea-view'); $('opsTabBtn').classList.remove('hide'); $('whoWork').classList.remove('hide'); }
   // Sales members get self-serve: view/edit their details, replay the demo.
   if(['rep','lead'].includes(d.me.role)){
     $('whoProfile').classList.remove('hide'); $('whoTour').classList.remove('hide');
@@ -1333,6 +1337,13 @@ async function enter(){
   if(!c.ok){ $('app').classList.add('hide'); $('gate').classList.add('hide'); $('onboard').classList.add('hide'); $('who').classList.add('hide'); $('login').classList.remove('hide'); return; }
   // Tech contractors live on their own page (The Bench). Send them there.
   if(c.data.role==='tech'){ location.href='/team/work/'; return; }
+  // The EA onboards on The Bench (details, documents, tour), then can read The Floor.
+  if(c.data.role==='ea'){
+    const o = await api('/team-onboard');
+    if(o.ok && (!o.data.profileComplete || !o.data.docsComplete || !o.data.demoSeen)){ location.href='/team/work/'; return; }
+    $('onboard').classList.add('hide'); $('gate').classList.add('hide');
+    await loadDash(); return;
+  }
   // Sales members (rep, lead) get a lighter first-login onboarding: details + guided demo.
   if(['rep','lead'].includes(c.data.role)){
     const o = await api('/team-onboard');
@@ -1398,8 +1409,8 @@ async function loadTeam(){
       <span class="cbadge ${m.complete?'ok':'no'}">${m.complete?'Cleared':'Pending'}</span>
       ${mgr&&m.role==='rep'?`<button class="rel" data-mklead="${m.slug}" style="color:var(--gold)">make lead</button>`:''}
       ${mgr&&m.role==='lead'?`<button class="rel" data-mkrep="${m.slug}">make rep</button>`:''}
-      ${mgr&&m.role==='tech'?`<button class="rel" data-det="${m.slug}" style="color:var(--cyan)">details</button>`:''}
-      ${['rep','tech'].includes(m.role)?`<button class="rel" data-slug="${m.slug}">remove</button>`:''}</div><div class="tdet hide" id="tdet-${m.slug}"></div>`).join('')
+      ${mgr&&['tech','ea'].includes(m.role)?`<button class="rel" data-det="${m.slug}" style="color:var(--cyan)">details</button>`:''}
+      ${(['rep','tech'].includes(m.role)||(mgr&&m.role==='ea'))?`<button class="rel" data-slug="${m.slug}">remove</button>`:''}</div><div class="tdet hide" id="tdet-${m.slug}"></div>`).join('')
     : '<div class="lempty">No reps yet. Add your first one above and send them their code.</div>';
   // admin/head: view a tech contractor's onboarding + pay details
   $('teamList').querySelectorAll('button[data-det]').forEach(b=>{ b.onclick=async()=>{
@@ -1645,7 +1656,7 @@ async function loadRoster(){
   $('rosterList').innerHTML = '<div style="font-size:12px;color:var(--dim);margin-bottom:6px">Team roster</div>' +
     r.data.roster.map(x=>`<div style="display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid #10192e;font-size:13.5px">
       <span>${x.name}</span><span class="rk">${x.role}</span>
-      ${['rep','tech'].includes(x.role)?`<button class="rel" data-slug="${x.slug}" style="margin-left:auto">remove</button>`:''}</div>`).join('');
+      ${['rep','tech','ea'].includes(x.role)?`<button class="rel" data-slug="${x.slug}" style="margin-left:auto">remove</button>`:''}</div>`).join('');
   $('rosterList').querySelectorAll('button[data-slug]').forEach(b=>{
     b.onclick=async()=>{
       if(!confirm('Remove this rep from The Floor? Their code stops working.')) return;

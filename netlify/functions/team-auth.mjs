@@ -96,12 +96,13 @@ export default async (req) => {
       const up = roster.find((r) => r.slug === String(body.recruiterSlug) && r.active);
       if (up) recruiterSlug = up.slug;
     }
-    // admin/head can add sales reps or tech contractors; leads always add reps
-    const role = (['admin', 'head'].includes(me.role) && ['rep', 'tech'].includes(body.role)) ? body.role : 'rep';
+    // admin/head can add sales reps, tech contractors or the executive assistant; leads always add reps
+    const role = (['admin', 'head'].includes(me.role) && ['rep', 'tech', 'ea'].includes(body.role)) ? body.role : 'rep';
+    if (role === 'ea') recruiterSlug = null; // the EA sits outside every sales downline
     const rep = { slug: s, name, code: newCode(s), role, recruiterSlug, active: true };
     roster.push(rep);
     await getStore({ name: 'sales-team', consistency: 'strong' }).setJSON('roster.json', roster);
-    if (role !== 'tech') logEvent({ type: 'join', who: name, text: `${name} joined The Floor. Welcome to the team \u{1F44A}` }).catch(() => {});
+    if (!['tech', 'ea'].includes(role)) logEvent({ type: 'join', who: name, text: `${name} joined The Floor. Welcome to the team \u{1F44A}` }).catch(() => {});
     return Response.json({ ok: true, rep });
   }
 

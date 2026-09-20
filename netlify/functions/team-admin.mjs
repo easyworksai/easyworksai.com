@@ -1,8 +1,10 @@
-// Ops view for admin/head only: per-rep oversight, all claims, data health.
+// Ops view for admin/head: per-rep oversight, all claims, data health.
+// The EA (role 'ea') gets the same numbers read only, once onboarded. No codes, no dollar amounts in here.
 import { getStore } from '@netlify/blobs';
 import { cookieSlug, loadRoster } from './team-auth.mjs';
 import { loadProgress } from './team-progress.mjs';
 import { loadActivity, loadFeed } from './team-events.mjs';
+import { isTechOnboarded } from './team-onboard.mjs';
 
 const dayStr = (d) => d.toISOString().slice(0, 10);
 
@@ -11,7 +13,11 @@ export default async (req) => {
   if (!slug) return Response.json({ error: 'login required' }, { status: 401 });
   const roster = await loadRoster();
   const me = roster.find((r) => r.slug === slug && r.active);
-  if (!me || !['admin', 'head'].includes(me.role)) return Response.json({ error: 'not allowed' }, { status: 403 });
+  if (!me || !['admin', 'head', 'ea'].includes(me.role)) return Response.json({ error: 'not allowed' }, { status: 403 });
+  if (req.method !== 'GET' && me.role === 'ea') return Response.json({ error: 'read only' }, { status: 403 });
+  if (me.role === 'ea' && !(await isTechOnboarded(me))) {
+    return Response.json({ error: 'Finish onboarding first.', needsOnboarding: true }, { status: 403 });
+  }
 
   const store = getStore({ name: 'sales-team', consistency: 'strong' });
   const pool = (await store.get('leads-pool.json', { type: 'json' })) || { ts: 0, leads: [] };
@@ -22,7 +28,7 @@ export default async (req) => {
   const now = Date.now();
 
   const active = roster.filter((r) => r.active);
-  const reps = await Promise.all(active.map(async (r) => {
+  const reps = await Promise.all(active.filter((r) => r.role !== 'ea').map(async (r) => {
     const prog = await loadProgress(r.slug);
     const act = await loadActivity(r.slug);
     const myClaims = Object.entries(claims).filter(([, c]) => c.slug === r.slug);

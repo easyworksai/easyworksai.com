@@ -146,7 +146,7 @@ export default async (req) => {
   };
 
   const board = roster
-    .filter((r) => r.active && !['admin', 'tech'].includes(r.role))
+    .filter((r) => r.active && !['admin', 'tech', 'ea'].includes(r.role))
     .map((r) => ({ slug: r.slug, name: r.name, ...enrich(r), rank: null }))
     .map((r) => ({ ...r, rank: rankFor(r.xp).name }))
     .sort((a, b) => b.xp - a.xp || b.audits - a.audits);

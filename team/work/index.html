@@ -479,6 +479,14 @@ const OB_TOUR=[
  {ic:'&#9989;', h:'Getting it approved', p:'Only Brad or Cash mark a task Done, that&#8217;s the quality check. Keep the board moving and check it daily. That&#8217;s the whole job.'},
 ];
 const PF_SKILLS=['','GoHighLevel build','Web development','Automation / AI','Design','General VA','Other'];
+const pfSkills=()=>ME_ROLE==='ea'?['','Executive assistant',...PF_SKILLS.slice(1)]:PF_SKILLS;
+const OB_TOUR_EA=[
+ {ic:'&#128203;', h:'The whole board', p:'You see every task, who has it, where it stands and the notes. Blocked and In review sit at the top.'},
+ {ic:'&#128276;', h:'Keep work moving', p:'Add a note on any task. Hit Nudge when a task has gone quiet and the person on it gets asked for an update.'},
+ {ic:'&#128679;', h:'Blocked and unblocked', p:'Mark a task Blocked and say why. When the blocker clears, move it back to In progress.'},
+ {ic:'&#9989;', h:'Quality check stays with Brad and Cash', p:'You can create tasks and keep them moving. Only Brad or Cash approve a task as Done.'},
+];
+const obTour=()=>ME_ROLE==='ea'?OB_TOUR_EA:OB_TOUR;
 const PF_PAY=['','Wise','PayPal','Payoneer','e-Transfer','Direct deposit','Other'];
 function showOnboard(status){
   $('login').classList.add('hide'); $('app').classList.add('hide');
@@ -489,7 +497,7 @@ function showOnboard(status){
 function obSteps(){ let h='<div class="ob-steps">'; for(let i=1;i<=4;i++){ const cls=i<OB_STEP?'done':i===OB_STEP?'on':''; h+=`<div class="ob-dot ${cls}">${i<OB_STEP?'&#10003;':i}</div>`; if(i<4) h+='<div class="ob-line"></div>'; } return h+'</div>'; }
 function paintOnboard(){
   let body='';
-  if(OB_STEP===1) body=`<div class="ob-card"><h1>Welcome to the build team, ${OB.name.split(' ')[0]}.</h1>
+  if(OB_STEP===1) body=`<div class="ob-card"><h1>${ME_ROLE==='ea'?'Welcome to the team':'Welcome to the build team'}, ${OB.name.split(' ')[0]}.</h1>
     <p class="lead">You&#8217;re in. Three quick steps, about three minutes: your details, a couple of documents to sign, and a 60-second tour of how the board works.</p>
     <button class="ob-btn" id="obGo">Let&#8217;s get you set up &#8594;</button></div>`;
   else if(OB_STEP===2){ const p=OB.profile||{};
@@ -498,7 +506,7 @@ function paintOnboard(){
     <div class="ob-f"><label>Best contact (WhatsApp or phone)</label><input id="obContact" placeholder="+1 ..." value="${p.contact||''}"></div>
     <div class="ob-row"><div class="ob-f"><label>City / country</label><input id="obCountry" value="${p.country||''}"></div>
     <div class="ob-f"><label>Time zone</label><input id="obTz" value="${p.timezone||''}"></div></div>
-    <div class="ob-f"><label>Your main skill</label><select id="obSkill">${PF_SKILLS.map(s=>`<option ${p.skill===s?'selected':''} value="${s}">${s||'Select...'}</option>`).join('')}</select></div>
+    <div class="ob-f"><label>Your main skill</label><select id="obSkill">${pfSkills().map(s=>`<option ${p.skill===s?'selected':''} value="${s}">${s||'Select...'}</option>`).join('')}</select></div>
     <div class="ob-row"><div class="ob-f"><label>Pay method</label><select id="obPayType">${PF_PAY.map(s=>`<option ${p.payType===s?'selected':''} value="${s}">${s||'Select...'}</option>`).join('')}</select></div>
     <div class="ob-f"><label>Pay detail (email or account)</label><input id="obPayDetail" value="${p.payDetail||''}"></div></div>
     <button class="ob-btn" id="obSave">Save &amp; continue &#8594;</button><div class="ob-err" id="obErr"></div></div>`;
@@ -506,10 +514,10 @@ function paintOnboard(){
     body=`<div class="ob-card"><h1>Sign your documents</h1><p class="lead">Standard for everyone on the team: an NDA and your contractor agreement. Review each and sign, it takes two minutes.</p>
     <div id="obDocs">Loading...</div><button class="ob-btn" id="obDocsNext" disabled>Continue &#8594;</button></div>`;
   } else {
-    const t=OB_TOUR[OB_TOUR_I];
+    const t=obTour()[OB_TOUR_I];
     body=`<div class="ob-card ob-tour"><div class="tico">${t.ic}</div><h2>${t.h}</h2><p>${t.p}</p>
-    <div class="ob-tdots">${OB_TOUR.map((x,i)=>`<span class="${i===OB_TOUR_I?'on':''}"></span>`).join('')}</div>
-    <button class="ob-btn" id="obTourNext">${OB_TOUR_I<OB_TOUR.length-1?'Next &#8594;':'Start working &#8594;'}</button>
+    <div class="ob-tdots">${obTour().map((x,i)=>`<span class="${i===OB_TOUR_I?'on':''}"></span>`).join('')}</div>
+    <button class="ob-btn" id="obTourNext">${OB_TOUR_I<obTour().length-1?'Next &#8594;':'Start working &#8594;'}</button>
     ${OB_TOUR_I>0?'<button class="ob-back" id="obTourBack">&#8592; Back</button>':''}</div>`;
   }
   $('onboard').innerHTML = obSteps() + body; wireOnboard();
@@ -525,7 +533,7 @@ function wireOnboard(){
   };
   if(OB_STEP===3){ loadObDocs(); }
   if($('obTourNext')) $('obTourNext').onclick=async()=>{
-    if(OB_TOUR_I<OB_TOUR.length-1){ OB_TOUR_I++; paintOnboard(); }
+    if(OB_TOUR_I<obTour().length-1){ OB_TOUR_I++; paintOnboard(); }
     else { await api('/team-onboard',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'demo-done'})}); $('onboard').classList.add('hide'); showWorkApp(); }
   };
   if($('obTourBack')) $('obTourBack').onclick=()=>{ OB_TOUR_I--; paintOnboard(); };
@@ -546,7 +554,7 @@ function replayTour(){ OB={ name:$('whoName').textContent||'' }; OB_STEP=4; OB_T
 async function openProfile(){
   const r=await api('/team-onboard'); if(!r.ok){ toast('Could not load your profile'); return; }
   const p=r.data.profile||{};
-  $('pfSkill').innerHTML=PF_SKILLS.map(s=>`<option value="${s}" ${p.skill===s?'selected':''}>${s||'Select...'}</option>`).join('');
+  $('pfSkill').innerHTML=pfSkills().map(s=>`<option value="${s}" ${p.skill===s?'selected':''}>${s||'Select...'}</option>`).join('');
   $('pfPayType').innerHTML=PF_PAY.map(s=>`<option value="${s}" ${p.payType===s?'selected':''}>${s||'Select...'}</option>`).join('');
   $('pfEmail').value=p.email||''; $('pfContact').value=p.contact||''; $('pfCountry').value=p.country||''; $('pfTz').value=p.timezone||''; $('pfPayDetail').value=p.payDetail||'';
   $('pfErr').textContent=''; $('profModal').classList.add('show');
@@ -591,10 +599,12 @@ async function loadWork(){
 }
 function renderWorkHead(mgr){
   const me=WORKD.me, ts=WORKD.tasks, wh=$('workHead'); wh.classList.remove('hide');
-  if(mgr){
+  const ea=me.role==='ea';
+  if(mgr||ea){
     const c=st=>ts.filter(t=>st.includes(t.status)).length;
-    wh.innerHTML=`<div class="whi"><div class="wht">Work board</div><div class="whs">${WORKD.team.length} tech contractor${WORKD.team.length===1?'':'s'} &#183; you approve everything that ships</div></div>
-      <div class="whstats"><div class="whstat"><div class="n">${c(['backlog','in-progress'])}</div><div class="l">Open</div></div><div class="whstat rev"><div class="n">${c(['review'])}</div><div class="l">For QC</div></div><div class="whstat blk"><div class="n">${c(['blocked'])}</div><div class="l">Blocked</div></div></div>`;
+    wh.innerHTML=`<div class="whi"><div class="wht">Work board</div><div class="whs">${WORKD.team.length} tech contractor${WORKD.team.length===1?'':'s'} &#183; ${ea?'Brad or Cash approve what ships':'you approve everything that ships'}</div></div>
+      <div class="whstats"><div class="whstat"><div class="n">${c(['backlog','in-progress'])}</div><div class="l">Open</div></div><div class="whstat rev"><div class="n">${c(['review'])}</div><div class="l">For QC</div></div><div class="whstat blk"><div class="n">${c(['blocked'])}</div><div class="l">Blocked</div></div></div>${ea?'<div class="whbtns"><button id="whFloor">The Floor</button><button id="whProfile">My profile</button><button id="whTour">Replay tour</button></div>':''}`;
+    if(ea){ $('whFloor').onclick=()=>{ location.href='/team/'; }; $('whProfile').onclick=openProfile; $('whTour').onclick=replayTour; }
     return;
   }
   const mine=t=>t.assignee===me.slug, c=st=>ts.filter(t=>mine(t)&&st.includes(t.status)).length;
@@ -606,6 +616,7 @@ function renderWorkHead(mgr){
 function taskCard(t){
   const mgr=['admin','head'].includes(WORKD.me.role);
   const mine=t.assignee===WORKD.me.slug;
+  const ea=WORKD.me.role==='ea';
   const meta=[t.client?'<b>'+t.client+'</b>':'', t.assigneeName?('with '+t.assigneeName):'unassigned', t.due?('due '+t.due):'', 'by '+t.createdBy].filter(Boolean).join(' &#183; ');
   const notes=(t.notes||[]).slice(-4).map(n=>`<div class="tnote"><b>${n.by}:</b> ${n.text}</div>`).join('');
   let acts='';
@@ -615,19 +626,23 @@ function taskCard(t){
     if((mine||mgr)&&t.status==='in-progress') acts+=`<button data-a="status" data-s="review" data-id="${t.id}">Ready for review</button>`;
     if((mine||mgr)&&t.status!=='blocked') acts+=`<button class="warn" data-a="block" data-id="${t.id}">Blocked</button>`;
     if(mgr&&t.status==='review') acts+=`<button class="ok" data-a="status" data-s="done" data-id="${t.id}">Approve &#10003;</button>`;
+    if(ea&&t.status==='blocked') acts+=`<button data-a="status" data-s="in-progress" data-id="${t.id}">Back to in progress</button>`;
+    if(ea&&['backlog','in-progress'].includes(t.status)) acts+=`<button class="warn" data-a="block" data-id="${t.id}">Blocked</button>`;
+    if(ea&&t.assignee) acts+=`<button class="ghost" data-a="nudge" data-id="${t.id}">Nudge</button>`;
     if(mgr){ const opts='<option value="">reassign...</option>'+WORKD.team.map(m=>`<option value="${m.slug}" ${t.assignee===m.slug?'selected':''}>${m.name}</option>`).join('');
       acts+=`<select data-a="assign" data-id="${t.id}">${opts}</select><button class="ghost" data-a="delete" data-id="${t.id}">delete</button>`; }
-    if(mine||mgr) acts+=`<input data-a="notein" data-id="${t.id}" placeholder="Add a note"><button class="ghost" data-a="note" data-id="${t.id}">Post</button>`;
+    if(mine||mgr||ea) acts+=`<input data-a="notein" data-id="${t.id}" placeholder="Add a note"><button class="ghost" data-a="note" data-id="${t.id}">Post</button>`;
   }
   return `<div class="task ${t.priority} ${t.status==='blocked'?'blocked':''}">
-    <div class="trow1"><span class="pchip ${t.priority}">${t.priority.toUpperCase()}</span><span class="tt">${t.title}</span></div>
+    <div class="trow1"><span class="pchip ${t.priority}">${t.priority.toUpperCase()}</span><span class="tt">${t.title}</span>${t.nudgedAt&&(mine||ea)?`<span class="pchip p1" title="Nudged by ${t.nudgedBy||''}">UPDATE NEEDED</span>`:''}</div>
     <div class="tmeta">${meta}</div>${t.detail?`<div class="tdetail">${t.detail}</div>`:''}${notes?`<div class="tnotes">${notes}</div>`:''}${acts?`<div class="tacts">${acts}</div>`:''}</div>`;
 }
 function renderWork(){
   const mgr=['admin','head'].includes(WORKD.me.role);
+  const ea=WORKD.me.role==='ea';
   renderWorkHead(mgr);
-  $('wform').classList.toggle('hide',!mgr);
-  if(mgr){ const cur=$('wAssignee').value;
+  $('wform').classList.toggle('hide',!(mgr||ea));
+  if(mgr||ea){ const cur=$('wAssignee').value;
     $('wAssignee').innerHTML='<option value="">Unassigned (backlog)</option>'+WORKD.team.map(m=>`<option value="${m.slug}">${m.name}</option>`).join('');
     $('wAssignee').value=cur; }
   const ts=WORKD.tasks;
@@ -637,13 +652,14 @@ function renderWork(){
     if(st==='done') list=list.slice(0,15);
     if(!list.length) return '';
     return `<div class="wgroup"><h2>${label} <span class="cnt">${list.length}</span></h2>${list.map(taskCard).join('')}</div>`;
-  }).join('') || '<div class="lempty">No tasks yet.'+(mgr?' Create the first one above.':' Brad or Cash will assign work here, and anything in Backlog is yours to claim.')+'</div>';
+  }).join('') || '<div class="lempty">No tasks yet.'+((mgr||ea)?' Create the first one above.':' Brad or Cash will assign work here, and anything in Backlog is yours to claim.')+'</div>';
   $('workBoard').querySelectorAll('button[data-a],select[data-a="assign"]').forEach(el=>{
     const id=el.dataset.id;
     const post=async(b)=>{ const r=await api('/team-tasks',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)}); if(r.ok) loadWork(); else toast(r.data.error||'failed'); };
     if(el.dataset.a==='claim') el.onclick=()=>post({action:'claim',id});
     if(el.dataset.a==='status') el.onclick=()=>post({action:'status',id,status:el.dataset.s});
     if(el.dataset.a==='block') el.onclick=()=>{ const why=prompt('What is blocking it?'); if(why!==null) post({action:'status',id,status:'blocked',reason:why}); };
+    if(el.dataset.a==='nudge') el.onclick=()=>{ const why=prompt('Nudge message (optional)','Please post an update.'); if(why!==null) post({action:'nudge',id,text:why}); };
     if(el.dataset.a==='delete') el.onclick=()=>{ if(confirm('Delete this task?')) post({action:'delete',id}); };
     if(el.dataset.a==='note') el.onclick=()=>{ const inp=$('workBoard').querySelector(`input[data-a="notein"][data-id="${id}"]`); const text=(inp.value||'').trim(); if(text) post({action:'note',id,text}); };
     if(el.dataset.a==='assign') el.onchange=()=>{ if(el.value) post({action:'assign',id,assignee:el.value}); };
@@ -671,8 +687,8 @@ async function enter(){
   const c = await api('/team-compliance');
   if(!c.ok){ showLogin(); return; }
   ME_ROLE=c.data.role; ME_NAME=c.data.name||'';
-  if(!['tech','admin','head'].includes(c.data.role)){ location.href='/team/'; return; } // sales -> main portal
-  if(c.data.role==='tech'){
+  if(!['tech','admin','head','ea'].includes(c.data.role)){ location.href='/team/'; return; } // sales -> main portal
+  if(['tech','ea'].includes(c.data.role)){
     const o = await api('/team-onboard');
     if(o.ok && (!o.data.profileComplete || !o.data.docsComplete || !o.data.demoSeen)){ showOnboard(o.data); return; }
   }

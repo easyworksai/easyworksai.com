@@ -31,6 +31,7 @@ export default async (req) => {
     return Response.json({ progress: p.done, incentive: await loadIncentive() });
   }
   if (req.method !== 'POST') return new Response('nope', { status: 405 });
+  if (me.role === 'ea') return Response.json({ error: 'read only' }, { status: 403 });
   const body = await req.json().catch(() => ({}));
 
   if (body.action === 'incentive') {

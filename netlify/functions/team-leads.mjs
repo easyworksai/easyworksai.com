@@ -45,6 +45,7 @@ export default async (req) => {
   }
 
   if (req.method !== 'POST') return new Response('nope', { status: 405 });
+  if (me.role === 'ea') return Response.json({ error: 'read only' }, { status: 403 });
   // Hard lock: no working leads until onboarding compliance is complete (no-op when the gate is off).
   if (!(await isCompliant(me, roster))) {
     return Response.json({ error: 'Finish your onboarding documents to start working leads.', needsCompliance: true }, { status: 403 });

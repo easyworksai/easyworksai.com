@@ -10,6 +10,11 @@
 // POST {action:'status', id, status, reason?}   in-progress|review|blocked by assignee; done by admin/head
 // POST {action:'note', id, text}
 // POST {action:'delete', id}                                               (admin/head)
+// POST {action:'nudge', id, text?}                                         (admin/head/ea: asks the assignee for an update)
+//
+// The EA (role 'ea') coordinates the board: sees everything, creates tasks, adds notes, nudges,
+// moves a task to blocked and a blocked task back to in-progress. The EA never approves QC
+// (review -> done), never assigns/claims/deletes, and can never be an assignee.
 import { getStore } from '@netlify/blobs';
 import { cookieSlug, loadRoster } from './team-auth.mjs';
 import { tgPing } from './team-events.mjs';
@@ -30,7 +35,8 @@ export default async (req) => {
   const me = roster.find((r) => r.slug === slug && r.active);
   if (!me) return Response.json({ error: 'login required' }, { status: 401 });
   const canManage = ['admin', 'head'].includes(me.role);
-  if (!canManage && me.role !== 'tech') return Response.json({ error: 'not allowed' }, { status: 403 });
+  const isEa = me.role === 'ea';
+  if (!canManage && !isEa && me.role !== 'tech') return Response.json({ error: 'not allowed' }, { status: 403 });
 
   const data = await loadTasks();
   const nameOf = (s) => (roster.find((r) => r.slug === s) || {}).name || s;
@@ -45,7 +51,7 @@ export default async (req) => {
   }
 
   if (req.method !== 'POST') return new Response('nope', { status: 405 });
-  if (me.role === 'tech' && !(await isTechOnboarded(me))) {
+  if (['tech', 'ea'].includes(me.role) && !(await isTechOnboarded(me))) {
     return Response.json({ error: 'Finish onboarding to start working.', needsOnboarding: true }, { status: 403 });
   }
   if (!(await isCompliant(me, roster))) {
@@ -54,7 +60,7 @@ export default async (req) => {
   const body = await req.json().catch(() => ({}));
 
   if (body.action === 'create') {
-    if (!canManage) return Response.json({ error: 'not allowed' }, { status: 403 });
+    if (!canManage && !isEa) return Response.json({ error: 'not allowed' }, { status: 403 });
     const title = String(body.title || '').trim().slice(0, 120);
     if (!title) return Response.json({ error: 'title required' }, { status: 400 });
     const assignee = roster.some((r) => r.slug === body.assignee && r.active && r.role === 'tech') ? body.assignee : null;
@@ -105,9 +111,15 @@ export default async (req) => {
     const st = String(body.status || '');
     if (!STATUSES.includes(st)) return Response.json({ error: 'bad status' }, { status: 400 });
     if (st === 'done' && !canManage) return Response.json({ error: 'only Brad or Cash approve a task done — move it to review' }, { status: 403 });
-    if (!canManage && !isMine) return Response.json({ error: 'not your task' }, { status: 403 });
+    if (!canManage && !isEa && !isMine) return Response.json({ error: 'not your task' }, { status: 403 });
+    if (isEa) {
+      // EA moves are limited: open work -> blocked, blocked -> back to in-progress. Review and done stay with Brad or Cash.
+      const okMove = (st === 'blocked' && ['backlog', 'in-progress'].includes(t.status)) || (st === 'in-progress' && t.status === 'blocked');
+      if (!okMove && t.status !== st) return Response.json({ error: 'You can mark open work blocked, or move a blocked task back to in progress.' }, { status: 403 });
+    }
     if (t.status === st) return Response.json({ ok: true });
     t.status = st; t.up = Date.now();
+    if (isMine) { delete t.nudgedAt; delete t.nudgedBy; } // the assignee moved it: nudge answered
     const reason = String(body.reason || '').trim().slice(0, 300);
     if (st === 'blocked' && reason) t.notes.push({ by: me.name, text: 'BLOCKED: ' + reason, ts: Date.now() });
     if (st !== 'blocked') delete t.blockedWhy; else t.blockedWhy = reason;
@@ -119,12 +131,26 @@ export default async (req) => {
   }
 
   if (body.action === 'note') {
-    if (!canManage && !isMine) return Response.json({ error: 'not your task' }, { status: 403 });
+    if (!canManage && !isEa && !isMine) return Response.json({ error: 'not your task' }, { status: 403 });
     const text = String(body.text || '').trim().slice(0, 500);
     if (!text) return Response.json({ error: 'empty note' }, { status: 400 });
     t.notes.push({ by: me.name, text, ts: Date.now() });
     t.notes = t.notes.slice(-20);
+    if (isMine) { delete t.nudgedAt; delete t.nudgedBy; } // the assignee replied: nudge answered
     t.up = Date.now();
+    await saveTasks(data);
+    return Response.json({ ok: true });
+  }
+
+  if (body.action === 'nudge') {
+    if (!canManage && !isEa) return Response.json({ error: 'not allowed' }, { status: 403 });
+    if (!t.assignee) return Response.json({ error: 'No one is on this task yet.' }, { status: 400 });
+    if (t.status === 'done') return Response.json({ error: 'Task is already done.' }, { status: 400 });
+    if (t.nudgedAt && Date.now() - t.nudgedAt < 3600e3) return Response.json({ error: 'Already nudged in the last hour.' }, { status: 429 });
+    const text = String(body.text || '').trim().slice(0, 300) || 'Please post an update.';
+    t.notes.push({ by: me.name, text: 'NUDGE: ' + text, ts: Date.now() });
+    t.notes = t.notes.slice(-20);
+    t.nudgedAt = Date.now(); t.nudgedBy = me.name; t.up = Date.now();
     await saveTasks(data);
     return Response.json({ ok: true });
   }
