@@ -1,10 +1,10 @@
 #!/bin/bash
 # Local permission matrix for the ea role. Never point this at production.
 # 1. netlify dev --offline with TEAM_LINK_SECRET set and dummy TELEGRAM_BOT_TOKEN / GHL_EASYWORKS_PIT_TOKEN (port 8899)
-# 2. As admin, add one ea, one tech, one rep. Pass their codes: EA_CODE=.. TECH_CODE=.. REP_CODE=.. bash scripts/smoke-ea-role.sh
+# 2. As admin, add one ea, one tech, one rep. Pass codes: ADMIN_CODE=.. HEAD_CODE=.. EA_CODE=.. TECH_CODE=.. REP_CODE=.. bash scripts/smoke-ea-role.sh
 S="$(mktemp -d)"; B=http://localhost:8899/.netlify/functions
 login(){ curl -s -o /dev/null -c $S/$1.jar -X POST $B/team-auth -H 'Content-Type: application/json' -d "{\"code\":\"$2\"}"; }
-login brad EW-BRAD-4471; login cash EW-CASH-2088; login ea "$EA_CODE"; login tech "$TECH_CODE"; login rep "$REP_CODE"
+login brad "$ADMIN_CODE"; login cash "$HEAD_CODE"; login ea "$EA_CODE"; login tech "$TECH_CODE"; login rep "$REP_CODE"
 PASS=0; FAIL=0
 t(){ if [ "$2" = GET ]; then code=$(curl -s -o $S/out.json -w "%{http_code}" -b $S/$1.jar "$B/$3"); else code=$(curl -s -o $S/out.json -w "%{http_code}" -b $S/$1.jar -X POST "$B/$3" -H 'Content-Type: application/json' -d "$4"); fi
   if [ "$code" = "$5" ]; then PASS=$((PASS+1)); echo "ok   $6 [$code]"; else FAIL=$((FAIL+1)); echo "FAIL $6 [got $code want $5] $(head -c 200 $S/out.json)"; fi; }
