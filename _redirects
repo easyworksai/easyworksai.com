@@ -4,3 +4,6 @@ https://www.easyworks.ai/*  https://easyworks.ai/:splat  301!
 
 # block direct access to the SOP library files (served only through team-resources with a valid cookie)
 /team/resources-private/*  /404.html  404!
+# internal ops and test scripts are not web pages
+/scripts/*  /404.html  404!
+/build-tools/*  /404.html  404!
