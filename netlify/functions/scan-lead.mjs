@@ -90,7 +90,7 @@ export default async (req) => {
     try {
       const up = await ghl('/contacts/upsert', {
         locationId: GHL_LOC, email, ...(phone ? { phone } : {}), ...(person ? { name: person } : {}), companyName: biz, website: input.url || undefined, city: input.city || undefined,
-        source: 'Easyworks Scan', tags: ['scan', bandTag, `industry-${input.industry}`, ...campTags, ...(smsOk ? ['sms-ok'] : [])],
+        source: 'Easyworks Scan',
         customFields: (() => {
           // Scan fields power the follow up sequences in GHL (created 2026-09-19).
           const top = (result.money?.leaks || [])[0] || null;
@@ -106,6 +106,8 @@ export default async (req) => {
         })(),
       });
       const contactId = up.contact?.id;
+      // Tags are ADDED after the upsert. Passing tags to upsert replaces the contact's existing tags.
+      if (contactId) await ghl('/contacts/' + contactId + '/tags', { tags: ['scan', bandTag, `industry-${input.industry}`, ...campTags, ...(smsOk ? ['sms-ok'] : [])] }).catch((e) => { out.tagError = e.message; });
       out.ghl = !!contactId;
       if (contactId) {
         if (!rec.emailedAt) {
