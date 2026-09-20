@@ -38,7 +38,7 @@ const navAndCanvas = () => `</head><body class="cosmic"><div id="page-loader" ar
 <canvas id="cosmic-canvas" aria-hidden="true"></canvas><div class="cosmic-grid" aria-hidden="true"></div><div class="cosmic-blob cosmic-blob-1" aria-hidden="true"></div><div class="cosmic-blob cosmic-blob-2" aria-hidden="true"></div><div class="cosmic-blob cosmic-blob-3" aria-hidden="true"></div>
 <nav class="nav" id="nav"><div class="nav-inner">
 <a href="../../" class="logo"><img src="../../img/mark-96.png?v=1" srcset="../../img/mark-48.png?v=1 1x, ../../img/mark-96.png?v=1 2x, ../../img/mark-144.png?v=1 3x" width="32" height="32" alt="" class="logo-icon-img"><span class="logo-wordmark logo-tracked">EASYWORKS</span></a>
-<div class="nav-links" id="navLinks"><a href="../../#products">Products</a><a href="../../#coverage">Where we work</a><a href="../../#how">Process</a><a href="/scan/" class="nav-cta">Run the free Scan</a></div><button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span></button>
+<div class="nav-links" id="navLinks"><a href="../../#capabilities">What we build</a><a href="../../#program">How it works</a><a href="../../#coverage">Where we work</a><a href="/scan/" class="nav-cta">Run the free Scan</a></div><button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span></button>
 </div></nav>`;
 
 const footer = () => `<footer class="footer"><div class="container"><div class="footer-grid">
@@ -291,7 +291,7 @@ const landerPage = (i) => {
     .replace('<meta charset="UTF-8">', '<meta name="robots" content="noindex,follow"><meta charset="UTF-8">')
     .replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>\s*/g, '')
     .replace(/<a href="\.\.\/" class="psub-back"[^>]*>[^<]*<\/a>/, '')
-    .replace(/<a href="\.\.\/\.\.\/#products">Products<\/a><a href="\.\.\/\.\.\/#coverage">Where we work<\/a><a href="\.\.\/\.\.\/#how">Process<\/a>/, '')
+    .replace(/<a href="\.\.\/\.\.\/#capabilities">What we build<\/a><a href="\.\.\/\.\.\/#program">How it works<\/a><a href="\.\.\/\.\.\/#coverage">Where we work<\/a>/, '')
     .split('href="/scan/"').join(`href="${scan}"`)
     .replace('<body class="cosmic">', `<body class="cosmic is-lander" data-lander="${i.lander}">`);
 };
