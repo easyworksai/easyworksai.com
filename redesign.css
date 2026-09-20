@@ -5439,3 +5439,8 @@ h1, h2, h3, .section-header h2 { text-wrap: balance; }
 .bp-step h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.15rem; margin: 6px 0 6px; color: #f6f8ff; }
 .bp-step p { margin: 0; color: rgba(246,248,255,.72); line-height: 1.6; }
 @media (max-width: 700px) { .bp-gets { grid-template-columns: 1fr; } .bp-get { padding: 18px 0; } }
+
+
+/* Header mark = the landing render, downsampled (2026-09-19) */
+.logo-icon-img, .logo:hover .logo-icon-img { width: 42px; height: 42px; border-radius: 0; outline: none; filter: none; object-fit: contain; }
+@media (max-width: 768px) { .logo-icon-img, .logo:hover .logo-icon-img { width: 36px; height: 36px; } }
