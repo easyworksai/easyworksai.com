@@ -150,7 +150,7 @@
     const btn = $('#gateForm button[type=submit]'); btn.disabled = true;
     const er = $('#gateErr'); er.style.display = 'none';
     try {
-      const r = await fetch('/api/scan-lead', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ id: state.rec.id, email: $('#gemail').value, phone: $('#gphone').value, name: $('#gname').value, camp }) });
+      const r = await fetch('/api/scan-lead', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ id: state.rec.id, email: $('#gemail').value, phone: $('#gphone').value, name: $('#gname').value, smsOk: !!($('#gsms') && $('#gsms').checked), camp }) });
       const j = await r.json();
       if (!r.ok) throw new Error(j.error || 'Could not open the report');
       track('generate_lead', { method: 'scan_gate', score: state.rec.result.score, band: state.rec.result.band, has_phone: !!$('#gphone').value });

@@ -69,6 +69,7 @@ export default async (req) => {
   const email = String(b.email || '').trim().toLowerCase();
   const phone = String(b.phone || '').replace(/[^\d+]/g, '').slice(0, 16);
   const person = String(b.name || '').trim().slice(0, 100);
+  const smsOk = !!b.smsOk && !!phone;
   const camp = {}; for (const k of ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'gclid', 'fbclid']) { const v = b.camp && b.camp[k]; if (v) camp[k] = String(v).slice(0, 120); }
   const slug = (v) => String(v).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40);
   const campTags = [camp.utm_source && `src-${slug(camp.utm_source)}`, camp.utm_campaign && `cell-${slug(camp.utm_campaign)}`, (camp.gclid || camp.fbclid) && 'paid-click'].filter(Boolean);
@@ -89,8 +90,20 @@ export default async (req) => {
     try {
       const up = await ghl('/contacts/upsert', {
         locationId: GHL_LOC, email, ...(phone ? { phone } : {}), ...(person ? { name: person } : {}), companyName: biz, website: input.url || undefined, city: input.city || undefined,
-        source: 'Easyworks Scan', tags: ['scan', bandTag, `industry-${input.industry}`, ...campTags],
-        customFields: [],
+        source: 'Easyworks Scan', tags: ['scan', bandTag, `industry-${input.industry}`, ...campTags, ...(smsOk ? ['sms-ok'] : [])],
+        customFields: (() => {
+          // Scan fields power the follow up sequences in GHL (created 2026-09-19).
+          const top = (result.money?.leaks || [])[0] || null;
+          const F = { score: 'ysyPcWyeilYWTcbGUKOX', band: 'bP5QDTffUl3QNwGgoHIQ', monthly: 'Iim2Ccq0jJhAxy05Txcl', gap: 'FctiL7hB1WwBR931htog', gapDetail: '6oFRXQGurQhXpmkxHv2q', report: 'xMOs0anLWsFtHWOK9gvd', blueprint: 'ooReQXKClxB5xIyrZb05', industry: 'ng3gjjPDriJcuNzMEYu0' };
+          return [
+            { id: F.score, field_value: result.score }, { id: F.band, field_value: result.band },
+            { id: F.monthly, field_value: money(result.money?.monthly) },
+            { id: F.gap, field_value: top ? top.label : (result.worst?.[0]?.label || '') },
+            { id: F.gapDetail, field_value: top ? `${top.line} About ${money(top.amount)} a month.` : '' },
+            { id: F.report, field_value: reportUrl }, { id: F.blueprint, field_value: `https://easyworks.ai/blueprint/?r=${id}` },
+            { id: F.industry, field_value: INDUSTRIES[input.industry]?.label || input.industry },
+          ];
+        })(),
       });
       const contactId = up.contact?.id;
       out.ghl = !!contactId;

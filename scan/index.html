@@ -97,7 +97,8 @@
 .rgroup h4{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);margin:0 0 10px}
 .finding{display:grid;grid-template-columns:22px 1fr;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
 .finding .s{width:10px;height:10px;border-radius:50%;margin-top:6px}
-.s.pass{background:#34c37f}.s.warn{background:var(--gold)}.s.fail{background:#ef5a5a}.s.unknown{background:transparent;border:1.5px dashed #7a88a8}
+.s.pass{background:#34c37f}.s.warn{background:var(--gold)}.s.fail{background:#ef5a5a}.consent{display:flex;gap:10px;align-items:flex-start;margin:4px 0 14px;font-size:13px;line-height:1.45;color:var(--dim);cursor:pointer}.consent input{margin-top:3px;width:16px;height:16px;flex:none;accent-color:#22d3ee}
+.s.unknown{background:transparent;border:1.5px dashed #7a88a8}
 .finding .tagq{display:inline-block;margin-left:8px;font:500 .68rem 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:#8f9bb8;border:1px solid rgba(143,155,184,.4);border-radius:999px;padding:1px 8px;vertical-align:middle}
 .finding b{font-size:15px}.finding p{margin:3px 0 0;color:var(--dim);font-size:14px}
 .bp{margin-top:30px;padding:26px;border-radius:18px;background:linear-gradient(135deg,rgba(59,130,246,.18),rgba(34,211,238,.08));border:1px solid rgba(59,130,246,.35)}
@@ -197,10 +198,11 @@
         <h3>Open the full report</h3>
         <p>Every check with the fix, plus the leak breakdown in dollars. Your email opens it. Add a phone if you want us to walk you through it.</p>
         <form id="gateForm" autocomplete="on">
-          <div class="row2"><div class="field"><label for="gname">Your name</label><input id="gname" name="name" placeholder="Jordan"></div><div class="field"><label for="gemail">Email</label><input id="gemail" name="email" type="email" required placeholder="you@business.ca"></div></div>
-          <div class="field"><label for="gphone">Phone (optional)</label><input id="gphone" name="phone" type="tel" placeholder="604 555 0123"></div>
+          <div class="row2"><div class="field"><label for="gname">Your name</label><input id="gname" name="name" placeholder="Jordan"></div><div class="field"><label for="gemail">Email</label><input id="gemail" name="email" type="email" required placeholder="you@business.com"></div></div>
+          <div class="field"><label for="gphone">Phone (optional)</label><input id="gphone" name="phone" type="tel" placeholder="555 010 0123"></div>
+          <label class="consent" for="gsms"><input id="gsms" name="smsOk" type="checkbox"> <span>Text me about my Scan. Message and data rates may apply. Reply STOP to opt out.</span></label>
           <button class="btn btn-accent btn-lg btn-scan" type="submit">Open the report <span aria-hidden="true">→</span></button>
-          <p class="fine">No spam. One follow-up from a real person if you leave a phone.</p>
+          <p class="fine">We email your report and a few short follow ups about it. Unsubscribe any time. We never sell your details.</p>
           <p class="err" id="gateErr"></p>
         </form>
       </div>
@@ -232,7 +234,7 @@
 <div class="footer-col"><h4>Company</h4><a href="../#faq">FAQ</a><a href="../#start">Contact</a><a href="/scan/">The Scan</a></div>
 </div><div class="footer-bar"><span>&copy; 2026 Easyworks AI Solutions</span><span class="footer-links"><a href="../">Home</a></span></div></div></footer>
 
-<script src="scan.js?v=6" defer></script>
+<script src="scan.js?v=7" defer></script>
 <script src="../script.min.js?v=75" defer></script>
 <script src="../redesign.js?v=9" defer></script>
 </body></html>
