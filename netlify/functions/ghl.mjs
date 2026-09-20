@@ -42,14 +42,17 @@ export const countTagSince = (contacts, tag, ts) =>
 export async function upsertContact({ name, phone, email, tags = [], source = 'The Floor' }) {
   if (!ghlReady()) return null;
   try {
+    // Tags are added AFTER the upsert: tags passed to upsert replace the contact's existing tags.
     const body = { locationId: GHL_LOC, name: name || undefined, phone: phone || undefined,
-      email: email || undefined, tags, source };
+      email: email || undefined, source };
     const r = await fetch(`${BASE}/contacts/upsert`, {
       method: 'POST', headers: { ...H(), 'Content-Type': 'application/json' }, body: JSON.stringify(body),
     });
     if (!r.ok) return null;
     const j = await r.json();
-    return (j.contact && j.contact.id) || j.id || null;
+    const cid = (j.contact && j.contact.id) || j.id || null;
+    if (cid && tags.length) await fetch(`${BASE}/contacts/${cid}/tags`, { method: 'POST', headers: { ...H(), 'Content-Type': 'application/json' }, body: JSON.stringify({ tags }) }).catch(() => {});
+    return cid;
   } catch { return null; }
 }
 

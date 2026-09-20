@@ -50,6 +50,19 @@ const ghlHeaders = () => ({
   Accept: 'application/json',
 });
 
+// GHL upsert REPLACES a contact's tags when `tags` is in the body, which wiped Scan and ad campaign tags
+// off leads who later booked a call. Upsert without tags, then add them.
+async function ghlUpsertKeepTags(body) {
+  const { tags = [], ...rest } = body;
+  const r = await fetch(`${GHL_BASE}/contacts/upsert`, { method: 'POST', headers: ghlHeaders(), body: JSON.stringify(rest) });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(`contact upsert ${r.status}: ${JSON.stringify(j).slice(0, 200)}`);
+  const contact = j.contact || j;
+  const id = contact.id || contact.contactId;
+  if (id && tags.length) await fetch(`${GHL_BASE}/contacts/${id}/tags`, { method: 'POST', headers: ghlHeaders(), body: JSON.stringify({ tags }) }).catch(() => {});
+  return contact;
+}
+
 async function ghlUpsertContact(d) {
   const fullName = (d.name || '').trim();
   const parts = fullName.split(/\s+/);
@@ -66,12 +79,7 @@ async function ghlUpsertContact(d) {
     source: 'easyworks.ai consultation form',
     tags: ['website-consultation', 'consultation-requested', 'website-lead', ...(d.scan_id ? ['scan-blueprint-request'] : [])],
   };
-  const r = await fetch(`${GHL_BASE}/contacts/upsert`, {
-    method: 'POST', headers: ghlHeaders(), body: JSON.stringify(body),
-  });
-  const j = await r.json().catch(() => ({}));
-  if (!r.ok) throw new Error(`contact upsert ${r.status}: ${JSON.stringify(j).slice(0, 200)}`);
-  return j.contact || j;
+  return await ghlUpsertKeepTags(body);
 }
 
 async function ghlCreateOpportunity(contactId, d) {
@@ -184,12 +192,7 @@ async function pushOnboardingToGHL(d) {
     source: 'easyworks.ai/start onboarding',
     tags: ['program-client', 'audit-onboarding', d.rep ? `rep-${String(d.rep).trim().toLowerCase().replace(/\s+/g, '-')}` : null].filter(Boolean),
   };
-  const r = await fetch(`${GHL_BASE}/contacts/upsert`, {
-    method: 'POST', headers: ghlHeaders(), body: JSON.stringify(body),
-  });
-  const j = await r.json().catch(() => ({}));
-  if (!r.ok) throw new Error(`contact upsert ${r.status}: ${JSON.stringify(j).slice(0, 200)}`);
-  const contact = j.contact || j;
+  const contact = await ghlUpsertKeepTags(body);
   const contactId = contact.id || contact.contactId;
   if (contactId) {
     const lines = [
