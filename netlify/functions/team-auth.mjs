@@ -8,9 +8,15 @@ const SECRET = process.env.TEAM_LINK_SECRET || '';
 const COOKIE = 'ew_team';
 const THIRTY_D = 30 * 24 * 3600;
 
+// Access codes never live in source (this repo is public). The seed admin/head codes
+// come from Netlify env vars; if they are missing the seed entries are INACTIVE and get
+// an unguessable random code, so a published fallback can never grant access.
+const randCode = () => `EW-SEED-${crypto.randomBytes(6).toString('hex').toUpperCase()}`;
+const ADMIN_CODE = process.env.EW_ADMIN_CODE || '';
+const HEAD_CODE = process.env.EW_HEAD_CODE || '';
 const DEFAULT_ROSTER = [
-  { slug: 'brad', name: 'Brad Palmer', code: 'EW-BRAD-4471', role: 'admin', active: true },
-  { slug: 'cash', name: 'Seemore Cash', code: 'EW-CASH-2088', role: 'head', active: true },
+  { slug: 'brad', name: 'Brad Palmer', code: ADMIN_CODE || randCode(), role: 'admin', active: !!ADMIN_CODE },
+  { slug: 'cash', name: 'Seemore Cash', code: HEAD_CODE || randCode(), role: 'head', active: !!HEAD_CODE },
 ];
 
 function sign(payload) {
@@ -47,7 +53,34 @@ export async function loadRoster() {
 }
 
 const slugify = (n) => n.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-const newCode = (slug) => `EW-${slug.slice(0, 6).toUpperCase().replace(/-/g, '')}-${crypto.randomInt(1000, 9999)}`;
+// 6 random base-32 chars (no confusable 0/O/1/I/L) ≈ 1 billion combos, not a guessable 4-digit tail.
+const B32 = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+const randTail = () => Array.from(crypto.randomBytes(6)).map((b) => B32[b % B32.length]).join('');
+const newCode = (slug) => `EW-${slug.slice(0, 6).toUpperCase().replace(/-/g, '')}-${randTail()}`;
+
+// Brute-force throttle: too many failed logins from one IP triggers a short lockout.
+// Serverless-safe (state in Blobs). Successful login clears the counter.
+const clientIp = (req) => req.headers.get('x-nf-client-connection-ip') || req.headers.get('x-forwarded-for')?.split(',')[0].trim() || 'unknown';
+const THROTTLE_MAX = 10;            // failed attempts allowed
+const THROTTLE_WINDOW = 10 * 60e3; // within 10 minutes
+const THROTTLE_LOCK = 15 * 60e3;   // then locked for 15 minutes
+async function throttleState(store, ip) {
+  const all = (await store.get('auth-throttle.json', { type: 'json' })) || {};
+  return { all, rec: all[ip] || { fails: 0, first: 0, until: 0 } };
+}
+async function noteFail(store, ip) {
+  const { all, rec } = await throttleState(store, ip);
+  const now = Date.now();
+  if (now - rec.first > THROTTLE_WINDOW) { rec.fails = 0; rec.first = now; }
+  rec.fails += 1;
+  if (rec.fails >= THROTTLE_MAX) rec.until = now + THROTTLE_LOCK;
+  all[ip] = rec;
+  await store.setJSON('auth-throttle.json', all);
+}
+async function clearFail(store, ip) {
+  const { all } = await throttleState(store, ip);
+  if (all[ip]) { delete all[ip]; await store.setJSON('auth-throttle.json', all); }
+}
 
 export default async (req) => {
   if (!SECRET) return Response.json({ error: 'portal not configured' }, { status: 500 });
@@ -135,10 +168,36 @@ export default async (req) => {
     return Response.json({ ok: true, role: nr });
   }
 
-  // login
-  const code = String(body.code || '').trim().toUpperCase();
-  const rep = roster.find((r) => r.code === code && r.active);
-  if (!rep) return Response.json({ error: 'invalid code' }, { status: 401 });
+  // Rotate an access code. Admin only. Pass {slug} for a fresh random code, or {slug, code}
+  // to set a specific one. Used to retire any code that may have been exposed.
+  if (body.action === 'setcode') {
+    const meSlug = cookieSlug(req);
+    const me = roster.find((r) => r.slug === meSlug && r.active);
+    if (!me || me.role !== 'admin') return Response.json({ error: 'not allowed' }, { status: 403 });
+    const target = roster.find((r) => r.slug === String(body.slug || '') && r.active);
+    if (!target) return Response.json({ error: 'not found' }, { status: 404 });
+    const norm = (v) => String(v || '').toUpperCase().replace(/[‐-―−]/g, '-').replace(/[^A-Z0-9-]/g, '');
+    let code = body.code ? norm(body.code) : newCode(target.slug);
+    if (code.length < 8) return Response.json({ error: 'code too short' }, { status: 400 });
+    if (roster.some((r) => r.slug !== target.slug && norm(r.code) === code)) return Response.json({ error: 'code in use' }, { status: 409 });
+    target.code = code;
+    await getStore({ name: 'sales-team', consistency: 'strong' }).setJSON('roster.json', roster);
+    return Response.json({ ok: true, slug: target.slug, code });
+  }
+
+  // login — throttle brute force first, then normalize the code the same way the client
+  // does, so a phone's curly dashes, stray spaces or lowercase still match.
+  const store = getStore({ name: 'sales-team', consistency: 'strong' });
+  const ip = clientIp(req);
+  const { rec } = await throttleState(store, ip);
+  if (rec.until && Date.now() < rec.until) {
+    return Response.json({ error: 'Too many attempts. Wait a few minutes and try again.' }, { status: 429 });
+  }
+  const norm = (v) => String(v || '').toUpperCase().replace(/[‐-―−]/g, '-').replace(/[^A-Z0-9-]/g, '');
+  const code = norm(body.code);
+  const rep = roster.find((r) => norm(r.code) === code && r.active);
+  if (!rep) { await noteFail(store, ip); return Response.json({ error: 'invalid code' }, { status: 401 }); }
+  await clearFail(store, ip);
   const exp = Math.floor(Date.now() / 1000) + THIRTY_D;
   const token = sign(JSON.stringify({ slug: rep.slug, exp }));
   return new Response(JSON.stringify({ ok: true, rep: { slug: rep.slug, name: rep.name, role: rep.role } }), {

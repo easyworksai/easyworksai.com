@@ -2,8 +2,9 @@
 // Events live in Blobs feed.json (capped). Other functions import logEvent().
 import { getStore } from '@netlify/blobs';
 
-const TG_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '8793569908:AAHh42Na4VUlcW3ktdjp5Luz4igoZbj92gU';
-const TG_CHAT = process.env.TELEGRAM_CHAT_ID || '8271274624';
+// Secrets come from Netlify env only — never hardcode a bot token or chat id (this repo is public).
+const TG_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '';
+const TG_CHAT = process.env.TELEGRAM_CHAT_ID || '';
 
 export async function loadFeed() {
   const store = getStore({ name: 'sales-team', consistency: 'strong' });
@@ -19,6 +20,7 @@ export async function logEvent(ev) {
 }
 
 export async function tgPing(text) {
+  if (!TG_TOKEN || !TG_CHAT) return; // not configured in this environment
   try {
     await fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`, {
       method: 'POST',

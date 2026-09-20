@@ -5444,3 +5444,14 @@ h1, h2, h3, .section-header h2 { text-wrap: balance; }
 /* Header mark = the landing render, downsampled (2026-09-19) */
 .logo-icon-img, .logo:hover .logo-icon-img { width: 42px; height: 42px; border-radius: 0; outline: none; filter: none; object-fit: contain; }
 @media (max-width: 768px) { .logo-icon-img, .logo:hover .logo-icon-img { width: 36px; height: 36px; } }
+
+
+/* Studio and Partners pages (2026-09-19) */
+.st-work { margin: 26px 0 0; }
+.st-item { display: grid; grid-template-columns: minmax(0, 300px) 1fr; gap: 8px 40px; padding: 26px 0; border-top: 1px solid rgba(59,130,246,.22); }
+.st-item dt { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 1.25rem; color: #f6f8ff; line-height: 1.25; }
+.st-kind { display: block; font: 500 .7rem 'JetBrains Mono', monospace; letter-spacing: .2em; text-transform: uppercase; color: #22d3ee; margin-bottom: 8px; }
+.st-item dd { margin: 0; color: rgba(246,248,255,.74); line-height: 1.6; }
+.st-item dd a, .faq-a a { color: #7dd3fc; white-space: nowrap; }
+.st-note { margin-top: 30px; font-family: 'Space Grotesk', sans-serif; font-size: 1.3rem; color: #f6f8ff; max-width: 34ch; }
+@media (max-width: 700px) { .st-item { grid-template-columns: 1fr; padding: 22px 0; } }

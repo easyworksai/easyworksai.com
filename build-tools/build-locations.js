@@ -32,7 +32,7 @@ const head = ({ title, description, url, og }) => `<!DOCTYPE html><html lang="en
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../style.min.css?v=v3blue6">
-<link rel="stylesheet" href="../../redesign.css?v=53">`;
+<link rel="stylesheet" href="../../redesign.css?v=54">`;
 
 const navAndCanvas = () => `</head><body class="cosmic"><div id="page-loader" aria-hidden="true"><div class="pl-stage"><div class="pl-ring"></div><div class="pl-ring pl-ring-2"></div><div class="pl-ring pl-ring-3"></div><div class="pl-orb"></div><span class="pl-label">Loading</span></div></div>
 <canvas id="cosmic-canvas" aria-hidden="true"></canvas><div class="cosmic-grid" aria-hidden="true"></div><div class="cosmic-blob cosmic-blob-1" aria-hidden="true"></div><div class="cosmic-blob cosmic-blob-2" aria-hidden="true"></div><div class="cosmic-blob cosmic-blob-3" aria-hidden="true"></div>
@@ -48,7 +48,7 @@ const footer = () => `<footer class="footer"><div class="container"><div class="
 <div class="footer-col"><h4>Products</h4><a href="../../scribe/">Easyworks Scribe (BC clinicians)</a><a href="../../content-engine/">Content Engine</a><a href="../../seo-engine/">SEO Engine</a><a href="../../ai-suite/">AI Suite</a><a href="../../ai-revenue-scale/">AI Revenue Scale</a></div>
 <div class="footer-col"><h4>Locations</h4><a href="/locations/vancouver/">Vancouver</a><a href="/locations/surrey/">Surrey</a><a href="/locations/burnaby/">Burnaby</a><a href="/locations/langley/">Langley</a><a href="/locations/abbotsford/">Abbotsford</a><a href="/locations/chilliwack/">Chilliwack</a><a href="/locations/squamish/">Squamish</a><a href="/locations/whistler/">Whistler</a><a href="/locations/coquitlam/">Coquitlam</a><a href="/locations/richmond/">Richmond</a><a href="/locations/delta/">Delta</a><a href="/locations/new-westminster/">New Westminster</a><a href="/locations/north-vancouver/">North Vancouver</a><a href="/locations/maple-ridge/">Maple Ridge</a><a href="/locations/">All BC cities →</a></div>
 <div class="footer-col"><h4>Industries</h4><a href="/industries/home-services/">Home services and trades</a><a href="/industries/med-spas/">Med spas</a><a href="/industries/dental/">Dental practices</a><a href="/industries/">All industries →</a></div>
-<div class="footer-col"><h4>Company</h4><a href="/scan/">The Scan (free)</a><a href="/blueprint/">The Blueprint</a><a href="../../#faq">FAQ</a><a href="../../#start">Contact</a><a href="mailto:team@easyworksai.com">team@easyworksai.com</a></div>
+<div class="footer-col"><h4>Company</h4><a href="/scan/">The Scan (free)</a><a href="/blueprint/">The Blueprint</a>${process.env.EW_DRAFT_PAGES === '1' ? '<a href="/studio/">Studio</a><a href="/partners/">Partners</a>' : ''}<a href="../../#faq">FAQ</a><a href="../../#start">Contact</a><a href="mailto:team@easyworksai.com">team@easyworksai.com</a></div>
 </div><div class="footer-bar"><span>&copy; 2026 Easyworks AI Solutions</span><span class="footer-links"><a href="../../">Home</a></span></div></div></footer>
 
 <script src="../../script.min.js?v=73d7341d" defer></script>
@@ -416,6 +416,146 @@ ${footer()}`;
   return html.split('../../').join('../');
 };
 
+// ---- Studio (/studio/) and Partners (/partners/). For people with an app or platform idea, creators,
+// visionaries, and for partners. Kept out of the top nav so the small business funnel stays simple. ----
+const simplePage = ({ slug, title, description, og, overline, h1, tagline, pitch, ctas, sections, faq, ctaTitle, ctaText, ctaBtn }) => {
+  const url = `https://easyworks.ai/${slug}/`;
+  const schemas = faq && faq.length ? `
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[${faq.map(f => `{"@type":"Question","name":${JSON.stringify(f[0])},"acceptedAnswer":{"@type":"Answer","text":${JSON.stringify(f[1])}}}`).join(',')}]}
+</script>` : '';
+  const sec = (x, i) => {
+    const alt = i % 2 === 0 ? ' section-alt' : '';
+    if (x.kind === 'cards') return `<section class="section${alt}" id="${x.id}"><div class="container"><div class="section-header" data-r><p class="overline">${x.overline}</p><h2>${x.h2}</h2></div><div class="rs-features">${x.items.map((it, k) => `<div class="rs-feat" data-r data-d="${k % 3}"><div class="rs-feat-num">0${k + 1}</div><h3>${it[0]}</h3><p>${it[1]}</p></div>`).join('')}</div></div></section>`;
+    if (x.kind === 'work') return `<section class="section${alt}" id="${x.id}"><div class="container container-mid"><div class="section-header" data-r><p class="overline">${x.overline}</p><h2>${x.h2}</h2></div><dl class="st-work">${x.items.map((it, k) => `<div class="st-item" data-r data-d="${k % 2}"><dt><span class="st-kind">${it[0]}</span>${it[1]}</dt><dd>${it[2]}${it[3] ? ` <a href="${it[3]}" target="_blank" rel="noopener">See it live ↗</a>` : ''}</dd></div>`).join('')}</dl>${x.note ? `<p class="st-note" data-r>${x.note}</p>` : ''}</div></section>`;
+    if (x.kind === 'steps') return `<section class="section${alt}" id="${x.id}"><div class="container container-mid"><div class="section-header" data-r><p class="overline">${x.overline}</p><h2>${x.h2}</h2></div><ol class="bp-steps">${x.items.map((it, k) => `<li class="bp-step" data-r data-d="${k % 3}"><span class="bp-step-n">${k + 1}</span><div><h3>${it[0]}</h3><p>${it[1]}</p></div></li>`).join('')}</ol></div></section>`;
+    return '';
+  };
+  const html = `${head({ title, description, url, og })}${schemas}
+${navAndCanvas()}
+
+<section class="psub-hero bp-hero">
+  <div class="psub-hero-mesh"></div>
+  <div class="container">
+    <div class="psub-hero-grid" data-r data-d="1">
+      <div class="psub-hero-icon"><img src="../../img/mark-hero.webp?v=3" alt="" width="260" height="260" style="width:min(260px,60vw);height:auto"></div>
+      <div class="psub-hero-copy">
+        <p class="overline">${overline}</p>
+        <h1>${h1}</h1>
+        <p class="psub-tagline">${tagline}</p>
+        <p class="psub-pitch">${pitch}</p>
+        <div class="psub-cta-row">${ctas.map((c, k) => `<a href="${c[1]}" class="btn ${k === 0 ? 'btn-accent' : 'btn-glass'} btn-lg">${c[0]}${k === 0 ? ' <span aria-hidden="true">→</span>' : ''}</a>`).join('')}</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+${sections.map(sec).join('\n\n')}
+
+<section class="section" id="faq">
+  <div class="container container-mid">
+    <p class="overline" data-r>FAQ</p>
+    <h2 data-r data-d="1">Straight answers.</h2>
+    <div class="faq-list">${faq.map(f => `<div class="faq-item" data-r><button class="faq-q">${f[0]}</button><div class="faq-a"><p>${f[1]}</p></div></div>`).join('')}</div>
+  </div>
+</section>
+
+<section class="section section-cta" id="start">
+  <div class="container container-mid">
+    <div class="cta-header" data-r><h2>${ctaTitle}</h2><p>${ctaText}</p></div>
+    <div style="text-align:center; margin-top: 24px;"><a href="${ctaBtn[1]}" class="btn btn-accent btn-lg">${ctaBtn[0]} <span aria-hidden="true">→</span></a></div>
+  </div>
+</section>
+
+${footer()}`;
+  return html.split('../../').join('../');
+};
+
+const BUILT = [
+  ['Indoor navigation', 'Blue Path Navigation', 'Type a store, follow a glowing path to the door. We are the technical partner: the phone app, a dashboard for the building owner and the licensing console behind it.', ''],
+  ['Data platform', 'GoldRush Bids', 'A search platform that gathers government contract bids into one place, built and run with partners in Los Angeles.', 'https://goldrushbids.com'],
+  ['Membership and music', 'SMC Sunday Club', 'A members platform with its own login, payments, music player, events list and a street team app. Owned by the artist, not rented from a social network.', 'https://smcsundayclub.com'],
+  ['Private network', 'Real Ones Link', 'A private membership network with its own site and the customer system behind it.', 'https://realoneslink.com'],
+  ['Private assistant', 'Cyrene Dellinger &amp; Associates', 'A private assistant a Los Angeles realtor texts like a colleague. It keeps track of every lead inside her own tools.', ''],
+];
+
+const studioPage = () => simplePage({
+  slug: 'studio',
+  title: 'Easyworks Studio: custom apps, platforms and infrastructure | Easyworks',
+  description: 'You have the idea. We build what it runs on. Custom apps, platforms and private infrastructure for founders, creators and private clients. Founder led, first working version in days.',
+  og: 'Easyworks Studio',
+  overline: 'Easyworks Studio',
+  h1: 'You have the idea.<br>We build what it runs on.',
+  tagline: 'Custom apps, platforms and infrastructure for people building something new.',
+  pitch: 'Some ideas need software that does not exist yet. That is the work we like most. You bring the vision and the knowledge of your world. The founder designs and builds the machine underneath it, shows you a working version in days, and stays to run it.',
+  ctas: [['Tell us about the idea', 'mailto:team@easyworksai.com?subject=Studio%3A%20an%20idea%20I%20want%20to%20build'], ['See what we have built', '#built']],
+  sections: [
+    { kind: 'cards', id: 'who', overline: 'Who this is for', h2: 'Three kinds of people.', items: [
+      ['You have an app or platform idea', 'You know the problem better than anyone. You do not need a technical cofounder to find out if it works. You need a working first version and someone who can carry it all the way.'],
+      ['You are a creator', 'Your audience lives on platforms you do not own. We build the place that is yours: membership, payments, content, events, and the data that comes with them.'],
+      ['You are a private client', 'You want something built properly and quietly: a private assistant, an internal tool, a system nobody else has. One person accountable, from the first call to the day it runs.'],
+    ] },
+    { kind: 'work', id: 'built', overline: 'What we have built', h2: 'None of these is a CRM.', items: BUILT, note: 'Every one started the same way. Someone had a vision, and we built the machine underneath it.' },
+    { kind: 'steps', id: 'how', overline: 'How it works', h2: 'Working software first. Decks later.', items: [
+      ['A conversation', 'You talk to the founder. We find out what the idea really needs, what already exists that we can stand on, and what has to be invented.'],
+      ['A working first version, in days', 'Not a slideshow. Something you can open on your phone and put in front of the people it is for.'],
+      ['The Blueprint for the build', 'A written plan: what we build, in what order, what it costs, who owns what. Agreed in writing before the real build starts.'],
+      ['Build, launch and run', 'We build it, launch it with you and keep it running. You are never handed a pile of code and wished good luck.'],
+    ] },
+  ],
+  faq: [
+    ['Who owns what we build?', 'That is agreed in writing before the build starts, and it depends on how we work together. In a paid build, what is made for you is yours. In a partnership, it belongs to the venture. The general tools we bring stay ours, and you get a licence to use them.'],
+    ['What does it cost?', 'It depends entirely on the idea, so we do not publish prices. After the first conversation you get a scoped plan with a fixed price for each stage.'],
+    ['How fast is a first version?', 'Usually days, not months. It will not be finished, but it will be real enough to test with the people it is for.'],
+    ['Will you sign a confidentiality agreement?', 'Yes. We are happy to sign one before you share the details.'],
+    ['Do you ever build for a share instead of a fee?', 'Sometimes, for a small number of ventures where we believe in the idea and the person. See the <a href="/partners/">partnerships page</a>.'],
+    ['I run a small business and just want more customers. Is this for me?', 'Probably not. Start with the <a href="/scan/">free Scan</a>. It shows where your business is losing customers in about a minute.'],
+  ],
+  ctaTitle: 'Bring the idea that needs something that does not exist yet.',
+  ctaText: 'Write a few lines about what you want to build. The founder reads every one and replies himself.',
+  ctaBtn: ['Tell us about the idea', 'mailto:team@easyworksai.com?subject=Studio%3A%20an%20idea%20I%20want%20to%20build'],
+});
+
+const partnersPage = () => simplePage({
+  slug: 'partners',
+  title: 'Partnerships: agencies, ventures and referrals | Easyworks',
+  description: 'Three ways to work with Easyworks as a partner: white label delivery for agencies, technical partnership on new ventures, and paid referrals. Founder led.',
+  og: 'Easyworks Partnerships',
+  overline: 'Partnerships',
+  h1: 'Build with us,<br>not just through us.',
+  tagline: 'Three ways to partner with Easyworks.',
+  pitch: 'Some of our best work happens with partners: agencies who need delivery they can trust, founders who need a technical partner, and people who simply know a business that needs us. Each works differently, and each is agreed in writing before anything starts.',
+  ctas: [['Start a conversation', 'mailto:team@easyworksai.com?subject=Partnership%20inquiry'], ['See what we have built', '/studio/#built']],
+  sections: [
+    { kind: 'cards', id: 'ways', overline: 'Ways to partner', h2: 'Pick the one that fits.', items: [
+      ['Agencies and resellers', 'You own the client relationship. We build and run the systems behind it under your brand or ours: call answering, follow up, reviews, websites, ads and custom tools. One accountable builder, no surprises for your client.'],
+      ['Venture partners', 'You have the idea, the industry knowledge and the relationships. We come in as the technical partner and build the product with you. We take on a small number of these, where we believe in the idea and the person.'],
+      ['Referral partners', 'You know a business that is losing customers, or someone with an idea worth building. Introduce us. Referral partners are paid, and the terms are simple and in writing.'],
+    ] },
+    { kind: 'steps', id: 'how', overline: 'How a partnership starts', h2: 'Paper first. Then we build.', items: [
+      ['A conversation', 'We find out what you need and whether we are the right fit. If we are not, we will say so.'],
+      ['Terms in writing', 'Who does what, who owns what, who gets paid what. Agreed before any work begins, so nobody is guessing later.'],
+      ['A first project', 'We start with one client or one working version, prove it, and grow from there.'],
+    ] },
+    { kind: 'work', id: 'network', overline: 'Who we work with', h2: 'The company we keep.', items: [
+      ['Parent company', 'Ampcos Advisory Group', 'The advisory group Easyworks belongs to. Strategy, structure and technology for growing companies.', 'https://ampcos.com'],
+      ['Sister company', 'Ampcos Robotics', 'Our sister lab working on safe, scoped robots for real workplaces. Early stage.', 'https://ampcoslabs.com/robotics/'],
+      ['Venture', 'Blue Path Navigation', 'Indoor navigation for shopping centres. We are the technical partner.', ''],
+      ['Venture', 'GoldRush Bids', 'Government contract search, built and run with partners in Los Angeles.', 'https://goldrushbids.com'],
+      ['Events', 'Platinum Reserve Events', 'Artist contracting and campaign planning for a multi day festival.', ''],
+    ] },
+  ],
+  faq: [
+    ['Do you white label?', 'Yes. We can deliver under your brand, ours, or both. Your client relationship stays yours.'],
+    ['How are referral partners paid?', 'A share of what the client pays, for a set period, agreed in writing. Ask us for the current terms.'],
+    ['What do you look for in a venture partner?', 'Someone who knows their industry deeply, can reach the first customers, and wants a real partner, not a contractor. We bring the product and the technology.'],
+    ['Where are you based?', 'We are founder led and remote first, working with partners across Canada and the United States.'],
+  ],
+  ctaTitle: 'Tell us what you are building.',
+  ctaText: 'A few lines is enough. The founder reads every message and replies himself.',
+  ctaBtn: ['Start a conversation', 'mailto:team@easyworksai.com?subject=Partnership%20inquiry'],
+});
+
 // Index pages
 const locationsIndex = () => {
   const url = `https://easyworks.ai/locations/`;
@@ -514,6 +654,14 @@ for (const i of industries.filter(x => x.lander)) {
   fs.mkdirSync(dir, { recursive: true });
   fs.writeFileSync(path.join(dir, 'index.html'), landerPage(i));
   console.log('wrote for/' + i.lander + '/index.html');
+}
+
+// DRAFT pages: only built when EW_DRAFT_PAGES=1, so a routine production deploy (the SEO autopilot) cannot publish them.
+// To launch: remove this gate, add both URLs to sitemap.xml, and add the footer links.
+for (const [slug, fn] of (process.env.EW_DRAFT_PAGES === '1' ? [['studio', studioPage], ['partners', partnersPage]] : [])) {
+  fs.mkdirSync(path.join(ROOT, slug), { recursive: true });
+  fs.writeFileSync(path.join(ROOT, slug, 'index.html'), fn());
+  console.log('wrote ' + slug + '/index.html');
 }
 
 fs.mkdirSync(path.join(ROOT, 'blueprint'), { recursive: true });

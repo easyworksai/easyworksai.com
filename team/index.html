@@ -415,7 +415,7 @@ h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--dim);
     <img class="mascot" src="/img/easy-hero.png" alt="">
     <h1>The Floor</h1>
     <p>Easyworks sales team. Enter your access code.</p>
-    <input id="code" placeholder="EW-XXXX-0000" autocomplete="off" autofocus>
+    <input id="code" placeholder="EW-XXXX-0000" autocomplete="off" autocapitalize="characters" autocorrect="off" spellcheck="false" inputmode="text" autofocus>
     <button id="go">Let me in</button>
     <div class="err" id="err"></div>
   </div>
@@ -1641,10 +1641,16 @@ document.querySelectorAll('nav.tabs button').forEach(b=>{
   };
 });
 
+// Forgive how a phone keyboard mangles the code: curly dashes, spaces, lowercase.
+// Uppercase, turn any unicode dash into a plain hyphen, drop everything that isn't A-Z/0-9/-.
+const cleanCode = v => (v||'').toUpperCase().replace(/[‐-―−]/g,'-').replace(/[^A-Z0-9-]/g,'');
 $('go').onclick = async ()=>{
   $('err').textContent='';
-  const r = await api('/team-auth',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code:$('code').value})});
-  if(!r.ok){ $('err').textContent="That code didn't work. Check it and try again."; return; }
+  const code = cleanCode($('code').value);
+  if(!code){ $('err').textContent="Enter your access code to continue."; return; }
+  $('code').value = code; // show them the cleaned version
+  const r = await api('/team-auth',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code})});
+  if(!r.ok){ $('err').textContent="That code didn't work. It looks like EW-XXXX-0000, all caps. Check it and try again."; return; }
   await enter();
 };
 $('code').addEventListener('keydown',e=>{ if(e.key==='Enter') $('go').click(); });
